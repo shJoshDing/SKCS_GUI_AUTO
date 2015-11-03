@@ -47,13 +47,3 @@ C:\Users\IBM-201\Documents\GitHub\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_Current
 C:\Users\IBM-201\Documents\GitHub\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.CurrentSensorConsole.resources
 C:\Users\IBM-201\Documents\GitHub\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.Properties.Resources.resources
 C:\Users\IBM-201\Documents\GitHub\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.csproj.GenerateResource.Cache
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\SKCS v4.x.x.exe
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\SKCS v4.x.x.pdb
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SKCS v4.x.x.exe
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SKCS v4.x.x.pdb
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\DMY2.dll
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\DMY2.pdb
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.csprojResolveAssemblyReference.cache
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.CurrentSensorConsole.resources
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.Properties.Resources.resources
-C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.csproj.GenerateResource.Cache

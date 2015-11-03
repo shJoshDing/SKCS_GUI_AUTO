@@ -4347,36 +4347,17 @@ namespace CurrentSensorV3
                         if (targetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
-                            this.lbl_passOrFailed.ForeColor = Color.Green;
-                            if (bMRE)
-                                this.lbl_passOrFailed.Text = "M.R.E!";
-                            else
-                                this.lbl_passOrFailed.Text = "PASS!";
+                            //DisplayOperateMes("Pass! Bin4");
+                            //this.lbl_passOrFailed.ForeColor = Color.Green;
+                            //this.lbl_passOrFailed.Text = "Pass!";
                         }
                         else if (targetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_5;
-                            //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
-                            this.lbl_passOrFailed.ForeColor = Color.Green;
-                            if (bMRE)
-                                this.lbl_passOrFailed.Text = "M.R.E!";
-                            else
-                                this.lbl_passOrFailed.Text = "PASS!";
                         }
                         else if (targetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_6;
-                            //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
-                            this.lbl_passOrFailed.ForeColor = Color.Green;
-                            if (bMRE)
-                                this.lbl_passOrFailed.Text = "M.R.E!";
-                            else
-                                this.lbl_passOrFailed.Text = "PASS!";
-                        }
-                        else
-                        {
-                            this.lbl_passOrFailed.ForeColor = Color.Red;
-                            this.lbl_passOrFailed.Text = "FAIL!";
                         }
 
                     }
@@ -4396,11 +4377,6 @@ namespace CurrentSensorV3
                         else if (targetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
-                        }
-                        else
-                        {
-                            this.lbl_passOrFailed.ForeColor = Color.Red;
-                            this.lbl_passOrFailed.Text = "FAIL!";
                         }
                     }
                 }
