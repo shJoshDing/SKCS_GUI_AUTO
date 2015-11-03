@@ -218,7 +218,9 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
             this.cmb_SocketType_AutoT = new System.Windows.Forms.ComboBox();
+            this.label77 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.btn_Vout_AutoT = new System.Windows.Forms.Button();
             this.btn_loadconfig_AutoT = new System.Windows.Forms.Button();
@@ -268,8 +270,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
-            this.label77 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2633,6 +2633,19 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
+            // cmb_ProgramMode_AutoT
+            // 
+            this.cmb_ProgramMode_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_ProgramMode_AutoT.FormattingEnabled = true;
+            this.cmb_ProgramMode_AutoT.Items.AddRange(new object[] {
+            "Automatic",
+            "Manual"});
+            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(284, 285);
+            this.cmb_ProgramMode_AutoT.Name = "cmb_ProgramMode_AutoT";
+            this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(103, 25);
+            this.cmb_ProgramMode_AutoT.TabIndex = 115;
+            this.cmb_ProgramMode_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_ProgramMode_AutoT_SelectedIndexChanged);
+            // 
             // cmb_SocketType_AutoT
             // 
             this.cmb_SocketType_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -2645,6 +2658,17 @@
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(103, 25);
             this.cmb_SocketType_AutoT.TabIndex = 115;
             this.cmb_SocketType_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_SocketType_AutoT_SelectedIndexChanged);
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label77.Location = new System.Drawing.Point(171, 287);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(112, 19);
+            this.label77.TabIndex = 114;
+            this.label77.Text = "Program Mode";
             // 
             // label21
             // 
@@ -3259,30 +3283,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // cmb_ProgramMode_AutoT
-            // 
-            this.cmb_ProgramMode_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_ProgramMode_AutoT.FormattingEnabled = true;
-            this.cmb_ProgramMode_AutoT.Items.AddRange(new object[] {
-            "Automatic",
-            "Manual"});
-            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(284, 285);
-            this.cmb_ProgramMode_AutoT.Name = "cmb_ProgramMode_AutoT";
-            this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(103, 25);
-            this.cmb_ProgramMode_AutoT.TabIndex = 115;
-            this.cmb_ProgramMode_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_ProgramMode_AutoT_SelectedIndexChanged);
-            // 
-            // label77
-            // 
-            this.label77.AutoSize = true;
-            this.label77.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label77.Location = new System.Drawing.Point(171, 287);
-            this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(112, 19);
-            this.label77.TabIndex = 114;
-            this.label77.Text = "Program Mode";
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3295,7 +3295,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v4.2.0 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console v4.2.2 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

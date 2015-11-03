@@ -4934,9 +4934,10 @@ namespace CurrentSensorV3
 
             #endregion Get module current
 
+            #region UART Initialize
             if (ProgramMode == 0)
             {
-                #region UART Initialize
+                
                 //UART Initialization
                 if (oneWrie_device.UARTInitilize(9600, 1))
                     DisplayOperateMes("UART Initilize succeeded!");
@@ -4968,18 +4969,19 @@ namespace CurrentSensorV3
                 //DisplayOperateMes("Delay 300ms");
 
                 //3. Set Voltage
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 2u))
-                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 2));
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 6u))
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
                 else
-                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 2));
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
 
 
                 //Delay 300ms
                 Delay(Delay_Sync);
                 //DisplayOperateMes("Delay 300ms");
 
-                #endregion UART Initialize
+
             }
+            #endregion UART Initialize
 
             #region Saturation judgement
             /* Change Current to IP  */
@@ -5036,6 +5038,8 @@ namespace CurrentSensorV3
                 uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
                 //PowerOff();
                 TrimFinish();
+                this.lbl_passOrFailed.ForeColor = Color.Red;
+                this.lbl_passOrFailed.Text = "MOA!";
                 return;
             }
             else if (dMultiSiteVoutIP[idut] < TargetOffset)
@@ -5043,6 +5047,8 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Module" + " Invert IP!", Color.Red);
                 //PowerOff();
                 TrimFinish();
+                this.lbl_passOrFailed.ForeColor = Color.Red;
+                this.lbl_passOrFailed.Text = "MPE!";
                 return;
             }
 
@@ -5200,6 +5206,8 @@ namespace CurrentSensorV3
                         //PowerOff();
                         //RestoreReg80ToReg83Value();
                         TrimFinish();
+                        this.lbl_passOrFailed.ForeColor = Color.Red;
+                        this.lbl_passOrFailed.Text = "MOA!";
                         return;
                     }
 
@@ -5240,6 +5248,8 @@ namespace CurrentSensorV3
                             //PowerOff();
                             //RestoreReg80ToReg83Value();
                             TrimFinish();
+                            this.lbl_passOrFailed.ForeColor = Color.Red;
+                            this.lbl_passOrFailed.Text = "MOA!";
                             return;
                         }
                     }
@@ -5305,6 +5315,8 @@ namespace CurrentSensorV3
                     //PowerOff();
                     //RestoreReg80ToReg83Value();
                     TrimFinish();
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "MOA!";
                     return;
                 }
 
