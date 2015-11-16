@@ -4835,7 +4835,7 @@ namespace CurrentSensorV3
             #region Define Parameters
             DialogResult dr;
             bool bMarginal = false;
-            //bool bSafety = false;
+            bool bSafety = false;
             //uint[] tempReadback = new uint[5];
             double dVip_Target = targetOffset + TargetVoltage_customer;
             double dGainTestMinusTarget = 1;
@@ -5158,11 +5158,24 @@ namespace CurrentSensorV3
                 Delay(Delay_Operation);
                 BurstRead(0x80, 5, tempReadback);
                 bMarginal = false;
-                if (((tempReadback[0] & 0xE0) != (MultiSiteReg0[idut] & 0xE0)) | (tempReadback[1] & 0x81) != (MultiSiteReg1[idut] & 0x81) |
-                    (tempReadback[2] & 0x99) != (MultiSiteReg2[idut] & 0x99) | (tempReadback[3] & 0x83) != (MultiSiteReg3[idut] & 0x83) | (tempReadback[4] < 1))
+                //if (((tempReadback[0] & 0xE0) != (MultiSiteReg0[idut] & 0xE0)) | (tempReadback[1] & 0x81) != (MultiSiteReg1[idut] & 0x81) |
+                //    (tempReadback[2] & 0x99) != (MultiSiteReg2[idut] & 0x99) | (tempReadback[3] & 0x83) != (MultiSiteReg3[idut] & 0x83) | (tempReadback[4] < 1))
+                //    bMarginal = true;
+
+                if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
+                    (tempReadback[2] & 0xFF) != (MultiSiteReg2[idut] & 0xFF) | (tempReadback[3] & 0xFF) != (MultiSiteReg3[idut] & 0xFF) | (tempReadback[4] < 7))
                     bMarginal = true;
 
-                if (!bMarginal)
+                Delay(Delay_Operation);
+                SafetyReadPreset();
+                Delay(Delay_Operation);
+                BurstRead(0x80, 5, tempReadback);
+                bSafety = false;
+                if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
+                        (tempReadback[2] & 0xFF) != (MultiSiteReg2[idut] & 0xFF) | (tempReadback[3] & 0xFF) != (MultiSiteReg3[idut] & 0xFF) | (tempReadback[4] < 7))
+                    bSafety = true;
+
+                if (!(bMarginal|bSafety))
                 {
                     DisplayOperateMes("DUT" + idut.ToString() + "Pass! Bin Normal");
                     //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_NORMAL;
@@ -5170,6 +5183,8 @@ namespace CurrentSensorV3
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
                     DisplayOperateMes("Bin" + " = " + uDutTrimResult[idut].ToString());
+                    DisplayOperateMes("Marginal Read ->" + bMarginal.ToString());
+                    DisplayOperateMes("Safety REad ->" + bSafety.ToString());
                     MultiSiteDisplayResult(uDutTrimResult);
                     TrimFinish();
                     return;
@@ -5186,10 +5201,18 @@ namespace CurrentSensorV3
                         this.lbl_passOrFailed.Text = "PASS!";
 
                     DisplayOperateMes("Bin" + " = " + uDutTrimResult[idut].ToString());
+                    DisplayOperateMes("Marginal Read ->" + bMarginal.ToString());
+                    DisplayOperateMes("Safety REad ->" + bSafety.ToString());
                     MultiSiteDisplayResult(uDutTrimResult);
                     TrimFinish();
                     return;
                 }
+
+                
+
+
+
+
             }
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
 
@@ -5551,9 +5574,14 @@ namespace CurrentSensorV3
             Delay(Delay_Operation);
             BurstRead(0x80, 5, tempReadback);
             bMarginal = false;
-            if (((tempReadback[0] & 0xE0) != (MultiSiteReg0[idut] & 0xE0)) | (tempReadback[1] & 0x81) != (MultiSiteReg1[idut] & 0x81) |
-                (tempReadback[2] & 0x99) != (MultiSiteReg2[idut] & 0x99) | (tempReadback[3] & 0x83) != (MultiSiteReg3[idut] & 0x83) | (tempReadback[4] < 1))
+            //if (((tempReadback[0] & 0xE0) != (MultiSiteReg0[idut] & 0xE0)) | (tempReadback[1] & 0x81) != (MultiSiteReg1[idut] & 0x81) |
+            //    (tempReadback[2] & 0x99) != (MultiSiteReg2[idut] & 0x99) | (tempReadback[3] & 0x83) != (MultiSiteReg3[idut] & 0x83) | (tempReadback[4] < 1))
+            //    bMarginal = true;
+
+            if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
+                    (tempReadback[2] & 0xFF) != (MultiSiteReg2[idut] & 0xFF) | (tempReadback[3] & 0xFF) != (MultiSiteReg3[idut] & 0xFF) | (tempReadback[4] < 7))
                 bMarginal = true;
+
 
             if (!bMarginal)
             {
@@ -5565,6 +5593,16 @@ namespace CurrentSensorV3
                 DisplayOperateMes("DUT" + "Pass! Bin Mriginal");
                 uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_MARGINAL;
             }
+
+            Delay(Delay_Operation);
+            SafetyReadPreset();
+            Delay(Delay_Operation);
+            BurstRead(0x80, 5, tempReadback);
+            bSafety = false;
+            if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
+                    (tempReadback[2] & 0xFF) != (MultiSiteReg2[idut] & 0xFF) | (tempReadback[3] & 0xFF) != (MultiSiteReg3[idut] & 0xFF) | (tempReadback[4] < 7))
+                bSafety = true;
+
                 
             #endregion Adapting algorithm
 
@@ -5682,22 +5720,9 @@ namespace CurrentSensorV3
 
             #region Display Result and Reset parameters
             DisplayOperateMes("Bin" + " = " + uDutTrimResult[idut].ToString());
+            DisplayOperateMes("Marginal Read ->" + bMarginal.ToString());
+            DisplayOperateMes("Safety REad ->" + bSafety.ToString());
             MultiSiteDisplayResult(uDutTrimResult);
-            //3. Set Voltage
-            //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
-            //    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0));
-            //else
-            //{
-            //    DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0));
-            //    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //    //PowerOff();
-            //    //RestoreReg80ToReg83Value();
-            //    TrimFinish();
-            //    return;
-            //}
-            //reset vout_0A, vout_IP and power off
-            //PowerOff();
-            //RestoreReg80ToReg83Value();
             TrimFinish();
             DisplayOperateMes("Next...");
             #endregion Display Result and Reset parameters
