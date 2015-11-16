@@ -3493,9 +3493,10 @@ namespace CurrentSensorV3
             }
             #endregion Define Parameters
 
+            #region UART Initialize
             if (ProgramMode == 0)
             {
-                #region UART Initialize
+               
                 //UART Initialization
                 if (oneWrie_device.UARTInitilize(9600, 1))
                     DisplayOperateMes("UART Initilize succeeded!");
@@ -3537,8 +3538,9 @@ namespace CurrentSensorV3
                 Delay(Delay_Operation);
                 //DisplayOperateMes("Delay 300ms");
 
-                #endregion UART Initialize
             }
+
+            #endregion UART Initialize
 
             #region Get module current
             //clear log
@@ -4895,6 +4897,7 @@ namespace CurrentSensorV3
             //clear log
             DisplayOperateMesClear();
             /*  power on */
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
             RePower();
             Delay(Delay_Sync);
             this.lbl_passOrFailed.Text = "Module Current!";
@@ -5162,12 +5165,30 @@ namespace CurrentSensorV3
                 if (!bMarginal)
                 {
                     DisplayOperateMes("DUT" + idut.ToString() + "Pass! Bin Normal");
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_NORMAL;
+                    //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_NORMAL;
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    this.lbl_passOrFailed.Text = "PASS!";
+                    DisplayOperateMes("Bin" + " = " + uDutTrimResult[idut].ToString());
+                    MultiSiteDisplayResult(uDutTrimResult);
+                    TrimFinish();
+                    return;
                 }
                 else
                 {
                     DisplayOperateMes("DUT" + idut.ToString() + "Pass! Bin Mriginal");
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_MARGINAL;
+                    //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_MARGINAL;
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    if (bMRE)
+                        this.lbl_passOrFailed.Text = "M.R.E!";
+                    else
+                        this.lbl_passOrFailed.Text = "PASS!";
+
+                    DisplayOperateMes("Bin" + " = " + uDutTrimResult[idut].ToString());
+                    MultiSiteDisplayResult(uDutTrimResult);
+                    TrimFinish();
+                    return;
                 }
             }
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
