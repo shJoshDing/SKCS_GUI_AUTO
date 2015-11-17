@@ -66,3 +66,17 @@ so at the begain of each round, confirm vdd is set at 5V.
 V4.2.5 Internal version
 1. add Safety read,
 2. remove all masks of Marginal and Safety read.
+
+v4.2.6 Internal version
+1.	add ModuleAttribute struct,
+2.	print ModuleAttribute when return,
+3.	add safety read and marginal read mask indicator, 
+ERROR CODE:
+1.	IQ abnormal -> Try Again;
+2.	Saturation -> MOA;
+3.	Lower Sensitivity -> MOA;
+4.	Trimmed -> FAIL;
+5.	DigitalCommFail -> FAIL;
+6.	VIP ~=V0A -> Try Again;
+7.	VIP<VOA->Try Again;
+8.	V0A<2.25 || VOA > 2.8 -> FAIL

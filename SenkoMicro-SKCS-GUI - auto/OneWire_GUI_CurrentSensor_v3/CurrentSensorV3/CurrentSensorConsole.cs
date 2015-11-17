@@ -2665,6 +2665,7 @@ namespace CurrentSensorV3
 
         private void PrintDutAttribute( ModuleAttribute sDUT)
         {
+            DisplayOperateMes("<--------------------------->");
             DisplayOperateMes("IQ = " + sDUT.dIQ.ToString("F3"));
             DisplayOperateMes("dVoutIPNative = " + sDUT.dVoutIPNative.ToString("F3"));
             DisplayOperateMes("dVout0ANative = " + sDUT.dVout0ANative.ToString("F3"));
@@ -2672,11 +2673,12 @@ namespace CurrentSensorV3
             DisplayOperateMes("dVout0AMiddle = " + sDUT.dVout0AMiddle.ToString("F3"));
             DisplayOperateMes("dVoutIPTrimmed = " + sDUT.dVoutIPTrimmed.ToString("F3"));
             DisplayOperateMes("dVout0ATrimmed = " + sDUT.dVout0ATrimmed.ToString("F3"));
-            DisplayOperateMes("bDigitalCommPass = " + sDUT.bDigitalCommFail.ToString());
-            DisplayOperateMes("bNormalModePass = " + sDUT.bNormalModeFail.ToString());
-            DisplayOperateMes("bMarginalReadPass = " + sDUT.bReadMarginal.ToString());
-            DisplayOperateMes("bSafetyReadPass = " + sDUT.bReadSafety.ToString());
+            DisplayOperateMes("bDigitalCommFail = " + sDUT.bDigitalCommFail.ToString());
+            DisplayOperateMes("bNormalModeFail = " + sDUT.bNormalModeFail.ToString());
+            DisplayOperateMes("bReadMarginal = " + sDUT.bReadMarginal.ToString());
+            DisplayOperateMes("bReadSafety = " + sDUT.bReadSafety.ToString());
             DisplayOperateMes("bTrimmed = " + sDUT.bTrimmed.ToString());
+            DisplayOperateMes("<--------------------------->");
         }
 
         #endregion Methods
