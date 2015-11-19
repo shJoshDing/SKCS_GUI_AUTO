@@ -554,7 +554,7 @@ namespace CurrentSensorV3
             DisplayOperateMes("MRE = "+ bMRE.ToString());
             DisplayOperateMes("MASK = " + bMASK .ToString());
             DisplayOperateMes("SAFETY = " + bSAFEREAD .ToString());
-            DisplayOperateMes("**************" + DateTime.Now.ToString() + "**************");
+            DisplayOperateMes("<------- " + DateTime.Now.ToString() + " ------->");
         }
 
         private double AverageVout()
@@ -5331,6 +5331,7 @@ namespace CurrentSensorV3
                         if (dGainTest * 1.5 / dGainPreset >= (TargetGain_customer * ThresholdOfGain))
                         {
                             MultiSiteRoughGainCodeIndex[idut] = (uint)LookupRoughGain_Customer((TargetGain_customer * 100d / (dGainTest * 1.5d) * dGainPreset), RoughTable_Customer);
+                            MultiSiteRoughGainCodeIndex[idut] -= 1;
                             MultiSiteReg3[idut] |= 0x80;
                             /* Rough Gain Code*/
                             bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
