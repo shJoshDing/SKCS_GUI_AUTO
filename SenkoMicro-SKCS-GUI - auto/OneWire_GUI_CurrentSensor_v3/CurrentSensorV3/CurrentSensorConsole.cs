@@ -319,6 +319,12 @@ namespace CurrentSensorV3
         uint[] MultiSiteReg3 = new uint[16];
         uint[] MultiSiteRoughGainCodeIndex = new uint[16];
 
+        uint[] BrakeReg = new uint[5];                          //Brake usage
+        int Ix_OffsetA_Brake = 0;
+        int Ix_OffsetB_Brake = 0;
+        int Ix_GainRough_Brake = 0;
+        int Ix_GainPrecision_Brake = 0;
+
         enum PRGMRSULT{
             DUT_BIN_1 = 1,
             DUT_BIN_2 = 2,
@@ -6721,12 +6727,245 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Manual Program");
             else
                 DisplayOperateMes("Invalid Program Mode", Color.DarkRed);
+        }       
+
+        private void btn_StartPoint_BrakeT_Click(object sender, EventArgs e)
+        {
+            double dStartPoint = 0;
+            //double dStopPoint = 0;
+            bool bTerminate = false;
+            Ix_OffsetA_Brake = 0;
+            Ix_OffsetB_Brake = 0;
+            //uint[] BrakeReg = new uint[5];
+
+            //BrakeReg = [0;0;0;0;0];
+
+            while (!bTerminate)
+            {
+                RePower();
+                EnterTestMode();
+                BurstRead(0x80, 5, tempReadback);
+                if (tempReadback[0] + tempReadback[1] + tempReadback[2] + tempReadback[3] + tempReadback[4] != 0)
+                {
+                    DisplayOperateMes("DUT" + " has been Blown!", Color.Red);
+                    PowerOff();
+                    return;
+                }
+
+                RegisterWrite(4, new uint[8] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3] });
+                BurstRead(0x80, 5, tempReadback);
+                if (tempReadback[0] != BrakeReg[0] || tempReadback[1] != BrakeReg[1] || tempReadback[2] != BrakeReg[2] || tempReadback[3] != BrakeReg[3])
+                {
+                    DisplayOperateMes("DUT digital communication fail!", Color.Red);
+                    PowerOff();
+                    return;
+                }
+                
+                EnterNomalMode();
+                dStartPoint = AverageVout();
+                DisplayOperateMes("start point = " + dStartPoint.ToString("F3"));
+                if (dStartPoint < 0.09)
+                {
+                    bTerminate = true;
+                }
+
+                if (Ix_OffsetA_Brake < 8)
+                {
+                    bit_op_mask = bit7_Mask;
+                    BrakeReg[1] &= ~bit_op_mask;
+                    BrakeReg[1] |= Convert.ToUInt32(OffsetTableA_Customer[1][Ix_OffsetA_Brake]);
+
+                    bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask;
+                    BrakeReg[2] &= ~bit_op_mask;
+                    BrakeReg[2] |= Convert.ToUInt32(OffsetTableA_Customer[2][Ix_OffsetA_Brake]);
+
+                    Ix_OffsetA_Brake++;
+                }
+                else if (Ix_OffsetB_Brake < 8)
+                {
+                    bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+                    BrakeReg[3] &= ~bit_op_mask;
+                    BrakeReg[3] |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_OffsetB_Brake]);
+
+                    Ix_OffsetB_Brake++;
+                }
+                else
+                {
+                    DisplayOperateMes("Unable to adjust start point!", Color.Red);
+                    PowerOff();
+                    bTerminate = true;
+                }
+            }
         }
 
+        private void btn_StopPoint_BrakeT_Click(object sender, EventArgs e)
+        {
+            double dStopPoint = 0;
+            bool bTerminate = false;
+            Ix_GainRough_Brake = 0;
+            Ix_GainPrecision_Brake = 0;
+            //uint[] BrakeReg = new uint[5];
+            BrakeReg[0] |= 0xE0;
+            BrakeReg[1] |= 0x01;
+
+            //BrakeReg = [0;0;0;0;0];
+
+            while (!bTerminate)
+            {
+                RePower();
+                EnterTestMode();
+                BurstRead(0x80, 5, tempReadback);
+                if (tempReadback[0] + tempReadback[1] + tempReadback[2] + tempReadback[3] + tempReadback[4] != 0)
+                {
+                    DisplayOperateMes("DUT" + " has been Blown!", Color.Red);
+                    PowerOff();
+                    return;
+                }
+
+                RegisterWrite(4, new uint[8] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3] });
+                BurstRead(0x80, 5, tempReadback);
+                if (tempReadback[0] != BrakeReg[0] || tempReadback[1] != BrakeReg[1] || tempReadback[2] != BrakeReg[2] || tempReadback[3] != BrakeReg[3])
+                {
+                    DisplayOperateMes("DUT digital communication fail!", Color.Red);
+                    PowerOff();
+                    return;
+                }
+
+                EnterNomalMode();
+                dStopPoint = AverageVout();
+                DisplayOperateMes("stop point = " + dStopPoint.ToString("F3"));
+                if (dStopPoint >= 4.9)
+                {
+                    bTerminate = true;
+                }
+
+                if (Ix_GainRough_Brake < 16)
+                {
+                    bit_op_mask = bit7_Mask | bit6_Mask | bit5_Mask ;
+                    BrakeReg[0] &= ~bit_op_mask;
+                    BrakeReg[0] |= Convert.ToUInt32(RoughTable_Customer[1][Ix_GainRough_Brake]);
+
+                    bit_op_mask = bit0_Mask;
+                    BrakeReg[1] &= ~bit_op_mask;
+                    BrakeReg[1] |= Convert.ToUInt32(RoughTable_Customer[2][Ix_GainRough_Brake]);
+
+                    Ix_GainRough_Brake++;
+                }
+                else
+                {
+                    DisplayOperateMes("Unable to adjust stop point!", Color.Red);
+                    PowerOff();
+                    bTerminate = true;
+                }
+            }
+
+            bTerminate = false;
+            while (!bTerminate)
+            {
+                RePower();
+                EnterTestMode();
+                BurstRead(0x80, 5, tempReadback);
+                if (tempReadback[0] + tempReadback[1] + tempReadback[2] + tempReadback[3] + tempReadback[4] != 0)
+                {
+                    DisplayOperateMes("DUT" + " has been Blown!", Color.Red);
+                    PowerOff();
+                    return;
+                }
+
+                RegisterWrite(4, new uint[8] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3] });
+                BurstRead(0x80, 5, tempReadback);
+                if (tempReadback[0] != BrakeReg[0] || tempReadback[1] != BrakeReg[1] || tempReadback[2] != BrakeReg[2] || tempReadback[3] != BrakeReg[3])
+                {
+                    DisplayOperateMes("DUT digital communication fail!", Color.Red);
+                    PowerOff();
+                    return;
+                }
+
+                EnterNomalMode();
+                dStopPoint = AverageVout();
+                DisplayOperateMes("stop point = " + dStopPoint.ToString("F3"));
+                if (dStopPoint <= 4.9)
+                {
+                    bTerminate = true;
+                }
+
+                if (Ix_GainPrecision_Brake < 32)
+                {
+                    bit_op_mask = bit4_Mask | bit3_Mask | bit2_Mask | bit1_Mask | bit0_Mask;
+                    BrakeReg[0] &= ~bit_op_mask;
+                    BrakeReg[0] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_GainPrecision_Brake]);
+
+                    Ix_GainPrecision_Brake++;
+                }
+                else
+                {
+                    DisplayOperateMes("Unable to adjust stop point!", Color.Red);
+                    PowerOff();
+                    bTerminate = true;
+                }
+            }
+            Ix_GainPrecision_Brake--;
+            bit_op_mask = bit4_Mask | bit3_Mask | bit2_Mask | bit1_Mask | bit0_Mask;
+            BrakeReg[0] &= ~bit_op_mask;
+            BrakeReg[0] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_GainPrecision_Brake]);
+        }
+
+        private void btn_Fuse_BrakeT_Click(object sender, EventArgs e)
+        {
+            bool bMarginal = false;
+
+            //Fuse
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
+            RePower();
+            EnterTestMode();
+            RegisterWrite(5, new uint[10] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3], 0x84, 0x07 });
+            BurstRead(0x80, 5, tempReadback);
+            FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
+            DisplayOperateMes("Trimming...");
+            Delay(Delay_Fuse);
+
+            ReloadPreset();
+            Delay(Delay_Operation);
+            BurstRead(0x80, 5, tempReadback);
+            if (tempReadback[4] == 0)
+            {
+                RePower();
+                EnterTestMode();
+                RegisterWrite(5, new uint[10] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3], 0x84, 0x07 });
+                BurstRead(0x80, 5, tempReadback);
+                FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
+                DisplayOperateMes("Trimming...");
+                Delay(Delay_Fuse);
+            }
+            Delay(Delay_Operation);
+
+            MarginalReadPreset();
+            Delay(Delay_Operation);
+            BurstRead(0x80, 5, tempReadback);
+            bMarginal = false;
+            if (bMASK)
+            {
+                if (((tempReadback[0] & 0xE0) != (BrakeReg[0] & 0xE0)) | (tempReadback[1] & 0x81) != (BrakeReg[1] & 0x81) |
+                    (tempReadback[2] & 0x99) != (BrakeReg[2] & 0x99) | (tempReadback[3] & 0x83) != (BrakeReg[3] & 0x83) | (tempReadback[4] < 1))
+                    bMarginal = true;
+            }
+            else
+            {
+                if (((tempReadback[0] & 0xFF) != (BrakeReg[0] & 0xFF)) | (tempReadback[1] & 0xFF) != (BrakeReg[1] & 0xFF) |
+                        (tempReadback[2] & 0xFF) != (BrakeReg[2] & 0xFF) | (tempReadback[3] & 0xFF) != (BrakeReg[3] & 0xFF) | (tempReadback[4] < 7))
+                    bMarginal = true;
+            }
+            if (bMarginal)
+            {
+                DisplayOperateMes("MRE");
+            }
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+            PowerOff();
+
+        }
 
         #endregion Events
-
-        
 
     }
 
