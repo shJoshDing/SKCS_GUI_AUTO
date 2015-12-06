@@ -525,6 +525,8 @@ namespace CurrentSensorV3
             //load config
             btn_loadconfig_AutoT_Click(null, null);
 
+            this.tabControl1.Controls.Remove(BrakeTab);
+
             //Display Tab
             if (uTabVisibleCode == 1)
             {
@@ -2150,7 +2152,7 @@ namespace CurrentSensorV3
                 return false;
 
             if (bAutoTrimTest)
-                DisplayOperateMes("WriteData:");
+                DisplayOperateMes("Write In Data is:");
 
             for (int ix = 0; ix < wrNum; ix++)
             {
@@ -2640,7 +2642,7 @@ namespace CurrentSensorV3
             numUD_pilotwidth_ow_ValueChanged(null, null);
 
             if (bAutoTrimTest)
-                DisplayOperateMes("ReadData:");
+                DisplayOperateMes("Read Out Data is:");
 
             if (oneWrie_device.I2CRead_Burst(this.DeviceAddress, _reg_addr_start, 5, _readBack_data) == 0)
             {
@@ -6965,6 +6967,53 @@ namespace CurrentSensorV3
 
         }
 
+        
+
+        private void btn_CommunicationTest_Click(object sender, EventArgs e)
+        {
+            //bool bCommPass = false;
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+            RePower();
+            EnterTestMode();
+            RegisterWrite(5, new uint[10] { 0x80, 0xAA, 0x81, 0xAA, 0x82, 0xAA, 0x83, 0xAA, 0x84, 0x07 });
+            //DisplayOperateMes("Write In Data is: ");
+            DisplayOperateMes("Reg{0} = 0xAA");
+            DisplayOperateMes("Reg{1} = 0xAA");
+            DisplayOperateMes("Reg{2} = 0xAA");
+            DisplayOperateMes("Reg{3} = 0xAA");
+            DisplayOperateMes("Reg{4} = 0x07");
+            BurstRead(0x80, 5, tempReadback);
+
+            if (tempReadback[0]!=0xAA || tempReadback[1]!=0xAA || tempReadback[2]!=0xAA || tempReadback[3]!=0xAA || tempReadback[4]!=0x07)
+            {
+                //bCommPass = false;
+                DisplayOperateMes("Communication Fail!", Color.Red);
+                return;
+            }
+
+            Delay(Delay_Operation);
+
+            RegisterWrite(5, new uint[10] { 0x80, 0x55, 0x81, 0x55, 0x82, 0x55, 0x83, 0x55, 0x84, 0x07 });
+            DisplayOperateMes("Write In Data is: ");
+            DisplayOperateMes("Reg{0} = 0x55");
+            DisplayOperateMes("Reg{1} = 0x55");
+            DisplayOperateMes("Reg{2} = 0x55");
+            DisplayOperateMes("Reg{3} = 0x55");
+            DisplayOperateMes("Reg{4} = 0x07");
+            BurstRead(0x80, 5, tempReadback);
+
+            if (tempReadback[0] != 0x55 || tempReadback[1] != 0x55 || tempReadback[2] != 0x55 || tempReadback[3] != 0x55 || tempReadback[4] != 0x07)
+            {
+                //bCommPass = false;
+                DisplayOperateMes("Communication Fail!", Color.Red);
+                return;
+            }
+
+            DisplayOperateMes("Communication Pass! ");
+        }
+        
+        
         #endregion Events
 
     }
