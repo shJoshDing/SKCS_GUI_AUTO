@@ -218,6 +218,7 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.btn_CommunicationTest = new System.Windows.Forms.Button();
             this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
             this.cmb_SocketType_AutoT = new System.Windows.Forms.ComboBox();
             this.label77 = new System.Windows.Forms.Label();
@@ -279,7 +280,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.btn_CommunicationTest = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2648,6 +2648,16 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
+            // btn_CommunicationTest
+            // 
+            this.btn_CommunicationTest.Location = new System.Drawing.Point(663, 354);
+            this.btn_CommunicationTest.Name = "btn_CommunicationTest";
+            this.btn_CommunicationTest.Size = new System.Drawing.Size(134, 40);
+            this.btn_CommunicationTest.TabIndex = 116;
+            this.btn_CommunicationTest.Text = "Communication Test";
+            this.btn_CommunicationTest.UseVisualStyleBackColor = true;
+            this.btn_CommunicationTest.Click += new System.EventHandler(this.btn_CommunicationTest_Click);
+            // 
             // cmb_ProgramMode_AutoT
             // 
             this.cmb_ProgramMode_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -3389,16 +3399,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // btn_CommunicationTest
-            // 
-            this.btn_CommunicationTest.Location = new System.Drawing.Point(663, 354);
-            this.btn_CommunicationTest.Name = "btn_CommunicationTest";
-            this.btn_CommunicationTest.Size = new System.Drawing.Size(134, 40);
-            this.btn_CommunicationTest.TabIndex = 116;
-            this.btn_CommunicationTest.Text = "Communication Test";
-            this.btn_CommunicationTest.UseVisualStyleBackColor = true;
-            this.btn_CommunicationTest.Click += new System.EventHandler(this.btn_CommunicationTest_Click);
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3411,7 +3411,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v4.2.8.CommTest - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console v4.2.9 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

@@ -59,7 +59,7 @@ namespace CurrentSensorV3
         /// </summary>
         int Delay_Power = 100;      //ms
         int Delay_Operation =50;   //ms
-        int Delay_Fuse = 300;       //ms
+        int Delay_Fuse = 400;       //ms
         int Delay_Sync = 50;        //ms
 
         double ADCOffset = 0;
@@ -119,7 +119,7 @@ namespace CurrentSensorV3
                 //this.cmb_Voffset_PreT.SelectedItem = (object)(this.targetOffset + "V");
             }
         }
-        double saturationVout = 4.85;
+        double saturationVout = 4.90;
         double bin2accuracy = 2;
         double bin3accuracy = 3;
 
@@ -5415,13 +5415,48 @@ namespace CurrentSensorV3
                 /*Judge PreSet gain; delta Vout target >= delta Vout test * 86.07% */
                 if (dMultiSiteVoutIP[idut] > saturationVout)
                 {
-                    DisplayOperateMes("Module" + " Vout is SATURATION!", Color.Red);
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
-                    TrimFinish();
-                    this.lbl_passOrFailed.ForeColor = Color.Red;
-                    this.lbl_passOrFailed.Text = "MOA!";
-                    PrintDutAttribute(sDUT);
-                    return;
+                    //DisplayOperateMes("Module" + " Vout is SATURATION!", Color.Red);
+                    //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
+                    //TrimFinish();
+                    //this.lbl_passOrFailed.ForeColor = Color.Red;
+                    //this.lbl_passOrFailed.Text = "MOA!";
+                    //PrintDutAttribute(sDUT);
+                    //return;
+
+                    //decrease gain preset
+                    MultiSiteRoughGainCodeIndex[idut] -= 1;
+                    /* Rough Gain Code*/
+                    bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+                    MultiSiteReg0[idut] &= ~bit_op_mask;
+                    MultiSiteReg0[idut] |= Convert.ToUInt32(RoughTable_Customer[1][MultiSiteRoughGainCodeIndex[idut]]);
+
+                    bit_op_mask = bit0_Mask;
+                    MultiSiteReg1[idut] &= ~bit_op_mask;
+                    MultiSiteReg1[idut] |= Convert.ToUInt32(RoughTable_Customer[2][MultiSiteRoughGainCodeIndex[idut]]);
+
+                    /*  power on */
+                    RePower();
+                    EnterTestMode();
+                    RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+                    BurstRead(0x80, 5, tempReadback);
+                    /* Get vout @ IP */
+                    EnterNomalMode();
+                    Delay(Delay_Fuse);
+                    dMultiSiteVoutIP[idut] = AverageVout();
+                    sDUT.dVoutIPMiddle = dMultiSiteVoutIP[idut];
+                    DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+
+                    /*Judge PreSet gain; delta Vout target >= delta Vout test * 86.07% */
+                    if (dMultiSiteVoutIP[idut] > saturationVout)
+                    {
+                        DisplayOperateMes("Module" + " Vout is SATURATION!", Color.Red);
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
+                        TrimFinish();
+                        this.lbl_passOrFailed.ForeColor = Color.Red;
+                        this.lbl_passOrFailed.Text = "MOA!";
+                        PrintDutAttribute(sDUT);
+                        return;
+                    }
                 }
 
                 /* Change Current to 0A */
@@ -6046,6 +6081,8 @@ namespace CurrentSensorV3
                DisplayOperateMes("Register write failed!", Color.Red);
 
             EnterNomalMode();
+
+            Delay(Delay_Fuse);
 
             txt_PresetVoutIP_PreT.Text = AverageVout().ToString("F3");
         }
