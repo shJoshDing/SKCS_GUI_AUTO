@@ -6183,12 +6183,12 @@ namespace CurrentSensorV3
             else if (ModuleTypeIndex == 1 )
             {
                 TargetOffset = 2.5;
-                saturationVout = 4.85;
+                saturationVout = 4.9;
             }
             else 
             {
                 //TargetOffset = 2.5;
-                saturationVout = 4.85;
+                saturationVout = 4.9;
             }
         }
 
