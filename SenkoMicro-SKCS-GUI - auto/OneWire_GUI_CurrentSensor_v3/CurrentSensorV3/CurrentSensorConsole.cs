@@ -115,8 +115,9 @@ namespace CurrentSensorV3
                 this.targetOffset = value;
                 this.txt_VoutOffset_AutoT.Text = (string)this.cmb_Voffset_PreT.SelectedItem;
 
-                //Update GUI setting
-                //this.cmb_Voffset_PreT.SelectedItem = (object)(this.targetOffset + "V");
+                //Update trim code table 
+                FilledRoughTable_Customer();
+                FilledPreciseTable_Customer();
             }
         }
         double saturationVout = 4.90;
@@ -225,12 +226,12 @@ namespace CurrentSensorV3
                 //Set Voffset
                 if (this.moduleTypeindex == 2)
                 {
-                    this.cmb_Voffset_PreT.SelectedItem = (object)(this.targetOffset + "V");
+                    this.cmb_Voffset_PreT.SelectedItem = (object)(this.TargetOffset + "V");
                     this.cmb_Voffset_PreT.Enabled = false;
                 }
                 else if (this.moduleTypeindex == 1)
                 {
-                    this.cmb_Voffset_PreT.SelectedItem = (object)(this.targetOffset + "V");
+                    this.cmb_Voffset_PreT.SelectedItem = (object)(this.TargetOffset + "V");
                     this.cmb_Voffset_PreT.Enabled = false;
                 }
                 else
@@ -308,10 +309,15 @@ namespace CurrentSensorV3
         double[][] OffsetTableA = new double[3][];      //3x16: 0x81,0x82,OffsetA
         double[][] OffsetTableB = new double[2][];      //2x16: 0x83,OffsetB
 
+        //Trim code for 2.5V offset
         double[][] RoughTable_Customer = new double[3][];        //3x16: Rough,0x80,0x81
         double[][] PreciseTable_Customer = new double[2][];      //2x32: 0x80,Precise
         double[][] OffsetTableA_Customer = new double[3][];      //3x16: 0x81,0x82,OffsetA
         double[][] OffsetTableB_Customer = new double[2][];      //2x16: 0x83,OffsetB
+
+        //Gain trim code for 1.65V offset
+        //double[][] RoughTable_1v65offset = new double[3][];        //3x16: Rough,0x80,0x81
+        //double[][] PreciseTable_1v65offset = new double[2][];      //2x32: 0x80,Precise
 
         uint[] MultiSiteReg0 = new uint[16];
         uint[] MultiSiteReg1 = new uint[16];
@@ -500,6 +506,9 @@ namespace CurrentSensorV3
             FilledOffsetTableA_Customer();
             FilledOffsetTableB_Customer();
 
+            //FilledRoughTable_1v65offset();
+            //FilledPreciseTable_1v65offse();
+
             //Init combobox
             //1. Engineering
             this.cmb_SensingDirection_EngT.SelectedIndex = 0;
@@ -632,7 +641,7 @@ namespace CurrentSensorV3
         private double OffsetTuningCalc_Customer()
         {
             //return 2.5 / Vout_0A;
-            return targetOffset / Vout_0A;
+            return TargetOffset / Vout_0A;
         }
 
         private double GainTuningCalc_Customer(double testValue, double targetValue)
@@ -922,84 +931,163 @@ namespace CurrentSensorV3
 
         private void FilledRoughTable_Customer()
         {
-            for (int i = 0; i < RoughTable.Length; i++)
+            if (TargetOffset == 2.5)
             {
-                switch (i)
+                for (int i = 0; i < RoughTable.Length; i++)
                 {
-                    case 0: //Rough
-                        RoughTable_Customer[i] = new double[]{
-                            12.36,
-                            14.13,
-                            16.26,
-                            18.73,
-                            21.52,
-                            24.74,
-                            28.64,
-                            32.74,
-                            37.76,
-                            43.51,
-                            49.97,
-                            57.56,
-                            66.19,
-                            76.00,
-                            87.54,
-                            100.00
-                        };
-                        break;
-                    case 2: //0x81
-                        RoughTable_Customer[i] = new double[]{
-                            1,
-                            0,
-                            1,
-                            0,
-                            1,
-                            0,
-                            1,
-                            0,
-                            1,
-                            0,
-                            1,
-                            0,
-                            1,
-                            0,
-                            1,
-                            0
-                        };
-                        break;
-                    case 1: //0x80
-                        RoughTable_Customer[i] = new double[]{
-                        0xE0,
-                        0xE0,
-                        0x60,
-                        0x60,
-                        0xA0,
-                        0xA0,
-                        0x20,
-                        0x20,
-                        0xC0,
-                        0xC0,
-                        0x40,
-                        0x40,
-                        0x80,
-                        0x80,
-                        0x0,
-                        0x0
-                        };
-                        break;
-                    default:
-                        break;
+                    switch (i)
+                    {
+                        case 0: //Rough
+                            RoughTable_Customer[i] = new double[]{
+                                12.36,
+                                14.13,
+                                16.26,
+                                18.73,
+                                21.52,
+                                24.74,
+                                28.64,
+                                32.74,
+                                37.76,
+                                43.51,
+                                49.97,
+                                57.56,
+                                66.19,
+                                76.00,
+                                87.54,
+                                100.00
+                            };
+                            break;
+                        case 2: //0x81
+                            RoughTable_Customer[i] = new double[]{
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0
+                            };
+                            break;
+                        case 1: //0x80
+                            RoughTable_Customer[i] = new double[]{
+                            0xE0,
+                            0xE0,
+                            0x60,
+                            0x60,
+                            0xA0,
+                            0xA0,
+                            0x20,
+                            0x20,
+                            0xC0,
+                            0xC0,
+                            0x40,
+                            0x40,
+                            0x80,
+                            0x80,
+                            0x0,
+                            0x0
+                            };
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+            else if (TargetOffset == 1.65)
+            {
+                for (int i = 0; i < RoughTable.Length; i++)
+                {
+                    switch (i)
+                    {
+                        case 0: //Rough
+                            RoughTable_Customer[i] = new double[]{
+                                12.5545,
+                                14.4698,
+                                16.6670,
+                                19.1870,
+                                22.0822,
+                                25.4006,
+                                29.1830,
+                                33.5584,
+                                38.7607,
+                                44.6210,
+                                51.2550,
+                                58.9272,
+                                67.5783,
+                                77.3808,
+                                88.4811,
+                                100.0000
+
+                            };
+                            break;
+                        case 2: //0x81
+                            RoughTable_Customer[i] = new double[]{
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0,
+                                1,
+                                0
+                            };
+                            break;
+                        case 1: //0x80
+                            RoughTable_Customer[i] = new double[]{
+                            0xE0,
+                            0xE0,
+                            0x60,
+                            0x60,
+                            0xA0,
+                            0xA0,
+                            0x20,
+                            0x20,
+                            0xC0,
+                            0xC0,
+                            0x40,
+                            0x40,
+                            0x80,
+                            0x80,
+                            0x0,
+                            0x0
+                            };
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+                DisplayOperateMes("Offset Selection Error!",Color.DarkRed);
         }
 
         private void FilledPreciseTable_Customer()
         {
-            for (int i = 0; i < PreciseTable.Length; i++)
+            if (TargetOffset == 2.5)
             {
-                switch (i)
+                for (int i = 0; i < PreciseTable.Length; i++)
                 {
-                    case 0: //Precise
-                        PreciseTable_Customer[i] = new double[]{
+                    switch (i)
+                    {
+                        case 0: //Precise
+                            PreciseTable_Customer[i] = new double[]{
                             100.00,
                             99.51,
                             99.09,
@@ -1033,9 +1121,9 @@ namespace CurrentSensorV3
                             86.49,
                             86.07
                         };
-                        break;
-                    case 1: //0x80
-                        PreciseTable_Customer[i] = new double[]{
+                            break;
+                        case 1: //0x80
+                            PreciseTable_Customer[i] = new double[]{
                             0x0,
                             0x8,
                             0x4,
@@ -1069,11 +1157,98 @@ namespace CurrentSensorV3
                             0x17,
                             0x1F        
                         };
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+            else if (TargetOffset == 1.65)
+            {
+                for (int i = 0; i < PreciseTable.Length; i++)
+                {
+                    switch (i)
+                    {
+                        case 0: //Precise
+                            PreciseTable_Customer[i] = new double[]{
+                            100.0000,
+                            99.5621,
+                            99.0883,
+                            98.6571,
+                            98.2420,
+                            97.8018,
+                            97.3733,
+                            96.9106,
+                            96.5204,
+                            96.0668,
+                            95.6047,
+                            95.1692,
+                            94.7649,
+                            94.3190,
+                            93.8573,
+                            93.4373,
+                            93.0262,
+                            92.5910,
+                            92.1260,
+                            91.7141,
+                            91.2899,
+                            90.8342,
+                            90.4010,
+                            89.9252,
+                            89.4676,
+                            89.0324,
+                            88.5949,
+                            88.1567,
+                            87.6997,
+                            87.2675,
+                            86.8323,
+                            86.3821
+
+                        };
+                            break;
+                        case 1: //0x80
+                            PreciseTable_Customer[i] = new double[]{
+                            0x0,
+                            0x8,
+                            0x4,
+                            0xC,
+                            0x2,
+                            0xA,
+                            0x6,
+                            0xE,
+                            0x1,
+                            0x9,
+                            0x5,
+                            0xD,
+                            0x3,
+                            0xB,
+                            0x7,
+                            0xF,
+                            0x10,
+                            0x18,
+                            0x14,
+                            0x1C,
+                            0x12,
+                            0x1A,
+                            0x16,
+                            0x1E,
+                            0x11,
+                            0x19,
+                            0x15,
+                            0x1D,
+                            0x13,
+                            0x1B,
+                            0x17,
+                            0x1F       
+                        };
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+                DisplayOperateMes("Offset Selection Error!", Color.DarkRed);
         }
 
         private void FilledOffsetTableA_Customer()
@@ -1200,7 +1375,168 @@ namespace CurrentSensorV3
             }
         }
 
+        //private void FilledRoughTable_1v65offset()
+        //{
+        //    for (int i = 0; i < RoughTable.Length; i++)
+        //    {
+        //        switch (i)
+        //        {
+        //            case 0: //Rough
+        //                RoughTable_Customer[i] = new double[]{
+        //                    12.216,
+        //                    13.862,
+        //                    16.147,
+        //                    18.348,
+        //                    21.401,
+        //                    24.653,
+        //                    29.975,
+        //                    34.020,
+        //                    38.312,
+        //                    44.412,
+        //                    52.052,
+        //                    59.549,
+        //                    68.440,
+        //                    77.870,
+        //                    88.259,
+        //                    100.000
+
+        //                };
+        //                break;
+        //            case 2: //0x81
+        //                RoughTable_Customer[i] = new double[]{
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0,
+        //                    1,
+        //                    0
+        //                };
+        //                break;
+        //            case 1: //0x80
+        //                RoughTable_Customer[i] = new double[]{
+        //                0xE0,
+        //                0xE0,
+        //                0x60,
+        //                0x60,
+        //                0xA0,
+        //                0xA0,
+        //                0x20,
+        //                0x20,
+        //                0xC0,
+        //                0xC0,
+        //                0x40,
+        //                0x40,
+        //                0x80,
+        //                0x80,
+        //                0x0,
+        //                0x0
+        //                };
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+        
+        //}
+
+        //private void FilledPreciseTable_1v65offse()
+        //{
+        //    for (int i = 0; i < PreciseTable.Length; i++)
+        //    {
+        //        switch (i)
+        //        {
+        //            case 0: //Precise
+        //                PreciseTable_Customer[i] = new double[]{
+        //                    100,
+        //                    100.9133872,
+        //                    100.6252553,
+        //                    98.38610861,
+        //                    97.60862141,
+        //                    96.76134507,
+        //                    96.72656851,
+        //                    96.58239657,
+        //                    95.42803881,
+        //                    95.39503088,
+        //                    94.97995235,
+        //                    93.9553052,
+        //                    93.75533338,
+        //                    93.14090708,
+        //                    92.67175348,
+        //                    92.1915706,
+        //                    91.78149903,
+        //                    91.73470358,
+        //                    91.59799441,
+        //                    91.51023103,
+        //                    90.70553856,
+        //                    90.51250858,
+        //                    90.15082225,
+        //                    90.03869214,
+        //                    89.96089341,
+        //                    89.84972078,
+        //                    89.7525681,
+        //                    89.3287556,
+        //                    88.18534057,
+        //                    87.14040232,
+        //                    86.86542726,
+        //                    85.50573369
+
+        //                };
+        //                break;
+        //            case 1: //0x80
+        //                PreciseTable_Customer[i] = new double[]{
+        //                    0x0,
+        //                    0x8,
+        //                    0x4,
+        //                    0x2,
+        //                    0x1,
+        //                    0xC,
+        //                    0xE,
+        //                    0x9,
+        //                    0x5,
+        //                    0x3,
+        //                    0x6,
+        //                    0xA,
+        //                    0xB,
+        //                    0x13,
+        //                    0x18,
+        //                    0x1D,
+        //                    0xD ,
+        //                    0x15,
+        //                    0x1B,
+        //                    0x10,
+        //                    0x19,
+        //                    0x12,
+        //                    0x16,
+        //                    0x1A,
+        //                    0x14,
+        //                    0x11,
+        //                    0x1C,
+        //                    0x17,
+        //                    0x7,
+        //                    0x1F,
+        //                    0x1E,
+        //                    0xF
+        
+        //                };
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //}
+
         //Abs(Value) decreased table
+
         private int LookupRoughGain(double tuningGain, double[][] gainTable)
         {
             if (tuningGain.ToString() == "Infinity")
@@ -3484,7 +3820,7 @@ namespace CurrentSensorV3
             bool bMarginal = false;
             //bool bSafety = false;
             //uint[] tempReadback = new uint[5];
-            double dVip_Target = targetOffset + TargetVoltage_customer;
+            double dVip_Target = TargetOffset + TargetVoltage_customer;
             double dGainTestMinusTarget = 1;
             double dGainTest = 0;
 
@@ -3816,7 +4152,7 @@ namespace CurrentSensorV3
             {
                 if (bDutValid[idut])
                 {
-                    if ((targetOffset - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (targetOffset + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.01))
+                    if ((TargetOffset - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.01))
                     {
                         //oneWrie_device.SDPSignalPathSocketSel(idut);
                         Delay(Delay_Sync);
@@ -4391,18 +4727,18 @@ namespace CurrentSensorV3
                 {
                     if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_MARGINAL)
                     {
-                        if (targetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                        if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
                             //DisplayOperateMes("Pass! Bin4");
                             //this.lbl_passOrFailed.ForeColor = Color.Green;
                             //this.lbl_passOrFailed.Text = "Pass!";
                         }
-                        else if (targetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                        else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_5;
                         }
-                        else if (targetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                        else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_6;
                         }
@@ -4413,15 +4749,15 @@ namespace CurrentSensorV3
                     //if ((!bMarginal) && (!bSafety))
                     else if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_NORMAL)
                     {
-                        if (targetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                        if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
                         }
-                        else if (targetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                        else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
                         }
-                        else if (targetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                        else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                         {
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
                         }
@@ -4456,7 +4792,7 @@ namespace CurrentSensorV3
             bool bMarginal = false;
             bool bSafety = false;
             uint[] tempReadback = new uint[5];
-            double dVip_Target = targetOffset + TargetVoltage_customer;
+            double dVip_Target = TargetOffset + TargetVoltage_customer;
 
             DisplayOperateMes("Start...");
             this.lbl_passOrFailed.ForeColor = Color.Black;
@@ -4775,19 +5111,19 @@ namespace CurrentSensorV3
             /* bin1,2,3 */
             if ((!bMarginal) && (!bSafety))
             {
-                if (targetOffset * (1 - 0.01) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.01) && Vout_IP <= dVip_Target * (1 + 0.01) && Vout_IP >= dVip_Target * (1 - 0.01))
+                if (TargetOffset * (1 - 0.01) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.01) && Vout_IP <= dVip_Target * (1 + 0.01) && Vout_IP >= dVip_Target * (1 - 0.01))
                 {
                     DisplayOperateMes("Pass! Bin1");
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "Pass!";
                 }
-                else if (targetOffset * (1 - 0.03) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.02) && Vout_IP <= dVip_Target * (1 + 0.03) && Vout_IP >= dVip_Target * (1 - 0.02))
+                else if (TargetOffset * (1 - 0.03) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.02) && Vout_IP <= dVip_Target * (1 + 0.03) && Vout_IP >= dVip_Target * (1 - 0.02))
                 {
                     DisplayOperateMes("Pass! Bin2");
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "Pass!";
                 }
-                else if (targetOffset * (1 - 0.06) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.03) && Vout_IP <= dVip_Target * (1 + 0.06) && Vout_IP >= dVip_Target * (1 - 0.03))
+                else if (TargetOffset * (1 - 0.06) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.03) && Vout_IP <= dVip_Target * (1 + 0.06) && Vout_IP >= dVip_Target * (1 - 0.03))
                 {
                     DisplayOperateMes("Pass! Bin3");
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -4804,19 +5140,19 @@ namespace CurrentSensorV3
             else if (bMarginal == true)
             //else
             {
-                if (targetOffset * (1 - 0.01) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.01) && Vout_IP <= dVip_Target * (1 + 0.01) && Vout_IP >= dVip_Target * (1 - 0.01))
+                if (TargetOffset * (1 - 0.01) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.01) && Vout_IP <= dVip_Target * (1 + 0.01) && Vout_IP >= dVip_Target * (1 - 0.01))
                 {
                     DisplayOperateMes("M.R.E! Bin4");
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "M.R.E!";
                 }
-                else if (targetOffset * (1 - 0.03) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.03) && Vout_IP <= dVip_Target * (1 + 0.03) && Vout_IP >= dVip_Target * (1 - 0.03))
+                else if (TargetOffset * (1 - 0.03) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.03) && Vout_IP <= dVip_Target * (1 + 0.03) && Vout_IP >= dVip_Target * (1 - 0.03))
                 {
                     DisplayOperateMes("M.R.E! Bin5");
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "M.R.E!";
                 }
-                else if (targetOffset * (1 - 0.06) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.06) && Vout_IP <= dVip_Target * (1 + 0.06) && Vout_IP >= dVip_Target * (1 - 0.06))
+                else if (TargetOffset * (1 - 0.06) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.06) && Vout_IP <= dVip_Target * (1 + 0.06) && Vout_IP >= dVip_Target * (1 - 0.06))
                 {
                     DisplayOperateMes("M.R.E! Bin6");
                     this.lbl_passOrFailed.ForeColor = Color.Red;
@@ -4832,15 +5168,15 @@ namespace CurrentSensorV3
             /* bin7,8,9 */
             else
             {
-                if (targetOffset * (1 - 0.01) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.01) && Vout_IP <= dVip_Target * (1 + 0.01) && Vout_IP >= dVip_Target * (1 - 0.01))
+                if (TargetOffset * (1 - 0.01) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.01) && Vout_IP <= dVip_Target * (1 + 0.01) && Vout_IP >= dVip_Target * (1 - 0.01))
                 {
                     DisplayOperateMes("Pass! Bin7");
                 }
-                else if (targetOffset * (1 - 0.03) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.03) && Vout_IP <= dVip_Target * (1 + 0.03) && Vout_IP >= dVip_Target * (1 - 0.03))
+                else if (TargetOffset * (1 - 0.03) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.03) && Vout_IP <= dVip_Target * (1 + 0.03) && Vout_IP >= dVip_Target * (1 - 0.03))
                 {
                     DisplayOperateMes("Pass! Bin8");
                 }
-                else if (targetOffset * (1 - 0.06) <= Vout_0A && Vout_0A <= targetOffset * (1 + 0.06) && Vout_IP <= dVip_Target * (1 + 0.06) && Vout_IP >= dVip_Target * (1 - 0.06))
+                else if (TargetOffset * (1 - 0.06) <= Vout_0A && Vout_0A <= TargetOffset * (1 + 0.06) && Vout_IP <= dVip_Target * (1 + 0.06) && Vout_IP >= dVip_Target * (1 - 0.06))
                 {
                     DisplayOperateMes("Pass! Bin9");
                 }
@@ -4882,7 +5218,7 @@ namespace CurrentSensorV3
             bool bMarginal = false;
             bool bSafety = false;
             //uint[] tempReadback = new uint[5];
-            double dVip_Target = targetOffset + TargetVoltage_customer;
+            double dVip_Target = TargetOffset + TargetVoltage_customer;
             double dGainTestMinusTarget = 1;
             double dGainTest = 0;
             ModuleAttribute sDUT;
@@ -5174,20 +5510,35 @@ namespace CurrentSensorV3
                 return;
             }
 
-            else if (dMultiSiteVout0A[idut] < 2.25 || dMultiSiteVout0A[idut] > 2.8)
+            if(TargetOffset == 2.5)
             {
-                TrimFinish();
-                PrintDutAttribute(sDUT);
-                this.lbl_passOrFailed.ForeColor = Color.Red;
-                this.lbl_passOrFailed.Text = "FAIL!";
-                //MessageBox.Show(String.Format("Please invert IP!"), "Try Again", MessageBoxButtons.OK);
-                return;
+                if (dMultiSiteVout0A[idut] < 2.25 || dMultiSiteVout0A[idut] > 2.8)
+                {
+                    TrimFinish();
+                    PrintDutAttribute(sDUT);
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "FAIL!";
+                    //MessageBox.Show(String.Format("Please invert IP!"), "Try Again", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+            else if (TargetOffset == 1.65)
+            {
+                if (dMultiSiteVout0A[idut] < 1.0 || dMultiSiteVout0A[idut] > 2.5)
+                {
+                    TrimFinish();
+                    PrintDutAttribute(sDUT);
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "FAIL!";
+                    //MessageBox.Show(String.Format("Please invert IP!"), "Try Again", MessageBoxButtons.OK);
+                    return;
+                }
             }
 
             #endregion  Get Vout@0A
 
             #region No need Trim case
-            if ((targetOffset - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (targetOffset + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.01))
+            if ((TargetOffset - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.01))
             {
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
                 Delay(Delay_Sync);
@@ -5274,11 +5625,6 @@ namespace CurrentSensorV3
                     PrintDutAttribute(sDUT);
                     return;
                 }
-
-                
-
-
-
 
             }
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
@@ -5748,7 +6094,7 @@ namespace CurrentSensorV3
 
             if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_MARGINAL)
             {
-                if (targetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;      
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -5757,7 +6103,7 @@ namespace CurrentSensorV3
                     else
                         this.lbl_passOrFailed.Text = "PASS!";
                 }
-                else if (targetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_5;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -5766,7 +6112,7 @@ namespace CurrentSensorV3
                     else
                         this.lbl_passOrFailed.Text = "PASS!";
                 }
-                else if (targetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_6;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -5787,19 +6133,19 @@ namespace CurrentSensorV3
             //if ((!bMarginal) && (!bSafety))
             else if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_NORMAL)
             {
-                if (targetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
                 }
-                else if (targetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
                 }
-                else if (targetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= targetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -6178,7 +6524,7 @@ namespace CurrentSensorV3
             if (ModuleTypeIndex == 2)
             {
                 TargetOffset = 1.65;
-                saturationVout = 3.2;
+                saturationVout = 3.25;
             }
             else if (ModuleTypeIndex == 1 )
             {

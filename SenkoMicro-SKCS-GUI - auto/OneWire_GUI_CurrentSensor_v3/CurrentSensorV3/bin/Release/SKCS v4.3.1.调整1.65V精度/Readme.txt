@@ -93,3 +93,5 @@ v4.3.0 fix saturation bugs
 3. decrease PreSet gain of Vout at second time,
 4. change saturation threshhold from 4.85 to 4.9V,
 5. change saturation threshhold as well when change offset value of vout.
+
+v4.3.1 fix gain accurate at 1.65V offset
