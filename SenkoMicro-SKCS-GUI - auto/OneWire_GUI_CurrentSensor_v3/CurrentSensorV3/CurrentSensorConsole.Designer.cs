@@ -106,6 +106,7 @@
             this.rbt_VDD_5V_EngT = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_SafetyHighRead_EngT = new System.Windows.Forms.Button();
             this.btn_SafetyRead_EngT = new System.Windows.Forms.Button();
             this.btn_burstRead_EngT = new System.Windows.Forms.Button();
             this.btn_MarginalRead_EngT = new System.Windows.Forms.Button();
@@ -758,9 +759,9 @@
             this.cmb_OffsetOption_EngT.FormattingEnabled = true;
             this.cmb_OffsetOption_EngT.Items.AddRange(new object[] {
             "Default",
+            "2.5V Low Power",
             "Half Vdd",
-            "Half Vdd with fixed gain",
-            "1.65V"});
+            "1.65V Low Power"});
             this.cmb_OffsetOption_EngT.Location = new System.Drawing.Point(113, 121);
             this.cmb_OffsetOption_EngT.Name = "cmb_OffsetOption_EngT";
             this.cmb_OffsetOption_EngT.Size = new System.Drawing.Size(137, 21);
@@ -1201,6 +1202,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_SafetyHighRead_EngT);
             this.groupBox1.Controls.Add(this.btn_SafetyRead_EngT);
             this.groupBox1.Controls.Add(this.btn_burstRead_EngT);
             this.groupBox1.Controls.Add(this.btn_MarginalRead_EngT);
@@ -1230,21 +1232,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Trim Sensor";
             // 
+            // btn_SafetyHighRead_EngT
+            // 
+            this.btn_SafetyHighRead_EngT.Location = new System.Drawing.Point(206, 229);
+            this.btn_SafetyHighRead_EngT.Name = "btn_SafetyHighRead_EngT";
+            this.btn_SafetyHighRead_EngT.Size = new System.Drawing.Size(43, 38);
+            this.btn_SafetyHighRead_EngT.TabIndex = 82;
+            this.btn_SafetyHighRead_EngT.Text = "8X";
+            this.btn_SafetyHighRead_EngT.UseVisualStyleBackColor = true;
+            this.btn_SafetyHighRead_EngT.Click += new System.EventHandler(this.btn_SafetyHighRead_EngT_Click);
+            // 
             // btn_SafetyRead_EngT
             // 
-            this.btn_SafetyRead_EngT.Location = new System.Drawing.Point(181, 229);
+            this.btn_SafetyRead_EngT.Location = new System.Drawing.Point(143, 229);
             this.btn_SafetyRead_EngT.Name = "btn_SafetyRead_EngT";
-            this.btn_SafetyRead_EngT.Size = new System.Drawing.Size(63, 38);
+            this.btn_SafetyRead_EngT.Size = new System.Drawing.Size(43, 38);
             this.btn_SafetyRead_EngT.TabIndex = 82;
-            this.btn_SafetyRead_EngT.Text = "Safety Read";
+            this.btn_SafetyRead_EngT.Text = "4X";
             this.btn_SafetyRead_EngT.UseVisualStyleBackColor = true;
             this.btn_SafetyRead_EngT.Click += new System.EventHandler(this.btn_SafetyRead_EngT_Click);
             // 
             // btn_burstRead_EngT
             // 
-            this.btn_burstRead_EngT.Location = new System.Drawing.Point(263, 229);
+            this.btn_burstRead_EngT.Location = new System.Drawing.Point(269, 229);
             this.btn_burstRead_EngT.Name = "btn_burstRead_EngT";
-            this.btn_burstRead_EngT.Size = new System.Drawing.Size(63, 38);
+            this.btn_burstRead_EngT.Size = new System.Drawing.Size(53, 38);
             this.btn_burstRead_EngT.TabIndex = 63;
             this.btn_burstRead_EngT.Text = "Read";
             this.btn_burstRead_EngT.UseVisualStyleBackColor = true;
@@ -1252,11 +1264,11 @@
             // 
             // btn_MarginalRead_EngT
             // 
-            this.btn_MarginalRead_EngT.Location = new System.Drawing.Point(99, 229);
+            this.btn_MarginalRead_EngT.Location = new System.Drawing.Point(80, 229);
             this.btn_MarginalRead_EngT.Name = "btn_MarginalRead_EngT";
-            this.btn_MarginalRead_EngT.Size = new System.Drawing.Size(63, 38);
+            this.btn_MarginalRead_EngT.Size = new System.Drawing.Size(43, 38);
             this.btn_MarginalRead_EngT.TabIndex = 64;
-            this.btn_MarginalRead_EngT.Text = "Marginal Read";
+            this.btn_MarginalRead_EngT.Text = "2X";
             this.btn_MarginalRead_EngT.UseVisualStyleBackColor = true;
             this.btn_MarginalRead_EngT.Click += new System.EventHandler(this.btn_MarginalRead_Click);
             // 
@@ -1274,9 +1286,9 @@
             // 
             this.btn_Reload_EngT.Location = new System.Drawing.Point(17, 229);
             this.btn_Reload_EngT.Name = "btn_Reload_EngT";
-            this.btn_Reload_EngT.Size = new System.Drawing.Size(63, 38);
+            this.btn_Reload_EngT.Size = new System.Drawing.Size(43, 38);
             this.btn_Reload_EngT.TabIndex = 65;
-            this.btn_Reload_EngT.Text = "Reload";
+            this.btn_Reload_EngT.Text = "1X";
             this.btn_Reload_EngT.UseVisualStyleBackColor = true;
             this.btn_Reload_EngT.Click += new System.EventHandler(this.btn_Reload_Click);
             // 
@@ -1296,9 +1308,9 @@
             this.label5.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(284, 177);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(30, 14);
+            this.label5.Size = new System.Drawing.Size(36, 14);
             this.label5.TabIndex = 79;
-            this.label5.Text = "Reg4";
+            this.label5.Text = "Reg83";
             // 
             // label4
             // 
@@ -1306,29 +1318,29 @@
             this.label4.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(199, 177);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(30, 14);
+            this.label4.Size = new System.Drawing.Size(36, 14);
             this.label4.TabIndex = 78;
-            this.label4.Text = "Reg3";
+            this.label4.Text = "Reg82";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(114, 180);
+            this.label3.Location = new System.Drawing.Point(114, 177);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 14);
+            this.label3.Size = new System.Drawing.Size(36, 14);
             this.label3.TabIndex = 77;
-            this.label3.Text = "Reg2";
+            this.label3.Text = "Reg81";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(29, 180);
+            this.label2.Location = new System.Drawing.Point(29, 177);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 14);
+            this.label2.Size = new System.Drawing.Size(36, 14);
             this.label2.TabIndex = 76;
-            this.label2.Text = "Reg1";
+            this.label2.Text = "Reg80";
             // 
             // txt_reg83_EngT
             // 
@@ -2227,8 +2239,10 @@
             this.cmb_Voffset_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_Voffset_PreT.FormattingEnabled = true;
             this.cmb_Voffset_PreT.Items.AddRange(new object[] {
-            "2.5V",
-            "1.65V"});
+            "Default",
+            "2.5V Low Power",
+            "Half Vdd",
+            "1.65V Low Power"});
             this.cmb_Voffset_PreT.Location = new System.Drawing.Point(192, 126);
             this.cmb_Voffset_PreT.Name = "cmb_Voffset_PreT";
             this.cmb_Voffset_PreT.Size = new System.Drawing.Size(137, 24);
@@ -2382,9 +2396,11 @@
             this.cmb_IPRange_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_IPRange_PreT.FormattingEnabled = true;
             this.cmb_IPRange_PreT.Items.AddRange(new object[] {
-            "Small",
+            "1x",
             "Default",
-            "Large"});
+            "1.5x",
+            "1.6x",
+            "0.5x"});
             this.cmb_IPRange_PreT.Location = new System.Drawing.Point(192, 90);
             this.cmb_IPRange_PreT.Name = "cmb_IPRange_PreT";
             this.cmb_IPRange_PreT.Size = new System.Drawing.Size(137, 24);
@@ -2396,22 +2412,22 @@
             this.label69.AutoSize = true;
             this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label69.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label69.Location = new System.Drawing.Point(92, 129);
+            this.label69.Location = new System.Drawing.Point(71, 129);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(49, 16);
+            this.label69.Size = new System.Drawing.Size(91, 16);
             this.label69.TabIndex = 8;
-            this.label69.Text = "Voffset";
+            this.label69.Text = "Voffset Option";
             // 
             // label33
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label33.Location = new System.Drawing.Point(90, 94);
+            this.label33.Location = new System.Drawing.Point(77, 94);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(64, 16);
+            this.label33.Size = new System.Drawing.Size(78, 16);
             this.label33.TabIndex = 8;
-            this.label33.Text = "IP Range";
+            this.label33.Text = "Gain Option";
             // 
             // cmb_TempCmp_PreT
             // 
@@ -2419,13 +2435,14 @@
             this.cmb_TempCmp_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_TempCmp_PreT.FormattingEnabled = true;
             this.cmb_TempCmp_PreT.Items.AddRange(new object[] {
+            "0",
+            "200",
+            "400",
+            "600",
+            "600",
             "Default",
-            "-0350ppm",
-            "-0700ppm",
-            "-1050ppm",
-            "+1050ppm",
-            "+0700ppm",
-            "+0350ppm"});
+            "1000",
+            "1200"});
             this.cmb_TempCmp_PreT.Location = new System.Drawing.Point(192, 54);
             this.cmb_TempCmp_PreT.Name = "cmb_TempCmp_PreT";
             this.cmb_TempCmp_PreT.Size = new System.Drawing.Size(137, 24);
@@ -3411,7 +3428,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v4.3.2 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console for 610 v1.0 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -3727,5 +3744,6 @@
         private System.Windows.Forms.Label label80;
         private System.Windows.Forms.Button btn_Fuse_BrakeT;
         private System.Windows.Forms.Button btn_CommunicationTest;
+        private System.Windows.Forms.Button btn_SafetyHighRead_EngT;
     }
 }

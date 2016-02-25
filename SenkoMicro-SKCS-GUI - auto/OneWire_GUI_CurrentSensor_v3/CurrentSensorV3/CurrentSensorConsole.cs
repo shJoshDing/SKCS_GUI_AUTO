@@ -113,7 +113,12 @@ namespace CurrentSensorV3
             set 
             {
                 this.targetOffset = value;
-                this.txt_VoutOffset_AutoT.Text = (string)this.cmb_Voffset_PreT.SelectedItem;
+                //this.txt_VoutOffset_AutoT.Text = (string)this.cmb_Voffset_PreT.SelectedItem;
+
+                if (this.targetOffset == 1.65)
+                    saturationVout = 3.25;
+                else
+                    saturationVout = 4.9;
 
                 //Update trim code table 
                 FilledRoughTable_Customer();
@@ -226,18 +231,34 @@ namespace CurrentSensorV3
                 //Set Voffset
                 if (this.moduleTypeindex == 2)
                 {
-                    this.cmb_Voffset_PreT.SelectedItem = (object)(this.TargetOffset + "V");
-                    this.cmb_Voffset_PreT.Enabled = false;
+                    TargetOffset = 1.65;
+                    //saturationVout = 3.25;
                 }
                 else if (this.moduleTypeindex == 1)
                 {
-                    this.cmb_Voffset_PreT.SelectedItem = (object)(this.TargetOffset + "V");
-                    this.cmb_Voffset_PreT.Enabled = false;
+                    TargetOffset = 2.5;
+                    //saturationVout = 4.9;
                 }
                 else
                 {
-                    this.cmb_Voffset_PreT.Enabled = true;
+                    //TargetOffset = 2.5;
+                    //saturationVout = 4.9;
                 }
+
+                //if (this.moduleTypeindex == 2)
+                //{
+                //    this.cmb_Voffset_PreT.SelectedItem = (object)(this.TargetOffset + "V");
+                //    //this.cmb_Voffset_PreT.Enabled = false;
+                //}
+                //else if (this.moduleTypeindex == 1)
+                //{
+                //    this.cmb_Voffset_PreT.SelectedItem = (object)(this.TargetOffset + "V");
+                //    //this.cmb_Voffset_PreT.Enabled = false;
+                //}
+                //else
+                //{
+                //    //this.cmb_Voffset_PreT.Enabled = true;
+                //}
             }
             get { return this.moduleTypeindex; }
         }
@@ -2915,6 +2936,15 @@ namespace CurrentSensorV3
                 return;
             }
 
+            _reg_addr = 0x84;
+            _reg_data = 0x00;
+            writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (!writeResult)
+            {
+                DisplayOperateMes("1st I2C write failed, Safety Read Failed!", Color.Red);
+                return;
+            }
+
             //Delay(Delay_Operation);
 
             _reg_addr = 0x43;
@@ -2969,6 +2999,80 @@ namespace CurrentSensorV3
             //}
             //else
             //    DisplayOperateMes("Safety Read Setup failed!\r\n", Color.Red);
+        }
+
+        private void SafetyHighReadPreset()
+        {
+            EnterTestMode();
+
+            uint _reg_addr = 0x84;
+            uint _reg_data = 0xC0;
+            bool writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (!writeResult)
+            {
+                DisplayOperateMes("1st I2C write failed, Safety Read Failed!", Color.Red);
+                return;
+            }
+
+            _reg_addr = 0x84;
+            _reg_data = 0x00;
+            writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (!writeResult)
+            {
+                DisplayOperateMes("1st I2C write failed, Safety Read Failed!", Color.Red);
+                return;
+            }
+
+            //Delay(Delay_Operation);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x06;
+            writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (!writeResult)
+            {
+                DisplayOperateMes("2nd I2C write failed, Safety Read Failed!", Color.Red);
+                return;
+            }
+
+            //Delay(Delay_Operation);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x03;
+            writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (!writeResult)
+            {
+                DisplayOperateMes("3rd I2C write failed, Safety Read Failed!", Color.Red);
+                return;
+            }
+
+            _reg_addr = 0x43;
+            _reg_data = 0x0B;
+            writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (!writeResult)
+            {
+                DisplayOperateMes("3rd I2C write failed, Safety Read Failed!", Color.Red);
+                return;
+            }
+
+            //Delay(Delay_Operation); //delay 300ms
+
+            _reg_addr = 0x43;
+            _reg_data = 0x0;
+            writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            if (writeResult)
+            {
+                if (bAutoTrimTest)
+                {
+                    DisplayOperateMes("Reset Reg0x43 succeeded!");
+                }
+            }
+            else
+            {
+                DisplayOperateMes("Reset Reg0x43 failed!", Color.Red);
+                return;
+            }
+
+            Delay(Delay_Operation);    //delay 300ms
         }
 
         private bool BurstRead(uint _reg_addr_start, int num, uint[] _readBack_data)
@@ -5639,7 +5743,7 @@ namespace CurrentSensorV3
                 dGainTestMinusTarget = dGainTest / TargetGain_customer;
                 dGainPreset = RoughTable_Customer[0][MultiSiteRoughGainCodeIndex[idut]] / 100d;
 
-                if (this.cmb_IPRange_PreT.SelectedItem.ToString() == "Small")
+                if (this.cmb_IPRange_PreT.SelectedItem.ToString() == "1.5x610")
                 {
                     if (dGainTestMinusTarget >= dGainPreset)
                     {
@@ -5686,7 +5790,7 @@ namespace CurrentSensorV3
                         {
                             MultiSiteRoughGainCodeIndex[idut] = (uint)LookupRoughGain_Customer((TargetGain_customer * 100d / (dGainTest * 1.5d) * dGainPreset), RoughTable_Customer);
                             MultiSiteRoughGainCodeIndex[idut] -= 1;
-                            MultiSiteReg3[idut] |= 0x80;
+                            MultiSiteReg3[idut] |= 0xC0;
                             /* Rough Gain Code*/
                             bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
                             MultiSiteReg0[idut] &= ~bit_op_mask;
@@ -6521,21 +6625,21 @@ namespace CurrentSensorV3
         {
             ModuleTypeIndex = (sender as ComboBox).SelectedIndex;
 
-            if (ModuleTypeIndex == 2)
-            {
-                TargetOffset = 1.65;
-                saturationVout = 3.25;
-            }
-            else if (ModuleTypeIndex == 1 )
-            {
-                TargetOffset = 2.5;
-                saturationVout = 4.9;
-            }
-            else 
-            {
-                //TargetOffset = 2.5;
-                saturationVout = 4.9;
-            }
+            //if (ModuleTypeIndex == 2)
+            //{
+            //    TargetOffset = 1.65;
+            //    saturationVout = 3.25;
+            //}
+            //else if (ModuleTypeIndex == 1 )
+            //{
+            //    TargetOffset = 2.5;
+            //    saturationVout = 4.9;
+            //}
+            //else 
+            //{
+            //    //TargetOffset = 2.5;
+            //    saturationVout = 4.9;
+            //}
         }
 
         private void numUD_SlopeK_ValueChanged(object sender, EventArgs e)
@@ -6591,7 +6695,7 @@ namespace CurrentSensorV3
         {
             /* bit4 & bit5 & bit6 of 0x81 */
             bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask;
-            uint[] valueTable = new uint[7]
+            uint[] valueTable = new uint[8]
             {
                 0x0,
                 0x10,
@@ -6599,7 +6703,8 @@ namespace CurrentSensorV3
                 0x30,
                 0x40,
                 0x50,
-                0x60
+                0x60,
+                0x70
             };
 
             int ix_TableStart = this.cmb_TempCmp_PreT.SelectedIndex;
@@ -6612,17 +6717,19 @@ namespace CurrentSensorV3
         private void cmb_IPRange_PreT_SelectedIndexChanged(object sender, EventArgs e)
         {
             /* bit7 of 0x82 and 0x83 */
-            bit_op_mask = bit7_Mask;
-            uint[] valueTable = new uint[6]
+            bit_op_mask = bit7_Mask | bit6_Mask;
+            uint[] valueTable = new uint[10]
             {
-                0x0,0x80,
                 0x0,0x0,
-                0x80,0x0                
+                0x0,0x40,
+                0x0,0x80,
+                0x0,0xC0,
+                0x80,0x0 
             };
 
             int ix_TableStart = this.cmb_IPRange_PreT.SelectedIndex * 2;
             //back up to register and update GUI
-            Reg82Value &= ~bit_op_mask;
+            Reg82Value &= ~bit7_Mask;
             Reg82Value |= valueTable[ix_TableStart];
             Reg83Value &= ~bit_op_mask;
             Reg83Value |= valueTable[ix_TableStart + 1];
@@ -6696,16 +6803,16 @@ namespace CurrentSensorV3
         private void rbtn_VoutOptionHigh_EngT_CheckedChanged(object sender, EventArgs e)
         {
             /* bit6 of 0x83 */
-            bit_op_mask = bit6_Mask;
-            Reg83Value &= ~bit_op_mask;
-            if (this.rbtn_VoutOptionHigh_EngT.Checked)
-            {
-                Reg83Value |= 0x40;
-            }
-            else
-            {
-                Reg83Value |= 0x0;
-            }
+            //bit_op_mask = bit6_Mask;
+            //Reg83Value &= ~bit_op_mask;
+            //if (this.rbtn_VoutOptionHigh_EngT.Checked)
+            //{
+            //    Reg83Value |= 0x40;
+            //}
+            //else
+            //{
+            //    Reg83Value |= 0x0;
+            //}
         }
 
         private void rbtn_InsideFilterOff_EngT_CheckedChanged(object sender, EventArgs e)
@@ -6780,7 +6887,8 @@ namespace CurrentSensorV3
 
                 // Vout @ 0A
                 msg = string.Format("Voffset|{0}|{1}",
-                    this.cmb_Voffset_PreT.SelectedIndex.ToString(), this.cmb_Voffset_PreT.SelectedItem.ToString());
+                    this.cmb_Voffset_PreT.SelectedIndex.ToString(), this.TargetOffset.ToString());
+                    //this.cmb_Voffset_PreT.SelectedIndex.ToString(), this.cmb_Voffset_PreT.SelectedItem.ToString());
                 sw.WriteLine(msg);
 
                 // bin2 accuracy
@@ -7013,23 +7121,48 @@ namespace CurrentSensorV3
         {
             int ix = 0;
             ix = this.cmb_Voffset_PreT.SelectedIndex;
-            if( ix == 1 )
-            {
-                TargetOffset = 1.65;
-                bit_op_mask = bit3_Mask | bit4_Mask;
-                Reg82Value &= ~bit_op_mask;
-                Reg82Value |= 0x18;        //Reg0x82
-                //Reg82Value = 0x18;
-                this.cmb_OffsetOption_EngT.SelectedIndex = 3;
-            }
-            else
+            if( ix == 0 )
             {
                 TargetOffset = 2.5;
                 bit_op_mask = bit3_Mask | bit4_Mask;
                 Reg82Value &= ~bit_op_mask;
                 Reg82Value |= 0x00;        //Reg0x82
-                //Reg82Value = 0x00;
+                //Reg82Value = 0x18;
                 this.cmb_OffsetOption_EngT.SelectedIndex = 0;
+                this.txt_VoutOffset_AutoT.Text = "2.5";
+            }
+            else if( ix == 1 )
+            {
+                TargetOffset = 2.5;
+                bit_op_mask = bit3_Mask | bit4_Mask;
+                Reg82Value &= ~bit_op_mask;
+                Reg82Value |= 0x08;        //Reg0x82
+                //Reg82Value = 0x00;
+                this.cmb_OffsetOption_EngT.SelectedIndex = 1;
+                this.txt_VoutOffset_AutoT.Text = "2.5";
+            }
+            else if (ix == 2)
+            {
+                if (ModuleTypeIndex == 2)
+                    TargetOffset = 1.65;
+                else
+                    TargetOffset = 2.5;
+                bit_op_mask = bit3_Mask | bit4_Mask;
+                Reg82Value &= ~bit_op_mask;
+                Reg82Value |= 0x10;        //Reg0x82
+                //Reg82Value = 0x00;
+                this.cmb_OffsetOption_EngT.SelectedIndex = 2;
+                this.txt_VoutOffset_AutoT.Text = TargetOffset.ToString();
+            }
+            else if (ix == 3)
+            {
+                TargetOffset = 1.65;
+                bit_op_mask = bit3_Mask | bit4_Mask;
+                Reg82Value &= ~bit_op_mask;
+                Reg82Value |= 0x18;        //Reg0x82
+                //Reg82Value = 0x00;
+                this.cmb_OffsetOption_EngT.SelectedIndex = 3;
+                this.txt_VoutOffset_AutoT.Text = "1.65";
             }
         }
 
@@ -7396,6 +7529,16 @@ namespace CurrentSensorV3
             DisplayOperateMes("Communication Pass! ");
         }
         
+        
+        
+
+        private void btn_SafetyHighRead_EngT_Click(object sender, EventArgs e)
+        {
+            rbt_signalPathSeting_Vout_EngT.Checked = true;
+            rbt_signalPathSeting_Config_EngT.Checked = true;
+
+            SafetyHighReadPreset();
+        }
         
         #endregion Events
 
