@@ -39,7 +39,6 @@ namespace CurrentSensorV3
         #region Param Definition
 
         bool bUsbConnected = false;
-
         bool bAutoTrimTest = true;          //Debug mode, display engineer tab
         //bool bAutoTrimTest = false;       //Release mode, bon't display engineer tab
         //bool bPretrimOrAuto = false;        //For operator, only auto tab
@@ -48,6 +47,7 @@ namespace CurrentSensorV3
         bool bMRE = false;
         bool bMASK = false;
         bool bSAFEREAD = false;
+        bool bUartInit = false;
 
         uint DeviceAddress = 0x73;
         uint SampleRateNum = 1024;
@@ -58,9 +58,9 @@ namespace CurrentSensorV3
         /// Delay Define
         /// </summary>
         int Delay_Power = 100;      //ms
-        int Delay_Operation =50;   //ms
-        int Delay_Fuse = 400;       //ms
-        int Delay_Sync = 50;        //ms
+        int Delay_Sync =10;   //ms
+        int Delay_Fuse = 200;       //ms
+        //int Delay_Sync = 50;        //ms
 
         double ADCOffset = 0;
         double AadcOffset
@@ -598,9 +598,9 @@ namespace CurrentSensorV3
         private double AverageVout()
         {
             double result = oneWrie_device.AverageADCSamples(oneWrie_device.ADCSampleTransfer(SampleRate, SampleRateNum));
-            Delay(Delay_Operation/3);
+            Delay(Delay_Sync);
             result += oneWrie_device.AverageADCSamples(oneWrie_device.ADCSampleTransfer(SampleRate, SampleRateNum));
-            Delay(Delay_Operation/3);
+            Delay(Delay_Sync);
             result += oneWrie_device.AverageADCSamples(oneWrie_device.ADCSampleTransfer(SampleRate, SampleRateNum));
 
             result /= 3d;
@@ -2208,7 +2208,7 @@ namespace CurrentSensorV3
                 return false; ;
             }
 
-            Delay(Delay_Power);
+            Delay(Delay_Sync);
 
             //Fuse 
             if (oneWrie_device.FuseClockSwitch(fusePulseWidth, fuseDurationTime))
@@ -2223,7 +2223,7 @@ namespace CurrentSensorV3
                 return false;
             }
 
-            Delay(Delay_Operation);
+            Delay(Delay_Fuse);
             return true;
         }
 
@@ -2852,7 +2852,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             _reg_addr = 0x43;
             _reg_data = 0x0E;
@@ -2870,7 +2870,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             _reg_addr = 0x43;
             _reg_data = 0x0;
@@ -2906,7 +2906,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             _reg_addr = 0x43;
             _reg_data = 0x0;
@@ -2985,7 +2985,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);    //delay 300ms
+            Delay(Delay_Sync);    //delay 300ms
 
             //_reg_addr = 0x84;
             //_reg_data = 0x0;
@@ -3072,7 +3072,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);    //delay 300ms
+            Delay(Delay_Sync);    //delay 300ms
         }
 
         private bool BurstRead(uint _reg_addr_start, int num, uint[] _readBack_data)
@@ -3104,7 +3104,7 @@ namespace CurrentSensorV3
         {
             //DisplayOperateMes("AutoTrim Canceled!", Color.Red);
             oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u);
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             PowerOff();
             RestoreReg80ToReg83Value();
             DisplayOperateMes("Return!");
@@ -3988,7 +3988,7 @@ namespace CurrentSensorV3
                 else
                     DisplayOperateMes("UART Initilize failed!");
                 //ding hao
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 //DisplayAutoTrimOperateMes("Delay 300ms");
 
                 //1. Current Remote CTL
@@ -3999,7 +3999,7 @@ namespace CurrentSensorV3
 
                 //Delay 300ms
                 //Thread.Sleep(300);
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 //DisplayAutoTrimOperateMes("Delay 300ms");
 
                 //2. Current On
@@ -4009,7 +4009,7 @@ namespace CurrentSensorV3
                     DisplayOperateMes("Set Current On failed!");
 
                 //Delay 300ms
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 //DisplayOperateMes("Delay 300ms");
 
                 //3. Set Voltage
@@ -4020,7 +4020,7 @@ namespace CurrentSensorV3
 
 
                 //Delay 300ms
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 //DisplayOperateMes("Delay 300ms");
 
             }
@@ -4272,16 +4272,16 @@ namespace CurrentSensorV3
                         /* fuse */
                         FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                         DisplayOperateMes("Processing...");
-                        Delay(Delay_Fuse);
+                        //Delay(Delay_Fuse);
                         ReloadPreset();
-                        Delay(Delay_Operation);
+                        Delay(Delay_Sync);
                         BurstRead(0x80, 5, tempReadback);
-                        Delay(Delay_Operation);
+                        Delay(Delay_Sync);
                         /* Margianl read, compare with writed code; 
                          * if ( = ), go on
                          * else bMarginal = true; */
                         MarginalReadPreset();
-                        Delay(Delay_Operation);
+                        Delay(Delay_Sync);
                         BurstRead(0x80, 5, tempReadback);
                         bMarginal = false;
                         if (((tempReadback[0] & 0xE0) != (MultiSiteReg0[idut] & 0xE0)) | (tempReadback[1] & 0x81) != (MultiSiteReg1[idut] & 0x81) |
@@ -4717,12 +4717,12 @@ namespace CurrentSensorV3
                     //DisplayOperateMes("\r\nDUT" + idut.ToString()+"");
                     FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                     DisplayOperateMes("Trim Processing...");
-                    Delay(Delay_Fuse);
+                    //Delay(Delay_Fuse);
 
                     ReloadPreset();
-                    Delay(Delay_Operation);
+                    Delay(Delay_Sync);
                     BurstRead(0x80, 5, tempReadback);
-                    Delay(Delay_Operation);
+                    Delay(Delay_Sync);
                     if(tempReadback[4] == 0)
                     {
                         RePower();
@@ -4733,12 +4733,12 @@ namespace CurrentSensorV3
                         //DisplayOperateMes("\r\nDUT" + idut.ToString()+"");
                         FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                         DisplayOperateMes("Re-Trim Processing...");
-                        Delay(Delay_Fuse);
+                        //Delay(Delay_Fuse);
 
                         ReloadPreset();
-                        Delay(Delay_Operation);
+                        Delay(Delay_Sync);
                         BurstRead(0x80, 5, tempReadback);
-                        Delay(Delay_Operation);
+                        Delay(Delay_Sync);
                     }
 
 
@@ -4746,7 +4746,7 @@ namespace CurrentSensorV3
                      * if ( = ), go on
                      * else bMarginal = true; */
                     MarginalReadPreset();
-                    Delay(Delay_Operation);
+                    Delay(Delay_Sync);
                     BurstRead(0x80, 5, tempReadback);
                     bMarginal = false;
                     if (((tempReadback[0] & 0xE0) != (MultiSiteReg0[idut] & 0xE0)) | (tempReadback[1] & 0x81) != (MultiSiteReg1[idut] & 0x81) |
@@ -4907,7 +4907,7 @@ namespace CurrentSensorV3
             /*  power on */
             RePower();
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             this.lbl_passOrFailed.Text = "Checking!";
 
@@ -4926,7 +4926,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
             {
@@ -4978,7 +4978,7 @@ namespace CurrentSensorV3
             EnterNomalMode();
             //oneWrie_device.ADCSigPathSet(OneWireInterface.ADCControlCommand.ADC_VIN_TO_510OUT);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             Vout_IP = AverageVout();
             DisplayOperateMes("Vout @ IP = " + Vout_IP.ToString("F3"));
 
@@ -4993,7 +4993,7 @@ namespace CurrentSensorV3
 
             /* Get Mout to calc AMPout*/
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             Mout_IP = AverageVout();
             AMPout_IP = - k_slope * Mout_IP + b_offset;
             DisplayOperateMes("Mout @ IP = " + Mout_IP.ToString("F3") );
@@ -5012,7 +5012,7 @@ namespace CurrentSensorV3
                 RestoreReg80ToReg83Value();
                 return;
             }
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             Mout_0A = AverageVout();
             AMPout_0A = - k_slope * Mout_0A + b_offset;
             DisplayOperateMes("Mout @ 0A = " + Mout_0A.ToString("F3"));
@@ -5083,7 +5083,7 @@ namespace CurrentSensorV3
             EnterNomalMode();
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             Mout_0A = AverageVout();
             AMPout_0A = - k_slope * Mout_0A + b_offset;
 
@@ -5117,12 +5117,12 @@ namespace CurrentSensorV3
             /* fuse */
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Processing...");
-            Delay(Delay_Fuse);
+            //Delay(Delay_Fuse);
 
             /* Repower on 5V */
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
             RePower();
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             /* Margianl read, compare with writed code; 
              * if ( = ), go on
@@ -5156,7 +5156,7 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
             RePower();
             EnterTestMode();
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             /* fuse maser bits, write 0x07 to Reg0x84 */
             RegisterWrite(1, new uint[] { 0x84, 0x07 });
 
@@ -5164,7 +5164,7 @@ namespace CurrentSensorV3
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Processing...");
 
-            Delay(Delay_Fuse);
+            //Delay(Delay_Fuse);
 
             /* Margianl Read master bits*/
             MarginalReadPreset();
@@ -5174,7 +5174,7 @@ namespace CurrentSensorV3
             if (tempReadback[4] < 3)
                 bMarginal |= true;
 
-            Delay(Delay_Operation);
+            //Delay(Delay_Sync);
 
             /* Safety Read master bits*/
             SafetyReadPreset();
@@ -5193,7 +5193,7 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             Vout_0A = AverageVout();
 
@@ -5440,7 +5440,7 @@ namespace CurrentSensorV3
             #endregion Get module current
 
             #region UART Initialize
-            if (ProgramMode == 0)
+            if (ProgramMode == 0 && bUartInit == false)
             {
                 
                 //UART Initialization
@@ -5449,7 +5449,7 @@ namespace CurrentSensorV3
                 else
                     DisplayOperateMes("UART Initilize failed!");
                 //ding hao
-                Delay(Delay_Sync);
+                Delay(Delay_Power);
                 //DisplayAutoTrimOperateMes("Delay 300ms");
 
                 //1. Current Remote CTL
@@ -5460,7 +5460,7 @@ namespace CurrentSensorV3
 
                 //Delay 300ms
                 //Thread.Sleep(300);
-                Delay(Delay_Sync);
+                Delay(Delay_Power);
                 //DisplayAutoTrimOperateMes("Delay 300ms");
 
                 //2. Current On
@@ -5470,7 +5470,7 @@ namespace CurrentSensorV3
                     DisplayOperateMes("Set Current On failed!");
 
                 //Delay 300ms
-                Delay(Delay_Sync);
+                Delay(Delay_Power);
                 //DisplayOperateMes("Delay 300ms");
 
                 //3. Set Voltage
@@ -5481,10 +5481,10 @@ namespace CurrentSensorV3
 
 
                 //Delay 300ms
-                Delay(Delay_Sync);
+                Delay(Delay_Power);
                 //DisplayOperateMes("Delay 300ms");
 
-
+                bUartInit = true;
             }
             #endregion UART Initialize
 
@@ -5654,16 +5654,16 @@ namespace CurrentSensorV3
                 /* fuse */
                 FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                 DisplayOperateMes("Processing...");
-                Delay(Delay_Fuse);
+                //Delay(Delay_Fuse);
                 ReloadPreset();
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 BurstRead(0x80, 5, tempReadback);
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 /* Margianl read, compare with writed code; 
                     * if ( = ), go on
                     * else bMarginal = true; */
                 MarginalReadPreset();
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 BurstRead(0x80, 5, tempReadback);
                 bMarginal = false;
 
@@ -5682,9 +5682,9 @@ namespace CurrentSensorV3
 
                 if (bSAFEREAD)
                 {
-                    Delay(Delay_Operation);
+                    //Delay(Delay_Sync);
                     SafetyReadPreset();
-                    Delay(Delay_Operation);
+                    Delay(Delay_Sync);
                     BurstRead(0x80, 5, tempReadback);
                     bSafety = false;
                     if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
@@ -6089,10 +6089,10 @@ namespace CurrentSensorV3
             BurstRead(0x80, 5, tempReadback);
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
-            Delay(Delay_Fuse);
+            //Delay(Delay_Fuse);
 
             ReloadPreset();
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             BurstRead(0x80, 5, tempReadback);
             if (tempReadback[4] == 0)
             {
@@ -6102,14 +6102,14 @@ namespace CurrentSensorV3
                 BurstRead(0x80, 5, tempReadback);
                 FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                 DisplayOperateMes("Trimming...");
-                Delay(Delay_Fuse);
+                //Delay(Delay_Fuse);
             }
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             /* Margianl read, compare with writed code; 
                 * if ( = ), go on
                 * else bMarginal = true; */
             MarginalReadPreset();
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             BurstRead(0x80, 5, tempReadback);
             bMarginal = false;
             if (bMASK)
@@ -6127,9 +6127,9 @@ namespace CurrentSensorV3
 
             if (bSAFEREAD)
             {
-                Delay(Delay_Operation);
+                //Delay(Delay_Sync);
                 SafetyReadPreset();
-                Delay(Delay_Operation);
+                Delay(Delay_Sync);
                 BurstRead(0x80, 5, tempReadback);
                 bSafety = false;
                 if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
@@ -6161,7 +6161,7 @@ namespace CurrentSensorV3
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             dMultiSiteVout0A[idut] = AverageVout();
             sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
             DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));            
@@ -7440,10 +7440,10 @@ namespace CurrentSensorV3
             BurstRead(0x80, 5, tempReadback);
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
-            Delay(Delay_Fuse);
+            //Delay(Delay_Fuse);
 
             ReloadPreset();
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             BurstRead(0x80, 5, tempReadback);
             if (tempReadback[4] == 0)
             {
@@ -7453,12 +7453,12 @@ namespace CurrentSensorV3
                 BurstRead(0x80, 5, tempReadback);
                 FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                 DisplayOperateMes("Trimming...");
-                Delay(Delay_Fuse);
+                //Delay(Delay_Fuse);
             }
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             MarginalReadPreset();
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
             BurstRead(0x80, 5, tempReadback);
             bMarginal = false;
             if (bMASK)
@@ -7508,7 +7508,7 @@ namespace CurrentSensorV3
                 return;
             }
 
-            Delay(Delay_Operation);
+            Delay(Delay_Sync);
 
             RegisterWrite(5, new uint[10] { 0x80, 0x55, 0x81, 0x55, 0x82, 0x55, 0x83, 0x55, 0x84, 0x07 });
             DisplayOperateMes("Write In Data is: ");
@@ -7541,6 +7541,65 @@ namespace CurrentSensorV3
         }
         
         #endregion Events
+
+
+
+        private void btn_BrakeTab_InitializeUart_Click(object sender, EventArgs e)
+        {
+            #region UART Initialize
+            //if (ProgramMode == 0)
+            {
+
+                //UART Initialization
+                if (oneWrie_device.UARTInitilize(9600, 1))
+                    DisplayOperateMes("UART Initilize succeeded!");
+                else
+                    DisplayOperateMes("UART Initilize failed!");
+                //ding hao
+                Delay(Delay_Sync);
+                //DisplayAutoTrimOperateMes("Delay 300ms");
+
+                //1. Current Remote CTL
+                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
+                //    DisplayOperateMes("Set Current Remote succeeded!");
+                //else
+                //    DisplayOperateMes("Set Current Remote failed!");
+
+                //Delay 300ms
+                //Thread.Sleep(300);
+                Delay(Delay_Sync);
+                //DisplayAutoTrimOperateMes("Delay 300ms");
+
+                //2. Current On
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
+                    DisplayOperateMes("Set Current On succeeded!");
+                else
+                    DisplayOperateMes("Set Current On failed!");
+
+                //Delay 300ms
+                Delay(Delay_Sync);
+                //DisplayOperateMes("Delay 300ms");
+
+                //3. Set Voltage
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 6u))
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
+                else
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
+
+
+                //Delay 300ms
+                Delay(Delay_Sync);
+                //DisplayOperateMes("Delay 300ms");
+
+
+            }
+            #endregion UART Initialize
+
+
+
+
+
+        }
 
     }
 

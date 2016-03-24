@@ -265,6 +265,8 @@
             this.label48 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
+            this.btn_BrakeTab_PowerOff = new System.Windows.Forms.Button();
+            this.btn_BrakeTab_PowerOn = new System.Windows.Forms.Button();
             this.txt_StopPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.txt_StartPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.label80 = new System.Windows.Forms.Label();
@@ -273,6 +275,8 @@
             this.btn_Fuse_BrakeT = new System.Windows.Forms.Button();
             this.btn_StopPoint_BrakeT = new System.Windows.Forms.Button();
             this.btn_StartPoint_BrakeT = new System.Windows.Forms.Button();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip_SelAll = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_Copy = new System.Windows.Forms.ToolStripMenuItem();
@@ -313,6 +317,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUD_IPxForCalc_Customer)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.BrakeTab.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -3246,6 +3251,8 @@
             // 
             // BrakeTab
             // 
+            this.BrakeTab.Controls.Add(this.btn_BrakeTab_PowerOff);
+            this.BrakeTab.Controls.Add(this.btn_BrakeTab_PowerOn);
             this.BrakeTab.Controls.Add(this.txt_StopPoint_BrakeT);
             this.BrakeTab.Controls.Add(this.txt_StartPoint_BrakeT);
             this.BrakeTab.Controls.Add(this.label80);
@@ -3254,6 +3261,7 @@
             this.BrakeTab.Controls.Add(this.btn_Fuse_BrakeT);
             this.BrakeTab.Controls.Add(this.btn_StopPoint_BrakeT);
             this.BrakeTab.Controls.Add(this.btn_StartPoint_BrakeT);
+            this.BrakeTab.Controls.Add(this.groupBox9);
             this.BrakeTab.Location = new System.Drawing.Point(4, 22);
             this.BrakeTab.Name = "BrakeTab";
             this.BrakeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -3262,76 +3270,122 @@
             this.BrakeTab.Text = "Brake";
             this.BrakeTab.UseVisualStyleBackColor = true;
             // 
+            // btn_BrakeTab_PowerOff
+            // 
+            this.btn_BrakeTab_PowerOff.Location = new System.Drawing.Point(178, 175);
+            this.btn_BrakeTab_PowerOff.Name = "btn_BrakeTab_PowerOff";
+            this.btn_BrakeTab_PowerOff.Size = new System.Drawing.Size(75, 23);
+            this.btn_BrakeTab_PowerOff.TabIndex = 3;
+            this.btn_BrakeTab_PowerOff.Text = "OFF";
+            this.btn_BrakeTab_PowerOff.UseVisualStyleBackColor = true;
+            // 
+            // btn_BrakeTab_PowerOn
+            // 
+            this.btn_BrakeTab_PowerOn.Location = new System.Drawing.Point(78, 175);
+            this.btn_BrakeTab_PowerOn.Name = "btn_BrakeTab_PowerOn";
+            this.btn_BrakeTab_PowerOn.Size = new System.Drawing.Size(75, 23);
+            this.btn_BrakeTab_PowerOn.TabIndex = 3;
+            this.btn_BrakeTab_PowerOn.Text = "ON";
+            this.btn_BrakeTab_PowerOn.UseVisualStyleBackColor = true;
+            // 
             // txt_StopPoint_BrakeT
             // 
-            this.txt_StopPoint_BrakeT.Location = new System.Drawing.Point(160, 150);
+            this.txt_StopPoint_BrakeT.Location = new System.Drawing.Point(709, 332);
             this.txt_StopPoint_BrakeT.Name = "txt_StopPoint_BrakeT";
             this.txt_StopPoint_BrakeT.Size = new System.Drawing.Size(70, 20);
             this.txt_StopPoint_BrakeT.TabIndex = 2;
+            this.txt_StopPoint_BrakeT.Visible = false;
             // 
             // txt_StartPoint_BrakeT
             // 
-            this.txt_StartPoint_BrakeT.Location = new System.Drawing.Point(160, 72);
+            this.txt_StartPoint_BrakeT.Location = new System.Drawing.Point(709, 254);
             this.txt_StartPoint_BrakeT.Name = "txt_StartPoint_BrakeT";
             this.txt_StartPoint_BrakeT.Size = new System.Drawing.Size(70, 20);
             this.txt_StartPoint_BrakeT.TabIndex = 2;
+            this.txt_StartPoint_BrakeT.Visible = false;
             // 
             // label80
             // 
             this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(70, 209);
+            this.label80.Location = new System.Drawing.Point(619, 391);
             this.label80.Name = "label80";
             this.label80.Size = new System.Drawing.Size(73, 13);
             this.label80.TabIndex = 1;
             this.label80.Text = "STEP 3: Fuse";
+            this.label80.Visible = false;
             // 
             // label79
             // 
             this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(70, 131);
+            this.label79.Location = new System.Drawing.Point(619, 313);
             this.label79.Name = "label79";
             this.label79.Size = new System.Drawing.Size(154, 13);
             this.label79.TabIndex = 1;
             this.label79.Text = "STEP 2: Press Brake and Click";
+            this.label79.Visible = false;
             // 
             // label78
             // 
             this.label78.AutoSize = true;
-            this.label78.Location = new System.Drawing.Point(70, 53);
+            this.label78.Location = new System.Drawing.Point(619, 235);
             this.label78.Name = "label78";
             this.label78.Size = new System.Drawing.Size(167, 13);
             this.label78.TabIndex = 1;
             this.label78.Text = "STEP 1: Release Brake and Click";
+            this.label78.Visible = false;
             // 
             // btn_Fuse_BrakeT
             // 
-            this.btn_Fuse_BrakeT.Location = new System.Drawing.Point(70, 228);
+            this.btn_Fuse_BrakeT.Location = new System.Drawing.Point(619, 410);
             this.btn_Fuse_BrakeT.Name = "btn_Fuse_BrakeT";
             this.btn_Fuse_BrakeT.Size = new System.Drawing.Size(80, 28);
             this.btn_Fuse_BrakeT.TabIndex = 0;
             this.btn_Fuse_BrakeT.Text = "Fuse";
             this.btn_Fuse_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_Fuse_BrakeT.Visible = false;
             this.btn_Fuse_BrakeT.Click += new System.EventHandler(this.btn_Fuse_BrakeT_Click);
             // 
             // btn_StopPoint_BrakeT
             // 
-            this.btn_StopPoint_BrakeT.Location = new System.Drawing.Point(70, 150);
+            this.btn_StopPoint_BrakeT.Location = new System.Drawing.Point(619, 332);
             this.btn_StopPoint_BrakeT.Name = "btn_StopPoint_BrakeT";
             this.btn_StopPoint_BrakeT.Size = new System.Drawing.Size(80, 28);
             this.btn_StopPoint_BrakeT.TabIndex = 0;
             this.btn_StopPoint_BrakeT.Text = "Stop Point";
             this.btn_StopPoint_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_StopPoint_BrakeT.Visible = false;
             this.btn_StopPoint_BrakeT.Click += new System.EventHandler(this.btn_StopPoint_BrakeT_Click);
             // 
             // btn_StartPoint_BrakeT
             // 
-            this.btn_StartPoint_BrakeT.Location = new System.Drawing.Point(70, 72);
+            this.btn_StartPoint_BrakeT.Location = new System.Drawing.Point(619, 254);
             this.btn_StartPoint_BrakeT.Name = "btn_StartPoint_BrakeT";
             this.btn_StartPoint_BrakeT.Size = new System.Drawing.Size(80, 28);
             this.btn_StartPoint_BrakeT.TabIndex = 0;
             this.btn_StartPoint_BrakeT.Text = "Start Point";
             this.btn_StartPoint_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_StartPoint_BrakeT.Visible = false;
             this.btn_StartPoint_BrakeT.Click += new System.EventHandler(this.btn_StartPoint_BrakeT_Click);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.btn_BrakeTab_InitializeUart);
+            this.groupBox9.Location = new System.Drawing.Point(51, 54);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(227, 169);
+            this.groupBox9.TabIndex = 4;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "TEST";
+            // 
+            // btn_BrakeTab_InitializeUart
+            // 
+            this.btn_BrakeTab_InitializeUart.Location = new System.Drawing.Point(27, 19);
+            this.btn_BrakeTab_InitializeUart.Name = "btn_BrakeTab_InitializeUart";
+            this.btn_BrakeTab_InitializeUart.Size = new System.Drawing.Size(175, 39);
+            this.btn_BrakeTab_InitializeUart.TabIndex = 3;
+            this.btn_BrakeTab_InitializeUart.Text = "Initialize";
+            this.btn_BrakeTab_InitializeUart.UseVisualStyleBackColor = true;
+            this.btn_BrakeTab_InitializeUart.Click += new System.EventHandler(this.btn_BrakeTab_InitializeUart_Click);
             // 
             // contextMenuStrip
             // 
@@ -3428,7 +3482,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console for 610 v1.0 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console for 610 v1.0.3 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -3483,6 +3537,7 @@
             this.groupBox8.PerformLayout();
             this.BrakeTab.ResumeLayout(false);
             this.BrakeTab.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
             this.contextMenuStrip.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -3745,5 +3800,9 @@
         private System.Windows.Forms.Button btn_Fuse_BrakeT;
         private System.Windows.Forms.Button btn_CommunicationTest;
         private System.Windows.Forms.Button btn_SafetyHighRead_EngT;
+        private System.Windows.Forms.Button btn_BrakeTab_PowerOff;
+        private System.Windows.Forms.Button btn_BrakeTab_PowerOn;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button btn_BrakeTab_InitializeUart;
     }
 }
