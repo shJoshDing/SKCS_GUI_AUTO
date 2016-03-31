@@ -5515,7 +5515,8 @@ namespace CurrentSensorV3
                 }
             }
 
-            //Delay(Delay_Sync);
+            //Redundency delay in case of power off failure.
+            Delay(Delay_Sync);
             EnterTestMode();
             //Delay(Delay_Sync);
             BurstRead(0x80, 5, tempReadback);
@@ -5824,6 +5825,43 @@ namespace CurrentSensorV3
                 DisplayOperateMes("0x82 = 0x" + MultiSiteReg2[idut].ToString("X2"));
                 DisplayOperateMes("0x83 = 0x" + MultiSiteReg3[idut].ToString("X2"));
 
+                ///* Change Current to IP  */
+                ////3. Set Voltage
+                //if (ProgramMode == 0)
+                //{
+                //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
+                //        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                //    else
+                //    {
+                //        DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                //        TrimFinish();
+                //        return;
+                //    }
+                //}
+                //else
+                //{
+                //    dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                //    if (dr == DialogResult.Cancel)
+                //    {
+                //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                //        PowerOff();
+                //        RestoreReg80ToReg83Value();
+                //        return;
+                //    }
+                //}
+                /*  power on */
+                //PowerOff();
+                //Delay(Delay_Fuse);
+                RePower();
+                //Delay(Delay_Sync);
+                //RePower();
+                EnterTestMode();
+                RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+                BurstRead(0x80, 5, tempReadback);
+                /* Get vout @ IP */
+                EnterNomalMode();
+
                 /* Change Current to IP  */
                 //3. Set Voltage
                 if (ProgramMode == 0)
@@ -5849,13 +5887,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                /*  power on */
-                RePower();
-                EnterTestMode();
-                RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
-                BurstRead(0x80, 5, tempReadback);
-                /* Get vout @ IP */
-                EnterNomalMode();
+
                 Delay(Delay_Fuse);
                 dMultiSiteVoutIP[idut] = AverageVout();
                 sDUT.dVoutIPMiddle = dMultiSiteVoutIP[idut];
