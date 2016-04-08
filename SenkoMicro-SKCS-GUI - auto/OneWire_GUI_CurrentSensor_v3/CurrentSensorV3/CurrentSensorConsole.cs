@@ -5489,31 +5489,7 @@ namespace CurrentSensorV3
             #endregion UART Initialize
 
             #region Saturation judgement
-            /* Change Current to IP  */
-            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-            //3. Set Voltage
-            if (ProgramMode == 0)
-            {
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
-                else
-                {
-                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
-                    TrimFinish();
-                    return;
-                }
-            }
-            else if ( ProgramMode == 1 )
-            {
-                dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-                if (dr == DialogResult.Cancel)
-                {
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    PowerOff();
-                    RestoreReg80ToReg83Value();
-                    return;
-                }
-            }
+           
 
             //Redundency delay in case of power off failure.
             Delay(Delay_Sync);
@@ -5547,6 +5523,34 @@ namespace CurrentSensorV3
             }
             /* Get vout @ IP */
             EnterNomalMode();
+
+            /* Change Current to IP  */
+            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+            //3. Set Voltage
+            if (ProgramMode == 0)
+            {
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
+                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                else
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                    TrimFinish();
+                    return;
+                }
+            }
+            else if (ProgramMode == 1)
+            {
+                dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                    PowerOff();
+                    RestoreReg80ToReg83Value();
+                    return;
+                }
+            }
+
+
             //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
             Delay(Delay_Fuse);
             dMultiSiteVoutIP[idut] = AverageVout();
