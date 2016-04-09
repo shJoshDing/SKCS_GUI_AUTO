@@ -2023,6 +2023,7 @@ namespace CurrentSensorV3
 
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSocketSel(uDut);
+            Delay(Delay_Sync);
         }
 
         private string CreateSingleLogInfo(int index)
@@ -4111,7 +4112,8 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            //Delay(Delay_Sync);
+            Delay(Delay_Power);
+            Delay(Delay_Power);
 
             bValidRound = false;
             for (uint idut = 0; idut < uDutCount; idut++)
@@ -4202,7 +4204,8 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            //Delay(Delay_Sync);
+            Delay(Delay_Power);
+            Delay(Delay_Power);
 
             bValidRound = false;
             for (uint idut = 0; idut < uDutCount; idut++)
@@ -4446,7 +4449,8 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                //Delay(Delay_Sync);
+                Delay(Delay_Power);
+                Delay(Delay_Power);
 
                 bValidRound = false;
                 for (uint idut = 0; idut < uDutCount; idut++)
@@ -4526,6 +4530,8 @@ namespace CurrentSensorV3
                     }
                 }
                 //Delay(Delay_Sync);
+                Delay(Delay_Power);
+                Delay(Delay_Power);
 
                 for (uint idut = 0; idut < uDutCount; idut++)
                 {
@@ -4813,6 +4819,8 @@ namespace CurrentSensorV3
                 }
             }
             //Delay(Delay_Sync);
+            Delay(Delay_Power);
+            Delay(Delay_Power);
 
             for (uint idut = 0; idut < uDutCount; idut++)
             {
