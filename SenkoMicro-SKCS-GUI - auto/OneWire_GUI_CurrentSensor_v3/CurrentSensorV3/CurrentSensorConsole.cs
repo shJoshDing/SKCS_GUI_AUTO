@@ -53,6 +53,7 @@ namespace CurrentSensorV3
         uint SampleRateNum = 1024;
         uint SampleRate = 1000;     //KHz
         string SerialNum = "None";
+        uint ReptCount = 500;
 
         /// <summary>
         /// Delay Define
@@ -365,7 +366,8 @@ namespace CurrentSensorV3
             DUT_TRIMMED_ALREADY = 92,
             DUT_VOUT_SATURATION = 93,
             DUT_LOW_SENSITIVITY = 94,
-            DUT_RESERVED_RESULT = 95
+            DUT_RESERVED_RESULT = 95,
+            DUT_VOUT_ABNORMAL = 96
         }
 
         #region Bit Operation Mask
@@ -555,7 +557,7 @@ namespace CurrentSensorV3
             //load config
             btn_loadconfig_AutoT_Click(null, null);
 
-            this.tabControl1.Controls.Remove(BrakeTab);
+            //this.tabControl1.Controls.Remove(BrakeTab);
 
             //Display Tab
             if (uTabVisibleCode == 1)
@@ -563,21 +565,29 @@ namespace CurrentSensorV3
                 //this.tabControl1.Controls.Remove(AutoTrimTab);
                 this.tabControl1.Controls.Remove(EngineeringTab);
                 this.tabControl1.Controls.Remove(PriTrimTab);
+                this.tabControl1.Controls.Remove(BrakeTab);
                 DisplayOperateMes("Load config profile success!");
             }
             else if (uTabVisibleCode == 2)
             {
                 this.tabControl1.Controls.Remove(AutoTrimTab);
                 this.tabControl1.Controls.Remove(EngineeringTab);
+                this.tabControl1.Controls.Remove(BrakeTab);
                 DisplayOperateMes("Load config profile success!");
             }
             else if (uTabVisibleCode == 3)
             {
                 //this.tabControl1.Controls.Remove(AutoTrimTab);
                 this.tabControl1.Controls.Remove(EngineeringTab);
+                this.tabControl1.Controls.Remove(BrakeTab);
                 DisplayOperateMes("Load config profile success!");
             }
             else if (uTabVisibleCode == 4)
+            {
+                this.tabControl1.Controls.Remove(BrakeTab);
+                DisplayOperateMes("Load config profile success!");
+            }
+            else if (uTabVisibleCode == 999)
             {
                 DisplayOperateMes("Load config profile success!");
             }
@@ -5571,13 +5581,53 @@ namespace CurrentSensorV3
             /*Judge PreSet gain; delta Vout target >= delta Vout test * 86.07% */
             if (dMultiSiteVoutIP[idut] > saturationVout)
             {
-                DisplayOperateMes("Module"  + " Vout is SATURATION!", Color.Red);
-                uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
-                TrimFinish();
-                PrintDutAttribute(sDUT);
-                this.lbl_passOrFailed.ForeColor = Color.Red;
-                this.lbl_passOrFailed.Text = "MOA!";
-                return;
+                if (ProgramMode == 0)
+                {
+                    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 5))
+                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 5));
+                    else
+                    {
+                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", 5));
+                        TrimFinish();
+                        return;
+                    }
+                }
+                else if (ProgramMode == 1)
+                {
+                    dr = MessageBox.Show(String.Format("Please Change Current To {0}A", 5), "Change Current", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                    {
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        PowerOff();
+                        RestoreReg80ToReg83Value();
+                        return;
+                    }
+                }
+
+                Delay(Delay_Fuse);
+                dMultiSiteVoutIP[idut] = AverageVout();
+                sDUT.dVoutIPNative = dMultiSiteVoutIP[idut];
+                DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+
+                if (dMultiSiteVoutIP[idut] > saturationVout)
+                {
+                    DisplayOperateMes("Module" + " Vout is abnormal!", Color.Red);
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_ABNORMAL;
+                    TrimFinish();
+                    PrintDutAttribute(sDUT);
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "FAIL!";
+                    return;
+                }
+                else
+                {
+                    dr = MessageBox.Show(String.Format("Please Decrease Gain and Re-Program"), "REDO", MessageBoxButtons.OK);
+                    TrimFinish();
+                    PrintDutAttribute(sDUT);
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "REDO!";
+                    return;
+                }
             }
 
             #endregion Saturation judgement
@@ -5683,6 +5733,18 @@ namespace CurrentSensorV3
                 BurstRead(0x80, 5, tempReadback);
                 bMarginal = false;
 
+                if (bSAFEREAD)
+                {
+                    //Delay(Delay_Sync);
+                    SafetyReadPreset();
+                    Delay(Delay_Sync);
+                    BurstRead(0x80, 5, tempReadback);
+                    bSafety = false;
+                    if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
+                            (tempReadback[2] & 0xFF) != (MultiSiteReg2[idut] & 0xFF) | (tempReadback[3] & 0xFF) != (MultiSiteReg3[idut] & 0xFF) | (tempReadback[4] < 7))
+                        bSafety = true;
+                }
+
                 //capture Vout
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
                 RePower();
@@ -5738,17 +5800,7 @@ namespace CurrentSensorV3
                         bMarginal = true;
                 }
 
-                if (bSAFEREAD)
-                {
-                    //Delay(Delay_Sync);
-                    SafetyReadPreset();
-                    Delay(Delay_Sync);
-                    BurstRead(0x80, 5, tempReadback);
-                    bSafety = false;
-                    if (((tempReadback[0] & 0xFF) != (MultiSiteReg0[idut] & 0xFF)) | (tempReadback[1] & 0xFF) != (MultiSiteReg1[idut] & 0xFF) |
-                            (tempReadback[2] & 0xFF) != (MultiSiteReg2[idut] & 0xFF) | (tempReadback[3] & 0xFF) != (MultiSiteReg3[idut] & 0xFF) | (tempReadback[4] < 7))
-                        bSafety = true;
-                }
+                
 
                 sDUT.bReadMarginal = bMarginal;
                 sDUT.bReadSafety = bSafety;
@@ -7700,19 +7752,155 @@ namespace CurrentSensorV3
 
         }
         
-
         private void txt_Delay_PreT_TextChanged(object sender, EventArgs e)
         {
             Delay_Fuse = int.Parse(txt_Delay_PreT.Text);
-        }
-
-        #endregion Events
+        }    
 
         private void btn_OffsetFailTestCase_BrakeT_Click(object sender, EventArgs e)
         {
+            double Vout0A = 0;
+            double VoutIP = 0;
+
+            #region Init Uart
+            if (bUartInit == false)
+            {
+
+                //UART Initialization
+                if (oneWrie_device.UARTInitilize(9600, 1))
+                    DisplayOperateMes("UART Initilize succeeded!");
+                else
+                    DisplayOperateMes("UART Initilize failed!");
+                //ding hao
+                Delay(Delay_Power);
+                //DisplayAutoTrimOperateMes("Delay 300ms");
+
+                //1. Current Remote CTL
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
+                    DisplayOperateMes("Set Current Remote succeeded!");
+                else
+                    DisplayOperateMes("Set Current Remote failed!");
+
+                //Delay 300ms
+                //Thread.Sleep(300);
+                Delay(Delay_Power);
+                //DisplayAutoTrimOperateMes("Delay 300ms");
+
+                //2. Current On
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
+                    DisplayOperateMes("Set Current On succeeded!");
+                else
+                    DisplayOperateMes("Set Current On failed!");
+
+                //Delay 300ms
+                Delay(Delay_Power);
+                //DisplayOperateMes("Delay 300ms");
+
+                //3. Set Voltage
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 6u))
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
+                else
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
+
+
+                //Delay 300ms
+                Delay(Delay_Power);
+                //DisplayOperateMes("Delay 300ms");
+
+                bUartInit = true;           
+            }
+            #endregion
+
+            #region open file 
+
+            string filenameIP = System.Windows.Forms.Application.StartupPath; ;
+            filenameIP += @"\Vout_IP.txt";
+
+            string filename0A = System.Windows.Forms.Application.StartupPath; ;
+            filename0A += @"\Vout_0A.txt";
+
+            StreamWriter swIP = File.CreateText(filenameIP);
+            swIP.WriteLine("/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */");
+
+            StreamWriter sw0A = File.CreateText(filename0A);
+            sw0A.WriteLine("/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */");
+            /* ******************************************************
+                * module type, Current Range, Sensitivity adapt, Temprature Cmp, and preset gain 
+                * combobox type: name|combobox index|selected item text
+                * preset gain: name|index in table|percentage
+                *******************************************************/
+            string msg;
+                
+            //vout capture latency of IP ON
+            msg = string.Format("VoutIP     Vout0A");
+            swIP.WriteLine(msg);
+
+            //sw.Close();
+            #endregion
+
+            #region Power on and set IP or 0A
+            //Redundency delay in case of power off failure.
+            PowerOn();
+            Delay(Delay_Sync);
+            EnterTestMode();
+            RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+            /* Get vout @ IP */
+            EnterNomalMode();
+
+            for (int pIndex = 0; pIndex < ReptCount; pIndex++)
+            {
+
+                /* Change Current to IP  */
+                //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                //3. Set Voltage
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
+                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                else
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                    return;
+                }
+
+                //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+                Delay(Delay_Fuse);
+                VoutIP = AverageVout();
+                //sDUT.dVoutIPNative = dMultiSiteVoutIP[idut];
+                DisplayOperateMes("Vout" + " @ IP = " + VoutIP.ToString("F3"));
+
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0))
+                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0));
+                else
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0));
+                    return;
+                }
+
+                //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+                Delay(Delay_Fuse);
+                Vout0A = AverageVout();
+                //sDUT.dVoutIPNative = dMultiSiteVoutIP[idut];
+                DisplayOperateMes(VoutIP.ToString("F3") + "     " + Vout0A.ToString("F3"));
+
+                msg = string.Format("{0}", VoutIP.ToString("F3"));
+                swIP.WriteLine(msg);
+
+                msg = string.Format("{0}", Vout0A.ToString("F3"));
+                sw0A.WriteLine(msg);
+            }
+
+            swIP.Close();
+            sw0A.Close();
+            #endregion
 
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            ReptCount = uint.Parse(this.textBox1.Text);
+        }
+        
+        
+        #endregion Events
     }
 
     
