@@ -268,8 +268,7 @@
             this.label48 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
-            this.btn_BrakeTab_PowerOff = new System.Windows.Forms.Button();
-            this.btn_BrakeTab_PowerOn = new System.Windows.Forms.Button();
+            this.btn_OffsetFailTestCase_BrakeT = new System.Windows.Forms.Button();
             this.txt_StopPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.txt_StartPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.label80 = new System.Windows.Forms.Label();
@@ -279,7 +278,9 @@
             this.btn_StopPoint_BrakeT = new System.Windows.Forms.Button();
             this.btn_StartPoint_BrakeT = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btn_BrakeTab_PowerOff = new System.Windows.Forms.Button();
             this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
+            this.btn_BrakeTab_PowerOn = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip_SelAll = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_Copy = new System.Windows.Forms.ToolStripMenuItem();
@@ -288,7 +289,8 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.btn_OffsetFailTestCase_BrakeT = new System.Windows.Forms.Button();
+            this.label83 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2242,7 +2244,7 @@
             this.label75.AutoSize = true;
             this.label75.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label75.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label75.Location = new System.Drawing.Point(421, 188);
+            this.label75.Location = new System.Drawing.Point(421, 186);
             this.label75.Name = "label75";
             this.label75.Size = new System.Drawing.Size(93, 16);
             this.label75.TabIndex = 95;
@@ -2605,7 +2607,7 @@
             // 
             this.btn_ModuleCurrent_PreT.BackColor = System.Drawing.Color.LightGray;
             this.btn_ModuleCurrent_PreT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btn_ModuleCurrent_PreT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_ModuleCurrent_PreT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_ModuleCurrent_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.btn_ModuleCurrent_PreT.Location = new System.Drawing.Point(329, 23);
             this.btn_ModuleCurrent_PreT.Name = "btn_ModuleCurrent_PreT";
@@ -3297,6 +3299,8 @@
             // 
             // BrakeTab
             // 
+            this.BrakeTab.Controls.Add(this.textBox1);
+            this.BrakeTab.Controls.Add(this.label83);
             this.BrakeTab.Controls.Add(this.btn_OffsetFailTestCase_BrakeT);
             this.BrakeTab.Controls.Add(this.txt_StopPoint_BrakeT);
             this.BrakeTab.Controls.Add(this.txt_StartPoint_BrakeT);
@@ -3315,23 +3319,15 @@
             this.BrakeTab.Text = "Brake";
             this.BrakeTab.UseVisualStyleBackColor = true;
             // 
-            // btn_BrakeTab_PowerOff
+            // btn_OffsetFailTestCase_BrakeT
             // 
-            this.btn_BrakeTab_PowerOff.Location = new System.Drawing.Point(127, 64);
-            this.btn_BrakeTab_PowerOff.Name = "btn_BrakeTab_PowerOff";
-            this.btn_BrakeTab_PowerOff.Size = new System.Drawing.Size(75, 23);
-            this.btn_BrakeTab_PowerOff.TabIndex = 3;
-            this.btn_BrakeTab_PowerOff.Text = "OFF";
-            this.btn_BrakeTab_PowerOff.UseVisualStyleBackColor = true;
-            // 
-            // btn_BrakeTab_PowerOn
-            // 
-            this.btn_BrakeTab_PowerOn.Location = new System.Drawing.Point(27, 64);
-            this.btn_BrakeTab_PowerOn.Name = "btn_BrakeTab_PowerOn";
-            this.btn_BrakeTab_PowerOn.Size = new System.Drawing.Size(75, 23);
-            this.btn_BrakeTab_PowerOn.TabIndex = 3;
-            this.btn_BrakeTab_PowerOn.Text = "ON";
-            this.btn_BrakeTab_PowerOn.UseVisualStyleBackColor = true;
+            this.btn_OffsetFailTestCase_BrakeT.Location = new System.Drawing.Point(56, 72);
+            this.btn_OffsetFailTestCase_BrakeT.Name = "btn_OffsetFailTestCase_BrakeT";
+            this.btn_OffsetFailTestCase_BrakeT.Size = new System.Drawing.Size(222, 50);
+            this.btn_OffsetFailTestCase_BrakeT.TabIndex = 5;
+            this.btn_OffsetFailTestCase_BrakeT.Text = "Offset Fail Test Case";
+            this.btn_OffsetFailTestCase_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_OffsetFailTestCase_BrakeT.Click += new System.EventHandler(this.btn_OffsetFailTestCase_BrakeT_Click);
             // 
             // txt_StopPoint_BrakeT
             // 
@@ -3417,12 +3413,21 @@
             this.groupBox9.Controls.Add(this.btn_BrakeTab_PowerOff);
             this.groupBox9.Controls.Add(this.btn_BrakeTab_InitializeUart);
             this.groupBox9.Controls.Add(this.btn_BrakeTab_PowerOn);
-            this.groupBox9.Location = new System.Drawing.Point(51, 54);
+            this.groupBox9.Location = new System.Drawing.Point(540, 53);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(222, 102);
             this.groupBox9.TabIndex = 4;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "TEST";
+            // 
+            // btn_BrakeTab_PowerOff
+            // 
+            this.btn_BrakeTab_PowerOff.Location = new System.Drawing.Point(127, 64);
+            this.btn_BrakeTab_PowerOff.Name = "btn_BrakeTab_PowerOff";
+            this.btn_BrakeTab_PowerOff.Size = new System.Drawing.Size(75, 23);
+            this.btn_BrakeTab_PowerOff.TabIndex = 3;
+            this.btn_BrakeTab_PowerOff.Text = "OFF";
+            this.btn_BrakeTab_PowerOff.UseVisualStyleBackColor = true;
             // 
             // btn_BrakeTab_InitializeUart
             // 
@@ -3433,6 +3438,15 @@
             this.btn_BrakeTab_InitializeUart.Text = "Initialize";
             this.btn_BrakeTab_InitializeUart.UseVisualStyleBackColor = true;
             this.btn_BrakeTab_InitializeUart.Click += new System.EventHandler(this.btn_BrakeTab_InitializeUart_Click);
+            // 
+            // btn_BrakeTab_PowerOn
+            // 
+            this.btn_BrakeTab_PowerOn.Location = new System.Drawing.Point(27, 64);
+            this.btn_BrakeTab_PowerOn.Name = "btn_BrakeTab_PowerOn";
+            this.btn_BrakeTab_PowerOn.Size = new System.Drawing.Size(75, 23);
+            this.btn_BrakeTab_PowerOn.TabIndex = 3;
+            this.btn_BrakeTab_PowerOn.Text = "ON";
+            this.btn_BrakeTab_PowerOn.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip
             // 
@@ -3517,15 +3531,23 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // btn_OffsetFailTestCase_BrakeT
+            // label83
             // 
-            this.btn_OffsetFailTestCase_BrakeT.Location = new System.Drawing.Point(51, 179);
-            this.btn_OffsetFailTestCase_BrakeT.Name = "btn_OffsetFailTestCase_BrakeT";
-            this.btn_OffsetFailTestCase_BrakeT.Size = new System.Drawing.Size(222, 50);
-            this.btn_OffsetFailTestCase_BrakeT.TabIndex = 5;
-            this.btn_OffsetFailTestCase_BrakeT.Text = "Offset Fail Test Case";
-            this.btn_OffsetFailTestCase_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_OffsetFailTestCase_BrakeT.Click += new System.EventHandler(this.btn_OffsetFailTestCase_BrakeT_Click);
+            this.label83.AutoSize = true;
+            this.label83.Location = new System.Drawing.Point(56, 193);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(61, 13);
+            this.label83.TabIndex = 6;
+            this.label83.Text = "Rept Count";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(123, 190);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 7;
+            this.textBox1.Text = "500";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // CurrentSensorConsole
             // 
@@ -3539,7 +3561,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console for 610 v1.0.6 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console for 610 v1.0.8 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -3865,5 +3887,7 @@
         private System.Windows.Forms.TextBox txt_Delay_PreT;
         private System.Windows.Forms.Label label81;
         private System.Windows.Forms.Button btn_OffsetFailTestCase_BrakeT;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label83;
     }
 }
