@@ -268,6 +268,8 @@
             this.label48 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label83 = new System.Windows.Forms.Label();
             this.btn_OffsetFailTestCase_BrakeT = new System.Windows.Forms.Button();
             this.txt_StopPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.txt_StartPoint_BrakeT = new System.Windows.Forms.TextBox();
@@ -289,8 +291,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.label83 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3319,6 +3319,24 @@
             this.BrakeTab.Text = "Brake";
             this.BrakeTab.UseVisualStyleBackColor = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(123, 190);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 7;
+            this.textBox1.Text = "500";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Location = new System.Drawing.Point(56, 193);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(61, 13);
+            this.label83.TabIndex = 6;
+            this.label83.Text = "Rept Count";
+            // 
             // btn_OffsetFailTestCase_BrakeT
             // 
             this.btn_OffsetFailTestCase_BrakeT.Location = new System.Drawing.Point(56, 72);
@@ -3531,24 +3549,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // label83
-            // 
-            this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(56, 193);
-            this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(61, 13);
-            this.label83.TabIndex = 6;
-            this.label83.Text = "Rept Count";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(123, 190);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 7;
-            this.textBox1.Text = "500";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3561,7 +3561,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console for 610 v1.0.8 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console for 610 v1.1.0 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
