@@ -3535,13 +3535,36 @@ namespace ADI.DMY2
 
         public double AverageADCSamples(UInt16[] samples)
         {
+            //double avg = 0;
+            //foreach (UInt16 item in samples)
+            //{
+            //    avg += item;
+            //}
+
+            //avg /= Convert.ToDouble(samples.Length);
+            //return avg;
+
+            int N = 5;
             double avg = 0;
-            foreach(UInt16 item in samples)
+            UInt16 temp = 0;
+            //UInt16[] SampGroup = new UInt16[N];
+            int nGroup = samples.Length / N;
+
+            for (int j = 0; j < nGroup; j++)
             {
-                avg += item;
+                for (int i = 0; i < N - 1; i++)
+                {
+                    if (samples[i + N * j] > samples[i + 1 + N * j])
+                    {
+                        temp = samples[i + N * j];
+                        samples[i + N * j] = samples[i + 1 + N * j];
+                        samples[i + N * j] = temp;
+                    }
+                }
+                avg += samples[(N - 1) / 2 + N * j];
             }
 
-            avg /= Convert.ToDouble(samples.Length);
+            avg /= Convert.ToDouble(nGroup);
             return avg;
         }
         #endregion OWI ADC Specially
