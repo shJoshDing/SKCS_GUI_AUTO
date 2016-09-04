@@ -84,6 +84,7 @@ namespace CurrentSensorV3
         double dCurrentDownLimit = 7;
 
         double Vout_0A = 0;
+        double Vref = 0;
         double Vout_IP = 0;
         double Mout_0A = 0;
         double Mout_IP = 0;
@@ -3346,6 +3347,102 @@ namespace CurrentSensorV3
             return true;
         }
 
+        private bool diff_ref_Alg( uint[] reg_diff_offset)
+        {
+            string baseMes = "diff application ref Trim Operation:";
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes(baseMes);
+            }
+            double offsetTuning = 100 * TargetOffset / Vref;
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes("Lookup offset = " + offsetTuning.ToString("F4") + "%");
+            }
+
+            Ix_ForOffsetATable = LookupOffset(ref offsetTuning, OffsetTableA_Customer);
+            //offsetTuning = offsetTuning / OffsetTableA_Customer[0][Ix_ForOffsetATable]; 
+            //Ix_ForOffsetBTable = LookupOffset(ref offsetTuning, OffsetTableB_Customer);
+
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes("Offset TableA chose Index = " + Ix_ForOffsetATable.ToString() +
+                    ";Choosed OffsetA = " + OffsetTableA_Customer[0][Ix_ForOffsetATable].ToString("F4"));
+                //DisplayOperateMes("Offset TableB chose Index = " + Ix_ForOffsetBTable.ToString() +
+                //    ";Choosed OffsetB = " + OffsetTableB_Customer[0][Ix_ForOffsetBTable].ToString("F4"));
+            }
+
+            reg_diff_offset[0] += Convert.ToUInt32(OffsetTableA_Customer[1][Ix_ForOffsetATable]);
+            reg_diff_offset[1] += Convert.ToUInt32(OffsetTableA_Customer[2][Ix_ForOffsetATable]);
+
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes("Reg0x81 Value = 0x" + reg_diff_offset[0].ToString("X2") + "(+ 0x" + Convert.ToInt32(OffsetTableA_Customer[1][Ix_ForOffsetATable]).ToString("X") + ")");
+                DisplayOperateMes("Reg0x82 Value = 0x" + reg_diff_offset[1].ToString("X2") + "(+ 0x" + Convert.ToInt32(OffsetTableA_Customer[2][Ix_ForOffsetATable]).ToString("X") + ")");
+            }
+
+
+
+
+
+            //bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+            //reg_diff_offset[2] &= ~bit_op_mask;
+            //reg_diff_offset[2] |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_ForOffsetBTable]);
+            //if (bAutoTrimTest)
+            //{
+            //    DisplayOperateMes("Reg0x83 Value = 0x" + reg_diff_offset[2].ToString("X2") + "(+ 0x" + Convert.ToInt32(OffsetTableB_Customer[1][Ix_ForOffsetBTable]).ToString("X") + ")");
+            //}
+            return true;
+        }
+
+        private bool diff_out_Alg( uint reg_diff_offset)
+        {
+            string baseMes = "diff application out Trim Operation:";
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes(baseMes);
+            }
+            double offsetTuning = 100 * Vref / Vout_0A;
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes("Lookup offset = " + offsetTuning.ToString("F4") + "%");
+            }
+
+            //Ix_ForOffsetATable = LookupOffset(ref offsetTuning, OffsetTableA_Customer);
+            //offsetTuning = offsetTuning / OffsetTableA_Customer[0][Ix_ForOffsetATable];
+            Ix_ForOffsetBTable = LookupOffset(ref offsetTuning, OffsetTableB_Customer);
+
+            if (bAutoTrimTest)
+            {
+                //DisplayOperateMes("Offset TableA chose Index = " + Ix_ForOffsetATable.ToString() +
+                //    ";Choosed OffsetA = " + OffsetTableA_Customer[0][Ix_ForOffsetATable].ToString("F4"));
+                DisplayOperateMes("Offset TableB chose Index = " + Ix_ForOffsetBTable.ToString() +
+                    ";Choosed OffsetB = " + OffsetTableB_Customer[0][Ix_ForOffsetBTable].ToString("F4"));
+            }
+
+            //reg_diff_offset[0] += Convert.ToUInt32(OffsetTableA_Customer[1][Ix_ForOffsetATable]);
+            //reg_diff_offset[1] += Convert.ToUInt32(OffsetTableA_Customer[2][Ix_ForOffsetATable]);
+
+            //if (bAutoTrimTest)
+            //{
+            //    DisplayOperateMes("Reg0x81 Value = 0x" + reg_diff_offset[0].ToString("X2") + "(+ 0x" + Convert.ToInt32(OffsetTableA_Customer[1][Ix_ForOffsetATable]).ToString("X") + ")");
+            //    DisplayOperateMes("Reg0x82 Value = 0x" + reg_diff_offset[1].ToString("X2") + "(+ 0x" + Convert.ToInt32(OffsetTableA_Customer[2][Ix_ForOffsetATable]).ToString("X") + ")");
+            //}
+
+
+
+
+
+            bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+            reg_diff_offset &= ~bit_op_mask;
+            reg_diff_offset |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_ForOffsetBTable]);
+            if (bAutoTrimTest)
+            {
+                DisplayOperateMes("Reg0x83 Value = 0x" + reg_diff_offset.ToString("X2") + "(+ 0x" + Convert.ToInt32(OffsetTableB_Customer[1][Ix_ForOffsetBTable]).ToString("X") + ")");
+            }
+            return true;
+        }
+
         private void btn_offset_Click(object sender, EventArgs e)
         {
             string baseMes = "Offset Trim Operation:";
@@ -6211,7 +6308,7 @@ namespace CurrentSensorV3
             #endregion For low sensitivity case, with IP
 
             #region Adapting algorithm
-
+            #region Gain algorithm
             tempG1 = RoughTable_Customer[0][MultiSiteRoughGainCodeIndex[idut]] / 100d;
             tempG2 = (TargetGain_customer / ((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) / IP)) / 1000d;
 
@@ -6342,11 +6439,12 @@ namespace CurrentSensorV3
                 MultiSiteReg0[idut] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_forAutoAdaptingPresionGain - 1]);
             }
 
-
-
             if (bAutoTrimTest)
                 DisplayOperateMes("***new approach end***");
 
+            #endregion Gain algorithm
+
+            #region Watch Code
             RePower();
             EnterTestMode();
             RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
@@ -6357,124 +6455,144 @@ namespace CurrentSensorV3
             if (bAutoTrimTest)
                 DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
 
-            //V0A is abnormal
-            //if (Math.Abs(dVout_0A_Temp - sDUT.dVout0ANative) > 0.010)
-            //{
-            //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
-            //    if (dr == DialogResult.Cancel)
-            //    {
-            //        DisplayOperateMes("V0A abnormal, Rebuild rough gain and precision gain code!");
-            //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //        PowerOff();
-            //        RestoreReg80ToReg83Value();
-            //        return;
-            //    }
-            //}
-
             /* Offset trim code calculate */
             Vout_0A = dMultiSiteVout0A[idut];
+            #endregion Watch Code
 
-            //btn_offset_Click(null, null);
+            #region offet trim for single end 
+            /* offset trim for 510/610 single end application */
+            //uint[] regTMultiSite = new uint[3];
+
+            //MultiSiteOffsetAlg(regTMultiSite);
+            //MultiSiteReg1[idut] |= regTMultiSite[0];
+            //MultiSiteReg2[idut] |= regTMultiSite[1];
+            //MultiSiteReg3[idut] |= regTMultiSite[2];
+
+            //bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+            //ix_forOffsetIndex_Rough = 0;
+            //ix_forOffsetIndex_Rough = LookupOffsetIndex(MultiSiteReg3[idut] & bit_op_mask, OffsetTableB_Customer);
+            //ix_forOffsetIndex_Rough_Complementary = ix_forOffsetIndex_Rough;
+            //DisplayOperateMes("\r\nProcessing...");
+
+            ///* Repower on 5V */
+            //RePower();
+            //EnterTestMode();
+            //RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+            //EnterNomalMode();
+            //Delay(Delay_Fuse);
+            //dMultiSiteVout0A[idut] = AverageVout();
+            //sDUT.dVout0AMiddle = dMultiSiteVout0A[idut];
+            //DisplayOperateMes("MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
+            //DisplayOperateMes("ix_forOffsetIndex_Rough = " + ix_forOffsetIndex_Rough.ToString());
+            //DisplayOperateMes("dMultiSiteVout0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+            ////V0A is abnormal
+            ////if (Math.Abs(sDUT.dVout0AMiddle - dVout_0A_Temp) > 0.005)
+            ////{
+            ////    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
+            ////    if (dr == DialogResult.Cancel)
+            ////    {
+            ////        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+            ////        PowerOff();
+            ////        RestoreReg80ToReg83Value();
+            ////        return;
+            ////    }
+            ////}
+
+            //if (dMultiSiteVout0A[idut] > TargetOffset)
+            //{
+            //    if (ix_forOffsetIndex_Rough == 7)
+            //        ix_forOffsetIndex_Rough = 7;
+            //    else if (ix_forOffsetIndex_Rough == 15)
+            //        ix_forOffsetIndex_Rough = 0;
+            //    else
+            //        ix_forOffsetIndex_Rough += 1;
+            //}
+            //else if (dMultiSiteVout0A[idut] < TargetOffset)
+            //{
+            //    if (ix_forOffsetIndex_Rough == 8)
+            //        ix_forOffsetIndex_Rough = 8;
+            //    else if (ix_forOffsetIndex_Rough == 0)
+            //        ix_forOffsetIndex_Rough = 15;
+            //    else
+            //        ix_forOffsetIndex_Rough -= 1;
+            //}
+            //bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+            //MultiSiteReg3[idut] &= ~bit_op_mask;
+            //MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough]);
+
+            //RePower();
+            //EnterTestMode();
+            //RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+            //EnterNomalMode();
+            //Delay(Delay_Fuse);
+            //dMultiSiteVout_0A_Complementary = AverageVout();
+            //DisplayOperateMes("\r\nMultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
+            //DisplayOperateMes("ix_forOffsetIndex_Rough = " + ix_forOffsetIndex_Rough.ToString());
+            //DisplayOperateMes("dMultiSiteVout_0A_Complementary = " + dMultiSiteVout_0A_Complementary.ToString("F3"));
+
+            ////V0A is abnormal
+            ////if (Math.Abs(sDUT.dVout0AMiddle - dMultiSiteVout_0A_Complementary) > 0.005)
+            ////{
+            ////    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
+            ////    if (dr == DialogResult.Cancel)
+            ////    {
+            ////        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+            ////        PowerOff();
+            ////        RestoreReg80ToReg83Value();
+            ////        return;
+            ////    }
+            ////}
+
+            //if (Math.Abs(dMultiSiteVout0A[idut] - TargetOffset) < Math.Abs(dMultiSiteVout_0A_Complementary - TargetOffset))
+            //{
+            //    bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+            //    MultiSiteReg3[idut] &= ~bit_op_mask;
+            //    MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough_Complementary]);
+            //    DisplayOperateMes("Last MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
+            //}
+            //else
+            //{
+            //    bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
+            //    MultiSiteReg3[idut] &= ~bit_op_mask;
+            //    MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough]);
+            //    DisplayOperateMes("Last MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
+            //}
+            #endregion offet trim for single end
+
+            #region offset trim for Diff application
             uint[] regTMultiSite = new uint[3];
 
-            MultiSiteOffsetAlg(regTMultiSite);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VREF);
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VREF_WITH_CAP);
+            Delay(Delay_Sync);
+            Vref = AverageVout();
+            if (bAutoTrimTest)
+                DisplayOperateMes("DUT" + " Vref @ 0A = " + Vref.ToString("F3"));
+
+            diff_ref_Alg(regTMultiSite);
+
             MultiSiteReg1[idut] |= regTMultiSite[0];
             MultiSiteReg2[idut] |= regTMultiSite[1];
             MultiSiteReg3[idut] |= regTMultiSite[2];
 
-            bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-            ix_forOffsetIndex_Rough = 0;
-            ix_forOffsetIndex_Rough = LookupOffsetIndex(MultiSiteReg3[idut] & bit_op_mask, OffsetTableB_Customer);
-            ix_forOffsetIndex_Rough_Complementary = ix_forOffsetIndex_Rough;
-            DisplayOperateMes("\r\nProcessing...");
-
-            /* Repower on 5V */
             RePower();
             EnterTestMode();
             RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
             EnterNomalMode();
             Delay(Delay_Fuse);
             dMultiSiteVout0A[idut] = AverageVout();
-            sDUT.dVout0AMiddle = dMultiSiteVout0A[idut];
-            DisplayOperateMes("MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
-            DisplayOperateMes("ix_forOffsetIndex_Rough = " + ix_forOffsetIndex_Rough.ToString());
-            DisplayOperateMes("dMultiSiteVout0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+            Vout_0A = dMultiSiteVout0A[idut];
+            if (bAutoTrimTest)
+                DisplayOperateMes("DUT" + " Vout @ 0A = " + Vout_0A.ToString("F3"));
 
-            //V0A is abnormal
-            //if (Math.Abs(sDUT.dVout0AMiddle - dVout_0A_Temp) > 0.005)
-            //{
-            //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
-            //    if (dr == DialogResult.Cancel)
-            //    {
-            //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //        PowerOff();
-            //        RestoreReg80ToReg83Value();
-            //        return;
-            //    }
-            //}
+            diff_out_Alg(regTMultiSite[2]);
 
-            if (dMultiSiteVout0A[idut] > TargetOffset)
-            {
-                if (ix_forOffsetIndex_Rough == 7)
-                    ix_forOffsetIndex_Rough = 7;
-                else if (ix_forOffsetIndex_Rough == 15)
-                    ix_forOffsetIndex_Rough = 0;
-                else
-                    ix_forOffsetIndex_Rough += 1;
-            }
-            else if (dMultiSiteVout0A[idut] < TargetOffset)
-            {
-                if (ix_forOffsetIndex_Rough == 8)
-                    ix_forOffsetIndex_Rough = 8;
-                else if (ix_forOffsetIndex_Rough == 0)
-                    ix_forOffsetIndex_Rough = 15;
-                else
-                    ix_forOffsetIndex_Rough -= 1;
-            }
-            bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-            MultiSiteReg3[idut] &= ~bit_op_mask;
-            MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough]);
+            MultiSiteReg3[idut] |= regTMultiSite[2];
 
-            RePower();
-            EnterTestMode();
-            RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
-            EnterNomalMode();
-            Delay(Delay_Fuse);
-            dMultiSiteVout_0A_Complementary = AverageVout();
-            DisplayOperateMes("\r\nMultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
-            DisplayOperateMes("ix_forOffsetIndex_Rough = " + ix_forOffsetIndex_Rough.ToString());
-            DisplayOperateMes("dMultiSiteVout_0A_Complementary = " + dMultiSiteVout_0A_Complementary.ToString("F3"));
-
-            //V0A is abnormal
-            //if (Math.Abs(sDUT.dVout0AMiddle - dMultiSiteVout_0A_Complementary) > 0.005)
-            //{
-            //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
-            //    if (dr == DialogResult.Cancel)
-            //    {
-            //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //        PowerOff();
-            //        RestoreReg80ToReg83Value();
-            //        return;
-            //    }
-            //}
-
-            if (Math.Abs(dMultiSiteVout0A[idut] - TargetOffset) < Math.Abs(dMultiSiteVout_0A_Complementary - TargetOffset))
-            {
-                bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-                MultiSiteReg3[idut] &= ~bit_op_mask;
-                MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough_Complementary]);
-                DisplayOperateMes("Last MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
-            }
-            else
-            {
-                bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-                MultiSiteReg3[idut] &= ~bit_op_mask;
-                MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough]);
-                DisplayOperateMes("Last MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
-            }
-
-            DisplayOperateMes("Processing...");
-
+            #endregion offset trim for Diff application
+            
             #endregion Adapting algorithm
 
             #region Fuse
