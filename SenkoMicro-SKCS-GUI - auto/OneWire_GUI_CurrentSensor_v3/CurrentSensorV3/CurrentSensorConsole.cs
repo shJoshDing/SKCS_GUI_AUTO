@@ -117,7 +117,7 @@ namespace CurrentSensorV3
                 //this.txt_VoutOffset_AutoT.Text = (string)this.cmb_Voffset_PreT.SelectedItem;
 
                 if (this.targetOffset == 1.65)
-                    saturationVout = 3.25;
+                    saturationVout = 4.9;
                 else
                     saturationVout = 4.9;
 
