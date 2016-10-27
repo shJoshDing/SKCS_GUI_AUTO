@@ -9,6 +9,8 @@ using ADI.DMY2;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CurrentSensorV3
 {
@@ -517,6 +519,9 @@ namespace CurrentSensorV3
         {
             //Connect device first.
             ConnectDevice();
+
+            //init 910 datagrid
+            InitDataGrid();
 
             //Refresh pilot width
             //Console.WriteLine("Set pilot width result->{0}", oneWrie_device.SetPilotWidth(8000));
@@ -3170,6 +3175,177 @@ namespace CurrentSensorV3
             sw.WriteLine(msg);
 
             sw.Close();
+        }
+
+        private void InitDataGrid()
+        {
+            DataTable dtable = new DataTable("Rock");
+            //set columns names
+            dtable.Columns.Add("ID", typeof(System.String));
+            dtable.Columns.Add("RegAddr(Hex)", typeof(System.String));
+            dtable.Columns.Add("RegValue(Hex)", typeof(System.String));
+            dtable.Columns.Add("Discription", typeof(System.String));
+
+            //dtable.Columns.Add("Read", typeof(System.Windows.Forms.Button));
+
+            //DataRow [] row = new dtable.
+
+            //Add Rows
+            DataRow drow = dtable.NewRow();
+            //drow["ID"] = "1";
+            //drow["RegAddr"] = "0x80";
+            //drow["RegValue"] = "0x00";
+            //drow["Discription"] = "bits[3:0] - OTP_mode A;    \r\nbits[7:4] - OTP_mode B ";
+            //dtable.Rows.Add(drow);
+
+            //drow = dtable.NewRow();
+            //drow["ID"] = "2";
+            //drow["RegAddr"] = "0x81";
+            //drow["RegValue"] = "0x00";
+            //drow["Discription"] = "bits[3:0] - TC1[3:0];  \r\nbits[7:4] - TC2[3:0] ";
+            //dtable.Rows.Add(drow);
+
+            //drow = dtable.NewRow();
+            //drow["ID"] = "3";
+            //drow["RegAddr"] = "0x82";
+            //drow["RegValue"] = "0x00";
+            //drow["Discription"] = "OFF_A[7:0] ";
+            //dtable.Rows.Add(drow);
+
+            //drow = dtable.NewRow();
+            //drow["ID"] = "4";
+            //drow["RegAddr"] = "0x83";
+            //drow["RegValue"] = "0x00";
+            //drow["Discription"] = "bit0 - OFF_Trim;   \r\nbit1 - EXT_Hall;  \r\nbits[3:2] - TCTH[1:0];    \r\nbits[7:4] - S1_A[3:0] ";
+            //dtable.Rows.Add(drow);
+
+            //drow = dtable.NewRow();
+            //drow["ID"] = "5";
+            //drow["RegAddr"] = "0x84";
+            //drow["RegValue"] = "0x00";
+            //drow["Discription"] = "bits[4:0] - RCCSEL[4:0];   \r\nbit5 - Dis_Chop;  \r\nbit6 - INC_1x;    \r\nbit7 - INC_4x ";
+            //dtable.Rows.Add(drow);
+
+
+            drow = dtable.NewRow();
+            drow["ID"] = "1";
+            drow["RegAddr(Hex)"] = "85";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "bits[3:0] - TC1[3:0];  \r\nbits[7:4] - TC2[3:0] ";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "2";
+            drow["RegAddr(Hex)"] = "86";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "OFF_A[7:0] ";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "3";
+            drow["RegAddr(Hex)"] = "87";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "bit0 - OFF_Trim;   \r\nbit1 - EXT_Hall;  \r\nbits[3:2] - TCTH[1:0];    \r\nbits[7:4] - S1_A[3:0] ";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "4";
+            drow["RegAddr(Hex)"] = "88";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "bits[4:0] - RCCSEL[4:0];   \r\nbit5 - Dis_Chop;  \r\nbit6 - INC_1x;    \r\nbit7 - INC_4x ";
+            dtable.Rows.Add(drow);
+
+            
+
+            drow = dtable.NewRow();
+            drow["ID"] = "5";
+            drow["RegAddr(Hex)"] = "45";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "bits[1:0] - fuse_Rsel[1:0], fuse read compare Resistor selection; 0= ? 1=? 2=? 3=?;"
+                + "\r\nbit2 - DIG_CLK_dis, After  master bit is blow, 1=disable the digital clock;"
+                + "\r\nbit3 - Hall_pdb_force, force Hall power down; 1= force (could use during fuse program);"
+                + "\r\nbit4 - LDO_5V_sel_b, use internal LDO 5V (from +15V) as fuse PVDD while fuse_supply_en=1"
+                + "\r\nbit5 - Ext_5V_sel, use external 5V (at +15V pin) as fuse PVDD  while fuse_supply_en=1"
+                + "\r\nbit6 - Pvdd_sel, use PVDD pin as fuse PVDD "
+                + "\r\nbit7 - nrst_fuse_bypass, bypass +/-15V reset for fuse";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "6";
+            drow["RegAddr(Hex)"] = "46";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "ana_test[2:0] - bypass internal signal to test pins," 
+                + "\r\n    3'd1:VDD_2V5 to ANA_T1;      3'd2:iHall to ANA_T1;       3'd3:IOUT to ANA_T1; " 
+                + "\r\n    3'd4:vinp to ANA_T1, vinn to ANA_T2, iHall to ANA_T3;        3'd5:op4 to ANA_T1;" 
+                + "\r\n    3'd6:op5 to ANA_T1, on5 to ANA_T2;       3'd7:VSS_2v5 to ANA_T1"
+                + "\r\nbit3 - chop_amp_dishpf"
+                + "\r\nbits[5:4] - osc output clk trim, 2'b0: 5M/8; 2'b1: 5MHz/6; 2'b3: 5MHz/4"
+                + "\r\nbit6 - ldo_5v_m output, 1'b0: 5V, 1'b1: 5.3V"
+                + "\r\nbit7 - clk_gen_sel, 1'b0: old clkgen, 1'b1: new clkgen(could use ana_test<5:4> to select freq";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "7";
+            drow["RegAddr(Hex)"] = "0x89";
+            drow["RegValue(Hex)"] = "0x00";
+            drow["Discription"] = "bits[3:0] - Post_Trim;\r\nbits[7:4] - Master ";
+            dtable.Rows.Add(drow);
+
+            //drow = dtable
+            //SL910_Tab_DataGridView.RowHeadersWidth[2] = 200;
+            
+
+            SL910_Tab_DataGridView.DataSource = dtable;
+
+            SL910_Tab_DataGridView.Columns[1].Width = 40;
+            SL910_Tab_DataGridView.Columns[2].Width = 90;
+            SL910_Tab_DataGridView.Columns[3].Width = 90;
+            //SL910_Tab_DataGridView.Columns[4].Width = 480;
+            SL910_Tab_DataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            SL910_Tab_DataGridView.Columns[1].ReadOnly = true;
+            SL910_Tab_DataGridView.Columns[2].ReadOnly = true;
+            SL910_Tab_DataGridView.Columns[4].ReadOnly = true;
+
+            //SL910_Tab_DataGridView.Columns[0].ReadOnly = true;
+            //SL910_Tab_DataGridView.Columns[1].ReadOnly = true;
+            //SL910_Tab_DataGridView.Columns[3];
+
+            SL910_Tab_DataGridView.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            SL910_Tab_DataGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            SL910_Tab_DataGridView.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //SL910_Tab_DataGridView.Columns[0].FillWeight = 50;
+            SL910_Tab_DataGridView.Columns[1].DefaultCellStyle.BackColor = Color.LightGray;
+            SL910_Tab_DataGridView.Columns[2].DefaultCellStyle.BackColor = Color.LightGray;
+            SL910_Tab_DataGridView.Columns[4].DefaultCellStyle.BackColor = Color.LightGray;
+
+            //SL910_Tab_DataGridView. = false;
+            SL910_Tab_DataGridView.RowsDefaultCellStyle.WrapMode  = DataGridViewTriState.True;
+            SL910_Tab_DataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            SL910_Tab_DataGridView.Update();
+
+            //dock datagridview
+            SL910_Tab_DataGridView.Dock = DockStyle.Fill;
+
+            //dock richtextbox
+            //richTextBox1.Dock = DockStyle.Fill;
+
+        }
+
+        private void SL910_Tab_DataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            
+
+            Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
+                e.RowBounds.Location.Y,
+                SL910_Tab_DataGridView.RowHeadersWidth - 4,
+                e.RowBounds.Height);
+
+            TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(),
+                SL910_Tab_DataGridView.RowHeadersDefaultCellStyle.Font,
+                rectangle,
+                SL910_Tab_DataGridView.RowHeadersDefaultCellStyle.ForeColor,
+                TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
         }
 
         #endregion Methods
@@ -8099,6 +8275,285 @@ namespace CurrentSensorV3
         
         #endregion Events
 
+        #region SL910
+        private void btn_Eng_SL910_Click(object sender, EventArgs e)
+        {
+            //set pilot firstly
+            numUD_pilotwidth_ow_ValueChanged(null, null);
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
+            rbt_signalPathSeting_Config_EngT.Checked = true;
+
+            //try
+            {
+                //string temp;
+                uint _dev_addr = this.DeviceAddress;
+
+                //Enter test mode
+                uint _reg_addr = 0x55;
+                uint _reg_data = 0xAA;
+                oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+                Thread.Sleep(1);
+            }
+        }
+
+        private void btn_Eng_TestCom_Click(object sender, EventArgs e)
+        {
+            //set pilot firstly
+            numUD_pilotwidth_ow_ValueChanged(null, null);
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
+            rbt_signalPathSeting_Config_EngT.Checked = true;
+
+            //try
+            {
+                //string temp;
+                uint _dev_addr = this.DeviceAddress;
+
+                //Enter test mode
+                uint _reg_addr = 0x42;
+                uint _reg_data = 0x01;
+                oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+                Thread.Sleep(1);
+            }
+        }
+
+        private void btn_Eng_Test_Click(object sender, EventArgs e)
+        {
+            uint _dev_addr = this.DeviceAddress;
+            string temp;
+
+            uint _reg_Addr = 0x00;
+            uint _reg_Value = 0x00;
+
+            temp = this.txt_Eng_910Addr.Text.TrimStart("0x".ToCharArray()).TrimEnd("H".ToCharArray());
+            //uint _reg_Addr = 0x80;
+            _reg_Addr = UInt32.Parse((temp == "" ? "0" : temp), System.Globalization.NumberStyles.HexNumber);
+
+            temp = this.txt_Eng_910Data.Text.TrimStart("0x".ToCharArray()).TrimEnd("H".ToCharArray());
+            //uint _reg_Addr = 0x80;
+            _reg_Value = UInt32.Parse((temp == "" ? "0" : temp), System.Globalization.NumberStyles.HexNumber);
+
+            
+
+            if (oneWrie_device.I2CWrite_Single(_dev_addr, _reg_Addr, _reg_Value))
+                DisplayOperateMes("Write Reg0x"+ _reg_Addr.ToString("X")+":(0x" + _reg_Value.ToString("X") + ") succeeded!");
+            else
+                DisplayOperateMes("Write Reg Failed!", Color.Red);
+        }
+
+        private void btn_Eng_test_read_Click(object sender, EventArgs e)
+        {
+            string temp;
+
+            uint _reg_addr_start = 0x80;
+            uint[] _readBack_data = new uint[1];
+
+            temp = this.txt_Eng_910Addr.Text.TrimStart("0x".ToCharArray()).TrimEnd("H".ToCharArray());
+            //uint _reg_Addr = 0x80;
+
+            _reg_addr_start = UInt32.Parse((temp == "" ? "0" : temp), System.Globalization.NumberStyles.HexNumber);
+            
+            BurstRead(_reg_addr_start, 1, _readBack_data);
+        }
+
+        private void btn_Eng_Analogmode_Click(object sender, EventArgs e)
+        {
+            uint _dev_addr = this.DeviceAddress;
+
+            //Enter test mode
+            uint _reg_addr = 0x42;
+            uint _reg_data = 0x05;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+        }
+
+        private void btn_SL910_TestMode_Click(object sender, EventArgs e)
+        {
+            btn_Eng_SL910_Click(null,null);
+            btn_Eng_TestCom_Click(null, null);
+        }
+
+        private void btn_SL910_NormalMode_Click(object sender, EventArgs e)
+        {
+            btn_Eng_Analogmode_Click(null, null);
+        }
+       
+        private void btn_SL910_Fuse_Click(object sender, EventArgs e)
+        {
+            uint _dev_addr = this.DeviceAddress;
+
+            //Enter test mode
+            uint _reg_addr = 0x43;
+            uint _reg_data = 0x05;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x44;
+            _reg_data = 0xAA;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            btn_fuse_clock_ow_EngT_Click(null, null);
+
+            Thread.Sleep(500);
+
+            _reg_addr = 0x44;
+            _reg_data = 0x00;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x00;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+        }
+
+        private void btn_SL1910_Wrtie_Click(object sender, EventArgs e)
+        {
+            string st;
+            int index = 0;
+            int totalRows = 0;
+            uint _dev_addr = this.DeviceAddress;
+            uint _reg_addr = 0x00;
+            uint _reg_data = 0x00;
+            
+
+            totalRows = SL910_Tab_DataGridView.Rows.Count -1;
+
+            for (index = 0; index < totalRows ; index++ )
+            {
+                if (Convert.ToBoolean(SL910_Tab_DataGridView.Rows[index].Cells[0].Value) == true)
+                {
+                    st = Convert.ToString(SL910_Tab_DataGridView.Rows[index].Cells[2].Value);
+                    _reg_addr = Convert.ToUInt32(st, 16);
+
+                    st = SL910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString();
+                    _reg_data = Convert.ToUInt32(st, 16);
+
+                    oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+                    
+                    //DisplayOperateMes(st);
+                    st = "ID = " + (index + 1).ToString() + ": write Value 0x" + _reg_data.ToString("X2") + " to Reg 0x" + _reg_addr.ToString("X2") ;
+                    DisplayOperateMes(st);
+                }
+                Thread.Sleep(5);
+
+            }  
+        }
+
+        private void btn_SL910_Read_Click(object sender, EventArgs e)
+        {
+            string st;
+            int index = 0;
+            int totalRows = 0;
+            uint _dev_addr = this.DeviceAddress;
+            uint _reg_addr = 0x00;
+            uint[] _reg_data = new uint[2];
+
+
+            totalRows = SL910_Tab_DataGridView.Rows.Count - 1;
+
+            for (index = 0; index < totalRows ; index++)
+            {
+                if (Convert.ToBoolean(SL910_Tab_DataGridView.Rows[index].Cells[0].Value) == true)
+                {
+                    st = Convert.ToString(SL910_Tab_DataGridView.Rows[index].Cells[2].Value);
+                    _reg_addr = Convert.ToUInt32(st, 16);
+
+                    //st = SL910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString();
+                    //_reg_data = Convert.ToUInt32(st, 16);
+
+                    //_reg_data = oneWrie_device.I2CRead_Single(_dev_addr, _reg_addr);
+                    oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, 2, _reg_data);
+                    SL910_Tab_DataGridView.Rows[index].Cells[3].Value = _reg_data[0].ToString("X2");
+
+                    //DisplayOperateMes(st);
+                    st = "ID = " + (index + 1).ToString() + ": read Value 0x" + _reg_data[0].ToString("X2") + " from Reg 0x" + _reg_addr.ToString("X2");
+                    DisplayOperateMes(st);
+                }
+                Thread.Sleep(5);
+
+            }  
+        }
+       
+        private void btn_SL1910_WriteAll_Click(object sender, EventArgs e)
+        {
+            string st;
+            int index = 0;
+            int totalRows = 0;
+            uint _dev_addr = this.DeviceAddress;
+            uint _reg_addr = 0x00;
+            uint _reg_data = 0x00;
+
+
+            totalRows = SL910_Tab_DataGridView.Rows.Count - 1;
+
+            for (index = 0; index < totalRows; index++)
+            {
+                //if (Convert.ToBoolean(SL910_Tab_DataGridView.Rows[index].Cells[0].Value) == true)
+                {
+                    st = Convert.ToString(SL910_Tab_DataGridView.Rows[index].Cells[2].Value);
+                    _reg_addr = Convert.ToUInt32(st, 16);
+
+                    st = SL910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString();
+                    _reg_data = Convert.ToUInt32(st, 16);
+
+                    oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+                    //DisplayOperateMes(st);
+                    st = "ID = " + (index + 1).ToString() + ": write Value 0x" + _reg_data.ToString("X2") + " to Reg 0x" + _reg_addr.ToString("X2");
+                    DisplayOperateMes(st);
+
+                    //st = "ID = " + (index + 1).ToString() + ": write Value " + _reg_data.ToString("D") + " to Reg " + _reg_addr.ToString("D");
+                    //DisplayOperateMes(st + "\r\n");
+
+                }
+                Thread.Sleep(5);
+
+            }  
+        }
+
+        private void btn_SL1910_ReadAll_Click(object sender, EventArgs e)
+        {
+            string st;
+            int index = 0;
+            int totalRows = 0;
+            uint _dev_addr = this.DeviceAddress;
+            uint _reg_addr = 0x00;
+            //uint _reg_data = 0x00;
+            uint[] _reg_data = new uint[2];
+
+
+            totalRows = SL910_Tab_DataGridView.Rows.Count - 1;
+
+            for (index = 0; index < totalRows; index++)
+            {
+                //if (Convert.ToBoolean(SL910_Tab_DataGridView.Rows[index].Cells[0].Value) == true)
+                {
+                    st = Convert.ToString(SL910_Tab_DataGridView.Rows[index].Cells[2].Value);
+                    _reg_addr = Convert.ToUInt32(st, 16);
+
+                    //st = SL910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString();
+                    //_reg_data = Convert.ToUInt32(st, 16);
+
+                    oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, 2, _reg_data);
+                    SL910_Tab_DataGridView.Rows[index].Cells[3].Value = _reg_data[0].ToString("X2");
+
+                    //DisplayOperateMes(st);
+                    st = "ID = " + (index + 1).ToString() + ": read Value 0x" + _reg_data[0].ToString("X2") + " from Reg 0x" + _reg_addr.ToString("X2");
+                    DisplayOperateMes(st);
+                }
+                Thread.Sleep(5);
+
+            }  
+        }
+        
+        #endregion SL910
     }
 
     

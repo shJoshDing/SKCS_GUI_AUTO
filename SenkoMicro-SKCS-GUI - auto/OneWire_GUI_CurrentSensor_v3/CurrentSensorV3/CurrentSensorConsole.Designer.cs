@@ -43,6 +43,15 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.EngineeringTab = new System.Windows.Forms.TabPage();
+            this.btn_Eng_Analogmode = new System.Windows.Forms.Button();
+            this.btn_Eng_test_read = new System.Windows.Forms.Button();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label83 = new System.Windows.Forms.Label();
+            this.txt_Eng_910Data = new System.Windows.Forms.TextBox();
+            this.txt_Eng_910Addr = new System.Windows.Forms.TextBox();
+            this.btn_Eng_Test = new System.Windows.Forms.Button();
+            this.btn_Eng_TestCom = new System.Windows.Forms.Button();
+            this.btn_Eng_SL910 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btn_sel_cap = new System.Windows.Forms.Button();
             this.btn_GetFW_OneWire = new System.Windows.Forms.Button();
@@ -280,6 +289,17 @@
             this.btn_StartPoint_BrakeT = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
+            this.SL910Tab = new System.Windows.Forms.TabPage();
+            this.btn_SL1910_WriteAll = new System.Windows.Forms.Button();
+            this.btn_SL910_TestMode = new System.Windows.Forms.Button();
+            this.btn_SL1910_ReadAll = new System.Windows.Forms.Button();
+            this.btn_SL910_Fuse = new System.Windows.Forms.Button();
+            this.btn_SL910_NormalMode = new System.Windows.Forms.Button();
+            this.btn_SL910_Read = new System.Windows.Forms.Button();
+            this.btn_SL1910_Wrtie = new System.Windows.Forms.Button();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.SL910_Tab_DataGridView = new System.Windows.Forms.DataGridView();
+            this.BoolSel = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip_SelAll = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_Copy = new System.Windows.Forms.ToolStripMenuItem();
@@ -321,6 +341,9 @@
             this.groupBox8.SuspendLayout();
             this.BrakeTab.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.SL910Tab.SuspendLayout();
+            this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SL910_Tab_DataGridView)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -438,6 +461,7 @@
             this.tabControl1.Controls.Add(this.PriTrimTab);
             this.tabControl1.Controls.Add(this.AutoTrimTab);
             this.tabControl1.Controls.Add(this.BrakeTab);
+            this.tabControl1.Controls.Add(this.SL910Tab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.MaximumSize = new System.Drawing.Size(1000, 600);
@@ -449,6 +473,15 @@
             // 
             // EngineeringTab
             // 
+            this.EngineeringTab.Controls.Add(this.btn_Eng_Analogmode);
+            this.EngineeringTab.Controls.Add(this.btn_Eng_test_read);
+            this.EngineeringTab.Controls.Add(this.label84);
+            this.EngineeringTab.Controls.Add(this.label83);
+            this.EngineeringTab.Controls.Add(this.txt_Eng_910Data);
+            this.EngineeringTab.Controls.Add(this.txt_Eng_910Addr);
+            this.EngineeringTab.Controls.Add(this.btn_Eng_Test);
+            this.EngineeringTab.Controls.Add(this.btn_Eng_TestCom);
+            this.EngineeringTab.Controls.Add(this.btn_Eng_SL910);
             this.EngineeringTab.Controls.Add(this.groupBox5);
             this.EngineeringTab.Controls.Add(this.panel3);
             this.EngineeringTab.Controls.Add(this.btn_EngTab_Ipon);
@@ -475,6 +508,100 @@
             this.EngineeringTab.TabIndex = 0;
             this.EngineeringTab.Text = "Engineering";
             this.EngineeringTab.UseVisualStyleBackColor = true;
+            // 
+            // btn_Eng_Analogmode
+            // 
+            this.btn_Eng_Analogmode.Location = new System.Drawing.Point(633, 287);
+            this.btn_Eng_Analogmode.Name = "btn_Eng_Analogmode";
+            this.btn_Eng_Analogmode.Size = new System.Drawing.Size(56, 34);
+            this.btn_Eng_Analogmode.TabIndex = 96;
+            this.btn_Eng_Analogmode.Text = "Analog Mode";
+            this.btn_Eng_Analogmode.UseVisualStyleBackColor = true;
+            this.btn_Eng_Analogmode.Click += new System.EventHandler(this.btn_Eng_Analogmode_Click);
+            // 
+            // btn_Eng_test_read
+            // 
+            this.btn_Eng_test_read.Location = new System.Drawing.Point(721, 394);
+            this.btn_Eng_test_read.Name = "btn_Eng_test_read";
+            this.btn_Eng_test_read.Size = new System.Drawing.Size(63, 34);
+            this.btn_Eng_test_read.TabIndex = 95;
+            this.btn_Eng_test_read.Text = "910_R";
+            this.btn_Eng_test_read.UseVisualStyleBackColor = true;
+            this.btn_Eng_test_read.Click += new System.EventHandler(this.btn_Eng_test_read_Click);
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label84.Location = new System.Drawing.Point(710, 254);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(15, 14);
+            this.label84.TabIndex = 94;
+            this.label84.Text = "D";
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label83.Location = new System.Drawing.Point(710, 227);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(15, 14);
+            this.label83.TabIndex = 13;
+            this.label83.Text = "A";
+            // 
+            // txt_Eng_910Data
+            // 
+            this.txt_Eng_910Data.BackColor = System.Drawing.Color.CadetBlue;
+            this.txt_Eng_910Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_Eng_910Data.ForeColor = System.Drawing.Color.White;
+            this.txt_Eng_910Data.Location = new System.Drawing.Point(727, 251);
+            this.txt_Eng_910Data.Name = "txt_Eng_910Data";
+            this.txt_Eng_910Data.Size = new System.Drawing.Size(56, 20);
+            this.txt_Eng_910Data.TabIndex = 93;
+            this.txt_Eng_910Data.Text = "0x00";
+            this.txt_Eng_910Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txt_Eng_910Addr
+            // 
+            this.txt_Eng_910Addr.BackColor = System.Drawing.Color.CadetBlue;
+            this.txt_Eng_910Addr.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_Eng_910Addr.ForeColor = System.Drawing.Color.White;
+            this.txt_Eng_910Addr.Location = new System.Drawing.Point(727, 224);
+            this.txt_Eng_910Addr.Name = "txt_Eng_910Addr";
+            this.txt_Eng_910Addr.Size = new System.Drawing.Size(56, 20);
+            this.txt_Eng_910Addr.TabIndex = 83;
+            this.txt_Eng_910Addr.Text = "0x00";
+            this.txt_Eng_910Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btn_Eng_Test
+            // 
+            this.btn_Eng_Test.Location = new System.Drawing.Point(721, 358);
+            this.btn_Eng_Test.Name = "btn_Eng_Test";
+            this.btn_Eng_Test.Size = new System.Drawing.Size(63, 34);
+            this.btn_Eng_Test.TabIndex = 92;
+            this.btn_Eng_Test.Text = "910_W";
+            this.btn_Eng_Test.UseVisualStyleBackColor = true;
+            this.btn_Eng_Test.Click += new System.EventHandler(this.btn_Eng_Test_Click);
+            // 
+            // btn_Eng_TestCom
+            // 
+            this.btn_Eng_TestCom.Location = new System.Drawing.Point(720, 321);
+            this.btn_Eng_TestCom.Name = "btn_Eng_TestCom";
+            this.btn_Eng_TestCom.Size = new System.Drawing.Size(63, 34);
+            this.btn_Eng_TestCom.TabIndex = 91;
+            this.btn_Eng_TestCom.Text = "Test_Com";
+            this.btn_Eng_TestCom.UseVisualStyleBackColor = true;
+            this.btn_Eng_TestCom.Click += new System.EventHandler(this.btn_Eng_TestCom_Click);
+            // 
+            // btn_Eng_SL910
+            // 
+            this.btn_Eng_SL910.Location = new System.Drawing.Point(720, 284);
+            this.btn_Eng_SL910.Name = "btn_Eng_SL910";
+            this.btn_Eng_SL910.Size = new System.Drawing.Size(63, 34);
+            this.btn_Eng_SL910.TabIndex = 90;
+            this.btn_Eng_SL910.Text = "SL910";
+            this.btn_Eng_SL910.UseVisualStyleBackColor = true;
+            this.btn_Eng_SL910.Click += new System.EventHandler(this.btn_Eng_SL910_Click);
             // 
             // groupBox5
             // 
@@ -578,9 +705,9 @@
             // 
             // btn_EngTab_Ipon
             // 
-            this.btn_EngTab_Ipon.Location = new System.Drawing.Point(722, 417);
+            this.btn_EngTab_Ipon.Location = new System.Drawing.Point(723, 484);
             this.btn_EngTab_Ipon.Name = "btn_EngTab_Ipon";
-            this.btn_EngTab_Ipon.Size = new System.Drawing.Size(56, 40);
+            this.btn_EngTab_Ipon.Size = new System.Drawing.Size(56, 23);
             this.btn_EngTab_Ipon.TabIndex = 89;
             this.btn_EngTab_Ipon.Text = "IP ON";
             this.btn_EngTab_Ipon.UseVisualStyleBackColor = true;
@@ -598,9 +725,9 @@
             // 
             // btn_EngTab_Ipoff
             // 
-            this.btn_EngTab_Ipoff.Location = new System.Drawing.Point(722, 348);
+            this.btn_EngTab_Ipoff.Location = new System.Drawing.Point(723, 457);
             this.btn_EngTab_Ipoff.Name = "btn_EngTab_Ipoff";
-            this.btn_EngTab_Ipoff.Size = new System.Drawing.Size(56, 40);
+            this.btn_EngTab_Ipoff.Size = new System.Drawing.Size(56, 23);
             this.btn_EngTab_Ipoff.TabIndex = 89;
             this.btn_EngTab_Ipoff.Text = "IP OFF";
             this.btn_EngTab_Ipoff.UseVisualStyleBackColor = true;
@@ -608,9 +735,9 @@
             // 
             // btn_EngTab_Connect
             // 
-            this.btn_EngTab_Connect.Location = new System.Drawing.Point(722, 491);
+            this.btn_EngTab_Connect.Location = new System.Drawing.Point(723, 511);
             this.btn_EngTab_Connect.Name = "btn_EngTab_Connect";
-            this.btn_EngTab_Connect.Size = new System.Drawing.Size(56, 40);
+            this.btn_EngTab_Connect.Size = new System.Drawing.Size(56, 23);
             this.btn_EngTab_Connect.TabIndex = 89;
             this.btn_EngTab_Connect.Text = "Connect";
             this.btn_EngTab_Connect.UseVisualStyleBackColor = true;
@@ -618,7 +745,7 @@
             // 
             // btn_AdcOut_EngT
             // 
-            this.btn_AdcOut_EngT.Location = new System.Drawing.Point(722, 214);
+            this.btn_AdcOut_EngT.Location = new System.Drawing.Point(720, 144);
             this.btn_AdcOut_EngT.Name = "btn_AdcOut_EngT";
             this.btn_AdcOut_EngT.Size = new System.Drawing.Size(56, 20);
             this.btn_AdcOut_EngT.TabIndex = 88;
@@ -629,7 +756,7 @@
             // txt_AdcOut_EngT
             // 
             this.txt_AdcOut_EngT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_AdcOut_EngT.Location = new System.Drawing.Point(722, 195);
+            this.txt_AdcOut_EngT.Location = new System.Drawing.Point(720, 125);
             this.txt_AdcOut_EngT.Name = "txt_AdcOut_EngT";
             this.txt_AdcOut_EngT.ReadOnly = true;
             this.txt_AdcOut_EngT.Size = new System.Drawing.Size(56, 20);
@@ -645,7 +772,7 @@
             0,
             0,
             65536});
-            this.numUD_OffsetB.Location = new System.Drawing.Point(722, 159);
+            this.numUD_OffsetB.Location = new System.Drawing.Point(720, 99);
             this.numUD_OffsetB.Maximum = new decimal(new int[] {
             4,
             0,
@@ -661,7 +788,7 @@
             // 
             this.label56.AutoSize = true;
             this.label56.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label56.Location = new System.Drawing.Point(726, 142);
+            this.label56.Location = new System.Drawing.Point(724, 82);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(49, 14);
             this.label56.TabIndex = 85;
@@ -675,7 +802,7 @@
             0,
             0,
             196608});
-            this.numUD_SlopeK.Location = new System.Drawing.Point(722, 103);
+            this.numUD_SlopeK.Location = new System.Drawing.Point(720, 57);
             this.numUD_SlopeK.Maximum = new decimal(new int[] {
             999,
             0,
@@ -701,7 +828,7 @@
             // 
             this.label55.AutoSize = true;
             this.label55.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label55.Location = new System.Drawing.Point(727, 80);
+            this.label55.Location = new System.Drawing.Point(725, 34);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(46, 14);
             this.label55.TabIndex = 83;
@@ -1682,7 +1809,7 @@
             this.numUD_pilotwidth_ow_EngT.TabIndex = 47;
             this.numUD_pilotwidth_ow_EngT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numUD_pilotwidth_ow_EngT.Value = new decimal(new int[] {
-            8000,
+            80000,
             0,
             0,
             0});
@@ -3427,6 +3554,119 @@
             this.btn_BrakeTab_InitializeUart.UseVisualStyleBackColor = true;
             this.btn_BrakeTab_InitializeUart.Click += new System.EventHandler(this.btn_BrakeTab_InitializeUart_Click);
             // 
+            // SL910Tab
+            // 
+            this.SL910Tab.Controls.Add(this.btn_SL1910_WriteAll);
+            this.SL910Tab.Controls.Add(this.btn_SL910_TestMode);
+            this.SL910Tab.Controls.Add(this.btn_SL1910_ReadAll);
+            this.SL910Tab.Controls.Add(this.btn_SL910_Fuse);
+            this.SL910Tab.Controls.Add(this.btn_SL910_NormalMode);
+            this.SL910Tab.Controls.Add(this.btn_SL910_Read);
+            this.SL910Tab.Controls.Add(this.btn_SL1910_Wrtie);
+            this.SL910Tab.Controls.Add(this.panel10);
+            this.SL910Tab.Location = new System.Drawing.Point(4, 22);
+            this.SL910Tab.Name = "SL910Tab";
+            this.SL910Tab.Padding = new System.Windows.Forms.Padding(3);
+            this.SL910Tab.Size = new System.Drawing.Size(803, 574);
+            this.SL910Tab.TabIndex = 4;
+            this.SL910Tab.Text = "SL910";
+            this.SL910Tab.UseVisualStyleBackColor = true;
+            // 
+            // btn_SL1910_WriteAll
+            // 
+            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(622, 17);
+            this.btn_SL1910_WriteAll.Name = "btn_SL1910_WriteAll";
+            this.btn_SL1910_WriteAll.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL1910_WriteAll.TabIndex = 9;
+            this.btn_SL1910_WriteAll.Text = "Write  All";
+            this.btn_SL1910_WriteAll.UseVisualStyleBackColor = true;
+            this.btn_SL1910_WriteAll.Click += new System.EventHandler(this.btn_SL1910_WriteAll_Click);
+            // 
+            // btn_SL910_TestMode
+            // 
+            this.btn_SL910_TestMode.Location = new System.Drawing.Point(11, 17);
+            this.btn_SL910_TestMode.Name = "btn_SL910_TestMode";
+            this.btn_SL910_TestMode.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_TestMode.TabIndex = 3;
+            this.btn_SL910_TestMode.Text = "Test Key";
+            this.btn_SL910_TestMode.UseVisualStyleBackColor = true;
+            this.btn_SL910_TestMode.Click += new System.EventHandler(this.btn_SL910_TestMode_Click);
+            // 
+            // btn_SL1910_ReadAll
+            // 
+            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(706, 17);
+            this.btn_SL1910_ReadAll.Name = "btn_SL1910_ReadAll";
+            this.btn_SL1910_ReadAll.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL1910_ReadAll.TabIndex = 8;
+            this.btn_SL1910_ReadAll.Text = "Read   All";
+            this.btn_SL1910_ReadAll.UseVisualStyleBackColor = true;
+            this.btn_SL1910_ReadAll.Click += new System.EventHandler(this.btn_SL1910_ReadAll_Click);
+            // 
+            // btn_SL910_Fuse
+            // 
+            this.btn_SL910_Fuse.Location = new System.Drawing.Point(538, 17);
+            this.btn_SL910_Fuse.Name = "btn_SL910_Fuse";
+            this.btn_SL910_Fuse.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_Fuse.TabIndex = 7;
+            this.btn_SL910_Fuse.Text = "Trim Part";
+            this.btn_SL910_Fuse.UseVisualStyleBackColor = true;
+            this.btn_SL910_Fuse.Click += new System.EventHandler(this.btn_SL910_Fuse_Click);
+            // 
+            // btn_SL910_NormalMode
+            // 
+            this.btn_SL910_NormalMode.Location = new System.Drawing.Point(266, 17);
+            this.btn_SL910_NormalMode.Name = "btn_SL910_NormalMode";
+            this.btn_SL910_NormalMode.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_NormalMode.TabIndex = 6;
+            this.btn_SL910_NormalMode.Text = "Analog Output";
+            this.btn_SL910_NormalMode.UseVisualStyleBackColor = true;
+            this.btn_SL910_NormalMode.Click += new System.EventHandler(this.btn_SL910_NormalMode_Click);
+            // 
+            // btn_SL910_Read
+            // 
+            this.btn_SL910_Read.Location = new System.Drawing.Point(181, 17);
+            this.btn_SL910_Read.Name = "btn_SL910_Read";
+            this.btn_SL910_Read.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_Read.TabIndex = 5;
+            this.btn_SL910_Read.Text = "Read Select";
+            this.btn_SL910_Read.UseVisualStyleBackColor = true;
+            this.btn_SL910_Read.Click += new System.EventHandler(this.btn_SL910_Read_Click);
+            // 
+            // btn_SL1910_Wrtie
+            // 
+            this.btn_SL1910_Wrtie.Location = new System.Drawing.Point(96, 17);
+            this.btn_SL1910_Wrtie.Name = "btn_SL1910_Wrtie";
+            this.btn_SL1910_Wrtie.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL1910_Wrtie.TabIndex = 4;
+            this.btn_SL1910_Wrtie.Text = "Write Select";
+            this.btn_SL1910_Wrtie.UseVisualStyleBackColor = true;
+            this.btn_SL1910_Wrtie.Click += new System.EventHandler(this.btn_SL1910_Wrtie_Click);
+            // 
+            // panel10
+            // 
+            this.panel10.Controls.Add(this.SL910_Tab_DataGridView);
+            this.panel10.Location = new System.Drawing.Point(8, 68);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(789, 500);
+            this.panel10.TabIndex = 2;
+            // 
+            // SL910_Tab_DataGridView
+            // 
+            this.SL910_Tab_DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SL910_Tab_DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BoolSel});
+            this.SL910_Tab_DataGridView.Location = new System.Drawing.Point(3, 3);
+            this.SL910_Tab_DataGridView.MultiSelect = false;
+            this.SL910_Tab_DataGridView.Name = "SL910_Tab_DataGridView";
+            this.SL910_Tab_DataGridView.Size = new System.Drawing.Size(783, 237);
+            this.SL910_Tab_DataGridView.TabIndex = 0;
+            // 
+            // BoolSel
+            // 
+            this.BoolSel.HeaderText = "";
+            this.BoolSel.Name = "BoolSel";
+            this.BoolSel.Width = 50;
+            // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -3522,7 +3762,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console for 610 v1.2.3 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console v1.2.4 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -3579,6 +3819,9 @@
             this.BrakeTab.ResumeLayout(false);
             this.BrakeTab.PerformLayout();
             this.groupBox9.ResumeLayout(false);
+            this.SL910Tab.ResumeLayout(false);
+            this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SL910_Tab_DataGridView)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -3848,5 +4091,25 @@
         private System.Windows.Forms.TextBox txt_Delay_PreT;
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.Button btn_Eng_SL910;
+        private System.Windows.Forms.Button btn_Eng_TestCom;
+        private System.Windows.Forms.Button btn_Eng_Test;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.TextBox txt_Eng_910Data;
+        private System.Windows.Forms.TextBox txt_Eng_910Addr;
+        private System.Windows.Forms.Label label84;
+        private System.Windows.Forms.Button btn_Eng_test_read;
+        private System.Windows.Forms.Button btn_Eng_Analogmode;
+        private System.Windows.Forms.TabPage SL910Tab;
+        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.DataGridView SL910_Tab_DataGridView;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn BoolSel;
+        private System.Windows.Forms.Button btn_SL910_Fuse;
+        private System.Windows.Forms.Button btn_SL910_NormalMode;
+        private System.Windows.Forms.Button btn_SL910_Read;
+        private System.Windows.Forms.Button btn_SL1910_Wrtie;
+        private System.Windows.Forms.Button btn_SL910_TestMode;
+        private System.Windows.Forms.Button btn_SL1910_WriteAll;
+        private System.Windows.Forms.Button btn_SL1910_ReadAll;
     }
 }
