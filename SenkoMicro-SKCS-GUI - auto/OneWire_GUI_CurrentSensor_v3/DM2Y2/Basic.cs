@@ -1601,6 +1601,12 @@ namespace ADI.DMY2
         ReadFW_Version      = 0x5000000E,           //Read firm ware version
         TestInterface       = 0x5000000F,           //This interface is just for test.
 
+        OWCI_WRITE_SINGLE_AUX     = 0x30000001,
+        //OWCI_WRITE_BURST_AUX      = 0x30000002,
+        OWCI_READ_SINGLE_AUX      = 0x30000003,
+        //OWCI_WRITE_BURST_AUX      = 0x30000004,
+        OWCI_SET_PILOT_AUX        = 0x30000005,
+
         //OWI ADC specially
         GetFirmwareVersion  = 0xCA000002,           //Get firm ware version
         ResetBoard          = 0xCA000005,           //Reset Board

@@ -3618,7 +3618,53 @@ namespace ADI.DMY2
 
         #endregion 读写设备
 
-        #region Test Interfaces            
+        #region 4.OWCI AUX
+        public bool SetPilotAux(uint pilot, uint divider)
+        {
+            buffer_uint[0] = (uint)OneWire_USB_COMMAND.OWCI_SET_PILOT_AUX;
+            buffer_uint[1] = pilot;
+            buffer_uint[4] = divider;
+            //buffer_uint[2] = cycle_number * 9 / 50;         //Boundary for zero and one judgement. =1.5 * pilot * 10^9 / 120 * 10^6 ns
+            return myDevice.UsbReportWrite(buffer_uint);
+        }
+
+        public bool I2CWriteSingleAux(uint dev_addr, uint reg_addr, uint reg_Data)
+        {
+            buffer_uint[0] = (uint)OneWire_USB_COMMAND.I2C_Write_Single;        //Command
+            buffer_uint[1] = dev_addr;                                          //Device address
+            buffer_uint[4] = reg_addr;                                          //Register address
+            buffer_uint[5] = reg_Data;                                          //Register date
+            return myDevice.UsbReportWrite(buffer_uint);
+        }
+
+        public uint I2CReadSingleAux(uint dev_addr, uint reg_addr)
+        {
+            uint u_readfailed = 0x0000FFFF;
+            uint u_writfailed = 0x00000FFF;
+            buffer_uint[0] = (uint)OneWire_USB_COMMAND.I2C_Read_Single;
+            buffer_uint[1] = dev_addr;
+            buffer_uint[4] = reg_addr;
+            if (!myDevice.UsbReportWrite(buffer_uint))
+            {
+                Console.WriteLine("I2C read failed->Write command fialed");
+                return u_writfailed;   //Write read command failed.
+            }
+            buffer_byte[0] = 0x03;
+            buffer_byte[3] = 0x50;
+            buffer_byte[4] = 0x54;
+            buffer_byte[8] = 0x00;
+            if (!myDevice.UsbReportRead(buffer_byte))
+            {
+                Console.WriteLine("I2C read failed->Read command fialed");
+                return u_readfailed;    //Read register failed.
+            }
+            buffer_uint[0] = (uint)buffer_byte[0];
+            return buffer_uint[0];
+        }
+
+        #endregion
+
+        #region Test Interfaces
         public bool Test(bool rw)
         {
             FlashLED();

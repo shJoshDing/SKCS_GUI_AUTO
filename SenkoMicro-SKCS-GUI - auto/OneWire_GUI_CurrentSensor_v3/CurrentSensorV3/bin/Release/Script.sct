@@ -1,0 +1,10 @@
+test script for SL910
+,/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */
+,910 Other Mode,
+,wrtie reg,0x86,0x0f
+read reg,0x86
+sweep 910 linearity,null
+,sweep 910 offset,null
+,sweep 910 rough gain,null
+,sweep 910 fine gain,null
+

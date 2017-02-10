@@ -1,0 +1,5 @@
+test script for SL910
+,/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */
+910 Other Mode,
+read reg,0x86
+
