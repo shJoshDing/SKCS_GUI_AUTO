@@ -290,6 +290,7 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
             this.SL910Tab = new System.Windows.Forms.TabPage();
+            this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
             this.btn_SL910_910_out = new System.Windows.Forms.Button();
             this.btn_SL910_FuseBank1 = new System.Windows.Forms.Button();
             this.txt_SL910_ReadLevel = new System.Windows.Forms.TextBox();
@@ -330,7 +331,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3605,6 +3605,16 @@
             this.SL910Tab.Text = "SL910";
             this.SL910Tab.UseVisualStyleBackColor = true;
             // 
+            // btn_SL910_910sop_Nornal
+            // 
+            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(135, 17);
+            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
+            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_910sop_Nornal.TabIndex = 15;
+            this.btn_SL910_910sop_Nornal.Text = "SOPx_ Normal";
+            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = true;
+            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
+            // 
             // btn_SL910_910_out
             // 
             this.btn_SL910_910_out.Location = new System.Drawing.Point(493, 17);
@@ -3980,16 +3990,6 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // btn_SL910_910sop_Nornal
-            // 
-            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(135, 17);
-            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
-            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
-            this.btn_SL910_910sop_Nornal.TabIndex = 15;
-            this.btn_SL910_910sop_Nornal.Text = "SOPx_ Normal";
-            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = true;
-            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4002,7 +4002,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v1.3.3 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console v1.3.5.ATE - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

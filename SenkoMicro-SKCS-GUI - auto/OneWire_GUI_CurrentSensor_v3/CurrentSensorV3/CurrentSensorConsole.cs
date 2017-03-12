@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using ADI.DMY2;
+using DMCommunication;
+using System.IO.Ports;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
@@ -16,6 +18,8 @@ namespace CurrentSensorV3
 {
     public partial class CurrentSensorConsole : Form
     {
+        DMDongle myDongle = new DMDongle();
+
         public CurrentSensorConsole()
         {
             InitializeComponent();
@@ -613,6 +617,11 @@ namespace CurrentSensorV3
             DisplayOperateMes("MASK = " + bMASK .ToString());
             DisplayOperateMes("SAFETY = " + bSAFEREAD .ToString());
             DisplayOperateMes("<------- " + DateTime.Now.ToString() + " ------->");
+
+            if (myDongle.dongleInit("COM3", DMDongle.VCPGROUP.SC, 0x65, 10))
+                DisplayOperateMes("DMdongle Initialized!");
+            else
+                DisplayOperateMes("NoDMdongle!");
         }
 
         private double AverageVout()
@@ -4232,23 +4241,79 @@ namespace CurrentSensorV3
             }
             #endregion
 
-            if (this.cmb_Module_PreT.SelectedItem.ToString() == "5V" || this.cmb_Module_PreT.SelectedItem.ToString() == "3.3V")
+            //IP = 0.38;
+            #region UART Init
+            //if (ProgramMode == 0)
+            //{
+            //    //if (ProgramMode == 0 && bUartInit == false)
+            //    //{
+
+            //    //UART Initialization
+            //    if (oneWrie_device.UARTInitilize(9600, 1))
+            //        DisplayOperateMes("UART Initilize succeeded!");
+            //    else
+            //        DisplayOperateMes("UART Initilize failed!");
+            //    //ding hao
+            //    Delay(Delay_Power);
+            //    //DisplayAutoTrimOperateMes("Delay 300ms");
+
+            //    //1. Current Remote CTL
+            //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
+            //        DisplayOperateMes("Set Current Remote succeeded!");
+            //    else
+            //        DisplayOperateMes("Set Current Remote failed!");
+
+            //    Delay(Delay_Power);
+
+            //    //2. Current On
+            //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 400))
+            //        DisplayOperateMes("Set Current to IP succeeded!");
+            //    else
+            //        DisplayOperateMes("Set Current to IP failed!");
+
+            //    Delay(Delay_Power);
+
+            //    //3. Set Voltage
+            //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 30u))
+            //        DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
+            //    else
+            //        DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
+
+
+            //    Delay(Delay_Power);
+
+            //}
+            #endregion
+
+            while (true)
             {
-                if (SocketType == 0)
-                    AutomaticaTrim_5V_SingleSite();
-                else if (SocketType == 1)
-                    btn_AutomaticaTrim5V_MultiSite(null, null);
+
+                if (this.cmb_Module_PreT.SelectedItem.ToString() == "5V" || this.cmb_Module_PreT.SelectedItem.ToString() == "3.3V")
+                {
+                    if (SocketType == 0)
+                    {
+                        while (myDongle.readSotFlag() == 0x11)
+                        {
+                            Delay(500);
+                            AutomaticaTrim_5V_SingleSite();
+                            myDongle.clearSotFlag();
+                        }
+                        
+                    }
+                    else if (SocketType == 1)
+                        btn_AutomaticaTrim5V_MultiSite(null, null);
+                    else
+                        return;
+                }
                 else
-                    return;
-            }
-            else
-            {
-                if (SocketType == 0)
-                    AutomaticaTrim_15V_SingleSite();
-                else if (SocketType == 1)
-                    btn_AutomaticaTrim15V_MultiSite(null, null);
-                else
-                    return;
+                {
+                    if (SocketType == 0)
+                        AutomaticaTrim_15V_SingleSite();
+                    else if (SocketType == 1)
+                        btn_AutomaticaTrim15V_MultiSite(null, null);
+                    else
+                        return;
+                }
             }
 
         }
@@ -6135,6 +6200,7 @@ namespace CurrentSensorV3
             bool bSafety = false;
             //uint[] tempReadback = new uint[5];
             double dVout_0A_Temp = 0;
+            double coilCurrent = 0.38; 
             double dVip_Target = TargetOffset + TargetVoltage_customer;
             double dGainTestMinusTarget = 1;
             double dGainTest = 0;
@@ -6242,7 +6308,8 @@ namespace CurrentSensorV3
                 //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_ABNORMAL;
                 PowerOff();
                 //PrintDutAttribute(sDUT);
-                MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
+                myDongle.setBin(4);
+                //MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
                 return;
             }
             else if (dModuleCurrent > dCurrentUpLimit)
@@ -6253,6 +6320,7 @@ namespace CurrentSensorV3
                 sDUT.iErrorCode = uDutTrimResult[idut];
                 PrintDutAttribute(sDUT);
                 //MessageBox.Show(String.Format("电流异常，模块短路或损坏！"), "Error", MessageBoxButtons.OK);
+                myDongle.setBin(4);
                 this.lbl_passOrFailed.ForeColor = Color.Yellow;
                 this.lbl_passOrFailed.Text = "短路!";
                 return;
@@ -6283,40 +6351,30 @@ namespace CurrentSensorV3
                 else
                     DisplayOperateMes("Set Current Remote failed!");
 
-                //Delay 300ms
-                //Thread.Sleep(300);
                 Delay(Delay_Power);
-                //DisplayAutoTrimOperateMes("Delay 300ms");
 
                 //2. Current On
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                    DisplayOperateMes("Set Current to IP succeeded!");
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 400))
+                    DisplayOperateMes("Set Current to 400mA succeeded!");
                 else
-                    DisplayOperateMes("Set Current to IP failed!");
+                    DisplayOperateMes("Set Current to 400mA failed!");
 
-                //Delay 300ms
                 Delay(Delay_Power);
-                //DisplayOperateMes("Delay 300ms");
 
                 //3. Set Voltage
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 6u))
-                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 30u))
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 30));
                 else
-                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 30));
 
 
-                //Delay 300ms
                 Delay(Delay_Power);
-                //DisplayOperateMes("Delay 300ms");
 
-                //bUartInit = true;
-                //}
             }
+
             #endregion UART Initialize
 
             #region Saturation judgement
-
 
             //Redundency delay in case of power off failure.
             Delay(Delay_Sync);
@@ -6331,6 +6389,9 @@ namespace CurrentSensorV3
                 sDUT.bTrimmed = false;
                 sDUT.iErrorCode = uDutTrimResult[idut];
                 PrintDutAttribute(sDUT);
+
+                myDongle.setBin(4);
+
                 this.lbl_passOrFailed.ForeColor = Color.Red;
                 this.lbl_passOrFailed.Text = "FAIL!";
                 return;
@@ -6359,6 +6420,9 @@ namespace CurrentSensorV3
                         sDUT.bTrimmed = true;
                         sDUT.iErrorCode = uDutTrimResult[idut];
                         PrintDutAttribute(sDUT);
+
+                        myDongle.setBin(4);
+
                         //MessageBox.Show(String.Format("模组已编程，交至研发部！"), "Error", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "混料!";
@@ -6372,6 +6436,9 @@ namespace CurrentSensorV3
                         sDUT.bDigitalCommFail = true;
                         sDUT.iErrorCode = uDutTrimResult[idut];
                         PrintDutAttribute(sDUT);
+
+                        myDongle.setBin(4);
+
                         //MessageBox.Show(String.Format("输出管脚短路！", Color.YellowGreen), "Warning", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "短路!";
@@ -6386,6 +6453,9 @@ namespace CurrentSensorV3
                     sDUT.bDigitalCommFail = true;
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     PrintDutAttribute(sDUT);
+
+                    myDongle.setBin(4);
+
                     //MessageBox.Show(String.Format("输出管脚短路！", Color.YellowGreen), "Warning", MessageBoxButtons.OK);
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "FAIL!";
@@ -6435,14 +6505,14 @@ namespace CurrentSensorV3
                 if (ProgramMode == 0)
                 {
                     oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0);
-                    Delay(Delay_Sync);
-                    oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 5);
+                    //Delay(Delay_Sync);
+                    //oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(coilCurrent));
                     Delay(Delay_Sync);
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
-                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 5));
+                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
                     {
-                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", 5));
+                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
                         TrimFinish();
                         return;
                     }
@@ -6464,12 +6534,12 @@ namespace CurrentSensorV3
                 sDUT.dVoutIPNative = dMultiSiteVoutIP[idut];
                 DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
 
-                //set current back to IP
+                //set current back to 0A
                 if (ProgramMode == 0 )
                 {
                     oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0);
                     Delay(Delay_Sync);
-                    oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP));
+                    //oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(coilCurrent));
                 }
 
                 if (dMultiSiteVoutIP[idut] > saturationVout)
@@ -6479,6 +6549,9 @@ namespace CurrentSensorV3
                     TrimFinish();
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     PrintDutAttribute(sDUT);
+
+                    myDongle.setBin(4);
+
                     this.lbl_passOrFailed.ForeColor = Color.Yellow;
                     this.lbl_passOrFailed.Text = "短路!";
                     return;
@@ -6490,6 +6563,9 @@ namespace CurrentSensorV3
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     PrintDutAttribute(sDUT);
+
+                    myDongle.setBin(4);
+
                     this.lbl_passOrFailed.ForeColor = Color.Yellow;
                     this.lbl_passOrFailed.Text = "饱和!";
                     return;
@@ -6502,6 +6578,9 @@ namespace CurrentSensorV3
                 TrimFinish();
                 sDUT.iErrorCode = uDutTrimResult[idut];
                 PrintDutAttribute(sDUT);
+
+                myDongle.setBin(4);
+
                 this.lbl_passOrFailed.ForeColor = Color.Yellow;
                 this.lbl_passOrFailed.Text = "短路!";
                 return;
@@ -6565,6 +6644,9 @@ namespace CurrentSensorV3
                     TrimFinish();
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     PrintDutAttribute(sDUT);
+
+                    myDongle.setBin(4);
+
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "FAIL!";
                     return;
@@ -6578,6 +6660,9 @@ namespace CurrentSensorV3
                     TrimFinish();
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     PrintDutAttribute(sDUT);
+
+                    myDongle.setBin(4);
+
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "FAIL!";
                     return;
@@ -6704,6 +6789,9 @@ namespace CurrentSensorV3
                     MultiSiteDisplayResult(uDutTrimResult);
                     TrimFinish();
                     PrintDutAttribute(sDUT);
+
+                    myDongle.setBin(1);
+
                     return;
                 }
                 else
@@ -6714,9 +6802,15 @@ namespace CurrentSensorV3
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     if (bMRE)
+                    {
                         this.lbl_passOrFailed.Text = "FAIL!";
+                        myDongle.setBin(2);
+                    }
                     else
+                    {
+                        myDongle.setBin(1);
                         this.lbl_passOrFailed.Text = "PASS!";
+                    }
 
                     DisplayOperateMes("Bin" + " = " + uDutTrimResult[idut].ToString());
                     DisplayOperateMes("Marginal Read ->" + bMarginal.ToString());
@@ -6764,6 +6858,9 @@ namespace CurrentSensorV3
                         //this.lbl_passOrFailed.ForeColor = Color.Red;
                         //this.lbl_passOrFailed.Text = "MOA!";
                         PrintDutAttribute(sDUT);
+
+                        myDongle.setBin(4);
+
                         //dr = MessageBox.Show(String.Format("灵敏度过低，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "低敏!";
@@ -6813,6 +6910,9 @@ namespace CurrentSensorV3
                             //this.lbl_passOrFailed.ForeColor = Color.Red;
                             //this.lbl_passOrFailed.Text = "MOA!";
                             PrintDutAttribute(sDUT);
+
+                            myDongle.setBin(4);
+
                             //dr = MessageBox.Show(String.Format("灵敏度过低，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                             this.lbl_passOrFailed.ForeColor = Color.Yellow;
                             this.lbl_passOrFailed.Text = "低敏!";
@@ -6907,6 +7007,9 @@ namespace CurrentSensorV3
                         //this.lbl_passOrFailed.ForeColor = Color.Red;
                         //this.lbl_passOrFailed.Text = "MOA!";
                         PrintDutAttribute(sDUT);
+
+                        myDongle.setBin(4);
+
                         //dr = MessageBox.Show(String.Format("输出饱和，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "饱和!";
@@ -7367,11 +7470,13 @@ namespace CurrentSensorV3
                     //this.lbl_passOrFailed.ForeColor = Color.Green;
                     if (bMRE)
                     {
+                        myDongle.setBin(2);
                         this.lbl_passOrFailed.ForeColor = Color.Red;
                         this.lbl_passOrFailed.Text = "FAIL!";
                     }
                     else
                     {
+                        myDongle.setBin(1);
                         this.lbl_passOrFailed.ForeColor = Color.Green;
                         this.lbl_passOrFailed.Text = "PASS!";
                     }
@@ -7385,11 +7490,13 @@ namespace CurrentSensorV3
                     //this.lbl_passOrFailed.ForeColor = Color.Green;
                     if (bMRE)
                     {
+                        myDongle.setBin(2);
                         this.lbl_passOrFailed.ForeColor = Color.Red;
                         this.lbl_passOrFailed.Text = "FAIL!";
                     }
                     else
                     {
+                        myDongle.setBin(1);
                         this.lbl_passOrFailed.ForeColor = Color.Green;
                         this.lbl_passOrFailed.Text = "PASS!";
                     }
@@ -7403,17 +7510,20 @@ namespace CurrentSensorV3
                     //this.lbl_passOrFailed.ForeColor = Color.Green;
                     if (bMRE)
                     {
+                        myDongle.setBin(2);
                         this.lbl_passOrFailed.ForeColor = Color.Red;
                         this.lbl_passOrFailed.Text = "FAIL!";
                     }
                     else
                     {
+                        myDongle.setBin(1);
                         this.lbl_passOrFailed.ForeColor = Color.Green;
                         this.lbl_passOrFailed.Text = "PASS!";
                     }
                 }
                 else
                 {
+                    myDongle.setBin(3);
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "FAIL!";
                 }
@@ -7428,6 +7538,7 @@ namespace CurrentSensorV3
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
                 {
+                    myDongle.setBin(1);
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
@@ -7437,6 +7548,7 @@ namespace CurrentSensorV3
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
                 {
+                    myDongle.setBin(1);
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
@@ -7446,12 +7558,14 @@ namespace CurrentSensorV3
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
+                    myDongle.setBin(1);
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
                 }
                 else
                 {
+                    myDongle.setBin(3);
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "FAIL!";
                 }
@@ -8958,7 +9072,7 @@ namespace CurrentSensorV3
         {
             btn_Eng_SL910_Click(null,null);
             Delay(Delay_Sync);
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
             //btn_Eng_TestCom_Click(null, null);
         }
 
