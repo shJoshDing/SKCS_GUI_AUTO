@@ -8958,7 +8958,7 @@ namespace CurrentSensorV3
         {
             btn_Eng_SL910_Click(null,null);
             Delay(Delay_Sync);
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
             //btn_Eng_TestCom_Click(null, null);
         }
 
@@ -9710,6 +9710,14 @@ namespace CurrentSensorV3
             btn_Eng_Analogmode_Click(null, null);
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
+        }
+
+        private void btn_SOP14_TestMode_Click(object sender, EventArgs e)
+        {
+            btn_Eng_SL910_Click(null, null);
+            Delay(Delay_Sync);
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
+            btn_Eng_TestCom_Click(null, null);
         }
 
     }

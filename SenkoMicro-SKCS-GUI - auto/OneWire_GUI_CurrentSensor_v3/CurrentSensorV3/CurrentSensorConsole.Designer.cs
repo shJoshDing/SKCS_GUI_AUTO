@@ -290,6 +290,7 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
             this.SL910Tab = new System.Windows.Forms.TabPage();
+            this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
             this.btn_SL910_910_out = new System.Windows.Forms.Button();
             this.btn_SL910_FuseBank1 = new System.Windows.Forms.Button();
             this.txt_SL910_ReadLevel = new System.Windows.Forms.TextBox();
@@ -330,7 +331,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
+            this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3583,8 +3584,9 @@
             // 
             // SL910Tab
             // 
-            this.SL910Tab.Controls.Add(this.btn_SL910_910sop_Nornal);
+            this.SL910Tab.Controls.Add(this.btn_SOP14_TestMode);
             this.SL910Tab.Controls.Add(this.btn_SL910_910_out);
+            this.SL910Tab.Controls.Add(this.btn_SL910_910sop_Nornal);
             this.SL910Tab.Controls.Add(this.btn_SL910_FuseBank1);
             this.SL910Tab.Controls.Add(this.txt_SL910_ReadLevel);
             this.SL910Tab.Controls.Add(this.label85);
@@ -3605,19 +3607,33 @@
             this.SL910Tab.Text = "SL910";
             this.SL910Tab.UseVisualStyleBackColor = true;
             // 
+            // btn_SL910_910sop_Nornal
+            // 
+            this.btn_SL910_910sop_Nornal.BackColor = System.Drawing.Color.Silver;
+            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(199, 17);
+            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
+            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_910sop_Nornal.TabIndex = 15;
+            this.btn_SL910_910sop_Nornal.Text = "SOPx Normal";
+            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = false;
+            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
+            // 
             // btn_SL910_910_out
             // 
-            this.btn_SL910_910_out.Location = new System.Drawing.Point(493, 17);
+            this.btn_SL910_910_out.BackColor = System.Drawing.Color.Coral;
+            this.btn_SL910_910_out.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL910_910_out.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_SL910_910_out.Location = new System.Drawing.Point(272, 17);
             this.btn_SL910_910_out.Name = "btn_SL910_910_out";
             this.btn_SL910_910_out.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_910_out.TabIndex = 14;
             this.btn_SL910_910_out.Text = "VOUT";
-            this.btn_SL910_910_out.UseVisualStyleBackColor = true;
+            this.btn_SL910_910_out.UseVisualStyleBackColor = false;
             this.btn_SL910_910_out.Click += new System.EventHandler(this.btn_SL910_910out_Click);
             // 
             // btn_SL910_FuseBank1
             // 
-            this.btn_SL910_FuseBank1.Location = new System.Drawing.Point(571, 17);
+            this.btn_SL910_FuseBank1.Location = new System.Drawing.Point(592, 17);
             this.btn_SL910_FuseBank1.Name = "btn_SL910_FuseBank1";
             this.btn_SL910_FuseBank1.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_FuseBank1.TabIndex = 13;
@@ -3627,7 +3643,7 @@
             // 
             // txt_SL910_ReadLevel
             // 
-            this.txt_SL910_ReadLevel.Location = new System.Drawing.Point(696, 31);
+            this.txt_SL910_ReadLevel.Location = new System.Drawing.Point(709, 31);
             this.txt_SL910_ReadLevel.Name = "txt_SL910_ReadLevel";
             this.txt_SL910_ReadLevel.Size = new System.Drawing.Size(30, 20);
             this.txt_SL910_ReadLevel.TabIndex = 12;
@@ -3638,7 +3654,7 @@
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(695, 16);
+            this.label85.Location = new System.Drawing.Point(706, 16);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(33, 13);
             this.label85.TabIndex = 11;
@@ -3646,7 +3662,7 @@
             // 
             // btn_SL910_ReadFuse
             // 
-            this.btn_SL910_ReadFuse.Location = new System.Drawing.Point(737, 17);
+            this.btn_SL910_ReadFuse.Location = new System.Drawing.Point(740, 17);
             this.btn_SL910_ReadFuse.Name = "btn_SL910_ReadFuse";
             this.btn_SL910_ReadFuse.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_ReadFuse.TabIndex = 10;
@@ -3656,72 +3672,79 @@
             // 
             // btn_SL1910_WriteAll
             // 
-            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(351, 17);
+            this.btn_SL1910_WriteAll.BackColor = System.Drawing.Color.Chocolate;
+            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(469, 17);
             this.btn_SL1910_WriteAll.Name = "btn_SL1910_WriteAll";
             this.btn_SL1910_WriteAll.Size = new System.Drawing.Size(56, 36);
             this.btn_SL1910_WriteAll.TabIndex = 9;
             this.btn_SL1910_WriteAll.Text = "Write  All";
-            this.btn_SL1910_WriteAll.UseVisualStyleBackColor = true;
+            this.btn_SL1910_WriteAll.UseVisualStyleBackColor = false;
             this.btn_SL1910_WriteAll.Click += new System.EventHandler(this.btn_SL1910_WriteAll_Click);
             // 
             // btn_SL910_TestMode
             // 
+            this.btn_SL910_TestMode.BackColor = System.Drawing.Color.Snow;
             this.btn_SL910_TestMode.Location = new System.Drawing.Point(11, 17);
             this.btn_SL910_TestMode.Name = "btn_SL910_TestMode";
             this.btn_SL910_TestMode.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_TestMode.TabIndex = 3;
-            this.btn_SL910_TestMode.Text = "Test Key";
-            this.btn_SL910_TestMode.UseVisualStyleBackColor = true;
+            this.btn_SL910_TestMode.Text = "TO94 Key";
+            this.btn_SL910_TestMode.UseVisualStyleBackColor = false;
             this.btn_SL910_TestMode.Click += new System.EventHandler(this.btn_SL910_TestMode_Click);
             // 
             // btn_SL1910_ReadAll
             // 
-            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(413, 17);
+            this.btn_SL1910_ReadAll.BackColor = System.Drawing.Color.Chocolate;
+            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(529, 17);
             this.btn_SL1910_ReadAll.Name = "btn_SL1910_ReadAll";
             this.btn_SL1910_ReadAll.Size = new System.Drawing.Size(56, 36);
             this.btn_SL1910_ReadAll.TabIndex = 8;
             this.btn_SL1910_ReadAll.Text = "Read   All";
-            this.btn_SL1910_ReadAll.UseVisualStyleBackColor = true;
+            this.btn_SL1910_ReadAll.UseVisualStyleBackColor = false;
             this.btn_SL1910_ReadAll.Click += new System.EventHandler(this.btn_SL1910_ReadAll_Click);
             // 
             // btn_SL910_FuseBank2
             // 
-            this.btn_SL910_FuseBank2.Location = new System.Drawing.Point(633, 17);
+            this.btn_SL910_FuseBank2.BackColor = System.Drawing.Color.PaleGreen;
+            this.btn_SL910_FuseBank2.Location = new System.Drawing.Point(650, 17);
             this.btn_SL910_FuseBank2.Name = "btn_SL910_FuseBank2";
             this.btn_SL910_FuseBank2.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_FuseBank2.TabIndex = 7;
             this.btn_SL910_FuseBank2.Text = "Trim Bank2";
-            this.btn_SL910_FuseBank2.UseVisualStyleBackColor = true;
+            this.btn_SL910_FuseBank2.UseVisualStyleBackColor = false;
             this.btn_SL910_FuseBank2.Click += new System.EventHandler(this.btn_SL910_FuseBank2_Click);
             // 
             // btn_SL910_NormalMode
             // 
-            this.btn_SL910_NormalMode.Location = new System.Drawing.Point(73, 17);
+            this.btn_SL910_NormalMode.BackColor = System.Drawing.Color.Snow;
+            this.btn_SL910_NormalMode.Location = new System.Drawing.Point(71, 17);
             this.btn_SL910_NormalMode.Name = "btn_SL910_NormalMode";
             this.btn_SL910_NormalMode.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_NormalMode.TabIndex = 6;
-            this.btn_SL910_NormalMode.Text = "94 Normal";
-            this.btn_SL910_NormalMode.UseVisualStyleBackColor = true;
+            this.btn_SL910_NormalMode.Text = "TO94 Normal";
+            this.btn_SL910_NormalMode.UseVisualStyleBackColor = false;
             this.btn_SL910_NormalMode.Click += new System.EventHandler(this.btn_SL910_NormalMode_Click);
             // 
             // btn_SL910_Read
             // 
-            this.btn_SL910_Read.Location = new System.Drawing.Point(275, 17);
+            this.btn_SL910_Read.BackColor = System.Drawing.Color.Salmon;
+            this.btn_SL910_Read.Location = new System.Drawing.Point(403, 17);
             this.btn_SL910_Read.Name = "btn_SL910_Read";
             this.btn_SL910_Read.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_Read.TabIndex = 5;
             this.btn_SL910_Read.Text = "Read Select";
-            this.btn_SL910_Read.UseVisualStyleBackColor = true;
+            this.btn_SL910_Read.UseVisualStyleBackColor = false;
             this.btn_SL910_Read.Click += new System.EventHandler(this.btn_SL910_Read_Click);
             // 
             // btn_SL1910_Wrtie
             // 
-            this.btn_SL1910_Wrtie.Location = new System.Drawing.Point(213, 17);
+            this.btn_SL1910_Wrtie.BackColor = System.Drawing.Color.Salmon;
+            this.btn_SL1910_Wrtie.Location = new System.Drawing.Point(343, 17);
             this.btn_SL1910_Wrtie.Name = "btn_SL1910_Wrtie";
             this.btn_SL1910_Wrtie.Size = new System.Drawing.Size(56, 36);
             this.btn_SL1910_Wrtie.TabIndex = 4;
             this.btn_SL1910_Wrtie.Text = "Write Select";
-            this.btn_SL1910_Wrtie.UseVisualStyleBackColor = true;
+            this.btn_SL1910_Wrtie.UseVisualStyleBackColor = false;
             this.btn_SL1910_Wrtie.Click += new System.EventHandler(this.btn_SL1910_Wrtie_Click);
             // 
             // panel10
@@ -3980,15 +4003,16 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // btn_SL910_910sop_Nornal
+            // btn_SOP14_TestMode
             // 
-            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(135, 17);
-            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
-            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
-            this.btn_SL910_910sop_Nornal.TabIndex = 15;
-            this.btn_SL910_910sop_Nornal.Text = "SOPx_ Normal";
-            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = true;
-            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
+            this.btn_SOP14_TestMode.BackColor = System.Drawing.Color.Silver;
+            this.btn_SOP14_TestMode.Location = new System.Drawing.Point(139, 17);
+            this.btn_SOP14_TestMode.Name = "btn_SOP14_TestMode";
+            this.btn_SOP14_TestMode.Size = new System.Drawing.Size(56, 36);
+            this.btn_SOP14_TestMode.TabIndex = 16;
+            this.btn_SOP14_TestMode.Text = "SOPx Key";
+            this.btn_SOP14_TestMode.UseVisualStyleBackColor = false;
+            this.btn_SOP14_TestMode.Click += new System.EventHandler(this.btn_SOP14_TestMode_Click);
             // 
             // CurrentSensorConsole
             // 
@@ -4379,5 +4403,6 @@
         private System.Windows.Forms.TextBox txt_Char910_ScriptName;
         private System.DirectoryServices.DirectorySearcher directorySearcher1;
         private System.Windows.Forms.Button btn_SL910_910sop_Nornal;
+        private System.Windows.Forms.Button btn_SOP14_TestMode;
     }
 }
