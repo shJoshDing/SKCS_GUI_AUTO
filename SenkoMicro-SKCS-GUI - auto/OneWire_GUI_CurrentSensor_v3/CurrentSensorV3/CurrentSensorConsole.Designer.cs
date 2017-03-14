@@ -290,8 +290,9 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
             this.SL910Tab = new System.Windows.Forms.TabPage();
-            this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
+            this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
             this.btn_SL910_910_out = new System.Windows.Forms.Button();
+            this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
             this.btn_SL910_FuseBank1 = new System.Windows.Forms.Button();
             this.txt_SL910_ReadLevel = new System.Windows.Forms.TextBox();
             this.label85 = new System.Windows.Forms.Label();
@@ -331,7 +332,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3607,16 +3607,16 @@
             this.SL910Tab.Text = "SL910";
             this.SL910Tab.UseVisualStyleBackColor = true;
             // 
-            // btn_SL910_910sop_Nornal
+            // btn_SOP14_TestMode
             // 
-            this.btn_SL910_910sop_Nornal.BackColor = System.Drawing.Color.Silver;
-            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(199, 17);
-            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
-            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
-            this.btn_SL910_910sop_Nornal.TabIndex = 15;
-            this.btn_SL910_910sop_Nornal.Text = "SOPx Normal";
-            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = false;
-            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
+            this.btn_SOP14_TestMode.BackColor = System.Drawing.Color.Silver;
+            this.btn_SOP14_TestMode.Location = new System.Drawing.Point(139, 17);
+            this.btn_SOP14_TestMode.Name = "btn_SOP14_TestMode";
+            this.btn_SOP14_TestMode.Size = new System.Drawing.Size(56, 36);
+            this.btn_SOP14_TestMode.TabIndex = 16;
+            this.btn_SOP14_TestMode.Text = "SOPx Key";
+            this.btn_SOP14_TestMode.UseVisualStyleBackColor = false;
+            this.btn_SOP14_TestMode.Click += new System.EventHandler(this.btn_SOP14_TestMode_Click);
             // 
             // btn_SL910_910_out
             // 
@@ -3630,6 +3630,17 @@
             this.btn_SL910_910_out.Text = "VOUT";
             this.btn_SL910_910_out.UseVisualStyleBackColor = false;
             this.btn_SL910_910_out.Click += new System.EventHandler(this.btn_SL910_910out_Click);
+            // 
+            // btn_SL910_910sop_Nornal
+            // 
+            this.btn_SL910_910sop_Nornal.BackColor = System.Drawing.Color.Silver;
+            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(199, 17);
+            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
+            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_910sop_Nornal.TabIndex = 15;
+            this.btn_SL910_910sop_Nornal.Text = "SOPx Normal";
+            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = false;
+            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
             // 
             // btn_SL910_FuseBank1
             // 
@@ -4002,17 +4013,6 @@
             this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            // 
-            // btn_SOP14_TestMode
-            // 
-            this.btn_SOP14_TestMode.BackColor = System.Drawing.Color.Silver;
-            this.btn_SOP14_TestMode.Location = new System.Drawing.Point(139, 17);
-            this.btn_SOP14_TestMode.Name = "btn_SOP14_TestMode";
-            this.btn_SOP14_TestMode.Size = new System.Drawing.Size(56, 36);
-            this.btn_SOP14_TestMode.TabIndex = 16;
-            this.btn_SOP14_TestMode.Text = "SOPx Key";
-            this.btn_SOP14_TestMode.UseVisualStyleBackColor = false;
-            this.btn_SOP14_TestMode.Click += new System.EventHandler(this.btn_SOP14_TestMode_Click);
             // 
             // CurrentSensorConsole
             // 
