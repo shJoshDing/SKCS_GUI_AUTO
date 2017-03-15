@@ -621,7 +621,34 @@ namespace CurrentSensorV3
             if (myDongle.dongleInit("COM3", DMDongle.VCPGROUP.SC, 0x65, 10))
                 DisplayOperateMes("DMdongle Initialized!");
             else
-                DisplayOperateMes("NoDMdongle!");
+                DisplayOperateMes("No DMdongle!", Color.Red);
+
+            //open file for prodcution record
+            string filename = System.Windows.Forms.Application.StartupPath; ;
+            filename += @"\Record.dat";
+
+            int iFileLine = 0;
+
+            StreamReader sr = new StreamReader(filename);
+            while (sr.ReadLine() != null)
+            {
+                //sr.ReadLine();
+                iFileLine++;
+            }
+            sr.Close();
+
+            StreamWriter sw;
+            if (iFileLine < 100000)
+                sw = new StreamWriter(filename, true);
+            else
+                sw = new StreamWriter(filename, false);
+
+            string msg;
+
+            msg = System.DateTime.Now.ToString();
+            sw.WriteLine(msg);
+
+            sw.Close();
         }
 
         private double AverageVout()
@@ -3265,7 +3292,7 @@ namespace CurrentSensorV3
 
             string msg;
 
-            msg = string.Format("{0} {1}{2} {3} {4} {5} {6} {7}", sDUT.dIQ.ToString("F3"),
+            msg = string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", sDUT.dIQ.ToString("F3"),
                 sDUT.dVoutIPNative.ToString("F3"), sDUT.dVout0ANative.ToString("F3"),
                 sDUT.dVoutIPMiddle.ToString("F3"), sDUT.dVout0AMiddle.ToString("F3"),
                 sDUT.dVoutIPTrimmed.ToString("F3"), sDUT.dVout0ATrimmed.ToString("F3"),
@@ -7462,9 +7489,9 @@ namespace CurrentSensorV3
 
             if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_MARGINAL)
             {
-                if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                if (TargetOffset * (1 - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.001) && 
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.001) && 
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.001))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
                     //this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -7534,9 +7561,9 @@ namespace CurrentSensorV3
             //if ((!bMarginal) && (!bSafety))
             else if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_NORMAL)
             {
-                if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                if (TargetOffset * (1 - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.001) && 
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.001) && 
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.001))
                 {
                     myDongle.setBin(1);
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
