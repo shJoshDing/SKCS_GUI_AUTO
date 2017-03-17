@@ -3292,7 +3292,7 @@ namespace CurrentSensorV3
 
             string msg;
 
-            msg = string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", sDUT.dIQ.ToString("F3"),
+            msg = string.Format("# {0} {1} {2} {3} {4} {5} {6} {7}", sDUT.dIQ.ToString("F3"),
                 sDUT.dVoutIPNative.ToString("F3"), sDUT.dVout0ANative.ToString("F3"),
                 sDUT.dVoutIPMiddle.ToString("F3"), sDUT.dVout0AMiddle.ToString("F3"),
                 sDUT.dVoutIPTrimmed.ToString("F3"), sDUT.dVout0ATrimmed.ToString("F3"),
@@ -7510,8 +7510,8 @@ namespace CurrentSensorV3
                 }
                 else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && 
                     dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && 
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_5;
                     //this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -7528,8 +7528,8 @@ namespace CurrentSensorV3
                         this.lbl_passOrFailed.Text = "PASS!";
                     }
                 }
-                else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && 
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && 
+                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
