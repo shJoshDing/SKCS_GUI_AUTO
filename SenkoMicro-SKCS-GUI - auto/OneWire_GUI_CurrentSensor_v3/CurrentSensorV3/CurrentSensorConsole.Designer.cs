@@ -2880,7 +2880,7 @@
             this.cmb_ProgramMode_AutoT.Items.AddRange(new object[] {
             "Automatic",
             "Manual"});
-            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(305, 310);
+            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(267, 301);
             this.cmb_ProgramMode_AutoT.Name = "cmb_ProgramMode_AutoT";
             this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(103, 25);
             this.cmb_ProgramMode_AutoT.TabIndex = 115;
@@ -2893,10 +2893,11 @@
             this.cmb_SocketType_AutoT.Items.AddRange(new object[] {
             "SingleSite",
             "MultiSite"});
-            this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(305, 281);
+            this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(10, 354);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(103, 25);
             this.cmb_SocketType_AutoT.TabIndex = 115;
+            this.cmb_SocketType_AutoT.Visible = false;
             this.cmb_SocketType_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_SocketType_AutoT_SelectedIndexChanged);
             // 
             // label77
@@ -2904,7 +2905,7 @@
             this.label77.AutoSize = true;
             this.label77.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label77.Location = new System.Drawing.Point(192, 312);
+            this.label77.Location = new System.Drawing.Point(263, 279);
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(112, 19);
             this.label77.TabIndex = 114;
@@ -2915,11 +2916,12 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label21.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label21.Location = new System.Drawing.Point(202, 284);
+            this.label21.Location = new System.Drawing.Point(8, 332);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(92, 19);
             this.label21.TabIndex = 114;
             this.label21.Text = "Socket Type";
+            this.label21.Visible = false;
             // 
             // btn_Vout_AutoT
             // 
@@ -3060,7 +3062,7 @@
             this.lbl_passOrFailed.BackColor = System.Drawing.Color.Azure;
             this.lbl_passOrFailed.Font = new System.Drawing.Font("Microsoft Sans Serif", 52F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_passOrFailed.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lbl_passOrFailed.Location = new System.Drawing.Point(236, 341);
+            this.lbl_passOrFailed.Location = new System.Drawing.Point(250, 341);
             this.lbl_passOrFailed.Name = "lbl_passOrFailed";
             this.lbl_passOrFailed.Size = new System.Drawing.Size(292, 87);
             this.lbl_passOrFailed.TabIndex = 58;
@@ -3077,7 +3079,6 @@
             this.btn_AutomaticaTrim15V.Text = "15V Auto-Trim";
             this.btn_AutomaticaTrim15V.UseVisualStyleBackColor = true;
             this.btn_AutomaticaTrim15V.Visible = false;
-            this.btn_AutomaticaTrim15V.Click += new System.EventHandler(this.btn_AutomaticaTrim15V_MultiSite);
             // 
             // btn_AutomaticaTrim5V
             // 
@@ -3089,12 +3090,11 @@
             this.btn_AutomaticaTrim5V.Text = "5V Auto-Trim";
             this.btn_AutomaticaTrim5V.UseVisualStyleBackColor = true;
             this.btn_AutomaticaTrim5V.Visible = false;
-            this.btn_AutomaticaTrim5V.Click += new System.EventHandler(this.btn_AutomaticaTrim5V_MultiSite);
             // 
             // btn_AutomaticaTrim
             // 
             this.btn_AutomaticaTrim.Font = new System.Drawing.Font("Microsoft Sans Serif", 21F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.btn_AutomaticaTrim.Location = new System.Drawing.Point(426, 279);
+            this.btn_AutomaticaTrim.Location = new System.Drawing.Point(385, 279);
             this.btn_AutomaticaTrim.Name = "btn_AutomaticaTrim";
             this.btn_AutomaticaTrim.Size = new System.Drawing.Size(147, 59);
             this.btn_AutomaticaTrim.TabIndex = 57;
@@ -4002,7 +4002,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v1.3.7.ATE - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console v1.3.8.ATE - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
