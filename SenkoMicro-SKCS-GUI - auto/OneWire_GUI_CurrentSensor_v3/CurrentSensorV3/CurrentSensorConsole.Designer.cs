@@ -288,6 +288,7 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
+            this.btn_EngTab_FT = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -449,6 +450,7 @@
             // 
             // EngineeringTab
             // 
+            this.EngineeringTab.Controls.Add(this.btn_EngTab_FT);
             this.EngineeringTab.Controls.Add(this.groupBox5);
             this.EngineeringTab.Controls.Add(this.panel3);
             this.EngineeringTab.Controls.Add(this.btn_EngTab_Ipon);
@@ -2923,7 +2925,6 @@
             this.btn_AutomaticaTrim15V.Text = "15V Auto-Trim";
             this.btn_AutomaticaTrim15V.UseVisualStyleBackColor = true;
             this.btn_AutomaticaTrim15V.Visible = false;
-            this.btn_AutomaticaTrim15V.Click += new System.EventHandler(this.btn_AutomaticaTrim15V_MultiSite);
             // 
             // btn_AutomaticaTrim5V
             // 
@@ -2935,7 +2936,6 @@
             this.btn_AutomaticaTrim5V.Text = "5V Auto-Trim";
             this.btn_AutomaticaTrim5V.UseVisualStyleBackColor = true;
             this.btn_AutomaticaTrim5V.Visible = false;
-            this.btn_AutomaticaTrim5V.Click += new System.EventHandler(this.btn_AutomaticaTrim5V_MultiSite);
             // 
             // btn_AutomaticaTrim
             // 
@@ -3510,6 +3510,16 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
+            // btn_EngTab_FT
+            // 
+            this.btn_EngTab_FT.Location = new System.Drawing.Point(722, 273);
+            this.btn_EngTab_FT.Name = "btn_EngTab_FT";
+            this.btn_EngTab_FT.Size = new System.Drawing.Size(56, 50);
+            this.btn_EngTab_FT.TabIndex = 90;
+            this.btn_EngTab_FT.Text = "FT";
+            this.btn_EngTab_FT.UseVisualStyleBackColor = true;
+            this.btn_EngTab_FT.Click += new System.EventHandler(this.btn_EngTab_FT_Click);
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3522,7 +3532,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console for 610 v1.2.3 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console for 610 v1.2.4 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -3848,5 +3858,6 @@
         private System.Windows.Forms.TextBox txt_Delay_PreT;
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.Button btn_EngTab_FT;
     }
 }
