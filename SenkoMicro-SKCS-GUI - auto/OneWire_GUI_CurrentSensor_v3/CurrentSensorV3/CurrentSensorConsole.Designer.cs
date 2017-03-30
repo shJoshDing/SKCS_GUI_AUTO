@@ -331,6 +331,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.btn_Auto_IPtest = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2835,6 +2836,7 @@
             // 
             // AutoTrimTab
             // 
+            this.AutoTrimTab.Controls.Add(this.btn_Auto_IPtest);
             this.AutoTrimTab.Controls.Add(this.btn_CommunicationTest);
             this.AutoTrimTab.Controls.Add(this.cmb_ProgramMode_AutoT);
             this.AutoTrimTab.Controls.Add(this.cmb_SocketType_AutoT);
@@ -3990,6 +3992,16 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // btn_Auto_IPtest
+            // 
+            this.btn_Auto_IPtest.Location = new System.Drawing.Point(611, 404);
+            this.btn_Auto_IPtest.Name = "btn_Auto_IPtest";
+            this.btn_Auto_IPtest.Size = new System.Drawing.Size(87, 24);
+            this.btn_Auto_IPtest.TabIndex = 117;
+            this.btn_Auto_IPtest.Text = "IPTest";
+            this.btn_Auto_IPtest.UseVisualStyleBackColor = true;
+            this.btn_Auto_IPtest.Click += new System.EventHandler(this.btn_Auto_IPtest_Click);
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4379,5 +4391,6 @@
         private System.Windows.Forms.TextBox txt_Char910_ScriptName;
         private System.DirectoryServices.DirectorySearcher directorySearcher1;
         private System.Windows.Forms.Button btn_SL910_910sop_Nornal;
+        private System.Windows.Forms.Button btn_Auto_IPtest;
     }
 }

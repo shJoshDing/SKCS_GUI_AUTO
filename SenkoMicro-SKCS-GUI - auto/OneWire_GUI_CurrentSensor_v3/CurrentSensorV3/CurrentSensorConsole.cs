@@ -4268,50 +4268,6 @@ namespace CurrentSensorV3
             }
             #endregion
 
-            //IP = 0.38;
-            #region UART Init
-            //if (ProgramMode == 0)
-            //{
-            //    //if (ProgramMode == 0 && bUartInit == false)
-            //    //{
-
-            //    //UART Initialization
-            //    if (oneWrie_device.UARTInitilize(9600, 1))
-            //        DisplayOperateMes("UART Initilize succeeded!");
-            //    else
-            //        DisplayOperateMes("UART Initilize failed!");
-            //    //ding hao
-            //    Delay(Delay_Power);
-            //    //DisplayAutoTrimOperateMes("Delay 300ms");
-
-            //    //1. Current Remote CTL
-            //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
-            //        DisplayOperateMes("Set Current Remote succeeded!");
-            //    else
-            //        DisplayOperateMes("Set Current Remote failed!");
-
-            //    Delay(Delay_Power);
-
-            //    //2. Current On
-            //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 400))
-            //        DisplayOperateMes("Set Current to IP succeeded!");
-            //    else
-            //        DisplayOperateMes("Set Current to IP failed!");
-
-            //    Delay(Delay_Power);
-
-            //    //3. Set Voltage
-            //    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 30u))
-            //        DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
-            //    else
-            //        DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
-
-
-            //    Delay(Delay_Power);
-
-            //}
-            #endregion
-
             while (true)
             {
 
@@ -4817,9 +4773,9 @@ namespace CurrentSensorV3
             #endregion  Get Vout@0A
 
             #region No need Trim case
-            if ((TargetOffset - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + 0.001)
-                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.001)
-                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.001))
+            if ((TargetOffset - bin2accuracy/100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + bin2accuracy/100d)
+                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + bin2accuracy / 100d)
+                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - bin2accuracy / 100d))
             {
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
                 Delay(Delay_Sync);
@@ -4880,7 +4836,7 @@ namespace CurrentSensorV3
                 Delay(Delay_Sync);
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
 
-                Delay(Delay_Sync);
+                Delay(Delay_Fuse);
                 dMultiSiteVout0A[idut] = AverageVout();
                 sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
                 DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
@@ -5569,7 +5525,7 @@ namespace CurrentSensorV3
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
 
-            Delay(Delay_Sync);
+            Delay(Delay_Fuse);
             dMultiSiteVout0A[idut] = AverageVout();
             sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
             DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
@@ -5689,17 +5645,17 @@ namespace CurrentSensorV3
                     this.lbl_passOrFailed.Text = "PASS!";
                 }
                 else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
                     myDongle.setBin(1);
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
                 }
-                else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && 
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && 
                     (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
                 {
@@ -7963,6 +7919,117 @@ namespace CurrentSensorV3
             btn_Eng_Analogmode_Click(null, null);
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
+        }
+
+        private void btn_Auto_IPtest_Click(object sender, EventArgs e)
+        {
+            //open file for prodcution record
+            string filename = System.Windows.Forms.Application.StartupPath; ;
+            filename += @"\IPtest.dat";
+
+            int iFileLine = 0;
+
+            StreamReader sr = new StreamReader(filename);
+            while (sr.ReadLine() != null)
+            {
+                //sr.ReadLine();
+                iFileLine++;
+            }
+            sr.Close();
+
+            StreamWriter sw;
+            if (iFileLine < 65535)
+                sw = new StreamWriter(filename, true);
+            else
+                sw = new StreamWriter(filename, false);
+
+            #region UART Initialize
+            if (ProgramMode == 0)
+            {
+                //if (ProgramMode == 0 && bUartInit == false)
+                //{
+
+                //UART Initialization
+                if (oneWrie_device.UARTInitilize(9600, 1))
+                    DisplayOperateMes("UART Initilize succeeded!");
+                else
+                    DisplayOperateMes("UART Initilize failed!");
+                //ding hao
+                Delay(Delay_Power);
+                //DisplayAutoTrimOperateMes("Delay 300ms");
+
+                //1. Current Remote CTL
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
+                    DisplayOperateMes("Set Current Remote succeeded!");
+                else
+                    DisplayOperateMes("Set Current Remote failed!");
+
+                Delay(Delay_Power);
+
+                //2. Current On
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 400))
+                    DisplayOperateMes("Set Current to 400mA succeeded!");
+                else
+                    DisplayOperateMes("Set Current to 400mA failed!");
+
+                Delay(Delay_Power);
+
+                //3. Set Voltage
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 30u))
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 30));
+                else
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 30));
+
+
+                Delay(Delay_Power);
+
+            }
+
+            #endregion UART Initialize
+            RePower();
+            Delay(Delay_Sync);
+            EnterTestMode();
+            BurstRead(0x80, 5, tempReadback);
+            RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[0], 0x81, MultiSiteReg1[0], 0x82, MultiSiteReg2[0], 0x83, MultiSiteReg3[0] });
+            BurstRead(0x80, 5, tempReadback);
+    
+            /* Get vout @ IP */
+            EnterNomalMode();
+
+            /* Change Current to IP  */
+            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+            //3. Set Voltage
+            if (ProgramMode == 0)
+            {
+                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                else
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                    TrimFinish();
+                    return;
+                }
+            }
+
+            string msg = " ";
+            double vout = 0;
+
+            for (uint i = 0; i < 40; i++)
+            {
+
+                vout = AverageVout();
+                msg += vout.ToString("F3");
+                //DisplayOperateMes(vout.ToString("F3"));
+                //sw.WriteLine(msg);
+
+                Thread.Sleep(50);
+            }
+            //sw.WriteLine(msg);
+            //sw.WriteLine("Done!");
+            //sw.Close();
+
+            DisplayOperateMes(msg);
         }
 
     }
