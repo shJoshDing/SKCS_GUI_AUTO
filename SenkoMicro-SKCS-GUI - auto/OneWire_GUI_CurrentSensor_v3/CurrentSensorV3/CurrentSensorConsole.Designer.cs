@@ -231,6 +231,7 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.btn_Auto_IPtest = new System.Windows.Forms.Button();
             this.btn_CommunicationTest = new System.Windows.Forms.Button();
             this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
             this.cmb_SocketType_AutoT = new System.Windows.Forms.ComboBox();
@@ -331,7 +332,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_Auto_IPtest = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2865,6 +2865,16 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
+            // btn_Auto_IPtest
+            // 
+            this.btn_Auto_IPtest.Location = new System.Drawing.Point(561, 279);
+            this.btn_Auto_IPtest.Name = "btn_Auto_IPtest";
+            this.btn_Auto_IPtest.Size = new System.Drawing.Size(87, 59);
+            this.btn_Auto_IPtest.TabIndex = 117;
+            this.btn_Auto_IPtest.Text = "FT";
+            this.btn_Auto_IPtest.UseVisualStyleBackColor = true;
+            this.btn_Auto_IPtest.Click += new System.EventHandler(this.btn_Auto_IPtest_Click);
+            // 
             // btn_CommunicationTest
             // 
             this.btn_CommunicationTest.Location = new System.Drawing.Point(11, 385);
@@ -3992,16 +4002,6 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // btn_Auto_IPtest
-            // 
-            this.btn_Auto_IPtest.Location = new System.Drawing.Point(611, 404);
-            this.btn_Auto_IPtest.Name = "btn_Auto_IPtest";
-            this.btn_Auto_IPtest.Size = new System.Drawing.Size(87, 24);
-            this.btn_Auto_IPtest.TabIndex = 117;
-            this.btn_Auto_IPtest.Text = "IPTest";
-            this.btn_Auto_IPtest.UseVisualStyleBackColor = true;
-            this.btn_Auto_IPtest.Click += new System.EventHandler(this.btn_Auto_IPtest_Click);
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4014,7 +4014,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v1.3.8.ATE - CopyRight of SenkoMicro, Inc";
+            this.Text = "Current Sensor Console v1.4.0.ATE - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

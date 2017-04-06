@@ -4773,9 +4773,9 @@ namespace CurrentSensorV3
             #endregion  Get Vout@0A
 
             #region No need Trim case
-            if ((TargetOffset - bin2accuracy/100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + bin2accuracy/100d)
-                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + bin2accuracy / 100d)
-                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - bin2accuracy / 100d))
+            if ((TargetOffset - 0.1/100d) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + 0.1/100d)
+                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.1 / 100d)
+                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.1 / 100d))
             {
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
                 Delay(Delay_Sync);
@@ -7923,25 +7923,44 @@ namespace CurrentSensorV3
 
         private void btn_Auto_IPtest_Click(object sender, EventArgs e)
         {
-            //open file for prodcution record
-            string filename = System.Windows.Forms.Application.StartupPath; ;
-            filename += @"\IPtest.dat";
-
-            int iFileLine = 0;
-
-            StreamReader sr = new StreamReader(filename);
-            while (sr.ReadLine() != null)
+            #region Check HW connection
+            if (!bUsbConnected)
             {
-                //sr.ReadLine();
-                iFileLine++;
+                DisplayOperateMes("Please Confirm HW Connection!", Color.Red);
+                return;
             }
-            sr.Close();
+            #endregion
 
-            StreamWriter sw;
-            if (iFileLine < 65535)
-                sw = new StreamWriter(filename, true);
-            else
-                sw = new StreamWriter(filename, false);
+            //prepare for analog capture
+            EnterNomalMode();
+
+            while (true)
+            {
+
+                if (this.cmb_Module_PreT.SelectedItem.ToString() == "5V" || this.cmb_Module_PreT.SelectedItem.ToString() == "3.3V")
+                {
+                    if (SocketType == 0)
+                    {
+                        while (myDongle.readSotFlag() == 0x11)
+                        {
+                            Delay(50);
+                            //AutomaticaTrim_5V_SingleSite();
+                            ft_Test();
+                            myDongle.clearSotFlag();
+                        }
+
+                    }
+                    else if (SocketType == 1)
+                        //btn_AutomaticaTrim5V_MultiSite(null, null);
+                        //else
+                        return;
+                }
+            }
+        }
+
+        private void ft_Test()
+        {
+            
 
             #region UART Initialize
             if (ProgramMode == 0)
@@ -7986,22 +8005,12 @@ namespace CurrentSensorV3
             }
 
             #endregion UART Initialize
-            RePower();
-            Delay(Delay_Sync);
-            EnterTestMode();
-            BurstRead(0x80, 5, tempReadback);
-            RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[0], 0x81, MultiSiteReg1[0], 0x82, MultiSiteReg2[0], 0x83, MultiSiteReg3[0] });
-            BurstRead(0x80, 5, tempReadback);
-    
-            /* Get vout @ IP */
-            EnterNomalMode();
 
-            /* Change Current to IP  */
-            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-            //3. Set Voltage
+            RePower();
+
+            // Change Current to IP
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -8013,25 +8022,71 @@ namespace CurrentSensorV3
             }
 
             string msg = " ";
-            double vout = 0;
+            double vout_ip = 0;
+            double vout_offset = 0;
+            Delay(Delay_Fuse);
+            vout_ip = AverageVout();
 
-            for (uint i = 0; i < 40; i++)
+            // Change Current to 0A
+            if (ProgramMode == 0)
             {
-
-                vout = AverageVout();
-                msg += vout.ToString("F3");
-                //DisplayOperateMes(vout.ToString("F3"));
-                //sw.WriteLine(msg);
-
-                Thread.Sleep(50);
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
+                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0));
+                else
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0));
+                    TrimFinish();
+                    return;
+                }
             }
-            //sw.WriteLine(msg);
-            //sw.WriteLine("Done!");
-            //sw.Close();
 
-            DisplayOperateMes(msg);
+            Delay(Delay_Fuse);
+            vout_offset = AverageVout();
+
+            //open file for prodcution record
+            string filename = System.Windows.Forms.Application.StartupPath; ;
+            filename += @"\FTtest.dat";
+
+            int iFileLine = 0;
+
+            StreamReader sr = new StreamReader(filename);
+            while (sr.ReadLine() != null)
+            {
+                //sr.ReadLine();
+                iFileLine++;
+            }
+            sr.Close();
+
+            StreamWriter sw;
+            if (iFileLine < 65535)
+                sw = new StreamWriter(filename, true);
+            else
+                sw = new StreamWriter(filename, false);
+
+            msg = string.Format(" {0} {1} ", vout_ip.ToString("F3"), vout_offset.ToString("F3"));
+
+            sw.WriteLine();
+            sw.Close();
+
+            if (TargetOffset * (1 - 0.001) <= vout_offset &&
+                TargetOffset * (1 + 0.001) >= vout_offset &&
+                (vout_ip - vout_offset) <= targetVoltage_customer * (1 + 0.001) &&
+                (vout_ip - vout_offset) >= targetVoltage_customer * (1 - 0.001))
+            {
+                myDongle.setBin(1);
+            }
+            else if (TargetOffset * (1 - bin2accuracy / 100d) <= vout_offset &&
+                     TargetOffset * (1 + bin2accuracy / 100d) >= vout_offset &&
+                    (vout_ip - vout_offset) <= targetVoltage_customer * (1 + bin3accuracy / 100d) &&
+                    (vout_ip - vout_offset) >= targetVoltage_customer * (1 - bin3accuracy / 100d))
+            {
+                myDongle.setBin(2);
+            }
+            else
+                myDongle.setBin(3);
+
+            DisplayOperateMes(string.Format("VIP = {0};  Offset = {1}", vout_ip.ToString("F3"), vout_offset.ToString("F3")));
         }
-
     }
 
     
