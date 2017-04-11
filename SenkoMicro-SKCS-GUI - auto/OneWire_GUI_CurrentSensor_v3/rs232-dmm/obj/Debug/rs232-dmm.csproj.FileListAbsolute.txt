@@ -1,0 +1,10 @@
+C:\Hao-Data\Senko\Program Board\Software\dll\rs232-dmm\rs232-dmm\bin\Debug\rs232-dmm.pdb
+C:\Hao-Data\Senko\Program Board\Software\dll\rs232-dmm\rs232-dmm\obj\Debug\rs232-dmm.dll
+C:\Hao-Data\Senko\Program Board\Software\dll\rs232-dmm\rs232-dmm\obj\Debug\rs232-dmm.pdb
+C:\Hao-Data\Senko\Program Board\Software\dll\rs232-dmm\rs232-dmm\obj\Debug\rs232-dmm.csprojResolveAssemblyReference.cache
+C:\Hao-Data\Senko\Program Board\Software\dll\rs232-dmm\rs232-dmm\bin\Debug\rs232-dmm.dll
+C:\Hao-Data\rs232-dmm\rs232-dmm\bin\Debug\rs232-dmm.dll
+C:\Hao-Data\rs232-dmm\rs232-dmm\bin\Debug\rs232-dmm.pdb
+C:\Hao-Data\rs232-dmm\rs232-dmm\obj\Debug\rs232-dmm.csprojResolveAssemblyReference.cache
+C:\Hao-Data\rs232-dmm\rs232-dmm\obj\Debug\rs232-dmm.dll
+C:\Hao-Data\rs232-dmm\rs232-dmm\obj\Debug\rs232-dmm.pdb

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using ADI.DMY2;
+using rs232_dmm;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
@@ -399,6 +400,8 @@ namespace CurrentSensorV3
 
         #region Device Connection
         OneWireInterface oneWrie_device = new OneWireInterface();
+
+        dmm34401a dmm = new dmm34401a();
 
         private int WM_DEVICECHANGE = 0x0219;
         protected override void WndProc(ref Message m)
@@ -9468,6 +9471,20 @@ namespace CurrentSensorV3
                         Sweep910Linearity();
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
                         break;
+
+                    case "initcom":
+                    case "init com":
+                    case "Init Com":
+                    case "InitCom":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        if (InitComPort(Char910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString()))
+                            Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Success";
+                        else
+                        {
+                            Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Fail";
+                            return;
+                        }
+                        break;
                     
                     default:
                         DisplayOperateMes("Invalid Command!");
@@ -9475,6 +9492,18 @@ namespace CurrentSensorV3
                 }
 
             }  
+        }
+
+        private bool InitComPort(string str)
+        {
+            //DisplayOperateMes(dmm.InitSerialPort(str).ToString());
+            ////dmm.InitSerialPort(str);
+            //double v = 0;
+            //v = dmm.readVolt();
+            //DisplayOperateMes(v.ToString("F6"));
+            //return false;
+
+            return dmm.InitSerialPort(str);            
         }
 
         private void Sweep910Linearity()
@@ -9509,7 +9538,8 @@ namespace CurrentSensorV3
                     Delay(delay_temp);
                     for (uint k = 0; k < 5; k++)
                     {
-                        tempvout[k] = GetMout();
+                        //tempvout[k] = GetMout();
+                        tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
@@ -9534,7 +9564,8 @@ namespace CurrentSensorV3
                         Delay(delay_temp);
                         for (uint k = 0; k < 5; k++)
                         {
-                            tempvout[k] = GetMout();
+                            //tempvout[k] = GetMout();
+                            tempvout[k] = dmm.readVolt();
                             Delay(Delay_Power);
                         }
                         writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")

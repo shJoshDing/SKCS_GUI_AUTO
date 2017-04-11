@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMY2", "DM2Y2\DMY2.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrentSensorV3", "CurrentSensorV3\CurrentSensorV3.csproj", "{38723D47-A38D-41C9-9E41-91519CFDFF87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rs232-dmm", "rs232-dmm\rs232-dmm.csproj", "{BE8749A3-EC77-40FD-9236-A7BCC764E980}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{38723D47-A38D-41C9-9E41-91519CFDFF87}.Release|Mixed Platforms.Build.0 = Release|x86
 		{38723D47-A38D-41C9-9E41-91519CFDFF87}.Release|x86.ActiveCfg = Release|x86
 		{38723D47-A38D-41C9-9E41-91519CFDFF87}.Release|x86.Build.0 = Release|x86
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BE8749A3-EC77-40FD-9236-A7BCC764E980}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

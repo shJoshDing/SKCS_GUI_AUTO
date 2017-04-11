@@ -66,3 +66,9 @@ C:\Users\DELL-15\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWi
 C:\Users\DELL-15\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\DMY2.csproj.GenerateResource.Cache
 C:\Users\DELL-15\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\DMY2.dll
 C:\Users\DELL-15\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\DMY2.pdb
+C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\bin\Release\DMY2.dll
+C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\bin\Release\DMY2.pdb
+C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\ADI.DMY2.Properties.Resources.resources
+C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\DMY2.csproj.GenerateResource.Cache
+C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\DMY2.dll
+C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\DM2Y2\obj\x86\Release\DMY2.pdb
