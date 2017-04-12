@@ -9472,12 +9472,12 @@ namespace CurrentSensorV3
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
                         break;
 
-                    case "initcom":
-                    case "init com":
-                    case "Init Com":
-                    case "InitCom":
+                    case "initdmm":
+                    case "init dmm":
+                    case "Init Dmm":
+                    case "InitDmm":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
-                        if (InitComPort(Char910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString()))
+                        if (InitDmmPort(Char910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString()))
                             Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Success";
                         else
                         {
@@ -9494,7 +9494,7 @@ namespace CurrentSensorV3
             }  
         }
 
-        private bool InitComPort(string str)
+        private bool InitDmmPort(string str)
         {
             //DisplayOperateMes(dmm.InitSerialPort(str).ToString());
             ////dmm.InitSerialPort(str);
@@ -9605,7 +9605,7 @@ namespace CurrentSensorV3
 
                     for (uint k = 0; k < 5; k++)
                     {
-                        tempvout[k] = GetMout();
+                        tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
@@ -9642,7 +9642,7 @@ namespace CurrentSensorV3
 
                     for (uint k = 0; k < 5; k++)
                     {
-                        tempvout[k] = GetMout();
+                        tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
@@ -9679,7 +9679,7 @@ namespace CurrentSensorV3
 
                     for (uint k = 0; k < 5; k++)
                     {
-                        tempvout[k] = GetMout();
+                        tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
@@ -9694,7 +9694,7 @@ namespace CurrentSensorV3
 
                     for (uint k = 0; k < 5; k++)
                     {
-                        tempvout[k] = GetMout();
+                        tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")

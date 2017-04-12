@@ -3,7 +3,7 @@ test script for SL910
 ,910 Other Mode,
 write reg,0x47,0x01
 read reg,0x47
-init com,COM5
+init dmm,COM5
 ,sweep 910 linearity,null
 ,sweep 910 offset,null
 ,sweep 910 rough gain,null
