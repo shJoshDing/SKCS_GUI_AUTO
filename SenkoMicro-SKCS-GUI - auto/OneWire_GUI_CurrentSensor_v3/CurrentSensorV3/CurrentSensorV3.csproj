@@ -114,10 +114,8 @@
     <None Include="Resources\Logo.png" />
     <Content Include="logo.ico" />
     <Content Include="logo_32X32.ico" />
-    <Content Include="Resources\PROCESSING.bmp" />
     <None Include="Resources\PROCESS_READY.gif" />
     <None Include="Resources\PROCESS_PROCESSING.gif" />
-    <Content Include="Resources\PROCESS_READY.png" />
     <None Include="Resources\PROCESS_RIGHT.gif" />
     <None Include="Resources\PROCESS_WRONG.gif" />
     <Content Include="Todo.txt" />

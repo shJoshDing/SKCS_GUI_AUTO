@@ -332,6 +332,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.label87 = new System.Windows.Forms.Label();
+            this.txt_Char910_DutId = new System.Windows.Forms.TextBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3786,6 +3788,8 @@
             // 
             // Char910Tab
             // 
+            this.Char910Tab.Controls.Add(this.txt_Char910_DutId);
+            this.Char910Tab.Controls.Add(this.label87);
             this.Char910Tab.Controls.Add(this.label86);
             this.Char910Tab.Controls.Add(this.txt_Char910_ScriptName);
             this.Char910Tab.Controls.Add(this.btn_Char910_Save);
@@ -3803,7 +3807,7 @@
             // label86
             // 
             this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(254, 28);
+            this.label86.Location = new System.Drawing.Point(364, 15);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(68, 13);
             this.label86.TabIndex = 5;
@@ -3811,7 +3815,7 @@
             // 
             // txt_Char910_ScriptName
             // 
-            this.txt_Char910_ScriptName.Location = new System.Drawing.Point(325, 24);
+            this.txt_Char910_ScriptName.Location = new System.Drawing.Point(364, 32);
             this.txt_Char910_ScriptName.Name = "txt_Char910_ScriptName";
             this.txt_Char910_ScriptName.Size = new System.Drawing.Size(428, 20);
             this.txt_Char910_ScriptName.TabIndex = 4;
@@ -3856,7 +3860,6 @@
             // 
             // Char910_Tab_DataGridView
             // 
-            this.Char910_Tab_DataGridView.AllowUserToAddRows = false;
             this.Char910_Tab_DataGridView.AllowUserToDeleteRows = false;
             this.Char910_Tab_DataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.Char910_Tab_DataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
@@ -3876,6 +3879,7 @@
             this.Char910_Tab_DataGridView.RowHeadersVisible = false;
             this.Char910_Tab_DataGridView.Size = new System.Drawing.Size(785, 494);
             this.Char910_Tab_DataGridView.TabIndex = 0;
+            this.Char910_Tab_DataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Char910_Tab_DataGridView_RowsAdded);
             // 
             // StatusImage
             // 
@@ -4013,6 +4017,24 @@
             this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Location = new System.Drawing.Point(272, 16);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(47, 13);
+            this.label87.TabIndex = 6;
+            this.label87.Text = "DUT ID:";
+            // 
+            // txt_Char910_DutId
+            // 
+            this.txt_Char910_DutId.Location = new System.Drawing.Point(272, 32);
+            this.txt_Char910_DutId.Name = "txt_Char910_DutId";
+            this.txt_Char910_DutId.Size = new System.Drawing.Size(47, 20);
+            this.txt_Char910_DutId.TabIndex = 7;
+            this.txt_Char910_DutId.Text = "1";
+            this.txt_Char910_DutId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CurrentSensorConsole
             // 
@@ -4404,5 +4426,7 @@
         private System.DirectoryServices.DirectorySearcher directorySearcher1;
         private System.Windows.Forms.Button btn_SL910_910sop_Nornal;
         private System.Windows.Forms.Button btn_SOP14_TestMode;
+        private System.Windows.Forms.TextBox txt_Char910_DutId;
+        private System.Windows.Forms.Label label87;
     }
 }

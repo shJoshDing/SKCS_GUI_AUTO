@@ -9342,12 +9342,19 @@ namespace CurrentSensorV3
                     case "wreg":
                     case "wr":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        Color backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         numUD_pilotwidth_ow_ValueChanged(null, null);
                         Delay(Delay_Sync);
                         oneWrie_device.I2CWrite_Single(_dev_addr,
                             Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString(), 16),
                             Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[4].Value.ToString(), 16));
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "Read Reg":
@@ -9358,12 +9365,19 @@ namespace CurrentSensorV3
                     case "rreg":
                     case "rr":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         numUD_pilotwidth_ow_ValueChanged(null, null);
                         Delay(Delay_Sync);
                         st = Convert.ToString(Char910_Tab_DataGridView.Rows[index].Cells[3].Value);
                         _reg_addr = Convert.ToUInt32(st, 16);
                         oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, 2, _reg_data);
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "0x"+ _reg_data[0].ToString("X2");
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "config to vout":
@@ -9373,8 +9387,15 @@ namespace CurrentSensorV3
                     case "CONFIGTOVOUT":
                     case "CONFIG TO VOUT":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "ain to mout":
@@ -9384,8 +9405,15 @@ namespace CurrentSensorV3
                     case "AINTOMOUT":
                     case "AIN TO MOUT":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "get910out":
@@ -9395,9 +9423,16 @@ namespace CurrentSensorV3
                     case "GET910OUT":
                     case "GET 910 OUT":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
                         btn_SL910_910out_Click(null, null);
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = sl910out.ToString("F3");
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "getvout":
@@ -9407,11 +9442,18 @@ namespace CurrentSensorV3
                     case "GETVOUT":
                     case "GET VOUT":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
                         Delay(Delay_Sync);
                         oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
                         Delay(Delay_Sync);
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = AverageVout().ToString("F3");
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "910othermode":
@@ -9421,6 +9463,10 @@ namespace CurrentSensorV3
                     case "910 OTHER MODE":
                     case "910OTHERMODE":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         btn_SL910_TestMode_Click(null,null);
                         Delay(Delay_Sync);
                         oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
@@ -9428,6 +9474,9 @@ namespace CurrentSensorV3
                         //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
                         //Delay(Delay_Sync);
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "sweep910offset":
@@ -9437,8 +9486,15 @@ namespace CurrentSensorV3
                     case "SWEEP910OFFSET":
                     case "SWEEP 910 OFFSET":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         Sweep910Offset();
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "sweep910roughgain":
@@ -9448,8 +9504,15 @@ namespace CurrentSensorV3
                     case "SWEEP910ROUGHGAIN":
                     case "SWEEP 910 ROUGH GAIN":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         Sweep910RoughGain();
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "sweep910finegain":
@@ -9459,8 +9522,15 @@ namespace CurrentSensorV3
                     case "SWEEP910FINEGAIN":
                     case "SWEEP 910 FINE GAIN":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         Sweep910FineGain();
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "sweep910linearity":
@@ -9468,8 +9538,15 @@ namespace CurrentSensorV3
                     case "Sweep910Linearity":
                     case "Sweep 910 Linearity":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         Sweep910Linearity();
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
                         break;
 
                     case "initdmm":
@@ -9477,11 +9554,23 @@ namespace CurrentSensorV3
                     case "Init Dmm":
                     case "InitDmm":
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
                         if (InitDmmPort(Char910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString()))
+                        {
                             Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Success";
+                            Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                            Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                            Char910_Tab_DataGridView.Update();
+                        }
                         else
                         {
                             Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Fail";
+                            Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_WRONG;
+                            Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                            Char910_Tab_DataGridView.Update();
                             return;
                         }
                         break;
@@ -9511,7 +9600,7 @@ namespace CurrentSensorV3
             int delay_temp = 2000;
             double[] tempvout = new double[5];
             string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\Sweep910Linearity-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += @"\Sweep910Linearity-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
             filename += ".csv";
 
             //string dataFilePath = @"C:\temp\CST\SweepGyroOffsOtp2-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
@@ -9542,8 +9631,8 @@ namespace CurrentSensorV3
                         tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
-                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
-                        + "," + tempvout[2].ToString("F3") + "," + tempvout[3].ToString("F3") + "," + tempvout[4].ToString("F3"));
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
                 }
 
                 btn_EngTab_Ipoff_Click(null, null);
@@ -9568,8 +9657,8 @@ namespace CurrentSensorV3
                             tempvout[k] = dmm.readVolt();
                             Delay(Delay_Power);
                         }
-                        writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
-                            + "," + tempvout[2].ToString("F3") + "," + tempvout[3].ToString("F3") + "," + tempvout[4].ToString("F3"));
+                        writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                            + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
                     }
 
                     btn_EngTab_Ipoff_Click(null, null);
@@ -9581,14 +9670,14 @@ namespace CurrentSensorV3
 
         private void Sweep910RoughGain()
         {
-            int delay_temp = 200;
+            int delay_temp = 1000;
             double[] tempvout = new double[5];
             string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\Sweep910RoughGain-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += @"\Sweep910RoughGain-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
             filename += ".csv";
 
             uint _dev_addr = this.DeviceAddress;
-            uint count = 32;
+            uint count = 16;
 
             using (StreamWriter writer = new StreamWriter(filename, true))
             {
@@ -9596,11 +9685,16 @@ namespace CurrentSensorV3
                 string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
                 writer.WriteLine(headers);
 
-                //string tempstring;
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(20);
+                Delay(Delay_Power);
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Power);
 
-                for (uint i = 16; i < count; i++)
+                for (uint i = 0; i < count; i++)
                 {
-                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, i);
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, i<<4);
                     Delay(delay_temp);
 
                     for (uint k = 0; k < 5; k++)
@@ -9608,20 +9702,22 @@ namespace CurrentSensorV3
                         tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
-                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
-                        + "," + tempvout[2].ToString("F3") + "," + tempvout[3].ToString("F3") + "," + tempvout[4].ToString("F3"));
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
                 }
 
                 oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, 0);
+                btn_EngTab_Ipoff_Click(null, null);
+                //SetIP(0);
             }
         }
 
         private void Sweep910FineGain()
         {
-            int delay_temp = 200;
+            int delay_temp = 1000;
             double[] tempvout = new double[5];
             string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\Sweep910FineGain-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += @"\Sweep910FineGain-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
             filename += ".csv";
 
             uint _dev_addr = this.DeviceAddress;
@@ -9633,7 +9729,12 @@ namespace CurrentSensorV3
                 string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
                 writer.WriteLine(headers);
 
-                //string tempstring;
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(20);
+                Delay(Delay_Power);
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(delay_temp);
 
                 for (uint i = 0; i < count; i++)
                 {
@@ -9645,24 +9746,26 @@ namespace CurrentSensorV3
                         tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
-                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
-                        + "," + tempvout[2].ToString("F3") + "," + tempvout[3].ToString("F3") + "," + tempvout[4].ToString("F3"));
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
                 }
 
                 oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0);
+                btn_EngTab_Ipoff_Click(null, null);
+                //SetIP(0);
             }
         }
 
         private void Sweep910Offset()
         {
-            int delay_temp = 200;
+            int delay_temp = 100;
             double[] tempvout = new double[5];
             string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\Sweep910Offset-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += @"\Sweep910Offset-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
             filename += ".csv";
 
             uint _dev_addr = this.DeviceAddress;
-            uint count = 64;
+            uint count = 128;
 
             using (StreamWriter writer = new StreamWriter(filename, true))
             {
@@ -9672,7 +9775,7 @@ namespace CurrentSensorV3
 
                 //string tempstring;
 
-                for (uint i = count; i > 0; i--)
+                for (uint i = 0; i < count; i++)
                 {
                     oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, i | 0x80);
                     Delay(delay_temp);
@@ -9682,8 +9785,8 @@ namespace CurrentSensorV3
                         tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
-                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
-                        + "," + tempvout[2].ToString("F3") + "," + tempvout[3].ToString("F3") + "," + tempvout[4].ToString("F3"));
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
                 }
 
 
@@ -9697,8 +9800,8 @@ namespace CurrentSensorV3
                         tempvout[k] = dmm.readVolt();
                         Delay(Delay_Power);
                     }
-                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F3") + "," + tempvout[1].ToString("F3")
-                        + "," + tempvout[2].ToString("F3") + "," + tempvout[3].ToString("F3") + "," + tempvout[4].ToString("F3"));
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
                 }
 
                 oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0);
@@ -9749,6 +9852,14 @@ namespace CurrentSensorV3
             Delay(Delay_Sync);
             //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
             btn_Eng_TestCom_Click(null, null);
+        }
+
+        private void Char910_Tab_DataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            //DisplayOperateMes("added a new row");
+            int index = Char910_Tab_DataGridView.RowCount;
+            Char910_Tab_DataGridView.Rows[index - 1].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_READY;
+            Char910_Tab_DataGridView.Update();
         }
 
     }
