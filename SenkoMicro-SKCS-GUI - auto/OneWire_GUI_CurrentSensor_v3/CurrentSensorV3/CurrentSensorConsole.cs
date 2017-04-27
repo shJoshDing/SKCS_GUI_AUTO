@@ -3244,7 +3244,7 @@ namespace CurrentSensorV3
         {
             //DisplayOperateMes("AutoTrim Canceled!", Color.Red);
             if(ProgramMode == 0)
-                oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u);
+                oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u);
             Delay(Delay_Sync);
             PowerOff();
             RestoreReg80ToReg83Value();
@@ -4301,7 +4301,8 @@ namespace CurrentSensorV3
             bool bSafety = false;
             //uint[] tempReadback = new uint[5];
             double dVout_0A_Temp = 0;
-            double coilCurrent = 0.38; 
+            uint coilCurrent = 0;
+            coilCurrent = Convert.ToUInt32(txt_AutoTab_AteIP.Text);
             double dVip_Target = TargetOffset + TargetVoltage_customer;
             double dGainTestMinusTarget = 1;
             double dGainTest = 0;
@@ -4348,6 +4349,7 @@ namespace CurrentSensorV3
 
             DisplayOperateMes("\r\n**************" + DateTime.Now.ToString() + "**************");
             DisplayOperateMes("Start...");
+            DisplayOperateMes("ATE IP = " + coilCurrent.ToString());
             this.lbl_passOrFailed.ForeColor = Color.Black;
             this.lbl_passOrFailed.Text = "START!";
 
@@ -4455,7 +4457,7 @@ namespace CurrentSensorV3
                 Delay(Delay_Power);
 
                 //2. Current On
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 400))
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, coilCurrent))
                     DisplayOperateMes("Set Current to 400mA succeeded!");
                 else
                     DisplayOperateMes("Set Current to 400mA failed!");

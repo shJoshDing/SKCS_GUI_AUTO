@@ -332,6 +332,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.label87 = new System.Windows.Forms.Label();
+            this.txt_AutoTab_AteIP = new System.Windows.Forms.TextBox();
+            this.label88 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2836,6 +2839,9 @@
             // 
             // AutoTrimTab
             // 
+            this.AutoTrimTab.Controls.Add(this.label88);
+            this.AutoTrimTab.Controls.Add(this.txt_AutoTab_AteIP);
+            this.AutoTrimTab.Controls.Add(this.label87);
             this.AutoTrimTab.Controls.Add(this.btn_Auto_IPtest);
             this.AutoTrimTab.Controls.Add(this.btn_CommunicationTest);
             this.AutoTrimTab.Controls.Add(this.cmb_ProgramMode_AutoT);
@@ -4002,6 +4008,38 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label87.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label87.Location = new System.Drawing.Point(151, 279);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(56, 19);
+            this.label87.TabIndex = 118;
+            this.label87.Text = "ATE IP";
+            // 
+            // txt_AutoTab_AteIP
+            // 
+            this.txt_AutoTab_AteIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_AutoTab_AteIP.Location = new System.Drawing.Point(148, 301);
+            this.txt_AutoTab_AteIP.Name = "txt_AutoTab_AteIP";
+            this.txt_AutoTab_AteIP.Size = new System.Drawing.Size(59, 24);
+            this.txt_AutoTab_AteIP.TabIndex = 119;
+            this.txt_AutoTab_AteIP.Text = "400";
+            this.txt_AutoTab_AteIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = true;
+            this.label88.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label88.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label88.Location = new System.Drawing.Point(210, 304);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(33, 19);
+            this.label88.TabIndex = 114;
+            this.label88.Text = "mA";
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4392,5 +4430,8 @@
         private System.DirectoryServices.DirectorySearcher directorySearcher1;
         private System.Windows.Forms.Button btn_SL910_910sop_Nornal;
         private System.Windows.Forms.Button btn_Auto_IPtest;
+        private System.Windows.Forms.TextBox txt_AutoTab_AteIP;
+        private System.Windows.Forms.Label label87;
+        private System.Windows.Forms.Label label88;
     }
 }
