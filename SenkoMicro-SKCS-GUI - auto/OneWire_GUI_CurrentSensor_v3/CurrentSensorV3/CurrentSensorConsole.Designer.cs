@@ -307,7 +307,21 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.SL910_Tab_DataGridView = new System.Windows.Forms.DataGridView();
             this.BoolSel = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Char910Tab = new System.Windows.Forms.TabPage();
+            this.SL620Tab = new System.Windows.Forms.TabPage();
+            this.btn_SL620Tab_TrimSet2 = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_TrimSet1 = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_WriteSelect = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_ReadSelect = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_TestKey = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_NormalMode = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_PowerOff = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_PowerOn = new System.Windows.Forms.Button();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.SL620_Tab_DataGridView = new System.Windows.Forms.DataGridView();
+            this.SL620BoolSet = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.CommandTab = new System.Windows.Forms.TabPage();
+            this.txt_Char910_DutId = new System.Windows.Forms.TextBox();
+            this.label87 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
             this.txt_Char910_ScriptName = new System.Windows.Forms.TextBox();
             this.btn_Char910_Save = new System.Windows.Forms.Button();
@@ -332,8 +346,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.label87 = new System.Windows.Forms.Label();
-            this.txt_Char910_DutId = new System.Windows.Forms.TextBox();
+            this.btn_SL620Tab_PowerOn6V = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -370,7 +383,10 @@
             this.SL910Tab.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SL910_Tab_DataGridView)).BeginInit();
-            this.Char910Tab.SuspendLayout();
+            this.SL620Tab.SuspendLayout();
+            this.panel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SL620_Tab_DataGridView)).BeginInit();
+            this.CommandTab.SuspendLayout();
             this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Char910_Tab_DataGridView)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
@@ -491,7 +507,8 @@
             this.tabControl1.Controls.Add(this.AutoTrimTab);
             this.tabControl1.Controls.Add(this.BrakeTab);
             this.tabControl1.Controls.Add(this.SL910Tab);
-            this.tabControl1.Controls.Add(this.Char910Tab);
+            this.tabControl1.Controls.Add(this.SL620Tab);
+            this.tabControl1.Controls.Add(this.CommandTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.MaximumSize = new System.Drawing.Size(1000, 600);
@@ -3786,23 +3803,175 @@
             this.BoolSel.Name = "BoolSel";
             this.BoolSel.Width = 50;
             // 
-            // Char910Tab
+            // SL620Tab
             // 
-            this.Char910Tab.Controls.Add(this.txt_Char910_DutId);
-            this.Char910Tab.Controls.Add(this.label87);
-            this.Char910Tab.Controls.Add(this.label86);
-            this.Char910Tab.Controls.Add(this.txt_Char910_ScriptName);
-            this.Char910Tab.Controls.Add(this.btn_Char910_Save);
-            this.Char910Tab.Controls.Add(this.btn_Char910_Load);
-            this.Char910Tab.Controls.Add(this.btn_Char910_Excute);
-            this.Char910Tab.Controls.Add(this.panel9);
-            this.Char910Tab.Location = new System.Drawing.Point(4, 22);
-            this.Char910Tab.Name = "Char910Tab";
-            this.Char910Tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Char910Tab.Size = new System.Drawing.Size(803, 574);
-            this.Char910Tab.TabIndex = 5;
-            this.Char910Tab.Text = "Char910";
-            this.Char910Tab.UseVisualStyleBackColor = true;
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_PowerOn6V);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_TrimSet1);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_WriteSelect);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_ReadSelect);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_TestKey);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_NormalMode);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_PowerOff);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_PowerOn);
+            this.SL620Tab.Controls.Add(this.panel11);
+            this.SL620Tab.Location = new System.Drawing.Point(4, 22);
+            this.SL620Tab.Name = "SL620Tab";
+            this.SL620Tab.Padding = new System.Windows.Forms.Padding(3);
+            this.SL620Tab.Size = new System.Drawing.Size(803, 574);
+            this.SL620Tab.TabIndex = 6;
+            this.SL620Tab.Text = "SL620";
+            this.SL620Tab.UseVisualStyleBackColor = true;
+            // 
+            // btn_SL620Tab_TrimSet2
+            // 
+            this.btn_SL620Tab_TrimSet2.BackColor = System.Drawing.Color.DarkSalmon;
+            this.btn_SL620Tab_TrimSet2.Location = new System.Drawing.Point(693, 468);
+            this.btn_SL620Tab_TrimSet2.Name = "btn_SL620Tab_TrimSet2";
+            this.btn_SL620Tab_TrimSet2.Size = new System.Drawing.Size(71, 20);
+            this.btn_SL620Tab_TrimSet2.TabIndex = 8;
+            this.btn_SL620Tab_TrimSet2.Text = "Trim Set 2";
+            this.btn_SL620Tab_TrimSet2.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_TrimSet2.Visible = false;
+            this.btn_SL620Tab_TrimSet2.Click += new System.EventHandler(this.btn_SL620Tab_TrimSet2_Click);
+            // 
+            // btn_SL620Tab_TrimSet1
+            // 
+            this.btn_SL620Tab_TrimSet1.BackColor = System.Drawing.Color.SandyBrown;
+            this.btn_SL620Tab_TrimSet1.Location = new System.Drawing.Point(701, 12);
+            this.btn_SL620Tab_TrimSet1.Name = "btn_SL620Tab_TrimSet1";
+            this.btn_SL620Tab_TrimSet1.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_TrimSet1.TabIndex = 7;
+            this.btn_SL620Tab_TrimSet1.Text = "Trim Set 1";
+            this.btn_SL620Tab_TrimSet1.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_TrimSet1.Click += new System.EventHandler(this.btn_SL620Tab_TrimSet1_Click);
+            // 
+            // btn_SL620Tab_WriteSelect
+            // 
+            this.btn_SL620Tab_WriteSelect.BackColor = System.Drawing.Color.LightCoral;
+            this.btn_SL620Tab_WriteSelect.Location = new System.Drawing.Point(476, 12);
+            this.btn_SL620Tab_WriteSelect.Name = "btn_SL620Tab_WriteSelect";
+            this.btn_SL620Tab_WriteSelect.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_WriteSelect.TabIndex = 6;
+            this.btn_SL620Tab_WriteSelect.Text = "Write Select";
+            this.btn_SL620Tab_WriteSelect.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_WriteSelect.Click += new System.EventHandler(this.btn_SL620Tab_WriteSelect_Click);
+            // 
+            // btn_SL620Tab_ReadSelect
+            // 
+            this.btn_SL620Tab_ReadSelect.BackColor = System.Drawing.Color.LightCoral;
+            this.btn_SL620Tab_ReadSelect.Location = new System.Drawing.Point(569, 12);
+            this.btn_SL620Tab_ReadSelect.Name = "btn_SL620Tab_ReadSelect";
+            this.btn_SL620Tab_ReadSelect.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_ReadSelect.TabIndex = 5;
+            this.btn_SL620Tab_ReadSelect.Text = "Read Select";
+            this.btn_SL620Tab_ReadSelect.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_ReadSelect.Click += new System.EventHandler(this.btn_SL620Tab_ReadSelect_Click);
+            // 
+            // btn_SL620Tab_TestKey
+            // 
+            this.btn_SL620Tab_TestKey.BackColor = System.Drawing.Color.Gold;
+            this.btn_SL620Tab_TestKey.Location = new System.Drawing.Point(290, 12);
+            this.btn_SL620Tab_TestKey.Name = "btn_SL620Tab_TestKey";
+            this.btn_SL620Tab_TestKey.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_TestKey.TabIndex = 4;
+            this.btn_SL620Tab_TestKey.Text = "Test Key";
+            this.btn_SL620Tab_TestKey.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_TestKey.Click += new System.EventHandler(this.btn_SL620Tab_TestKey_Click);
+            // 
+            // btn_SL620Tab_NormalMode
+            // 
+            this.btn_SL620Tab_NormalMode.BackColor = System.Drawing.Color.Orange;
+            this.btn_SL620Tab_NormalMode.Location = new System.Drawing.Point(383, 12);
+            this.btn_SL620Tab_NormalMode.Name = "btn_SL620Tab_NormalMode";
+            this.btn_SL620Tab_NormalMode.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_NormalMode.TabIndex = 3;
+            this.btn_SL620Tab_NormalMode.Text = "Normal Mode";
+            this.btn_SL620Tab_NormalMode.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_NormalMode.Click += new System.EventHandler(this.btn_SL620Tab_NormalMode_Click);
+            // 
+            // btn_SL620Tab_PowerOff
+            // 
+            this.btn_SL620Tab_PowerOff.BackColor = System.Drawing.Color.Red;
+            this.btn_SL620Tab_PowerOff.Location = new System.Drawing.Point(197, 12);
+            this.btn_SL620Tab_PowerOff.Name = "btn_SL620Tab_PowerOff";
+            this.btn_SL620Tab_PowerOff.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_PowerOff.TabIndex = 2;
+            this.btn_SL620Tab_PowerOff.Text = "Power Off";
+            this.btn_SL620Tab_PowerOff.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_PowerOff.Click += new System.EventHandler(this.btn_SL620Tab_PowerOff_Click);
+            // 
+            // btn_SL620Tab_PowerOn
+            // 
+            this.btn_SL620Tab_PowerOn.BackColor = System.Drawing.Color.YellowGreen;
+            this.btn_SL620Tab_PowerOn.Location = new System.Drawing.Point(11, 12);
+            this.btn_SL620Tab_PowerOn.Name = "btn_SL620Tab_PowerOn";
+            this.btn_SL620Tab_PowerOn.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_PowerOn.TabIndex = 1;
+            this.btn_SL620Tab_PowerOn.Text = "Power On 5V";
+            this.btn_SL620Tab_PowerOn.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_PowerOn.Click += new System.EventHandler(this.btn_SL620Tab_PowerOn_Click);
+            // 
+            // panel11
+            // 
+            this.panel11.Controls.Add(this.btn_SL620Tab_TrimSet2);
+            this.panel11.Controls.Add(this.SL620_Tab_DataGridView);
+            this.panel11.Location = new System.Drawing.Point(8, 68);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(789, 503);
+            this.panel11.TabIndex = 0;
+            // 
+            // SL620_Tab_DataGridView
+            // 
+            this.SL620_Tab_DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SL620_Tab_DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SL620BoolSet});
+            this.SL620_Tab_DataGridView.Location = new System.Drawing.Point(3, 3);
+            this.SL620_Tab_DataGridView.Name = "SL620_Tab_DataGridView";
+            this.SL620_Tab_DataGridView.RowHeadersVisible = false;
+            this.SL620_Tab_DataGridView.Size = new System.Drawing.Size(783, 237);
+            this.SL620_Tab_DataGridView.TabIndex = 0;
+            // 
+            // SL620BoolSet
+            // 
+            this.SL620BoolSet.HeaderText = "";
+            this.SL620BoolSet.Name = "SL620BoolSet";
+            this.SL620BoolSet.Width = 50;
+            // 
+            // CommandTab
+            // 
+            this.CommandTab.Controls.Add(this.txt_Char910_DutId);
+            this.CommandTab.Controls.Add(this.label87);
+            this.CommandTab.Controls.Add(this.label86);
+            this.CommandTab.Controls.Add(this.txt_Char910_ScriptName);
+            this.CommandTab.Controls.Add(this.btn_Char910_Save);
+            this.CommandTab.Controls.Add(this.btn_Char910_Load);
+            this.CommandTab.Controls.Add(this.btn_Char910_Excute);
+            this.CommandTab.Controls.Add(this.panel9);
+            this.CommandTab.Location = new System.Drawing.Point(4, 22);
+            this.CommandTab.Name = "CommandTab";
+            this.CommandTab.Padding = new System.Windows.Forms.Padding(3);
+            this.CommandTab.Size = new System.Drawing.Size(803, 574);
+            this.CommandTab.TabIndex = 5;
+            this.CommandTab.Text = "Command";
+            this.CommandTab.UseVisualStyleBackColor = true;
+            // 
+            // txt_Char910_DutId
+            // 
+            this.txt_Char910_DutId.Location = new System.Drawing.Point(272, 32);
+            this.txt_Char910_DutId.Name = "txt_Char910_DutId";
+            this.txt_Char910_DutId.Size = new System.Drawing.Size(47, 20);
+            this.txt_Char910_DutId.TabIndex = 7;
+            this.txt_Char910_DutId.Text = "1";
+            this.txt_Char910_DutId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Location = new System.Drawing.Point(272, 16);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(47, 13);
+            this.label87.TabIndex = 6;
+            this.label87.Text = "DUT ID:";
             // 
             // label86
             // 
@@ -4018,23 +4187,16 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // label87
+            // btn_SL620Tab_PowerOn6V
             // 
-            this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(272, 16);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(47, 13);
-            this.label87.TabIndex = 6;
-            this.label87.Text = "DUT ID:";
-            // 
-            // txt_Char910_DutId
-            // 
-            this.txt_Char910_DutId.Location = new System.Drawing.Point(272, 32);
-            this.txt_Char910_DutId.Name = "txt_Char910_DutId";
-            this.txt_Char910_DutId.Size = new System.Drawing.Size(47, 20);
-            this.txt_Char910_DutId.TabIndex = 7;
-            this.txt_Char910_DutId.Text = "1";
-            this.txt_Char910_DutId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.btn_SL620Tab_PowerOn6V.BackColor = System.Drawing.Color.GreenYellow;
+            this.btn_SL620Tab_PowerOn6V.Location = new System.Drawing.Point(104, 12);
+            this.btn_SL620Tab_PowerOn6V.Name = "btn_SL620Tab_PowerOn6V";
+            this.btn_SL620Tab_PowerOn6V.Size = new System.Drawing.Size(68, 46);
+            this.btn_SL620Tab_PowerOn6V.TabIndex = 8;
+            this.btn_SL620Tab_PowerOn6V.Text = "Power On 6V";
+            this.btn_SL620Tab_PowerOn6V.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_PowerOn6V.Click += new System.EventHandler(this.btn_SL620Tab_PowerOn6V_Click);
             // 
             // CurrentSensorConsole
             // 
@@ -4109,8 +4271,11 @@
             this.SL910Tab.PerformLayout();
             this.panel10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SL910_Tab_DataGridView)).EndInit();
-            this.Char910Tab.ResumeLayout(false);
-            this.Char910Tab.PerformLayout();
+            this.SL620Tab.ResumeLayout(false);
+            this.panel11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SL620_Tab_DataGridView)).EndInit();
+            this.CommandTab.ResumeLayout(false);
+            this.CommandTab.PerformLayout();
             this.panel9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Char910_Tab_DataGridView)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
@@ -4406,7 +4571,7 @@
         private System.Windows.Forms.TextBox txt_SL910_ReadLevel;
         private System.Windows.Forms.Label label85;
         private System.Windows.Forms.Button btn_SL910_FuseBank1;
-        private System.Windows.Forms.TabPage Char910Tab;
+        private System.Windows.Forms.TabPage CommandTab;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.DataGridView Char910_Tab_DataGridView;
         private System.Windows.Forms.DataGridViewImageColumn StatusImage;
@@ -4428,5 +4593,18 @@
         private System.Windows.Forms.Button btn_SOP14_TestMode;
         private System.Windows.Forms.TextBox txt_Char910_DutId;
         private System.Windows.Forms.Label label87;
+        private System.Windows.Forms.TabPage SL620Tab;
+        private System.Windows.Forms.Button btn_SL620Tab_TrimSet2;
+        private System.Windows.Forms.Button btn_SL620Tab_TrimSet1;
+        private System.Windows.Forms.Button btn_SL620Tab_WriteSelect;
+        private System.Windows.Forms.Button btn_SL620Tab_ReadSelect;
+        private System.Windows.Forms.Button btn_SL620Tab_TestKey;
+        private System.Windows.Forms.Button btn_SL620Tab_NormalMode;
+        private System.Windows.Forms.Button btn_SL620Tab_PowerOff;
+        private System.Windows.Forms.Button btn_SL620Tab_PowerOn;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.DataGridView SL620_Tab_DataGridView;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn SL620BoolSet;
+        private System.Windows.Forms.Button btn_SL620Tab_PowerOn6V;
     }
 }

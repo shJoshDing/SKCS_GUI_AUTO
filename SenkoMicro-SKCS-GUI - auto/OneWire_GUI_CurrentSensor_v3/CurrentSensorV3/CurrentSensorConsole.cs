@@ -10,7 +10,6 @@ using rs232_dmm;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
-using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace CurrentSensorV3
@@ -51,7 +50,6 @@ namespace CurrentSensorV3
         bool bMRE = false;
         bool bMASK = false;
         bool bSAFEREAD = false;
-        bool bUartInit = false;
 
         uint DeviceAddress = 0x73;
         uint SampleRateNum = 1024;
@@ -530,6 +528,11 @@ namespace CurrentSensorV3
 
             //init 910 datagrid
             InitSL910TabDataGrid();
+
+            InitSL620TabDataGrid();
+
+            btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
 
             InitChar910TabDataGrid();
 
@@ -3387,6 +3390,166 @@ namespace CurrentSensorV3
             //dock richtextbox
             //richTextBox1.Dock = DockStyle.Fill;
 
+        }
+
+        private void InitSL620TabDataGrid()
+        {
+            DataTable dtable = new DataTable("Rock");
+            //set columns names
+            dtable.Columns.Add("ID", typeof(System.String));
+            dtable.Columns.Add("RegAddr(Hex)", typeof(System.String));
+            dtable.Columns.Add("RegValue(Hex)", typeof(System.String));
+            dtable.Columns.Add("Discription", typeof(System.String));
+
+            //dtable.Columns.Add("Read", typeof(System.Windows.Forms.Button));
+
+            //DataRow [] row = new dtable.
+
+            //Add Rows
+            DataRow drow = dtable.NewRow();
+            drow = dtable.NewRow();
+            drow["ID"] = "1";
+            drow["RegAddr(Hex)"] = "80";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bit7# - INC_4X_HALL_I;  " 
+                                + "\r\n#bit6# - INC_1X_HALL_I;" 
+                                + "\r\n#bit[5:4]# - SEL_SENSOR[1:0];" 
+                                + "\r\n#bit3# - SEL_SW_MODE_B;  #bit2# - SEL_SW_MODE_A;" 
+                                + "\r\n#bit1# - SEL_VR_SOURSE;  #bit0# - SEL_IR_SOURSE;";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "2";
+            drow["RegAddr(Hex)"] = "81";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bit[7:4]# - S1_A[3:0];  " + "\r\n#bit[3:2]# - TRIM_VBG[1:0];  " + "\r\n#bit[1:0]# - TCth[1:0]";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "3";
+            drow["RegAddr(Hex)"] = "82";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bit[7:4]# - TC2[3:0];  #bit[3:0]# - TC1[3:0]";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "4";
+            drow["RegAddr(Hex)"] = "83";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:6]# - FAST_STARTUP[1:0];   " 
+                                + "\r\n#bits[5:4]# - MULTI_DRIVE_MODE[1:0];" 
+                                + "\r\n#bit3# - DIS_CHOP_CK;  #bit2# - S2_DOUBLE;" 
+                                +"\r\n#bit1# - S3_OUT_DRV;  #bit0# - SEL_BIG_CAP;";
+            dtable.Rows.Add(drow);
+
+
+
+            drow = dtable.NewRow();
+            drow["ID"] = "5";
+            drow["RegAddr(Hex)"] = "84";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:5]# - RCC_SEL_SET1[2:0];" +   "\r\n#bits[4:0]# - TRIM_VREF1_SET1[4:0];";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "6";
+            drow["RegAddr(Hex)"] = "85";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:5]# - RCC_SEL_SET1[5:3];   " + "\r\n#bits[4:0]# - TRIM_VREF2_SET1[4:0];";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "7";
+            drow["RegAddr(Hex)"] = "86";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:5]# - RCC_SEL_SET2[2:0];   " + "\r\n#bits[4:0]# - TRIM_VREF1_SET2[4:0];";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "8";
+            drow["RegAddr(Hex)"] = "87";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:5]# - RCC_SEL_SET1[5:3];   " + "\r\n#bits[4:0]# - TRIM_VREF2_SET2[4:0];";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "9";
+            drow["RegAddr(Hex)"] = "88";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[3:2]# - MASTER[1:0];   " + "\r\n#bit1# - POST_TRIM;   " + "\r\n#bit0# - OTP_MODE;";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "10";
+            drow["RegAddr(Hex)"] = "42";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bit7# - DIGITAL_CLK_DIS;  #bit6# - ANA_TEST_EN;"
+                                + "\r\n#bit[5:4]# - ANA_TEST_SEL[1:0];"
+                                + "\r\n#bit[3:2]# - FUSE_R_SEL[1:0];"
+                                + "\r\n#bit1# - NORMAL_MODE;  #bit0# - DATA_PIN_DIS;";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "11";
+            drow["RegAddr(Hex)"] = "43";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bit3# - FUSE_READ_LATCH;  #bit2# - FUSE_READ;"
+                                + "\r\n#bit1# - FUSE_SUPPLY_EN;  #bit0# - FUSE_CLK_EN;";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "12";
+            drow["RegAddr(Hex)"] = "4D";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:0]# - DEV_ID_0x61;";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "13";
+            drow["RegAddr(Hex)"] = "4E";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:0]# - PROG_PILOT;";
+            dtable.Rows.Add(drow);
+
+            drow = dtable.NewRow();
+            drow["ID"] = "14";
+            drow["RegAddr(Hex)"] = "4F";
+            drow["RegValue(Hex)"] = "00";
+            drow["Discription"] = "#bits[7:0]# - SOFT_RESET;";
+            dtable.Rows.Add(drow);
+
+
+            SL620_Tab_DataGridView.DataSource = dtable;
+
+            SL620_Tab_DataGridView.Columns[1].Width = 50;
+            SL620_Tab_DataGridView.Columns[2].Width = 90;
+            SL620_Tab_DataGridView.Columns[3].Width = 90;
+            //SL620_Tab_DataGridView.Columns[4].Width = 480;
+            SL620_Tab_DataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            SL620_Tab_DataGridView.Columns[1].ReadOnly = true;
+            //SL910_Tab_DataGridView.Columns[2].ReadOnly = true;
+            SL620_Tab_DataGridView.Columns[4].ReadOnly = true;
+
+            //SL620_Tab_DataGridView.Columns[0].ReadOnly = true;
+            //SL620_Tab_DataGridView.Columns[1].ReadOnly = true;
+            //SL620_Tab_DataGridView.Columns[3];
+
+            SL620_Tab_DataGridView.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            SL620_Tab_DataGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            SL620_Tab_DataGridView.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //SL620_Tab_DataGridView.Columns[0].FillWeight = 50;
+            SL620_Tab_DataGridView.Columns[1].DefaultCellStyle.BackColor = Color.LightGray;
+            SL620_Tab_DataGridView.Columns[2].DefaultCellStyle.BackColor = Color.LightGray;
+            SL620_Tab_DataGridView.Columns[4].DefaultCellStyle.BackColor = Color.LightGray;
+
+            //SL910_Tab_DataGridView. = false;
+            SL620_Tab_DataGridView.RowsDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            SL620_Tab_DataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            SL620_Tab_DataGridView.Update();
+
+            //dock datagridview
+            SL620_Tab_DataGridView.Dock = DockStyle.Fill;
         }
 
         private void InitChar910TabDataGrid()
@@ -9837,7 +10000,7 @@ namespace CurrentSensorV3
             return sl910out;
         }
 
-        #endregion Char910
+        
 
         private void btn_SL910_910to94_out_Click(object sender, EventArgs e)
         {
@@ -9861,6 +10024,169 @@ namespace CurrentSensorV3
             Char910_Tab_DataGridView.Rows[index - 1].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_READY;
             Char910_Tab_DataGridView.Update();
         }
+        #endregion Char910
+
+        #region SL620
+
+        private void btn_SL620Tab_PowerOn_Click(object sender, EventArgs e)
+        {
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+            btn_PowerOn_OWCI_ADC_Click(null,null);
+            btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn.BackColor = Color.GreenYellow;
+        }
+
+        private void btn_SL620Tab_PowerOff_Click(object sender, EventArgs e)
+        {
+            btn_PowerOff_OWCI_ADC_Click(null, null);
+            btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
+        }
+
+        private void btn_SL620Tab_TestKey_Click(object sender, EventArgs e)
+        {
+            //set pilot firstly
+            numUD_pilotwidth_ow_ValueChanged(null, null);
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
+            rbt_signalPathSeting_Config_EngT.Checked = true;
+
+            EnterTestMode();
+        }
+
+        private void btn_SL620Tab_NormalMode_Click(object sender, EventArgs e)
+        {
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITHOUT_CAP);
+            //rbt_signalPathSeting_Config_EngT.Checked = true;
+            //Thread.Sleep(100);
+            Delay(Delay_Sync);
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
+            //rbt_signalPathSeting_Config_EngT.Checked = true;
+            //Thread.Sleep(100);
+            Delay(Delay_Sync);
+
+            uint _reg_addr = 0x55;
+            uint _reg_data = 0xAA;
+            oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+
+            Delay(Delay_Sync);
+
+            _reg_addr = 0x42;
+            _reg_data = 0x02;
+
+            bool writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
+            //Console.WriteLine("I2C write result->{0}", oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data));
+            if (writeResult)
+            {
+                if (bAutoTrimTest)
+                {
+                    DisplayOperateMes("Enter Nomal Mode succeeded!");
+                }
+            }
+            else
+                DisplayOperateMes("I2C write failed, Enter Normal Mode Failed!", Color.Red);
+
+            //Thread.Sleep(100);
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+        }
+
+        private void btn_SL620Tab_ReadSelect_Click(object sender, EventArgs e)
+        {
+            string st;
+            int index = 0;
+            int totalRows = 0;
+            uint _dev_addr = this.DeviceAddress;
+            uint _reg_addr = 0x00;
+            uint[] _reg_data = new uint[2];
+
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITHOUT_CAP);
+            //Delay(Delay_Power);
+
+            totalRows = SL620_Tab_DataGridView.Rows.Count - 1;
+
+            for (index = 0; index < totalRows; index++)
+            {
+                if (Convert.ToBoolean(SL620_Tab_DataGridView.Rows[index].Cells[0].Value) == true)
+                {
+                    st = Convert.ToString(SL620_Tab_DataGridView.Rows[index].Cells[2].Value);
+                    _reg_addr = Convert.ToUInt32(st, 16);
+
+                    //st = SL910_Tab_DataGridView.Rows[index].Cells[3].Value.ToString();
+                    //_reg_data = Convert.ToUInt32(st, 16);
+
+                    //_reg_data[0] = oneWrie_device.I2CRead_Single(_dev_addr, _reg_addr);
+                    oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, 2, _reg_data);
+                    SL620_Tab_DataGridView.Rows[index].Cells[3].Value = _reg_data[0].ToString("X2");
+
+                    //DisplayOperateMes(st);
+                    st = "ID = " + (index + 1).ToString() + ": read Value 0x" + _reg_data[0].ToString("X2") + " from Reg 0x" + _reg_addr.ToString("X2");
+                    DisplayOperateMes(st);
+                }
+                Thread.Sleep(5);
+
+            }  
+        }
+
+        private void btn_SL620Tab_WriteSelect_Click(object sender, EventArgs e)
+        {
+            string st;
+            int index = 0;
+            int totalRows = 0;
+            uint _dev_addr = this.DeviceAddress;
+            uint _reg_addr = 0x00;
+            uint _reg_data = 0x00;
+
+
+            totalRows = SL620_Tab_DataGridView.Rows.Count - 1;
+
+            for (index = 0; index < totalRows; index++)
+            {
+                if (Convert.ToBoolean(SL620_Tab_DataGridView.Rows[index].Cells[0].Value) == true)
+                {
+                    st = Convert.ToString(SL620_Tab_DataGridView.Rows[index].Cells[2].Value);
+                    _reg_addr = Convert.ToUInt32(st, 16);
+
+                    st = SL620_Tab_DataGridView.Rows[index].Cells[3].Value.ToString();
+                    _reg_data = Convert.ToUInt32(st, 16);
+
+                    oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+                    //DisplayOperateMes(st);
+                    st = "ID = " + (index + 1).ToString() + ": write Value 0x" + _reg_data.ToString("X2") + " to Reg 0x" + _reg_addr.ToString("X2");
+                    DisplayOperateMes(st);
+                }
+                Thread.Sleep(5);
+
+            }  
+        }
+
+        private void btn_SL620Tab_TrimSet1_Click(object sender, EventArgs e)
+        {
+
+            btn_SL910_FuseBank2_Click(null,null);
+        }
+
+        private void btn_SL620Tab_TrimSet2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void btn_SL620Tab_PowerOn6V_Click(object sender, EventArgs e)
+        {
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
+            btn_PowerOn_OWCI_ADC_Click(null, null);
+            btn_SL620Tab_PowerOn6V.BackColor = Color.GreenYellow;
+            btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
+        }
+
+        #endregion SL620
 
     }
 
