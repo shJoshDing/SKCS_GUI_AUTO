@@ -534,7 +534,7 @@ namespace CurrentSensorV3
             btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
             btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
 
-            InitChar910TabDataGrid();
+            //InitChar910TabDataGrid();
 
             //Refresh pilot width
             //Console.WriteLine("Set pilot width result->{0}", oneWrie_device.SetPilotWidth(8000));
@@ -3469,7 +3469,7 @@ namespace CurrentSensorV3
             drow["ID"] = "8";
             drow["RegAddr(Hex)"] = "87";
             drow["RegValue(Hex)"] = "00";
-            drow["Discription"] = "#bits[7:5]# - RCC_SEL_SET1[5:3];   " + "\r\n#bits[4:0]# - TRIM_VREF2_SET2[4:0];";
+            drow["Discription"] = "#bits[7:5]# - RCC_SEL_SET2[5:3];   " + "\r\n#bits[4:0]# - TRIM_VREF2_SET2[4:0];";
             dtable.Rows.Add(drow);
 
             drow = dtable.NewRow();
@@ -3557,7 +3557,20 @@ namespace CurrentSensorV3
             try
             {
                 string filename = System.Windows.Forms.Application.StartupPath;
-                filename += @"\Script.sct";
+                OpenFileDialog openProj = new OpenFileDialog();
+                openProj.Title = "open a script.";
+                openProj.Filter = "SCT(.sct)|*.sct";
+                //importFile.RestoreDirectory = true;
+                if (openProj.ShowDialog() == DialogResult.OK)
+                {
+                    filename = openProj.FileName;
+                    //DeserializeMethod(filename);
+                }
+                else
+                    return;
+
+                //string filename = System.Windows.Forms.Application.StartupPath;
+                //filename += @"\Script.sct";
 
                 StreamReader sr = new StreamReader(filename);
                 string[] tempMsg = {"","","",""};
@@ -9737,6 +9750,106 @@ namespace CurrentSensorV3
                             return;
                         }
                         break;
+
+                    case "sweep620linearity":
+                    case "sweep 620 linearity":
+                    case "Sweep620Linearity":
+                    case "Sweep 620 Linearity":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        Sweep620Linearity();
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sweep620roughgain":
+                    case "sweep 620 rough gain":
+                    case "Sweep620RoughGain":
+                    case "Sweep 620 Rough Gain":
+                    case "SWEEP620ROUGHGAIN":
+                    case "SWEEP 620 ROUGH GAIN":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        Sweep620RoughGain();
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sweep620finegain":
+                    case "sweep 620 fine gain":
+                    case "Sweep620FineGain":
+                    case "Sweep 620 Fine Gain":
+                    case "SWEEP620FINEGAIN":
+                    case "SWEEP 620 FINE GAIN":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        Sweep620FineGain();
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sweep620offset":
+                    case "sweep 620 offset":
+                    case "Sweep620Offset":
+                    case "Sweep 620 Offset":
+                    case "SWEEP620OFFSET":
+                    case "SWEEP 620 OFFSET":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        Sweep620Offset();
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sweep620vout0p1vddoffset":
+                    case "sweep 620 vout 0p1vdd offset":
+                    case "Sweep620Vout0p1vddOffset":
+                    case "Sweep 620 Vout 0p1vdd Offset":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        Sweep620Vout0p1vddOffset();
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sweep620tc":
+                    case "sweep 620 tc":
+                    case "Sweep620Tc":
+                    case "Sweep 620 Tc":
+                        Sweep620Tc();
+                        break;
+
+                    case "sweep620vref":
+                    case "sweep 620 vref":
+                    case "Sweep620Vref":
+                    case "Sweep 620 Vref":
+                        Sweep620Vref();
+                        break;
                     
                     default:
                         DisplayOperateMes("Invalid Command!");
@@ -9998,9 +10111,7 @@ namespace CurrentSensorV3
                     - 0.11259555996798598 * x * x - 1.726360653315231 * x + 4.769278793797818;
             DisplayOperateMes("SL910 vout = " + sl910out.ToString("F3"));
             return sl910out;
-        }
-
-        
+        }   
 
         private void btn_SL910_910to94_out_Click(object sender, EventArgs e)
         {
@@ -10168,15 +10279,41 @@ namespace CurrentSensorV3
 
         private void btn_SL620Tab_TrimSet1_Click(object sender, EventArgs e)
         {
+            uint _dev_addr = this.DeviceAddress;
 
-            btn_SL910_FuseBank2_Click(null,null);
+            //Enter test mode
+            uint _reg_addr = 0x43;
+            uint _reg_data = 0x03;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            //Thread.Sleep(50);
+
+            //_reg_addr = 0x43;
+            //_reg_data = 0x05;
+            //oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x44;
+            _reg_data = 0xAA;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            btn_fuse_clock_ow_EngT_Click(null, null);
+
+            Thread.Sleep(800);
+
+            _reg_addr = 0x44;
+            _reg_data = 0x00;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x00;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
         }
-
-        private void btn_SL620Tab_TrimSet2_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
         private void btn_SL620Tab_PowerOn6V_Click(object sender, EventArgs e)
         {
@@ -10186,8 +10323,573 @@ namespace CurrentSensorV3
             btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
         }
 
-        #endregion SL620
+        private void btn_SL620Tab_ReadTrim_Click(object sender, EventArgs e)
+        {
+            uint _dev_addr = this.DeviceAddress;
 
+            //Enter test mode
+            uint _reg_addr = 0x43;
+            uint _reg_data = 0x02;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x06;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x0E;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x06;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x02;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+
+            Thread.Sleep(50);
+
+            _reg_addr = 0x43;
+            _reg_data = 0x00;
+            oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data);
+        }
+
+        private void rb_SL620Tab_DigitalMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_SL620Tab_DigitalMode.Checked)
+            {
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
+                Thread.Sleep(50);
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITHOUT_CAP);
+                DisplayOperateMes("Digital mode, Vout no Cap");
+            }
+            else if (rb_SL620Tab_AnalogMode.Checked)
+            {
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+                Thread.Sleep(50);
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+                DisplayOperateMes("Analog mode, Vout with Cap");
+            }
+        }
+
+        private void Sweep620Linearity()
+        {
+            int delay_temp = 2000;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620Linearity-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            //power on 5V
+            btn_SL620Tab_PowerOn_Click(null, null);
+            Delay(Delay_Sync);
+            //enter test mode
+            btn_SL620Tab_TestKey_Click(null, null);
+            Delay(Delay_Sync);
+            //enter normal mode
+            btn_SL620Tab_NormalMode_Click(null, null);
+            Delay(Delay_Sync);
+
+            //Init IP current
+            btn_EngTab_Connect_Click(null, null);
+            Delay(Delay_Sync);
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                //string tempstring;
+
+                for (uint i = 20; i > 0; i--)
+                {
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(delay_temp);
+                    SetIP(i);
+                    Delay(Delay_Power);
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(delay_temp);
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        //tempvout[k] = GetMout();
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+
+                btn_EngTab_Ipoff_Click(null, null);
+
+                //MessageBox("Please Invert IP!");
+                DialogResult dr = MessageBox.Show("Please Invert IP", "IP", MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Cancel)
+                    return;
+                else if (dr == DialogResult.Yes)
+                {
+                    for (uint i = 0; i < 21; i++)
+                    {
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(delay_temp);
+                        SetIP(i);
+                        Delay(Delay_Power);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(delay_temp);
+                        for (uint k = 0; k < 5; k++)
+                        {
+                            //tempvout[k] = GetMout();
+                            tempvout[k] = dmm.readVolt();
+                            Delay(Delay_Power);
+                        }
+                        writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                            + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                    }
+
+                    btn_EngTab_Ipoff_Click(null, null);
+                }
+                //MessageBox("Please Invert IP!");
+                dr = MessageBox.Show("Please Invert IP", "IP", MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Cancel)
+                    return;
+            }
+        }
+
+        private void Sweep620RoughGain()
+        {
+            int delay_temp = 1000;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620CoarseGain-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = 16;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(15);
+                Delay(Delay_Power);
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Power);
+
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set coarse gain code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, i << 4);
+                    Delay(Delay_Sync);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0);
+                btn_EngTab_Ipoff_Click(null, null);
+                //SetIP(0);
+            }
+        }
+
+        private void Sweep620FineGain()
+        {
+            int delay_temp = 1000;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620FineGain-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = 64;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(15);
+                Delay(Delay_Power);
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(delay_temp);
+
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set fine gain code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, (i & 0x07) << 5);
+                    Delay(Delay_Sync);
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, (i & 0x38) << 2);
+                    Delay(delay_temp);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, 0);
+                btn_EngTab_Ipoff_Click(null, null);
+                //SetIP(0);
+            }
+        }
+
+        private void Sweep620Offset()
+        {
+            int delay_temp = 100;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620Offset-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = 32;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                writer.WriteLine("Coarse Offset");
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                //string tempstring;
+
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set offset code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, i);
+                    Delay(delay_temp);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+                //oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0);
+
+                writer.WriteLine("Fine Offset");
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set offset code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, i);
+                    Delay(delay_temp);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+                //oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, 0);
+            }
+        }
+
+        private void Sweep620Vout0p1vddOffset()
+        {
+            int delay_temp = 100;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620Vout0p1vddOffset-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = 32;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                writer.WriteLine("Coarse Offset");
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                //string tempstring;
+
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set offset code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, i);
+                    Delay(Delay_Sync);
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 3);
+                    Delay(Delay_Sync);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+                //oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0);
+
+                writer.WriteLine("Fine Offset");
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set offset code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, i);
+                    Delay(Delay_Sync);
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 3);
+                    Delay(Delay_Sync);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+                //oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, 0);
+            }
+        }
+
+        private void Sweep620Tc()
+        {
+            int delay_temp = 1000;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620Tc-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = 16;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                writer.WriteLine("gain tc");
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(15);
+                Delay(Delay_Power);
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Power);
+
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set coarse gain code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, (i << 4) + i);
+                    Delay(Delay_Sync);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+
+                //oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0);
+                btn_EngTab_Ipoff_Click(null, null);
+                //SetIP(0);
+                writer.WriteLine("offset tc");
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set coarse gain code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, (i << 4) + i);
+                    Delay(Delay_Sync);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+                //oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0);
+            }
+        }
+
+        private void Sweep620Vref()
+        {
+            int delay_temp = 1000;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\Sweep620Vref-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = 4;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(filename);
+                writer.WriteLine("vref vs trim_vbg[1:0]");
+                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                writer.WriteLine(headers);
+
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(15);
+                Delay(Delay_Power);
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Power);
+
+                for (uint i = 0; i < count; i++)
+                {
+                    //power off 
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    Delay(delay_temp);
+                    //power on 5V
+                    btn_SL620Tab_PowerOn_Click(null, null);
+                    Delay(Delay_Sync);
+                    //enter test mode
+                    btn_SL620Tab_TestKey_Click(null, null);
+                    Delay(Delay_Sync);
+                    //set coarse gain code
+                    oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, (i << 2));
+                    Delay(Delay_Sync);
+                    //enter normal mode
+                    btn_SL620Tab_NormalMode_Click(null, null);
+                    Delay(Delay_Sync);
+
+                    for (uint k = 0; k < 5; k++)
+                    {
+                        tempvout[k] = dmm.readVolt();
+                        Delay(Delay_Power);
+                    }
+                    writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
+                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                }
+                btn_EngTab_Ipoff_Click(null, null);         
+            }
+        }
+
+        private void btn_SL620Tab_Vout_Click(object sender, EventArgs e)
+        {
+            btn_Vout0A_EngT_Click(null, null);
+        }
+
+        #endregion SL620
     }
 
     
