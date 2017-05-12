@@ -5,9 +5,12 @@ test script for SL620
 ,read reg,0x4E
 ,write reg,0x89,0xFF
 ,read reg,0x89
-init dmm,COM3
+,init dmm,COM3
 sweep 620 linearity,null
-sweep 620 tc,null
-sweep 620 vout 0p1vdd offset,null
+sweep 620 tc1,null
+sweep 620 tc2,null
+sweep 620 vout option,null
+sweep 620 vbg,null
+,sweep 620 vout 0p1vdd offset,null
 
 

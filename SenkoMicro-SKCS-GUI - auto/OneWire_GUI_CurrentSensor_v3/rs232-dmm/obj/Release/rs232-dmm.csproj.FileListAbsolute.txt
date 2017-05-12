@@ -3,3 +3,8 @@ C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_G
 C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\obj\Release\rs232-dmm.dll
 C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\obj\Release\rs232-dmm.pdb
 C:\Users\Hao\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\obj\Release\rs232-dmm.csprojResolveAssemblyReference.cache
+C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\bin\Release\rs232-dmm.dll
+C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\bin\Release\rs232-dmm.pdb
+C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\obj\Release\rs232-dmm.csprojResolveAssemblyReference.cache
+C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\obj\Release\rs232-dmm.dll
+C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\rs232-dmm\obj\Release\rs232-dmm.pdb
