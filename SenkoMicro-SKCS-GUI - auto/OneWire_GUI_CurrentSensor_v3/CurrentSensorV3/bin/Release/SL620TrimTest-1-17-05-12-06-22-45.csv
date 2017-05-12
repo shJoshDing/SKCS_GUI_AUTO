@@ -1,0 +1,24 @@
+C:\Users\IBM-201\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SL620TrimTest-1-17-05-12-06-22-45.csv
+ID,read before write,read after write,read after trim,read after power cycle
+0,pass,pass,pass,pass
+1,pass,pass,pass,pass
+2,pass,pass,pass,pass
+3,pass,pass,pass,pass
+4,pass,pass,pass,pass
+5,pass,pass,pass,pass
+6,pass,pass,pass,pass
+7,pass,pass,pass,pass
+8,pass,pass,pass,pass
+9,pass,pass,pass,pass
+10,pass,pass,pass,pass
+11,pass,pass,pass,pass
+12,pass,pass,pass,pass
+13,pass,pass,pass,pass
+14,pass,pass,pass,pass
+15,pass,pass,pass,pass
+16,pass,pass,pass,pass
+17,pass,pass,pass,pass
+18,pass,pass,pass,pass
+19,pass,pass,pass,pass
+20,pass,pass,pass,pass
+21,pass,pass,pass,pass

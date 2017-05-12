@@ -219,7 +219,7 @@ namespace CurrentSensorV3
         //Just used for auto trim, will be updated when auto tirm tabe entering and loading config file
         uint[] Reg80ToReg83Backup = new uint[4];
 
-        uint[] tempReadback = new uint[5];
+        uint[] tempReadback = new uint[9];
 
         uint[] uResult = new uint[16];
         double[] multiSiteVout0A = new double[16];
@@ -480,9 +480,9 @@ namespace CurrentSensorV3
 
         private void btn_fuse_clock_ow_EngT_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Please Change Power To 6V", "Change Power", MessageBoxButtons.OKCancel);
-            if (dr == DialogResult.Cancel)
-                return;
+            //DialogResult dr = MessageBox.Show("Please Change Power To 6V", "Change Power", MessageBoxButtons.OKCancel);
+            //if (dr == DialogResult.Cancel)
+            //    return;
 
             Console.WriteLine("Fuse write result->{0}", oneWrie_device.FuseClockSwitch((double)this.num_UD_pulsewidth_ow_EngT.Value, (double)this.numUD_pulsedurationtime_ow_EngT.Value));
         }
@@ -3194,7 +3194,7 @@ namespace CurrentSensorV3
             if (bAutoTrimTest)
                 DisplayOperateMes("Read Out Data is:");
 
-            if (oneWrie_device.I2CRead_Burst(this.DeviceAddress, _reg_addr_start, 5, _readBack_data) == 0)
+            if (oneWrie_device.I2CRead_Burst(this.DeviceAddress, _reg_addr_start, Convert.ToUInt32(num), _readBack_data) == 0)
             {
                 for (int ix = 0; ix < num; ix++)
                 {
@@ -3207,6 +3207,31 @@ namespace CurrentSensorV3
             {
                 DisplayOperateMes("Read Back Failed!");
                 return false;
+            }
+        }
+
+        private void BurstRead9(uint _reg_addr_start, int num, uint[] _readBack_data)
+        {
+            Delay(Delay_Sync);
+            //set pilot firstly
+            numUD_pilotwidth_ow_ValueChanged(null, null);
+
+            if (bAutoTrimTest)
+                DisplayOperateMes("Read Out Data is:");
+
+            if (oneWrie_device.I2CRead_Burst(this.DeviceAddress, _reg_addr_start, Convert.ToUInt32(num), _readBack_data) == 0)
+            {
+                for (int ix = 0; ix < num; ix++)
+                {
+                    if (bAutoTrimTest)
+                        DisplayOperateMes(string.Format("Reg{0} = 0x{1}", ix, _readBack_data[ix].ToString("X2")));
+                }
+                
+            }
+            else
+            {
+                DisplayOperateMes("Read Back Failed!");
+                //return false;
             }
         }
 
@@ -4321,6 +4346,24 @@ namespace CurrentSensorV3
             //uint data = 0;
             //data = oneWrie_device.I2CRead_Single(this.DeviceAddress, 0x80);
             //DisplayOperateMes(string.Format("Reg0x80 = 0x{0}", data.ToString("X2")));
+        }
+
+        private void btn_burstRead(int length)
+        {
+            //set pilot firstly
+            numUD_pilotwidth_ow_ValueChanged(null, null);
+
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
+            rbt_signalPathSeting_Config_EngT.Checked = true;
+
+            EnterTestMode();
+
+            //Read Back 0x80~0x85
+            uint _reg_addr_start = 0x80;
+            uint[] _readBack_data = new uint[9];
+            BurstRead(_reg_addr_start, 5, _readBack_data);
+
+            //return _readBack_data;
         }
 
         private void btn_MarginalRead_Click(object sender, EventArgs e)
@@ -11290,6 +11333,7 @@ namespace CurrentSensorV3
 
             using (StreamWriter writer = new StreamWriter(filename, true))
             {
+                uint tempResult = 0;
                 writer.WriteLine(filename);
                 string headers = "ID,read before write,read after write,read after trim,read after power cycle";
                 writer.WriteLine(headers);
@@ -11297,10 +11341,11 @@ namespace CurrentSensorV3
                 for (uint index = 0; index < count; index++)
                 {
                     //MessageBox("DUT ON");
-                    DialogResult dr = MessageBox.Show("DUT ON!", "ID", MessageBoxButtons.YesNoCancel);
+                    ResetTempBuf();
+                    DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
                         return;
-                    else if (dr == DialogResult.Yes)
+                    else if (dr == DialogResult.OK)
                     {
 
                         //write ID
@@ -11316,27 +11361,35 @@ namespace CurrentSensorV3
                         btn_SL620Tab_TestKey_Click(null, null);
                         Delay(Delay_Sync);
 
-                        //Read Back 0x80~0x85
-                        uint tempResult = 0;
-                        uint _reg_addr_start = 0x80;
-                        uint[] _readBack_data = new uint[9];
-
                         //read reg
-                        ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //ReadRegSet(_reg_addr_start, 2, _readBack_data);
+                        //BurstRead9(this.DeviceAddress, 8, tempReadback);
+                        //BurstRead(0x80, 5, tempReadback);
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
                         for (uint i = 0; i < 9; i++)
-                            tempResult += _readBack_data[i];
+                            tempResult += tempReadback[i];
                         if (tempResult > 0)
                             writer.Write("fail,");
                         else
                             writer.Write("pass,");
 
                         //write 0xFF except Reg master bits
+                        Delay(Delay_Sync);
                         WriteRegSet();
-
+                        Delay(Delay_Sync);
                         //read back
-                        ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //_readBack_data = btn_burstRead(4);
+                        //BurstRead9(this.DeviceAddress, 8, tempReadback);
+                        //btn_burstRead(5);
+                        //btn_burstRead_Click(null,null);
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
                         for (uint i = 0; i < 9; i++)
-                            tempResult += _readBack_data[i];
+                            tempResult += tempReadback[i];
                         if (tempResult < 0xFF * 8)
                             writer.Write("fail,");
                         else
@@ -11355,9 +11408,13 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //read back after trim
-                        ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //_readBack_data = btn_burstRead(8);
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
                         for (uint i = 0; i < 9; i++)
-                            tempResult += _readBack_data[i];
+                            tempResult += tempReadback[i];
                         if (tempResult < 0xFF * 8)
                             writer.Write("fail,");
                         else
@@ -11371,9 +11428,13 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //read back after power cycle
-                        ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                        //_readBack_data = btn_burstRead(8);
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
                         for (uint i = 0; i < 9; i++)
-                            tempResult += _readBack_data[i];
+                            tempResult += tempReadback[i];
                         if (tempResult < 0xFF * 8)
                             writer.Write("fail\r\n");
                         else
@@ -11427,11 +11488,24 @@ namespace CurrentSensorV3
             }
         }
 
-        private void ReadRegSet(uint startaddr, uint length, uint[] _readBack_data)
+        private void ReadRegSet()
         {
             uint _dev_addr = this.DeviceAddress;
-            uint _reg_addr = startaddr;
-            oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, length, _readBack_data);
+            uint _reg_addr = 0x80;
+            uint[] _readBack_data = new uint[4];
+            oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, 4, _readBack_data);
+            for (int i = 0; i < 4; i++ )
+                tempReadback[i] = _readBack_data[i];
+
+            oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr + 4, 4, _readBack_data);
+            for (int i = 0; i < 4; i++)
+                tempReadback[i + 4] = _readBack_data[i];
+        }
+
+        private void ResetTempBuf()
+        {
+            for (int i = 0; i < 9; i++)
+                tempReadback[i] = 0;        
         }
 
         #endregion SL620
