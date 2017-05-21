@@ -324,6 +324,32 @@
             this.SL620_Tab_DataGridView = new System.Windows.Forms.DataGridView();
             this.SL620BoolSet = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.Programming = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label88 = new System.Windows.Forms.Label();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label92 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.label91 = new System.Windows.Forms.Label();
+            this.label90 = new System.Windows.Forms.Label();
+            this.label89 = new System.Windows.Forms.Label();
+            this.btn_Program_Stop = new System.Windows.Forms.Button();
+            this.btn_Program_Start = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btn_Program_Tc = new System.Windows.Forms.Button();
             this.CommandTab = new System.Windows.Forms.TabPage();
             this.txt_Char910_DutId = new System.Windows.Forms.TextBox();
             this.label87 = new System.Windows.Forms.Label();
@@ -390,6 +416,9 @@
             this.SL620Tab.SuspendLayout();
             this.panel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SL620_Tab_DataGridView)).BeginInit();
+            this.Programming.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox11.SuspendLayout();
             this.CommandTab.SuspendLayout();
             this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Char910_Tab_DataGridView)).BeginInit();
@@ -512,6 +541,7 @@
             this.tabControl1.Controls.Add(this.BrakeTab);
             this.tabControl1.Controls.Add(this.SL910Tab);
             this.tabControl1.Controls.Add(this.SL620Tab);
+            this.tabControl1.Controls.Add(this.Programming);
             this.tabControl1.Controls.Add(this.CommandTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -3998,6 +4028,359 @@
             this.groupBox10.TabIndex = 9;
             this.groupBox10.TabStop = false;
             // 
+            // Programming
+            // 
+            this.Programming.Controls.Add(this.pictureBox1);
+            this.Programming.Controls.Add(this.label88);
+            this.Programming.Controls.Add(this.groupBox11);
+            this.Programming.Location = new System.Drawing.Point(4, 22);
+            this.Programming.Name = "Programming";
+            this.Programming.Padding = new System.Windows.Forms.Padding(3);
+            this.Programming.Size = new System.Drawing.Size(803, 574);
+            this.Programming.TabIndex = 7;
+            this.Programming.Text = "Programming";
+            this.Programming.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(141, 36);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(225, 39);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = true;
+            this.label88.Font = new System.Drawing.Font("Copperplate Gothic Bold", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label88.ForeColor = System.Drawing.Color.DarkGray;
+            this.label88.Location = new System.Drawing.Point(368, 45);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(299, 30);
+            this.label88.TabIndex = 7;
+            this.label88.Text = "Programming Tool";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox11.Controls.Add(this.label92);
+            this.groupBox11.Controls.Add(this.progressBar1);
+            this.groupBox11.Controls.Add(this.button10);
+            this.groupBox11.Controls.Add(this.button11);
+            this.groupBox11.Controls.Add(this.button12);
+            this.groupBox11.Controls.Add(this.button13);
+            this.groupBox11.Controls.Add(this.button14);
+            this.groupBox11.Controls.Add(this.button5);
+            this.groupBox11.Controls.Add(this.button6);
+            this.groupBox11.Controls.Add(this.button7);
+            this.groupBox11.Controls.Add(this.button8);
+            this.groupBox11.Controls.Add(this.button9);
+            this.groupBox11.Controls.Add(this.label91);
+            this.groupBox11.Controls.Add(this.label90);
+            this.groupBox11.Controls.Add(this.label89);
+            this.groupBox11.Controls.Add(this.btn_Program_Stop);
+            this.groupBox11.Controls.Add(this.btn_Program_Start);
+            this.groupBox11.Controls.Add(this.button4);
+            this.groupBox11.Controls.Add(this.button2);
+            this.groupBox11.Controls.Add(this.button3);
+            this.groupBox11.Controls.Add(this.button1);
+            this.groupBox11.Controls.Add(this.btn_Program_Tc);
+            this.groupBox11.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox11.Location = new System.Drawing.Point(8, 6);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(789, 562);
+            this.groupBox11.TabIndex = 6;
+            this.groupBox11.TabStop = false;
+            // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(338, 346);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(43, 17);
+            this.label92.TabIndex = 34;
+            this.label92.Text = "status";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(339, 366);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(329, 10);
+            this.progressBar1.TabIndex = 33;
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button10.Enabled = false;
+            this.button10.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button10.Location = new System.Drawing.Point(562, 461);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(106, 60);
+            this.button10.TabIndex = 32;
+            this.button10.Text = "Misc";
+            this.button10.UseVisualStyleBackColor = false;
+            // 
+            // button11
+            // 
+            this.button11.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button11.Enabled = false;
+            this.button11.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button11.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button11.Location = new System.Drawing.Point(450, 461);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(106, 60);
+            this.button11.TabIndex = 31;
+            this.button11.Text = "Bin";
+            this.button11.UseVisualStyleBackColor = false;
+            // 
+            // button12
+            // 
+            this.button12.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button12.Enabled = false;
+            this.button12.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button12.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button12.Location = new System.Drawing.Point(338, 461);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(106, 60);
+            this.button12.TabIndex = 30;
+            this.button12.Text = "Vout@0A";
+            this.button12.UseVisualStyleBackColor = false;
+            // 
+            // button13
+            // 
+            this.button13.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button13.Enabled = false;
+            this.button13.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button13.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button13.Location = new System.Drawing.Point(226, 461);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(106, 60);
+            this.button13.TabIndex = 29;
+            this.button13.Text = "Vout@IP";
+            this.button13.UseVisualStyleBackColor = false;
+            // 
+            // button14
+            // 
+            this.button14.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button14.Enabled = false;
+            this.button14.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button14.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button14.Location = new System.Drawing.Point(114, 461);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(106, 60);
+            this.button14.TabIndex = 28;
+            this.button14.Text = "PASS";
+            this.button14.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button5.Enabled = false;
+            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Location = new System.Drawing.Point(562, 199);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(106, 60);
+            this.button5.TabIndex = 27;
+            this.button5.TabStop = false;
+            this.button5.Text = "ADC Offset";
+            this.button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button6.Enabled = false;
+            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Location = new System.Drawing.Point(450, 199);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(106, 60);
+            this.button6.TabIndex = 26;
+            this.button6.TabStop = false;
+            this.button6.Text = "PreSet Gain";
+            this.button6.UseVisualStyleBackColor = false;
+            // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button7.Enabled = false;
+            this.button7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button7.Location = new System.Drawing.Point(338, 199);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(106, 60);
+            this.button7.TabIndex = 25;
+            this.button7.TabStop = false;
+            this.button7.Text = "Sensi Option";
+            this.button7.UseVisualStyleBackColor = false;
+            // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button8.Enabled = false;
+            this.button8.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.Location = new System.Drawing.Point(226, 199);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(106, 60);
+            this.button8.TabIndex = 24;
+            this.button8.TabStop = false;
+            this.button8.Text = "IP Range";
+            this.button8.UseVisualStyleBackColor = false;
+            // 
+            // button9
+            // 
+            this.button9.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button9.Enabled = false;
+            this.button9.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button9.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button9.Location = new System.Drawing.Point(114, 133);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(106, 60);
+            this.button9.TabIndex = 23;
+            this.button9.TabStop = false;
+            this.button9.Text = "Part";
+            this.button9.UseVisualStyleBackColor = false;
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(37, 427);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(469, 17);
+            this.label91.TabIndex = 17;
+            this.label91.Text = "Trim Results --------------------------------------------------------------------" +
+    "------------------------------";
+            // 
+            // label90
+            // 
+            this.label90.AutoSize = true;
+            this.label90.Location = new System.Drawing.Point(37, 312);
+            this.label90.Name = "label90";
+            this.label90.Size = new System.Drawing.Size(466, 17);
+            this.label90.TabIndex = 16;
+            this.label90.Text = "Trim Operation ------------------------------------------------------------------" +
+    "--------------------------";
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = true;
+            this.label89.Location = new System.Drawing.Point(37, 103);
+            this.label89.Name = "label89";
+            this.label89.Size = new System.Drawing.Size(463, 17);
+            this.label89.TabIndex = 15;
+            this.label89.Text = "PreTrim Config ------------------------------------------------------------------" +
+    "--------------------------";
+            // 
+            // btn_Program_Stop
+            // 
+            this.btn_Program_Stop.BackColor = System.Drawing.Color.IndianRed;
+            this.btn_Program_Stop.Location = new System.Drawing.Point(279, 342);
+            this.btn_Program_Stop.Name = "btn_Program_Stop";
+            this.btn_Program_Stop.Size = new System.Drawing.Size(53, 53);
+            this.btn_Program_Stop.TabIndex = 4;
+            this.btn_Program_Stop.Text = "Stop";
+            this.btn_Program_Stop.UseVisualStyleBackColor = false;
+            // 
+            // btn_Program_Start
+            // 
+            this.btn_Program_Start.BackColor = System.Drawing.Color.YellowGreen;
+            this.btn_Program_Start.Location = new System.Drawing.Point(114, 342);
+            this.btn_Program_Start.Name = "btn_Program_Start";
+            this.btn_Program_Start.Size = new System.Drawing.Size(155, 53);
+            this.btn_Program_Start.TabIndex = 0;
+            this.btn_Program_Start.Text = "Start";
+            this.btn_Program_Start.UseVisualStyleBackColor = false;
+            this.btn_Program_Start.Click += new System.EventHandler(this.btn_Program_Start_Click);
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button4.Enabled = false;
+            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(562, 133);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(106, 60);
+            this.button4.TabIndex = 9;
+            this.button4.TabStop = false;
+            this.button4.Text = "Gain";
+            this.button4.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button2.Enabled = false;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(450, 133);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(106, 60);
+            this.button2.TabIndex = 8;
+            this.button2.TabStop = false;
+            this.button2.Text = "IP";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button3.Enabled = false;
+            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(338, 133);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(106, 60);
+            this.button3.TabIndex = 7;
+            this.button3.TabStop = false;
+            this.button3.Text = "VIP";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button1.Enabled = false;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(226, 133);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(106, 60);
+            this.button1.TabIndex = 6;
+            this.button1.TabStop = false;
+            this.button1.Text = "Voffset";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // btn_Program_Tc
+            // 
+            this.btn_Program_Tc.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Program_Tc.Enabled = false;
+            this.btn_Program_Tc.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btn_Program_Tc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Program_Tc.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Program_Tc.Location = new System.Drawing.Point(114, 199);
+            this.btn_Program_Tc.Name = "btn_Program_Tc";
+            this.btn_Program_Tc.Size = new System.Drawing.Size(106, 60);
+            this.btn_Program_Tc.TabIndex = 5;
+            this.btn_Program_Tc.TabStop = false;
+            this.btn_Program_Tc.Text = "TC";
+            this.btn_Program_Tc.UseVisualStyleBackColor = false;
+            // 
             // CommandTab
             // 
             this.CommandTab.Controls.Add(this.txt_Char910_DutId);
@@ -4326,6 +4709,11 @@
             this.SL620Tab.PerformLayout();
             this.panel11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SL620_Tab_DataGridView)).EndInit();
+            this.Programming.ResumeLayout(false);
+            this.Programming.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.CommandTab.ResumeLayout(false);
             this.CommandTab.PerformLayout();
             this.panel9.ResumeLayout(false);
@@ -4662,5 +5050,31 @@
         private System.Windows.Forms.RadioButton rb_SL620Tab_AnalogMode;
         private System.Windows.Forms.RadioButton rb_SL620Tab_DigitalMode;
         private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.TabPage Programming;
+        private System.Windows.Forms.Button btn_Program_Stop;
+        private System.Windows.Forms.Button btn_Program_Start;
+        private System.Windows.Forms.Button btn_Program_Tc;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label88;
+        private System.Windows.Forms.Label label89;
+        private System.Windows.Forms.Label label91;
+        private System.Windows.Forms.Label label90;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label92;
     }
 }

@@ -39,6 +39,30 @@ namespace CurrentSensorV3
             public bool bTrimmed;
         }
 
+        public struct SL620Attribute
+        {
+            public double Iq;
+            public double Vip;
+            public double Offset;
+            public double Gain;
+            public double Sensity;
+            public int CoarseGainCode;
+            public int FineGainCode;
+            public int CoarseOffsetCode;
+            public int FineOffsetCode;
+            public double VipTrimmed;
+            public double OffsetTrimmed;
+            public int Bin;
+            public double ElapsedTime;
+            public bool DigReadFail;
+            public bool DigCommFail;
+            public bool OutputFail;
+            public bool Mre;
+            public bool LowSensity;
+            public bool OffsetFail;
+            public bool Short;
+        }
+
         #region Param Definition
 
         bool bUsbConnected = false;
@@ -429,6 +453,7 @@ namespace CurrentSensorV3
             {
                 this.toolStripStatusLabel_Connection.BackColor = Color.IndianRed;
                 this.toolStripStatusLabel_Connection.Text = "Disconnected";
+                this.toolStripStatusLabel_FWInfo.Text = "";
             }
             #endregion
         }
@@ -11335,7 +11360,7 @@ namespace CurrentSensorV3
             {
                 uint tempResult = 0;
                 writer.WriteLine(filename);
-                string headers = "ID,read before write,read after write,read after trim,read after power cycle";
+                string headers = "ID,read before write,read after write,read after trim,read after power cycle 1,read after power cycle 2,,read after power cycle 3";
                 writer.WriteLine(headers);
 
                 for (uint index = 0; index < count; index++)
@@ -11420,25 +11445,34 @@ namespace CurrentSensorV3
                         else
                             writer.Write("pass,");
 
-                        PowerOff();
-                        Delay(Delay_Power);
-                        btn_SL620Tab_PowerOn_Click(null, null);
-                        Delay(Delay_Sync);
-                        btn_SL620Tab_TestKey_Click(null, null);
-                        Delay(Delay_Sync);
+                        for (uint j = 0; j < 3; j++)
+                        {
+                            PowerOff();
+                            Delay(Delay_Power);
+                            btn_SL620Tab_PowerOn_Click(null, null);
+                            Delay(Delay_Sync);
+                            btn_SL620Tab_TestKey_Click(null, null);
+                            Delay(Delay_Sync);
 
-                        //read back after power cycle
-                        //ReadRegSet(_reg_addr_start, 8, _readBack_data);
-                        //_readBack_data = btn_burstRead(8);
-                        ResetTempBuf();
-                        tempResult = 0;
-                        ReadRegSet();
-                        for (uint i = 0; i < 9; i++)
-                            tempResult += tempReadback[i];
-                        if (tempResult < 0xFF * 8)
-                            writer.Write("fail\r\n");
-                        else
-                            writer.Write("pass\r\n");
+                            //read back after power cycle
+                            //ReadRegSet(_reg_addr_start, 8, _readBack_data);
+                            //_readBack_data = btn_burstRead(8);
+                            ResetTempBuf();
+                            tempResult = 0;
+                            ReadRegSet();
+                            for (uint i = 0; i < 9; i++)
+                                tempResult += tempReadback[i];
+                            if (tempResult < 0xFF * 8)
+                                if (j == 2)
+                                    writer.Write("fail\r\n");
+                                else
+                                    writer.Write("fail");
+                            else
+                                if (j == 2)
+                                    writer.Write("pass\r\n");
+                                else
+                                    writer.Write("pass");
+                        }
                     }
                 }
             }
@@ -11494,12 +11528,19 @@ namespace CurrentSensorV3
             uint _reg_addr = 0x80;
             uint[] _readBack_data = new uint[4];
             oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr, 4, _readBack_data);
-            for (int i = 0; i < 4; i++ )
+            DisplayOperateMes("Read Reg Data:");
+            for (int i = 0; i < 4; i++)
+            {
                 tempReadback[i] = _readBack_data[i];
+                DisplayOperateMes(string.Format("Reg0x8{0} = 0x{1}", i, tempReadback[i].ToString("X2")));
+            }
 
             oneWrie_device.I2CRead_Burst(_dev_addr, _reg_addr + 4, 4, _readBack_data);
             for (int i = 0; i < 4; i++)
+            {
                 tempReadback[i + 4] = _readBack_data[i];
+                DisplayOperateMes(string.Format("Reg0x8{0} = 0x{1}", 4 + i, tempReadback[i + 4].ToString("X2")));
+            }
         }
 
         private void ResetTempBuf()
@@ -11509,6 +11550,13 @@ namespace CurrentSensorV3
         }
 
         #endregion SL620
+
+        private void btn_Program_Start_Click(object sender, EventArgs e)
+        {
+            btn_Program_Tc.Text = "TC\r\n-\r\n-600ppm";
+        }
+
+
     }
 
     
