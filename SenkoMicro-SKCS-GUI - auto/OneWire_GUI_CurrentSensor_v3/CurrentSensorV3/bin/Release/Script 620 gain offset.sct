@@ -1,0 +1,4 @@
+test script for SL620
+,/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */
+sweep 620 rough gain,null
+sweep 620 fine gain,null

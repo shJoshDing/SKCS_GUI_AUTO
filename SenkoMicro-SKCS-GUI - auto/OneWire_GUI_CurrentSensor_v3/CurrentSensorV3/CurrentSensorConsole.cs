@@ -9988,6 +9988,22 @@ namespace CurrentSensorV3
                         Char910_Tab_DataGridView.Update();
                         break;
 
+                    case "trimtest5v":
+                    case "trim test 5v":
+                    case "TrimTest5v":
+                    case "Trim Test 5v":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        TrimTest5v(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
                     case "sweep620halfvddoffset":
                     case "sweep 620 half vdd offet":
                     case "sweep620HalfVddOffset":
@@ -10629,24 +10645,25 @@ namespace CurrentSensorV3
             using (StreamWriter writer = new StreamWriter(filename, true))
             {
                 writer.WriteLine(filename);
-                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                string headers = "code,VIP1,VIP2,Offset";
                 writer.WriteLine(headers);
 
                 btn_EngTab_Connect_Click(null, null);
                 Delay(Delay_Power);
-                SetIP(15);
-                Delay(Delay_Power);
-                btn_EngTab_Ipon_Click(null, null);
+                SetIP(20);
                 Delay(Delay_Power);
 
                 for (uint i = 0; i < count; i++)
                 {
+                    //IP on
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(delay_temp);
                     //power off 
                     btn_SL620Tab_PowerOff_Click(null, null);
-                    Delay(delay_temp);
+                    Delay(Delay_Power);
                     //power on 5V
                     btn_SL620Tab_PowerOn_Click(null, null);
-                    Delay(Delay_Sync);
+                    Delay(Delay_Power);
                     //enter test mode
                     btn_SL620Tab_TestKey_Click(null, null);
                     Delay(Delay_Sync);
@@ -10657,13 +10674,19 @@ namespace CurrentSensorV3
                     btn_SL620Tab_NormalMode_Click(null, null);
                     Delay(Delay_Sync);
 
-                    for (uint k = 0; k < 5; k++)
+                    for (uint k = 0; k < 2; k++)
                     {
-                        tempvout[k] = dmm.readVolt();
+                        tempvout[k] = ReadVout();
                         Delay(Delay_Power);
                     }
+
+                    //IP off
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(delay_temp);
+                    tempvout[2] = ReadVout();
+
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
-                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                        + "," + tempvout[2].ToString("F4"));
                 }
 
                 oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0);
@@ -10686,24 +10709,26 @@ namespace CurrentSensorV3
             using (StreamWriter writer = new StreamWriter(filename, true))
             {
                 writer.WriteLine(filename);
-                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                string headers = "code,VIP1,VIP2,Offset";
                 writer.WriteLine(headers);
 
                 btn_EngTab_Connect_Click(null, null);
                 Delay(Delay_Power);
-                SetIP(15);
+                SetIP(20);
                 Delay(Delay_Power);
-                btn_EngTab_Ipon_Click(null, null);
-                Delay(delay_temp);
+                
 
                 for (uint i = 0; i < count; i++)
                 {
+                    //IP on
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(delay_temp);
                     //power off 
                     btn_SL620Tab_PowerOff_Click(null, null);
-                    Delay(delay_temp);
+                    Delay(Delay_Power);
                     //power on 5V
                     btn_SL620Tab_PowerOn_Click(null, null);
-                    Delay(Delay_Sync);
+                    Delay(Delay_Power);
                     //enter test mode
                     btn_SL620Tab_TestKey_Click(null, null);
                     Delay(Delay_Sync);
@@ -10711,18 +10736,26 @@ namespace CurrentSensorV3
                     oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, (i & 0x07) << 5);
                     Delay(Delay_Sync);
                     oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, (i & 0x38) << 2);
-                    Delay(delay_temp);
+                    Delay(Delay_Sync);
                     //enter normal mode
                     btn_SL620Tab_NormalMode_Click(null, null);
                     Delay(Delay_Sync);
 
-                    for (uint k = 0; k < 5; k++)
+                    for (uint k = 0; k < 2; k++)
                     {
-                        tempvout[k] = dmm.readVolt();
+                        tempvout[k] = ReadVout();
                         Delay(Delay_Power);
                     }
+
+
+                    //power off 
+                    //btn_SL620Tab_PowerOff_Click(null, null);
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(delay_temp);
+                    tempvout[2] = ReadVout();
+
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
-                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                        + "," + tempvout[2].ToString("F4"));
                 }
 
                 oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0);
@@ -11360,7 +11393,7 @@ namespace CurrentSensorV3
             {
                 uint tempResult = 0;
                 writer.WriteLine(filename);
-                string headers = "ID,read before write,read after write,read after trim,read after power cycle 1,read after power cycle 2,,read after power cycle 3";
+                string headers = "ID,read before write,read after write,read after trim,read after power cycle 1,read after power cycle 2,read after power cycle 3";
                 writer.WriteLine(headers);
 
                 for (uint index = 0; index < count; index++)
@@ -11466,12 +11499,130 @@ namespace CurrentSensorV3
                                 if (j == 2)
                                     writer.Write("fail\r\n");
                                 else
-                                    writer.Write("fail");
+                                    writer.Write("fail,");
                             else
                                 if (j == 2)
                                     writer.Write("pass\r\n");
                                 else
-                                    writer.Write("pass");
+                                    writer.Write("pass,");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void TrimTest5v(uint count)
+        {
+            Delay_Power = 600;
+            uint _dev_addr = this.DeviceAddress;
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\SL620TrimTest5v-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
+            filename += ".csv";
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                uint tempResult = 0;
+                writer.WriteLine(filename);
+                string headers = "ID,read before write,read after write,read after trim,read after power cycle 1,read after power cycle 2,read after power cycle 3";
+                writer.WriteLine(headers);
+
+                for (uint index = 0; index < count; index++)
+                {
+                    //MessageBox("DUT ON");
+                    ResetTempBuf();
+                    DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                        return;
+                    else if (dr == DialogResult.OK)
+                    {
+
+                        //write ID
+                        writer.Write(index.ToString() + ",");
+
+                        //trim set2
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //read reg
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
+                        for (uint i = 0; i < 9; i++)
+                            tempResult += tempReadback[i];
+                        if (tempResult > 0)
+                            writer.Write("fail,");
+                        else
+                            writer.Write("pass,");
+
+                        //write 0xFF except Reg master bits
+                        Delay(Delay_Sync);
+                        WriteRegSet();
+                        Delay(Delay_Sync);
+                        //read back
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
+                        for (uint i = 0; i < 9; i++)
+                            tempResult += tempReadback[i];
+                        if (tempResult < 0xFF * 8)
+                            writer.Write("fail,");
+                        else
+                            writer.Write("pass,");
+
+                        //Trim
+                        btn_SL620Tab_TrimSet1_Click(null, null);
+                        Delay(Delay_Fuse * 2);
+
+                        //set trim resistor th
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x42, 0xC0);
+                        Delay(Delay_Sync);
+
+                        //read pre-set
+                        btn_SL620Tab_ReadTrim_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //read back after trim
+                        ResetTempBuf();
+                        tempResult = 0;
+                        ReadRegSet();
+                        for (uint i = 0; i < 9; i++)
+                            tempResult += tempReadback[i];
+                        if (tempResult < 0xFF * 8)
+                            writer.Write("fail,");
+                        else
+                            writer.Write("pass,");
+
+                        for (uint j = 0; j < 3; j++)
+                        {
+                            PowerOff();
+                            Delay(Delay_Power);
+                            btn_SL620Tab_PowerOn_Click(null, null);
+                            Delay(Delay_Sync);
+                            btn_SL620Tab_TestKey_Click(null, null);
+                            Delay(Delay_Sync);
+
+                            //read back after power cycle
+                            ResetTempBuf();
+                            tempResult = 0;
+                            ReadRegSet();
+                            for (uint i = 0; i < 9; i++)
+                                tempResult += tempReadback[i];
+                            if (tempResult < 0xFF * 8)
+                                if (j == 2)
+                                    writer.Write("fail\r\n");
+                                else
+                                    writer.Write("fail,");
+                            else
+                                if (j == 2)
+                                    writer.Write("pass\r\n");
+                                else
+                                    writer.Write("pass,");
                         }
                     }
                 }
@@ -11555,8 +11706,6 @@ namespace CurrentSensorV3
         {
             btn_Program_Tc.Text = "TC\r\n-\r\n-600ppm";
         }
-
-
     }
 
     

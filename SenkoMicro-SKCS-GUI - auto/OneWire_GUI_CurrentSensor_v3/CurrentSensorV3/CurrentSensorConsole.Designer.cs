@@ -4263,7 +4263,7 @@
             this.label91.Size = new System.Drawing.Size(469, 17);
             this.label91.TabIndex = 17;
             this.label91.Text = "Trim Results --------------------------------------------------------------------" +
-    "------------------------------";
+                "------------------------------";
             // 
             // label90
             // 
@@ -4273,7 +4273,7 @@
             this.label90.Size = new System.Drawing.Size(466, 17);
             this.label90.TabIndex = 16;
             this.label90.Text = "Trim Operation ------------------------------------------------------------------" +
-    "--------------------------";
+                "--------------------------";
             // 
             // label89
             // 
@@ -4283,7 +4283,7 @@
             this.label89.Size = new System.Drawing.Size(463, 17);
             this.label89.TabIndex = 15;
             this.label89.Text = "PreTrim Config ------------------------------------------------------------------" +
-    "--------------------------";
+                "--------------------------";
             // 
             // btn_Program_Stop
             // 

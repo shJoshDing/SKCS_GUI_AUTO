@@ -3,6 +3,6 @@ test script for SL910
 ,910 Other Mode,
 ,write reg,0x4F,0xAA
 ,read reg,0x4E
-trim test 5v,100
+trim test,100
 
 
