@@ -10019,6 +10019,20 @@ namespace CurrentSensorV3
                         Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
                         Char910_Tab_DataGridView.Update();
                         break;
+
+                    case "sc780 char":
+                    case "sc780char":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        Sc780Char();
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
                     
                     default:
                         DisplayOperateMes("Invalid Command!");
@@ -10650,7 +10664,7 @@ namespace CurrentSensorV3
 
                 btn_EngTab_Connect_Click(null, null);
                 Delay(Delay_Power);
-                SetIP(20);
+                SetIP(25);
                 Delay(Delay_Power);
 
                 for (uint i = 0; i < count; i++)
@@ -10714,7 +10728,7 @@ namespace CurrentSensorV3
 
                 btn_EngTab_Connect_Click(null, null);
                 Delay(Delay_Power);
-                SetIP(20);
+                SetIP(25);
                 Delay(Delay_Power);
                 
 
@@ -11627,6 +11641,11 @@ namespace CurrentSensorV3
                     }
                 }
             }
+        }
+
+        private void Sc780Char()
+        {
+            
         }
 
         private void btn_SL620Tab_Vout_Click(object sender, EventArgs e)
