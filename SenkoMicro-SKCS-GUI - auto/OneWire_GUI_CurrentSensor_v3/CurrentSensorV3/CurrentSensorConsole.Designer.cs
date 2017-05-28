@@ -43,6 +43,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.EngineeringTab = new System.Windows.Forms.TabPage();
+            this.btn_EngTab_FT = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btn_sel_cap = new System.Windows.Forms.Button();
             this.btn_GetFW_OneWire = new System.Windows.Forms.Button();
@@ -288,7 +289,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.btn_EngTab_FT = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -477,6 +477,16 @@
             this.EngineeringTab.TabIndex = 0;
             this.EngineeringTab.Text = "Engineering";
             this.EngineeringTab.UseVisualStyleBackColor = true;
+            // 
+            // btn_EngTab_FT
+            // 
+            this.btn_EngTab_FT.Location = new System.Drawing.Point(722, 273);
+            this.btn_EngTab_FT.Name = "btn_EngTab_FT";
+            this.btn_EngTab_FT.Size = new System.Drawing.Size(56, 50);
+            this.btn_EngTab_FT.TabIndex = 90;
+            this.btn_EngTab_FT.Text = "FT";
+            this.btn_EngTab_FT.UseVisualStyleBackColor = true;
+            this.btn_EngTab_FT.Click += new System.EventHandler(this.btn_EngTab_FT_Click);
             // 
             // groupBox5
             // 
@@ -2739,8 +2749,8 @@
             this.cmb_SocketType_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.cmb_SocketType_AutoT.FormattingEnabled = true;
             this.cmb_SocketType_AutoT.Items.AddRange(new object[] {
-            "SingleSite",
-            "MultiSite"});
+            "SingleMode",
+            "DiffMode"});
             this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(305, 317);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(103, 25);
@@ -3510,16 +3520,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // btn_EngTab_FT
-            // 
-            this.btn_EngTab_FT.Location = new System.Drawing.Point(722, 273);
-            this.btn_EngTab_FT.Name = "btn_EngTab_FT";
-            this.btn_EngTab_FT.Size = new System.Drawing.Size(56, 50);
-            this.btn_EngTab_FT.TabIndex = 90;
-            this.btn_EngTab_FT.Text = "FT";
-            this.btn_EngTab_FT.UseVisualStyleBackColor = true;
-            this.btn_EngTab_FT.Click += new System.EventHandler(this.btn_EngTab_FT_Click);
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3532,7 +3532,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console for 610 v1.2.4 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console for 610-DiffMode v1.2.6 - CopyRight of SenkoMicro, Inc";
+            this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

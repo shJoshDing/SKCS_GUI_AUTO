@@ -97,3 +97,13 @@ C:\Users\Josh-home\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\One
 C:\Users\Josh-home\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\SKCS_610 v1.x.pdb
 C:\Users\Josh-home\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SKCS_610 v1.x.exe
 C:\Users\Josh-home\Documents\GitHub\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SKCS_610 v1.x.pdb
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\SKCS_610 v1.x.exe
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\SKCS_610 v1.x.pdb
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SKCS_610 v1.x.exe
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\SKCS_610 v1.x.pdb
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\DMY2.dll
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\DMY2.pdb
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.csprojResolveAssemblyReference.cache
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.CurrentSensorConsole.resources
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.Properties.Resources.resources
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.csproj.GenerateResource.Cache
