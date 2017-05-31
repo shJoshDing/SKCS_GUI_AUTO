@@ -10781,7 +10781,7 @@ namespace CurrentSensorV3
 
         private void Sweep620Offset()
         {
-            int delay_temp = 100;
+            int delay_temp = 1500;
             double[] tempvout = new double[5];
             string filename = System.Windows.Forms.Application.StartupPath;
             filename += @"\Sweep620Offset-" + this.txt_Char910_DutId.Text + "-" + System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss");
@@ -10794,13 +10794,20 @@ namespace CurrentSensorV3
             {
                 writer.WriteLine(filename);
                 writer.WriteLine("Coarse Offset");
-                string headers = "IP,Vout1,Vout2,Vout3,Vout4,Vout5";
+                string headers = "IP,Vip1,Vip2,Voffset";
                 writer.WriteLine(headers);
 
                 //string tempstring;
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(25);
+                Delay(Delay_Power);
 
                 for (uint i = 0; i < count; i++)
                 {
+                    //IP on
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(delay_temp);
                     //power off 
                     btn_SL620Tab_PowerOff_Click(null, null);
                     Delay(delay_temp);
@@ -10817,19 +10824,29 @@ namespace CurrentSensorV3
                     btn_SL620Tab_NormalMode_Click(null, null);
                     Delay(Delay_Sync);
 
-                    for (uint k = 0; k < 5; k++)
+                    for (uint k = 0; k < 2; k++)
                     {
-                        tempvout[k] = dmm.readVolt();
+                        tempvout[k] = ReadVout();
                         Delay(Delay_Power);
                     }
+
+                    //power off 
+                    //btn_SL620Tab_PowerOff_Click(null, null);
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(delay_temp);
+                    tempvout[2] = ReadVout();
+
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
-                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                        + "," + tempvout[2].ToString("F4"));
                 }
                 //oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0);
 
                 writer.WriteLine("Fine Offset");
                 for (uint i = 0; i < count; i++)
                 {
+                    //IP on
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(delay_temp);
                     //power off 
                     btn_SL620Tab_PowerOff_Click(null, null);
                     Delay(delay_temp);
@@ -10848,11 +10865,18 @@ namespace CurrentSensorV3
 
                     for (uint k = 0; k < 5; k++)
                     {
-                        tempvout[k] = dmm.readVolt();
+                        tempvout[k] = ReadVout();
                         Delay(Delay_Power);
                     }
+
+                    //power off 
+                    //btn_SL620Tab_PowerOff_Click(null, null);
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(delay_temp);
+                    tempvout[2] = ReadVout();
+
                     writer.WriteLine(Convert.ToString(i) + "," + tempvout[0].ToString("F4") + "," + tempvout[1].ToString("F4")
-                        + "," + tempvout[2].ToString("F4") + "," + tempvout[3].ToString("F4") + "," + tempvout[4].ToString("F4"));
+                        + "," + tempvout[2].ToString("F4"));
                 }
                 //oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, 0);
             }
