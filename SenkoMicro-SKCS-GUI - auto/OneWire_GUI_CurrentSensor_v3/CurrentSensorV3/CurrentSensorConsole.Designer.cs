@@ -269,15 +269,37 @@
             this.label48 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.txt_DynamicRange_BrakeT = new System.Windows.Forms.TextBox();
+            this.label89 = new System.Windows.Forms.Label();
+            this.label86 = new System.Windows.Forms.Label();
+            this.label85 = new System.Windows.Forms.Label();
+            this.txt_StartPoint_BrakeT = new System.Windows.Forms.TextBox();
+            this.txt_StopPoint_BrakeT = new System.Windows.Forms.TextBox();
+            this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
             this.btn_BrakeTab_PowerOff = new System.Windows.Forms.Button();
             this.btn_BrakeTab_PowerOn = new System.Windows.Forms.Button();
-            this.txt_StopPoint_BrakeT = new System.Windows.Forms.TextBox();
-            this.txt_StartPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.btn_Fuse_BrakeT = new System.Windows.Forms.Button();
             this.btn_StopPoint_BrakeT = new System.Windows.Forms.Button();
             this.btn_StartPoint_BrakeT = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
+            this.txt_TargetDynamicRange_BrakeT = new System.Windows.Forms.TextBox();
+            this.label87 = new System.Windows.Forms.Label();
+            this.txt_TargetStartPoint_BrakeT = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.txt_TargetStopPoint_BrakeT = new System.Windows.Forms.TextBox();
+            this.label83 = new System.Windows.Forms.Label();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btn_FineOffsetDown_BrakeT = new System.Windows.Forms.Button();
+            this.btn_FineOffsetUp_BrakeT = new System.Windows.Forms.Button();
+            this.btn_FineDRDown_BrakeT = new System.Windows.Forms.Button();
+            this.btn_FineDRUp_BrakeT = new System.Windows.Forms.Button();
+            this.btn_OffsetDown_BrakeT = new System.Windows.Forms.Button();
+            this.btn_UpdateStopPoint_BrakeT = new System.Windows.Forms.Button();
+            this.btn_DRDown_BrakeT = new System.Windows.Forms.Button();
+            this.btn_DRUp_BrakeT = new System.Windows.Forms.Button();
+            this.btn_OffsetUp_BrakeT = new System.Windows.Forms.Button();
+            this.btn_UpdateStartPoint_BrakeT = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip_SelAll = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_Copy = new System.Windows.Forms.ToolStripMenuItem();
@@ -286,28 +308,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.label83 = new System.Windows.Forms.Label();
-            this.txt_TargetStartPoint_BrakeT = new System.Windows.Forms.TextBox();
-            this.txt_TargetStopPoint_BrakeT = new System.Windows.Forms.TextBox();
-            this.label84 = new System.Windows.Forms.Label();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.label85 = new System.Windows.Forms.Label();
-            this.label86 = new System.Windows.Forms.Label();
-            this.btn_UpdateStartPoint_BrakeT = new System.Windows.Forms.Button();
-            this.label87 = new System.Windows.Forms.Label();
-            this.txt_TargetDynamicRange_BrakeT = new System.Windows.Forms.TextBox();
-            this.label89 = new System.Windows.Forms.Label();
-            this.txt_DynamicRange_BrakeT = new System.Windows.Forms.TextBox();
-            this.btn_DRUp_BrakeT = new System.Windows.Forms.Button();
-            this.btn_DRDown_BrakeT = new System.Windows.Forms.Button();
-            this.btn_OffsetDown_BrakeT = new System.Windows.Forms.Button();
-            this.btn_OffsetUp_BrakeT = new System.Windows.Forms.Button();
-            this.btn_UpdateStopPoint_BrakeT = new System.Windows.Forms.Button();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.btn_FineDRUp_BrakeT = new System.Windows.Forms.Button();
-            this.btn_FineDRDown_BrakeT = new System.Windows.Forms.Button();
-            this.btn_FineOffsetUp_BrakeT = new System.Windows.Forms.Button();
-            this.btn_FineOffsetDown_BrakeT = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -340,13 +340,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUD_IPxForCalc_Customer)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.BrakeTab.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -3341,6 +3341,93 @@
             this.BrakeTab.UseVisualStyleBackColor = true;
             this.BrakeTab.Click += new System.EventHandler(this.BrakeTab_Click);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.txt_DynamicRange_BrakeT);
+            this.groupBox10.Controls.Add(this.label89);
+            this.groupBox10.Controls.Add(this.label86);
+            this.groupBox10.Controls.Add(this.label85);
+            this.groupBox10.Controls.Add(this.txt_StartPoint_BrakeT);
+            this.groupBox10.Controls.Add(this.txt_StopPoint_BrakeT);
+            this.groupBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox10.Location = new System.Drawing.Point(427, 48);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(317, 147);
+            this.groupBox10.TabIndex = 5;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Status";
+            // 
+            // txt_DynamicRange_BrakeT
+            // 
+            this.txt_DynamicRange_BrakeT.Location = new System.Drawing.Point(148, 99);
+            this.txt_DynamicRange_BrakeT.Name = "txt_DynamicRange_BrakeT";
+            this.txt_DynamicRange_BrakeT.ReadOnly = true;
+            this.txt_DynamicRange_BrakeT.Size = new System.Drawing.Size(101, 22);
+            this.txt_DynamicRange_BrakeT.TabIndex = 12;
+            this.txt_DynamicRange_BrakeT.Text = "0.000";
+            this.txt_DynamicRange_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = true;
+            this.label89.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label89.Location = new System.Drawing.Point(35, 103);
+            this.label89.Name = "label89";
+            this.label89.Size = new System.Drawing.Size(93, 16);
+            this.label89.TabIndex = 11;
+            this.label89.Text = "Dynamic Range:";
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label86.Location = new System.Drawing.Point(35, 39);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(107, 16);
+            this.label86.TabIndex = 10;
+            this.label86.Text = "Start Point Output:";
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label85.Location = new System.Drawing.Point(35, 72);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(107, 16);
+            this.label85.TabIndex = 9;
+            this.label85.Text = "Stop Point Output:";
+            // 
+            // txt_StartPoint_BrakeT
+            // 
+            this.txt_StartPoint_BrakeT.Location = new System.Drawing.Point(148, 39);
+            this.txt_StartPoint_BrakeT.Name = "txt_StartPoint_BrakeT";
+            this.txt_StartPoint_BrakeT.ReadOnly = true;
+            this.txt_StartPoint_BrakeT.Size = new System.Drawing.Size(101, 22);
+            this.txt_StartPoint_BrakeT.TabIndex = 2;
+            this.txt_StartPoint_BrakeT.Text = "0.000";
+            this.txt_StartPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txt_StopPoint_BrakeT
+            // 
+            this.txt_StopPoint_BrakeT.Location = new System.Drawing.Point(148, 68);
+            this.txt_StopPoint_BrakeT.Name = "txt_StopPoint_BrakeT";
+            this.txt_StopPoint_BrakeT.ReadOnly = true;
+            this.txt_StopPoint_BrakeT.Size = new System.Drawing.Size(101, 22);
+            this.txt_StopPoint_BrakeT.TabIndex = 2;
+            this.txt_StopPoint_BrakeT.Text = "0.000";
+            this.txt_StopPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btn_BrakeTab_InitializeUart
+            // 
+            this.btn_BrakeTab_InitializeUart.Location = new System.Drawing.Point(506, 542);
+            this.btn_BrakeTab_InitializeUart.Name = "btn_BrakeTab_InitializeUart";
+            this.btn_BrakeTab_InitializeUart.Size = new System.Drawing.Size(57, 26);
+            this.btn_BrakeTab_InitializeUart.TabIndex = 3;
+            this.btn_BrakeTab_InitializeUart.Text = "Initialize";
+            this.btn_BrakeTab_InitializeUart.UseVisualStyleBackColor = true;
+            this.btn_BrakeTab_InitializeUart.Visible = false;
+            this.btn_BrakeTab_InitializeUart.Click += new System.EventHandler(this.btn_BrakeTab_InitializeUart_Click);
+            // 
             // btn_BrakeTab_PowerOff
             // 
             this.btn_BrakeTab_PowerOff.Location = new System.Drawing.Point(750, 541);
@@ -3360,26 +3447,6 @@
             this.btn_BrakeTab_PowerOn.Text = "ON";
             this.btn_BrakeTab_PowerOn.UseVisualStyleBackColor = true;
             this.btn_BrakeTab_PowerOn.Visible = false;
-            // 
-            // txt_StopPoint_BrakeT
-            // 
-            this.txt_StopPoint_BrakeT.Location = new System.Drawing.Point(148, 68);
-            this.txt_StopPoint_BrakeT.Name = "txt_StopPoint_BrakeT";
-            this.txt_StopPoint_BrakeT.ReadOnly = true;
-            this.txt_StopPoint_BrakeT.Size = new System.Drawing.Size(101, 22);
-            this.txt_StopPoint_BrakeT.TabIndex = 2;
-            this.txt_StopPoint_BrakeT.Text = "0.000";
-            this.txt_StopPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txt_StartPoint_BrakeT
-            // 
-            this.txt_StartPoint_BrakeT.Location = new System.Drawing.Point(148, 39);
-            this.txt_StartPoint_BrakeT.Name = "txt_StartPoint_BrakeT";
-            this.txt_StartPoint_BrakeT.ReadOnly = true;
-            this.txt_StartPoint_BrakeT.Size = new System.Drawing.Size(101, 22);
-            this.txt_StartPoint_BrakeT.TabIndex = 2;
-            this.txt_StartPoint_BrakeT.Text = "0.000";
-            this.txt_StartPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btn_Fuse_BrakeT
             // 
@@ -3430,16 +3497,204 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Target";
             // 
-            // btn_BrakeTab_InitializeUart
+            // txt_TargetDynamicRange_BrakeT
             // 
-            this.btn_BrakeTab_InitializeUart.Location = new System.Drawing.Point(506, 542);
-            this.btn_BrakeTab_InitializeUart.Name = "btn_BrakeTab_InitializeUart";
-            this.btn_BrakeTab_InitializeUart.Size = new System.Drawing.Size(57, 26);
-            this.btn_BrakeTab_InitializeUart.TabIndex = 3;
-            this.btn_BrakeTab_InitializeUart.Text = "Initialize";
-            this.btn_BrakeTab_InitializeUart.UseVisualStyleBackColor = true;
-            this.btn_BrakeTab_InitializeUart.Visible = false;
-            this.btn_BrakeTab_InitializeUart.Click += new System.EventHandler(this.btn_BrakeTab_InitializeUart_Click);
+            this.txt_TargetDynamicRange_BrakeT.Location = new System.Drawing.Point(207, 97);
+            this.txt_TargetDynamicRange_BrakeT.Name = "txt_TargetDynamicRange_BrakeT";
+            this.txt_TargetDynamicRange_BrakeT.ReadOnly = true;
+            this.txt_TargetDynamicRange_BrakeT.Size = new System.Drawing.Size(70, 22);
+            this.txt_TargetDynamicRange_BrakeT.TabIndex = 11;
+            this.txt_TargetDynamicRange_BrakeT.Text = "0.000";
+            this.txt_TargetDynamicRange_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label87.Location = new System.Drawing.Point(46, 97);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(129, 16);
+            this.label87.TabIndex = 10;
+            this.label87.Text = "Target Dynamic Range:";
+            // 
+            // txt_TargetStartPoint_BrakeT
+            // 
+            this.txt_TargetStartPoint_BrakeT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_TargetStartPoint_BrakeT.Location = new System.Drawing.Point(207, 43);
+            this.txt_TargetStartPoint_BrakeT.Name = "txt_TargetStartPoint_BrakeT";
+            this.txt_TargetStartPoint_BrakeT.Size = new System.Drawing.Size(70, 22);
+            this.txt_TargetStartPoint_BrakeT.TabIndex = 6;
+            this.txt_TargetStartPoint_BrakeT.Text = "0.000";
+            this.txt_TargetStartPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_TargetStartPoint_BrakeT.TextChanged += new System.EventHandler(this.txt_TargetStartPoint_BrakeT_TextChanged);
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label84.Location = new System.Drawing.Point(46, 70);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(143, 16);
+            this.label84.TabIndex = 7;
+            this.label84.Text = "Target Stop Point Output:";
+            // 
+            // txt_TargetStopPoint_BrakeT
+            // 
+            this.txt_TargetStopPoint_BrakeT.Location = new System.Drawing.Point(207, 70);
+            this.txt_TargetStopPoint_BrakeT.Name = "txt_TargetStopPoint_BrakeT";
+            this.txt_TargetStopPoint_BrakeT.Size = new System.Drawing.Size(70, 22);
+            this.txt_TargetStopPoint_BrakeT.TabIndex = 8;
+            this.txt_TargetStopPoint_BrakeT.Text = "0.000";
+            this.txt_TargetStopPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_TargetStopPoint_BrakeT.TextChanged += new System.EventHandler(this.txt_TargetStopPoint_BrakeT_TextChanged);
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label83.Location = new System.Drawing.Point(46, 43);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(143, 16);
+            this.label83.TabIndex = 5;
+            this.label83.Text = "Target Start Point Output:";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.btn_FineOffsetDown_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_FineOffsetUp_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_FineDRDown_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_FineDRUp_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_OffsetDown_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_UpdateStopPoint_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_DRDown_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_DRUp_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_OffsetUp_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_UpdateStartPoint_BrakeT);
+            this.groupBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox11.Location = new System.Drawing.Point(51, 216);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(693, 275);
+            this.groupBox11.TabIndex = 12;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Tunning";
+            // 
+            // btn_FineOffsetDown_BrakeT
+            // 
+            this.btn_FineOffsetDown_BrakeT.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.btn_FineOffsetDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FineOffsetDown_BrakeT.Location = new System.Drawing.Point(506, 207);
+            this.btn_FineOffsetDown_BrakeT.Name = "btn_FineOffsetDown_BrakeT";
+            this.btn_FineOffsetDown_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_FineOffsetDown_BrakeT.TabIndex = 18;
+            this.btn_FineOffsetDown_BrakeT.Text = "Fine Offset -";
+            this.btn_FineOffsetDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineOffsetDown_BrakeT.Click += new System.EventHandler(this.btn_FineOffsetDown_BrakeT_Click);
+            // 
+            // btn_FineOffsetUp_BrakeT
+            // 
+            this.btn_FineOffsetUp_BrakeT.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.btn_FineOffsetUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FineOffsetUp_BrakeT.Location = new System.Drawing.Point(506, 157);
+            this.btn_FineOffsetUp_BrakeT.Name = "btn_FineOffsetUp_BrakeT";
+            this.btn_FineOffsetUp_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_FineOffsetUp_BrakeT.TabIndex = 17;
+            this.btn_FineOffsetUp_BrakeT.Text = "Fine Offset +";
+            this.btn_FineOffsetUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineOffsetUp_BrakeT.Click += new System.EventHandler(this.btn_FineOffsetUp_BrakeT_Click);
+            // 
+            // btn_FineDRDown_BrakeT
+            // 
+            this.btn_FineDRDown_BrakeT.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_FineDRDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FineDRDown_BrakeT.Location = new System.Drawing.Point(61, 207);
+            this.btn_FineDRDown_BrakeT.Name = "btn_FineDRDown_BrakeT";
+            this.btn_FineDRDown_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_FineDRDown_BrakeT.TabIndex = 16;
+            this.btn_FineDRDown_BrakeT.Text = "Fine DR -";
+            this.btn_FineDRDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineDRDown_BrakeT.Click += new System.EventHandler(this.btn_FineDRDown_BrakeT_Click);
+            // 
+            // btn_FineDRUp_BrakeT
+            // 
+            this.btn_FineDRUp_BrakeT.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_FineDRUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FineDRUp_BrakeT.Location = new System.Drawing.Point(61, 157);
+            this.btn_FineDRUp_BrakeT.Name = "btn_FineDRUp_BrakeT";
+            this.btn_FineDRUp_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_FineDRUp_BrakeT.TabIndex = 15;
+            this.btn_FineDRUp_BrakeT.Text = "Fine  DR +";
+            this.btn_FineDRUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineDRUp_BrakeT.Click += new System.EventHandler(this.btn_FineDRUp_BrakeT_Click);
+            // 
+            // btn_OffsetDown_BrakeT
+            // 
+            this.btn_OffsetDown_BrakeT.BackColor = System.Drawing.Color.Peru;
+            this.btn_OffsetDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_OffsetDown_BrakeT.Location = new System.Drawing.Point(506, 84);
+            this.btn_OffsetDown_BrakeT.Name = "btn_OffsetDown_BrakeT";
+            this.btn_OffsetDown_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_OffsetDown_BrakeT.TabIndex = 13;
+            this.btn_OffsetDown_BrakeT.Text = "Coarse Offset -";
+            this.btn_OffsetDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_OffsetDown_BrakeT.Click += new System.EventHandler(this.btn_OffsetDown_BrakeT_Click);
+            // 
+            // btn_UpdateStopPoint_BrakeT
+            // 
+            this.btn_UpdateStopPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_UpdateStopPoint_BrakeT.Location = new System.Drawing.Point(251, 143);
+            this.btn_UpdateStopPoint_BrakeT.Name = "btn_UpdateStopPoint_BrakeT";
+            this.btn_UpdateStopPoint_BrakeT.Size = new System.Drawing.Size(193, 44);
+            this.btn_UpdateStopPoint_BrakeT.TabIndex = 14;
+            this.btn_UpdateStopPoint_BrakeT.Text = "Update Stop Point";
+            this.btn_UpdateStopPoint_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_UpdateStopPoint_BrakeT.Click += new System.EventHandler(this.btn_UpdateStopPoint_BrakeT_Click);
+            // 
+            // btn_DRDown_BrakeT
+            // 
+            this.btn_DRDown_BrakeT.BackColor = System.Drawing.Color.SandyBrown;
+            this.btn_DRDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DRDown_BrakeT.Location = new System.Drawing.Point(61, 84);
+            this.btn_DRDown_BrakeT.Name = "btn_DRDown_BrakeT";
+            this.btn_DRDown_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_DRDown_BrakeT.TabIndex = 11;
+            this.btn_DRDown_BrakeT.Text = "Coarse DR -";
+            this.btn_DRDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_DRDown_BrakeT.Click += new System.EventHandler(this.btn_DRDown_BrakeT_Click);
+            // 
+            // btn_DRUp_BrakeT
+            // 
+            this.btn_DRUp_BrakeT.BackColor = System.Drawing.Color.SandyBrown;
+            this.btn_DRUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DRUp_BrakeT.Location = new System.Drawing.Point(61, 34);
+            this.btn_DRUp_BrakeT.Name = "btn_DRUp_BrakeT";
+            this.btn_DRUp_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_DRUp_BrakeT.TabIndex = 10;
+            this.btn_DRUp_BrakeT.Text = "Coarse DR +";
+            this.btn_DRUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_DRUp_BrakeT.Click += new System.EventHandler(this.btn_DRUp_BrakeT_Click);
+            // 
+            // btn_OffsetUp_BrakeT
+            // 
+            this.btn_OffsetUp_BrakeT.BackColor = System.Drawing.Color.Peru;
+            this.btn_OffsetUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_OffsetUp_BrakeT.Location = new System.Drawing.Point(506, 34);
+            this.btn_OffsetUp_BrakeT.Name = "btn_OffsetUp_BrakeT";
+            this.btn_OffsetUp_BrakeT.Size = new System.Drawing.Size(122, 44);
+            this.btn_OffsetUp_BrakeT.TabIndex = 12;
+            this.btn_OffsetUp_BrakeT.Text = "Coarse Offset +";
+            this.btn_OffsetUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_OffsetUp_BrakeT.Click += new System.EventHandler(this.btn_OffsetUp_BrakeT_Click);
+            // 
+            // btn_UpdateStartPoint_BrakeT
+            // 
+            this.btn_UpdateStartPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_UpdateStartPoint_BrakeT.Location = new System.Drawing.Point(251, 75);
+            this.btn_UpdateStartPoint_BrakeT.Name = "btn_UpdateStartPoint_BrakeT";
+            this.btn_UpdateStartPoint_BrakeT.Size = new System.Drawing.Size(193, 44);
+            this.btn_UpdateStartPoint_BrakeT.TabIndex = 9;
+            this.btn_UpdateStartPoint_BrakeT.Text = "Update Start Point";
+            this.btn_UpdateStartPoint_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_UpdateStartPoint_BrakeT.Click += new System.EventHandler(this.btn_UpdateStartPoint_BrakeT_Click);
             // 
             // contextMenuStrip
             // 
@@ -3524,261 +3779,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // label83
-            // 
-            this.label83.AutoSize = true;
-            this.label83.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label83.Location = new System.Drawing.Point(46, 43);
-            this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(143, 16);
-            this.label83.TabIndex = 5;
-            this.label83.Text = "Target Start Point Output:";
-            // 
-            // txt_TargetStartPoint_BrakeT
-            // 
-            this.txt_TargetStartPoint_BrakeT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_TargetStartPoint_BrakeT.Location = new System.Drawing.Point(207, 43);
-            this.txt_TargetStartPoint_BrakeT.Name = "txt_TargetStartPoint_BrakeT";
-            this.txt_TargetStartPoint_BrakeT.Size = new System.Drawing.Size(70, 22);
-            this.txt_TargetStartPoint_BrakeT.TabIndex = 6;
-            this.txt_TargetStartPoint_BrakeT.Text = "0.000";
-            this.txt_TargetStartPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txt_TargetStartPoint_BrakeT.TextChanged += new System.EventHandler(this.txt_TargetStartPoint_BrakeT_TextChanged);
-            // 
-            // txt_TargetStopPoint_BrakeT
-            // 
-            this.txt_TargetStopPoint_BrakeT.Location = new System.Drawing.Point(207, 70);
-            this.txt_TargetStopPoint_BrakeT.Name = "txt_TargetStopPoint_BrakeT";
-            this.txt_TargetStopPoint_BrakeT.Size = new System.Drawing.Size(70, 22);
-            this.txt_TargetStopPoint_BrakeT.TabIndex = 8;
-            this.txt_TargetStopPoint_BrakeT.Text = "0.000";
-            this.txt_TargetStopPoint_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txt_TargetStopPoint_BrakeT.TextChanged += new System.EventHandler(this.txt_TargetStopPoint_BrakeT_TextChanged);
-            // 
-            // label84
-            // 
-            this.label84.AutoSize = true;
-            this.label84.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label84.Location = new System.Drawing.Point(46, 70);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(143, 16);
-            this.label84.TabIndex = 7;
-            this.label84.Text = "Target Stop Point Output:";
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.txt_DynamicRange_BrakeT);
-            this.groupBox10.Controls.Add(this.label89);
-            this.groupBox10.Controls.Add(this.label86);
-            this.groupBox10.Controls.Add(this.label85);
-            this.groupBox10.Controls.Add(this.txt_StartPoint_BrakeT);
-            this.groupBox10.Controls.Add(this.txt_StopPoint_BrakeT);
-            this.groupBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox10.Location = new System.Drawing.Point(427, 48);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(317, 147);
-            this.groupBox10.TabIndex = 5;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Status";
-            // 
-            // label85
-            // 
-            this.label85.AutoSize = true;
-            this.label85.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label85.Location = new System.Drawing.Point(35, 72);
-            this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(107, 16);
-            this.label85.TabIndex = 9;
-            this.label85.Text = "Stop Point Output:";
-            // 
-            // label86
-            // 
-            this.label86.AutoSize = true;
-            this.label86.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label86.Location = new System.Drawing.Point(35, 39);
-            this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(107, 16);
-            this.label86.TabIndex = 10;
-            this.label86.Text = "Start Point Output:";
-            // 
-            // btn_UpdateStartPoint_BrakeT
-            // 
-            this.btn_UpdateStartPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_UpdateStartPoint_BrakeT.Location = new System.Drawing.Point(251, 75);
-            this.btn_UpdateStartPoint_BrakeT.Name = "btn_UpdateStartPoint_BrakeT";
-            this.btn_UpdateStartPoint_BrakeT.Size = new System.Drawing.Size(193, 44);
-            this.btn_UpdateStartPoint_BrakeT.TabIndex = 9;
-            this.btn_UpdateStartPoint_BrakeT.Text = "Update Start Point";
-            this.btn_UpdateStartPoint_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_UpdateStartPoint_BrakeT.Click += new System.EventHandler(this.btn_UpdateStartPoint_BrakeT_Click);
-            // 
-            // label87
-            // 
-            this.label87.AutoSize = true;
-            this.label87.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label87.Location = new System.Drawing.Point(46, 97);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(129, 16);
-            this.label87.TabIndex = 10;
-            this.label87.Text = "Target Dynamic Range:";
-            // 
-            // txt_TargetDynamicRange_BrakeT
-            // 
-            this.txt_TargetDynamicRange_BrakeT.Location = new System.Drawing.Point(207, 97);
-            this.txt_TargetDynamicRange_BrakeT.Name = "txt_TargetDynamicRange_BrakeT";
-            this.txt_TargetDynamicRange_BrakeT.ReadOnly = true;
-            this.txt_TargetDynamicRange_BrakeT.Size = new System.Drawing.Size(70, 22);
-            this.txt_TargetDynamicRange_BrakeT.TabIndex = 11;
-            this.txt_TargetDynamicRange_BrakeT.Text = "0.000";
-            this.txt_TargetDynamicRange_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label89
-            // 
-            this.label89.AutoSize = true;
-            this.label89.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label89.Location = new System.Drawing.Point(35, 103);
-            this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(93, 16);
-            this.label89.TabIndex = 11;
-            this.label89.Text = "Dynamic Range:";
-            // 
-            // txt_DynamicRange_BrakeT
-            // 
-            this.txt_DynamicRange_BrakeT.Location = new System.Drawing.Point(148, 99);
-            this.txt_DynamicRange_BrakeT.Name = "txt_DynamicRange_BrakeT";
-            this.txt_DynamicRange_BrakeT.ReadOnly = true;
-            this.txt_DynamicRange_BrakeT.Size = new System.Drawing.Size(101, 22);
-            this.txt_DynamicRange_BrakeT.TabIndex = 12;
-            this.txt_DynamicRange_BrakeT.Text = "0.000";
-            this.txt_DynamicRange_BrakeT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // btn_DRUp_BrakeT
-            // 
-            this.btn_DRUp_BrakeT.BackColor = System.Drawing.Color.SandyBrown;
-            this.btn_DRUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_DRUp_BrakeT.Location = new System.Drawing.Point(61, 34);
-            this.btn_DRUp_BrakeT.Name = "btn_DRUp_BrakeT";
-            this.btn_DRUp_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_DRUp_BrakeT.TabIndex = 10;
-            this.btn_DRUp_BrakeT.Text = "Coarse DR +";
-            this.btn_DRUp_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_DRUp_BrakeT.Click += new System.EventHandler(this.btn_DRUp_BrakeT_Click);
-            // 
-            // btn_DRDown_BrakeT
-            // 
-            this.btn_DRDown_BrakeT.BackColor = System.Drawing.Color.SandyBrown;
-            this.btn_DRDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_DRDown_BrakeT.Location = new System.Drawing.Point(61, 84);
-            this.btn_DRDown_BrakeT.Name = "btn_DRDown_BrakeT";
-            this.btn_DRDown_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_DRDown_BrakeT.TabIndex = 11;
-            this.btn_DRDown_BrakeT.Text = "Coarse DR -";
-            this.btn_DRDown_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_DRDown_BrakeT.Click += new System.EventHandler(this.btn_DRDown_BrakeT_Click);
-            // 
-            // btn_OffsetDown_BrakeT
-            // 
-            this.btn_OffsetDown_BrakeT.BackColor = System.Drawing.Color.Peru;
-            this.btn_OffsetDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_OffsetDown_BrakeT.Location = new System.Drawing.Point(506, 84);
-            this.btn_OffsetDown_BrakeT.Name = "btn_OffsetDown_BrakeT";
-            this.btn_OffsetDown_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_OffsetDown_BrakeT.TabIndex = 13;
-            this.btn_OffsetDown_BrakeT.Text = "Coarse Offset -";
-            this.btn_OffsetDown_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_OffsetDown_BrakeT.Click += new System.EventHandler(this.btn_OffsetDown_BrakeT_Click);
-            // 
-            // btn_OffsetUp_BrakeT
-            // 
-            this.btn_OffsetUp_BrakeT.BackColor = System.Drawing.Color.Peru;
-            this.btn_OffsetUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_OffsetUp_BrakeT.Location = new System.Drawing.Point(506, 34);
-            this.btn_OffsetUp_BrakeT.Name = "btn_OffsetUp_BrakeT";
-            this.btn_OffsetUp_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_OffsetUp_BrakeT.TabIndex = 12;
-            this.btn_OffsetUp_BrakeT.Text = "Coarse Offset +";
-            this.btn_OffsetUp_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_OffsetUp_BrakeT.Click += new System.EventHandler(this.btn_OffsetUp_BrakeT_Click);
-            // 
-            // btn_UpdateStopPoint_BrakeT
-            // 
-            this.btn_UpdateStopPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_UpdateStopPoint_BrakeT.Location = new System.Drawing.Point(251, 143);
-            this.btn_UpdateStopPoint_BrakeT.Name = "btn_UpdateStopPoint_BrakeT";
-            this.btn_UpdateStopPoint_BrakeT.Size = new System.Drawing.Size(193, 44);
-            this.btn_UpdateStopPoint_BrakeT.TabIndex = 14;
-            this.btn_UpdateStopPoint_BrakeT.Text = "Update Stop Point";
-            this.btn_UpdateStopPoint_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_UpdateStopPoint_BrakeT.Click += new System.EventHandler(this.btn_UpdateStopPoint_BrakeT_Click);
-            // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.btn_FineOffsetDown_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_FineOffsetUp_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_FineDRDown_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_FineDRUp_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_OffsetDown_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_UpdateStopPoint_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_DRDown_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_DRUp_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_OffsetUp_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_UpdateStartPoint_BrakeT);
-            this.groupBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox11.Location = new System.Drawing.Point(51, 216);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(693, 275);
-            this.groupBox11.TabIndex = 12;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Tunning";
-            // 
-            // btn_FineDRUp_BrakeT
-            // 
-            this.btn_FineDRUp_BrakeT.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_FineDRUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineDRUp_BrakeT.Location = new System.Drawing.Point(61, 157);
-            this.btn_FineDRUp_BrakeT.Name = "btn_FineDRUp_BrakeT";
-            this.btn_FineDRUp_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_FineDRUp_BrakeT.TabIndex = 15;
-            this.btn_FineDRUp_BrakeT.Text = "Fine  DR +";
-            this.btn_FineDRUp_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_FineDRUp_BrakeT.Click += new System.EventHandler(this.btn_FineDRUp_BrakeT_Click);
-            // 
-            // btn_FineDRDown_BrakeT
-            // 
-            this.btn_FineDRDown_BrakeT.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_FineDRDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineDRDown_BrakeT.Location = new System.Drawing.Point(61, 207);
-            this.btn_FineDRDown_BrakeT.Name = "btn_FineDRDown_BrakeT";
-            this.btn_FineDRDown_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_FineDRDown_BrakeT.TabIndex = 16;
-            this.btn_FineDRDown_BrakeT.Text = "Fine DR -";
-            this.btn_FineDRDown_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_FineDRDown_BrakeT.Click += new System.EventHandler(this.btn_FineDRDown_BrakeT_Click);
-            // 
-            // btn_FineOffsetUp_BrakeT
-            // 
-            this.btn_FineOffsetUp_BrakeT.BackColor = System.Drawing.Color.PaleGoldenrod;
-            this.btn_FineOffsetUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineOffsetUp_BrakeT.Location = new System.Drawing.Point(506, 157);
-            this.btn_FineOffsetUp_BrakeT.Name = "btn_FineOffsetUp_BrakeT";
-            this.btn_FineOffsetUp_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_FineOffsetUp_BrakeT.TabIndex = 17;
-            this.btn_FineOffsetUp_BrakeT.Text = "Fine Offset +";
-            this.btn_FineOffsetUp_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_FineOffsetUp_BrakeT.Click += new System.EventHandler(this.btn_FineOffsetUp_BrakeT_Click);
-            // 
-            // btn_FineOffsetDown_BrakeT
-            // 
-            this.btn_FineOffsetDown_BrakeT.BackColor = System.Drawing.Color.PaleGoldenrod;
-            this.btn_FineOffsetDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineOffsetDown_BrakeT.Location = new System.Drawing.Point(506, 207);
-            this.btn_FineOffsetDown_BrakeT.Name = "btn_FineOffsetDown_BrakeT";
-            this.btn_FineOffsetDown_BrakeT.Size = new System.Drawing.Size(122, 44);
-            this.btn_FineOffsetDown_BrakeT.TabIndex = 18;
-            this.btn_FineOffsetDown_BrakeT.Text = "Fine Offset -";
-            this.btn_FineOffsetDown_BrakeT.UseVisualStyleBackColor = false;
-            this.btn_FineOffsetDown_BrakeT.Click += new System.EventHandler(this.btn_FineOffsetDown_BrakeT_Click);
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3847,15 +3847,15 @@
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.BrakeTab.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
             this.contextMenuStrip.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
-            this.groupBox11.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
