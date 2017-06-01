@@ -45,6 +45,28 @@ namespace CurrentSensorV3
             public double StopPoint;
         }
 
+        public struct ProdcutAttribute
+        {
+            public uint uProductID;
+            public bool bDebug;
+            public uint uIP;
+            public double dIQp;
+            public double dIQn;
+            public double dVoutIPPreTrim;
+            public double dVoffsetPreTrim;
+            public double dVref;
+            public double dVtargetOutIP;
+            public double dVtargetOffset;
+            public double dVipPostGainTrim;
+            public double dVoffsetPostGainTrim;
+            public uint[] uRegTable;
+            public uint uCoarseGainIndex;
+            public uint uFineGainIndex;
+            public uint uCoarseOffsetIndex;
+            public uint uFineOffsetIndex;
+            public uint uReturnCode;
+        }
+
 
         #region Param Definition
 
@@ -337,6 +359,9 @@ namespace CurrentSensorV3
         double b_offset = 0;
 
         BrakeAttribute BkAttri;
+
+        ProdcutAttribute newPart;
+        ProdcutAttribute refPart;
 
         double[][] RoughTable = new double[3][];        //3x16: 0x80,0x81,Rough
         double[][] PreciseTable = new double[2][];      //2x32: 0x80,Precise
@@ -2859,10 +2884,8 @@ namespace CurrentSensorV3
         private void Delay(int time)
         {
             Thread.Sleep(time);
-            if (bAutoTrimTest)
-            {
-                //DisplayOperateMes(String.Format("Delay {0}ms", time));
-            }
+            if (newPart.bDebug)
+                DisplayOperateMes("Delay: " + time.ToString() + "ms");
         }
 
         private void StoreReg80ToReg83Value()
@@ -6723,6 +6746,7 @@ namespace CurrentSensorV3
             bool bSafety = false;
             //uint[] tempReadback = new uint[5];
             double dVout_0A_Temp = 0;
+            //TargetOffset = 2.5;
             double dVip_Target = TargetOffset + TargetVoltage_customer;
             //double dGainTestMinusTarget = 1;
             //double dGainTest = 0;
@@ -9870,6 +9894,155 @@ namespace CurrentSensorV3
         }
 
         #endregion Brake
+
+        #region New approch
+        private bool InitProductAttri()
+        {
+            //string fName;
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //fName = System.Environment.CurrentDirectory;
+            //openFileDialog.InitialDirectory = fName;
+            //openFileDialog.Filter = "cfg|*.*|cfg file|*.cfg|all files|*.*";
+            //openFileDialog.RestoreDirectory = true;
+            //openFileDialog.FilterIndex = 1;
+            //if (openFileDialog.ShowDialog() == DialogResult.OK)
+            //    fName = openFileDialog.FileName;
+            //else
+            //    return false;
+            refPart.uProductID = 620;
+            refPart.bDebug = false;
+            refPart.uIP = 20;
+            refPart.dIQn = 0;
+            refPart.dIQp = 0;
+            refPart.dVipPostGainTrim = 0;
+            refPart.dVoffsetPostGainTrim = 0;
+            refPart.dVoffsetPreTrim = 0;
+            refPart.dVoutIPPreTrim = 0;
+            refPart.dVref = 0;
+            refPart.dVtargetOffset = 2.5;
+            refPart.dVtargetOutIP = 2;
+            refPart.uRegTable = new uint[18];
+            for (uint i = 0; i < 18; i++)
+            {
+                refPart.uRegTable[2 * i + 0] = 0x80 + i;
+                refPart.uRegTable[2 * i + 1] = 0x00;
+            }
+            refPart.uCoarseGainIndex = 0;
+            refPart.uCoarseOffsetIndex = 0;
+            refPart.uFineGainIndex = 0;
+            refPart.uFineOffsetIndex = 0;
+            refPart.uReturnCode = 0x00;
+
+            return true;
+        }
+
+        private void RestoreProductAttri()
+        {
+            newPart = refPart;
+        }
+
+        private bool InitIPSupply(uint powerModule)
+        {
+            if (powerModule == 0x00)
+            {
+                //UART Initialization
+                if (!oneWrie_device.UARTInitilize(9600, 1))
+                {
+                    DisplayOperateMes("UART Initilize failed!");
+                    return false;
+                }
+
+                Delay(Delay_Sync);
+
+                //1. Current Remote CTL
+                if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
+                {
+                    DisplayOperateMes("Set Current Remote failed!");
+                    return false;
+                }
+
+                Delay(Delay_Sync);
+
+                //2. Current
+                if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR,
+                    Convert.ToUInt32(IP)))
+                {
+                    DisplayOperateMes("Set Current to IP Failed!");
+                    return false;
+                }
+
+                Delay(Delay_Sync);
+
+                //3. Set Voltage
+                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 6u))
+                {
+                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
+                    return false;
+                }
+
+                Delay(Delay_Sync);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool IPON(uint powerModule)
+        {
+            return true;
+        }
+
+        private bool IPOFF(uint powerModule)
+        {
+            return true;
+        }
+
+        private bool EnterTestMode(uint pID)
+        {
+            return true;
+        }
+
+        private bool EnterNormalMode(uint pID)
+        {
+            return true;
+        }
+
+        private double ReadVout()
+        {
+            return AverageVout();
+        }
+
+        private double ReadVref()
+        {
+            return AverageVout();
+        }
+
+        private double ReadIq()
+        {
+            return AverageVout();
+        }
+
+        private bool RegWrite()
+        {
+            return true;
+        }
+
+        private bool RegRead()
+        {
+            return true;
+        }
+
+        private void Fuse()
+        { 
+        
+        }
+
+
+
+        #endregion 
     }
 
     
