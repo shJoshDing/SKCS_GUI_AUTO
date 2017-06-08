@@ -1,0 +1,7 @@
+test script for SL910
+,/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */
+,910 Other Mode,
+,write reg,0x4F,0xAA
+,read reg,0x4E
+,sweep 910 linearity,null
+auto calc 620 trim code,40

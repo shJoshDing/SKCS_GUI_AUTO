@@ -9,8 +9,8 @@ test script for SL620
 sweep 620 linearity,null
 sweep 620 tc1,null
 sweep 620 tc2,null
-sweep 620 vout option,null
-sweep 620 vbg,null
+,sweep 620 vout option,null
+,sweep 620 vbg,null
 ,sweep 620 vout 0p1vdd offset,null
 
 

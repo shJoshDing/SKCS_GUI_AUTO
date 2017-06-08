@@ -277,18 +277,38 @@
             this.label48 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
-            this.btn_BrakeTab_PowerOff = new System.Windows.Forms.Button();
-            this.btn_BrakeTab_PowerOn = new System.Windows.Forms.Button();
-            this.txt_StopPoint_BrakeT = new System.Windows.Forms.TextBox();
-            this.txt_StartPoint_BrakeT = new System.Windows.Forms.TextBox();
+            this.label100 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label99 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label98 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label97 = new System.Windows.Forms.Label();
+            this.label96 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label93 = new System.Windows.Forms.Label();
+            this.label94 = new System.Windows.Forms.Label();
+            this.label95 = new System.Windows.Forms.Label();
             this.label80 = new System.Windows.Forms.Label();
             this.label79 = new System.Windows.Forms.Label();
             this.label78 = new System.Windows.Forms.Label();
-            this.btn_Fuse_BrakeT = new System.Windows.Forms.Button();
-            this.btn_StopPoint_BrakeT = new System.Windows.Forms.Button();
-            this.btn_StartPoint_BrakeT = new System.Windows.Forms.Button();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.btn_BrakeTab_InitializeUart = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button23 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SL910Tab = new System.Windows.Forms.TabPage();
             this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
             this.btn_SL910_910_out = new System.Windows.Forms.Button();
@@ -409,7 +429,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUD_IPxForCalc_Customer)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.BrakeTab.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             this.SL910Tab.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SL910_Tab_DataGridView)).BeginInit();
@@ -2293,7 +2312,7 @@
             // 
             // btn_GainCtrlMinus_PreT
             // 
-            this.btn_GainCtrlMinus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Minus;
+            this.btn_GainCtrlMinus_PreT.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_GainCtrlMinus_PreT.BackgroundImage")));
             this.btn_GainCtrlMinus_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.btn_GainCtrlMinus_PreT.Location = new System.Drawing.Point(326, 33);
             this.btn_GainCtrlMinus_PreT.Name = "btn_GainCtrlMinus_PreT";
@@ -2304,7 +2323,7 @@
             // 
             // btn_GainCtrlPlus_PreT
             // 
-            this.btn_GainCtrlPlus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Plus;
+            this.btn_GainCtrlPlus_PreT.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_GainCtrlPlus_PreT.BackgroundImage")));
             this.btn_GainCtrlPlus_PreT.Location = new System.Drawing.Point(276, 33);
             this.btn_GainCtrlPlus_PreT.Name = "btn_GainCtrlPlus_PreT";
             this.btn_GainCtrlPlus_PreT.Size = new System.Drawing.Size(32, 32);
@@ -2934,9 +2953,9 @@
             this.cmb_ProgramMode_AutoT.Items.AddRange(new object[] {
             "Automatic",
             "Manual"});
-            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(305, 310);
+            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(269, 310);
             this.cmb_ProgramMode_AutoT.Name = "cmb_ProgramMode_AutoT";
-            this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(103, 25);
+            this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(139, 25);
             this.cmb_ProgramMode_AutoT.TabIndex = 115;
             this.cmb_ProgramMode_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_ProgramMode_AutoT_SelectedIndexChanged);
             // 
@@ -2945,11 +2964,12 @@
             this.cmb_SocketType_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.cmb_SocketType_AutoT.FormattingEnabled = true;
             this.cmb_SocketType_AutoT.Items.AddRange(new object[] {
-            "SingleSite",
-            "MultiSite"});
-            this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(305, 281);
+            "SL610-Single-End",
+            "SL610-Diff-Mode",
+            "SL620-Single-End"});
+            this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(269, 281);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
-            this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(103, 25);
+            this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(139, 25);
             this.cmb_SocketType_AutoT.TabIndex = 115;
             this.cmb_SocketType_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_SocketType_AutoT_SelectedIndexChanged);
             // 
@@ -2958,7 +2978,7 @@
             this.label77.AutoSize = true;
             this.label77.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label77.Location = new System.Drawing.Point(192, 312);
+            this.label77.Location = new System.Drawing.Point(149, 312);
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(112, 19);
             this.label77.TabIndex = 114;
@@ -2969,11 +2989,11 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label21.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label21.Location = new System.Drawing.Point(202, 284);
+            this.label21.Location = new System.Drawing.Point(198, 283);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(92, 19);
+            this.label21.Size = new System.Drawing.Size(63, 19);
             this.label21.TabIndex = 114;
-            this.label21.Text = "Socket Type";
+            this.label21.Text = "Product";
             // 
             // btn_Vout_AutoT
             // 
@@ -3131,7 +3151,6 @@
             this.btn_AutomaticaTrim15V.Text = "15V Auto-Trim";
             this.btn_AutomaticaTrim15V.UseVisualStyleBackColor = true;
             this.btn_AutomaticaTrim15V.Visible = false;
-            this.btn_AutomaticaTrim15V.Click += new System.EventHandler(this.btn_AutomaticaTrim15V_MultiSite);
             // 
             // btn_AutomaticaTrim5V
             // 
@@ -3143,12 +3162,11 @@
             this.btn_AutomaticaTrim5V.Text = "5V Auto-Trim";
             this.btn_AutomaticaTrim5V.UseVisualStyleBackColor = true;
             this.btn_AutomaticaTrim5V.Visible = false;
-            this.btn_AutomaticaTrim5V.Click += new System.EventHandler(this.btn_AutomaticaTrim5V_MultiSite);
             // 
             // btn_AutomaticaTrim
             // 
             this.btn_AutomaticaTrim.Font = new System.Drawing.Font("Microsoft Sans Serif", 21F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.btn_AutomaticaTrim.Location = new System.Drawing.Point(426, 279);
+            this.btn_AutomaticaTrim.Location = new System.Drawing.Point(437, 279);
             this.btn_AutomaticaTrim.Name = "btn_AutomaticaTrim";
             this.btn_AutomaticaTrim.Size = new System.Drawing.Size(147, 59);
             this.btn_AutomaticaTrim.TabIndex = 57;
@@ -3194,12 +3212,12 @@
             // txt_ModuleType_AutoT
             // 
             this.txt_ModuleType_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_ModuleType_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_ModuleType_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_ModuleType_AutoT.ForeColor = System.Drawing.Color.White;
             this.txt_ModuleType_AutoT.Location = new System.Drawing.Point(181, 37);
             this.txt_ModuleType_AutoT.Name = "txt_ModuleType_AutoT";
             this.txt_ModuleType_AutoT.ReadOnly = true;
-            this.txt_ModuleType_AutoT.Size = new System.Drawing.Size(118, 27);
+            this.txt_ModuleType_AutoT.Size = new System.Drawing.Size(118, 29);
             this.txt_ModuleType_AutoT.TabIndex = 113;
             this.txt_ModuleType_AutoT.Text = "5V";
             this.txt_ModuleType_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3209,7 +3227,7 @@
             this.label57.AutoSize = true;
             this.label57.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label57.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label57.Location = new System.Drawing.Point(298, 189);
+            this.label57.Location = new System.Drawing.Point(299, 181);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(23, 19);
             this.label57.TabIndex = 112;
@@ -3218,12 +3236,12 @@
             // txt_ChosenGain_AutoT
             // 
             this.txt_ChosenGain_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_ChosenGain_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_ChosenGain_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_ChosenGain_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(180, 185);
+            this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(180, 177);
             this.txt_ChosenGain_AutoT.Name = "txt_ChosenGain_AutoT";
             this.txt_ChosenGain_AutoT.ReadOnly = true;
-            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(118, 27);
+            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(118, 29);
             this.txt_ChosenGain_AutoT.TabIndex = 111;
             this.txt_ChosenGain_AutoT.Text = "100";
             this.txt_ChosenGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3231,23 +3249,23 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label58.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label58.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label58.Location = new System.Drawing.Point(62, 189);
+            this.label58.Location = new System.Drawing.Point(69, 180);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(96, 19);
+            this.label58.Size = new System.Drawing.Size(106, 21);
             this.label58.TabIndex = 109;
-            this.label58.Text = "Chosen Gain";
+            this.label58.Text = "Pre-Set Gain";
             // 
             // txt_IP_AutoT
             // 
             this.txt_IP_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_IP_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_IP_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_IP_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_IP_AutoT.Location = new System.Drawing.Point(445, 109);
+            this.txt_IP_AutoT.Location = new System.Drawing.Point(445, 107);
             this.txt_IP_AutoT.Name = "txt_IP_AutoT";
             this.txt_IP_AutoT.ReadOnly = true;
-            this.txt_IP_AutoT.Size = new System.Drawing.Size(100, 27);
+            this.txt_IP_AutoT.Size = new System.Drawing.Size(100, 29);
             this.txt_IP_AutoT.TabIndex = 108;
             this.txt_IP_AutoT.Text = "20";
             this.txt_IP_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3255,12 +3273,12 @@
             // txt_VoutOffset_AutoT
             // 
             this.txt_VoutOffset_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_VoutOffset_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_VoutOffset_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_VoutOffset_AutoT.ForeColor = System.Drawing.Color.White;
             this.txt_VoutOffset_AutoT.Location = new System.Drawing.Point(445, 37);
             this.txt_VoutOffset_AutoT.Name = "txt_VoutOffset_AutoT";
             this.txt_VoutOffset_AutoT.ReadOnly = true;
-            this.txt_VoutOffset_AutoT.Size = new System.Drawing.Size(100, 27);
+            this.txt_VoutOffset_AutoT.Size = new System.Drawing.Size(100, 29);
             this.txt_VoutOffset_AutoT.TabIndex = 107;
             this.txt_VoutOffset_AutoT.Text = "2.5";
             this.txt_VoutOffset_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3268,12 +3286,12 @@
             // txt_TargertVoltage_AutoT
             // 
             this.txt_TargertVoltage_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_TargertVoltage_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_TargertVoltage_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_TargertVoltage_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_TargertVoltage_AutoT.Location = new System.Drawing.Point(445, 73);
+            this.txt_TargertVoltage_AutoT.Location = new System.Drawing.Point(445, 72);
             this.txt_TargertVoltage_AutoT.Name = "txt_TargertVoltage_AutoT";
             this.txt_TargertVoltage_AutoT.ReadOnly = true;
-            this.txt_TargertVoltage_AutoT.Size = new System.Drawing.Size(100, 27);
+            this.txt_TargertVoltage_AutoT.Size = new System.Drawing.Size(100, 29);
             this.txt_TargertVoltage_AutoT.TabIndex = 107;
             this.txt_TargertVoltage_AutoT.Text = "2";
             this.txt_TargertVoltage_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3281,12 +3299,12 @@
             // txt_AdcOffset_AutoT
             // 
             this.txt_AdcOffset_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_AdcOffset_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_AdcOffset_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_AdcOffset_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_AdcOffset_AutoT.Location = new System.Drawing.Point(445, 185);
+            this.txt_AdcOffset_AutoT.Location = new System.Drawing.Point(445, 177);
             this.txt_AdcOffset_AutoT.Name = "txt_AdcOffset_AutoT";
             this.txt_AdcOffset_AutoT.ReadOnly = true;
-            this.txt_AdcOffset_AutoT.Size = new System.Drawing.Size(100, 27);
+            this.txt_AdcOffset_AutoT.Size = new System.Drawing.Size(100, 29);
             this.txt_AdcOffset_AutoT.TabIndex = 107;
             this.txt_AdcOffset_AutoT.Text = "0";
             this.txt_AdcOffset_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3294,12 +3312,12 @@
             // txt_SensitivityAdapt_AutoT
             // 
             this.txt_SensitivityAdapt_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_SensitivityAdapt_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_SensitivityAdapt_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_SensitivityAdapt_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_SensitivityAdapt_AutoT.Location = new System.Drawing.Point(181, 109);
+            this.txt_SensitivityAdapt_AutoT.Location = new System.Drawing.Point(181, 107);
             this.txt_SensitivityAdapt_AutoT.Name = "txt_SensitivityAdapt_AutoT";
             this.txt_SensitivityAdapt_AutoT.ReadOnly = true;
-            this.txt_SensitivityAdapt_AutoT.Size = new System.Drawing.Size(118, 27);
+            this.txt_SensitivityAdapt_AutoT.Size = new System.Drawing.Size(118, 29);
             this.txt_SensitivityAdapt_AutoT.TabIndex = 103;
             this.txt_SensitivityAdapt_AutoT.Text = "Default";
             this.txt_SensitivityAdapt_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3307,12 +3325,12 @@
             // txt_TargetGain_AutoT
             // 
             this.txt_TargetGain_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_TargetGain_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_TargetGain_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_TargetGain_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_TargetGain_AutoT.Location = new System.Drawing.Point(445, 145);
+            this.txt_TargetGain_AutoT.Location = new System.Drawing.Point(445, 142);
             this.txt_TargetGain_AutoT.Name = "txt_TargetGain_AutoT";
             this.txt_TargetGain_AutoT.ReadOnly = true;
-            this.txt_TargetGain_AutoT.Size = new System.Drawing.Size(100, 27);
+            this.txt_TargetGain_AutoT.Size = new System.Drawing.Size(100, 29);
             this.txt_TargetGain_AutoT.TabIndex = 107;
             this.txt_TargetGain_AutoT.Text = "100";
             this.txt_TargetGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3320,12 +3338,12 @@
             // txt_IPRange_AutoT
             // 
             this.txt_IPRange_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_IPRange_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_IPRange_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_IPRange_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_IPRange_AutoT.Location = new System.Drawing.Point(180, 145);
+            this.txt_IPRange_AutoT.Location = new System.Drawing.Point(180, 142);
             this.txt_IPRange_AutoT.Name = "txt_IPRange_AutoT";
             this.txt_IPRange_AutoT.ReadOnly = true;
-            this.txt_IPRange_AutoT.Size = new System.Drawing.Size(118, 27);
+            this.txt_IPRange_AutoT.Size = new System.Drawing.Size(118, 29);
             this.txt_IPRange_AutoT.TabIndex = 105;
             this.txt_IPRange_AutoT.Text = "Default";
             this.txt_IPRange_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3333,56 +3351,56 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label50.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label50.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label50.Location = new System.Drawing.Point(72, 149);
+            this.label50.Location = new System.Drawing.Point(97, 145);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(69, 19);
+            this.label50.Size = new System.Drawing.Size(78, 21);
             this.label50.TabIndex = 99;
             this.label50.Text = "IP Range";
             // 
             // label71
             // 
             this.label71.AutoSize = true;
-            this.label71.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label71.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label71.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label71.Location = new System.Drawing.Point(363, 41);
+            this.label71.Location = new System.Drawing.Point(365, 41);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(59, 19);
+            this.label71.Size = new System.Drawing.Size(74, 21);
             this.label71.TabIndex = 97;
-            this.label71.Text = "Voffset";
+            this.label71.Text = "Vout_0A";
             // 
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label52.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label52.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label52.Location = new System.Drawing.Point(52, 113);
+            this.label52.Location = new System.Drawing.Point(39, 111);
             this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(123, 19);
+            this.label52.Size = new System.Drawing.Size(136, 21);
             this.label52.TabIndex = 97;
             this.label52.Text = "Sensitivity Adapt";
             // 
             // label70
             // 
             this.label70.AutoSize = true;
-            this.label70.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label70.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label70.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label70.Location = new System.Drawing.Point(63, 41);
+            this.label70.Location = new System.Drawing.Point(65, 41);
             this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(98, 19);
+            this.label70.Size = new System.Drawing.Size(108, 21);
             this.label70.TabIndex = 97;
-            this.label70.Text = "Module Type";
+            this.label70.Text = "Power Mode";
             // 
             // txt_TempComp_AutoT
             // 
             this.txt_TempComp_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_TempComp_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_TempComp_AutoT.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_TempComp_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_TempComp_AutoT.Location = new System.Drawing.Point(180, 73);
+            this.txt_TempComp_AutoT.Location = new System.Drawing.Point(180, 72);
             this.txt_TempComp_AutoT.Name = "txt_TempComp_AutoT";
             this.txt_TempComp_AutoT.ReadOnly = true;
-            this.txt_TempComp_AutoT.Size = new System.Drawing.Size(118, 27);
+            this.txt_TempComp_AutoT.Size = new System.Drawing.Size(118, 29);
             this.txt_TempComp_AutoT.TabIndex = 104;
             this.txt_TempComp_AutoT.Text = "-350ppm";
             this.txt_TempComp_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -3390,22 +3408,22 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label68.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label68.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label68.Location = new System.Drawing.Point(349, 189);
+            this.label68.Location = new System.Drawing.Point(345, 181);
             this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(91, 19);
+            this.label68.Size = new System.Drawing.Size(96, 21);
             this.label68.TabIndex = 91;
             this.label68.Text = "ADC Offset";
             // 
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label49.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label49.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label49.Location = new System.Drawing.Point(349, 149);
+            this.label49.Location = new System.Drawing.Point(342, 146);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(87, 19);
+            this.label49.Size = new System.Drawing.Size(99, 21);
             this.label49.TabIndex = 91;
             this.label49.Text = "Target Gain";
             // 
@@ -3414,7 +3432,7 @@
             this.label46.AutoSize = true;
             this.label46.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label46.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label46.Location = new System.Drawing.Point(551, 113);
+            this.label46.Location = new System.Drawing.Point(546, 111);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(20, 19);
             this.label46.TabIndex = 96;
@@ -3423,11 +3441,11 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label51.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label51.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label51.Location = new System.Drawing.Point(49, 77);
+            this.label51.Location = new System.Drawing.Point(26, 75);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(132, 19);
+            this.label51.Size = new System.Drawing.Size(149, 21);
             this.label51.TabIndex = 98;
             this.label51.Text = "Tem Compesation";
             // 
@@ -3436,7 +3454,7 @@
             this.label67.AutoSize = true;
             this.label67.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label67.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label67.Location = new System.Drawing.Point(545, 189);
+            this.label67.Location = new System.Drawing.Point(545, 182);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(33, 19);
             this.label67.TabIndex = 95;
@@ -3447,7 +3465,7 @@
             this.label47.AutoSize = true;
             this.label47.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label47.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label47.Location = new System.Drawing.Point(545, 149);
+            this.label47.Location = new System.Drawing.Point(545, 146);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(49, 19);
             this.label47.TabIndex = 95;
@@ -3458,7 +3476,7 @@
             this.label72.AutoSize = true;
             this.label72.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label72.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label72.Location = new System.Drawing.Point(551, 41);
+            this.label72.Location = new System.Drawing.Point(547, 41);
             this.label72.Name = "label72";
             this.label72.Size = new System.Drawing.Size(20, 19);
             this.label72.TabIndex = 95;
@@ -3469,7 +3487,7 @@
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label62.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label62.Location = new System.Drawing.Point(551, 77);
+            this.label62.Location = new System.Drawing.Point(547, 76);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(20, 19);
             this.label62.TabIndex = 95;
@@ -3478,162 +3496,376 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label48.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label48.Location = new System.Drawing.Point(381, 113);
+            this.label48.Location = new System.Drawing.Point(416, 111);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(24, 19);
+            this.label48.Size = new System.Drawing.Size(25, 21);
             this.label48.TabIndex = 93;
             this.label48.Text = "IP";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label61.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label61.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label61.Location = new System.Drawing.Point(349, 77);
+            this.label61.Location = new System.Drawing.Point(365, 76);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(91, 19);
+            this.label61.Size = new System.Drawing.Size(74, 21);
             this.label61.TabIndex = 91;
-            this.label61.Text = "VIP-Voffset";
+            this.label61.Text = "VIP-V0A";
             // 
             // BrakeTab
             // 
-            this.BrakeTab.Controls.Add(this.btn_BrakeTab_PowerOff);
-            this.BrakeTab.Controls.Add(this.btn_BrakeTab_PowerOn);
-            this.BrakeTab.Controls.Add(this.txt_StopPoint_BrakeT);
-            this.BrakeTab.Controls.Add(this.txt_StartPoint_BrakeT);
+            this.BrakeTab.Controls.Add(this.label100);
+            this.BrakeTab.Controls.Add(this.checkBox1);
+            this.BrakeTab.Controls.Add(this.label99);
+            this.BrakeTab.Controls.Add(this.textBox9);
+            this.BrakeTab.Controls.Add(this.label98);
+            this.BrakeTab.Controls.Add(this.textBox8);
+            this.BrakeTab.Controls.Add(this.textBox7);
+            this.BrakeTab.Controls.Add(this.label97);
+            this.BrakeTab.Controls.Add(this.label96);
+            this.BrakeTab.Controls.Add(this.comboBox1);
+            this.BrakeTab.Controls.Add(this.label93);
+            this.BrakeTab.Controls.Add(this.label94);
+            this.BrakeTab.Controls.Add(this.label95);
             this.BrakeTab.Controls.Add(this.label80);
             this.BrakeTab.Controls.Add(this.label79);
             this.BrakeTab.Controls.Add(this.label78);
-            this.BrakeTab.Controls.Add(this.btn_Fuse_BrakeT);
-            this.BrakeTab.Controls.Add(this.btn_StopPoint_BrakeT);
-            this.BrakeTab.Controls.Add(this.btn_StartPoint_BrakeT);
-            this.BrakeTab.Controls.Add(this.groupBox9);
+            this.BrakeTab.Controls.Add(this.button21);
+            this.BrakeTab.Controls.Add(this.button22);
+            this.BrakeTab.Controls.Add(this.button23);
+            this.BrakeTab.Controls.Add(this.button24);
+            this.BrakeTab.Controls.Add(this.button19);
+            this.BrakeTab.Controls.Add(this.button20);
+            this.BrakeTab.Controls.Add(this.button17);
+            this.BrakeTab.Controls.Add(this.button18);
+            this.BrakeTab.Controls.Add(this.button16);
+            this.BrakeTab.Controls.Add(this.button15);
+            this.BrakeTab.Controls.Add(this.textBox4);
+            this.BrakeTab.Controls.Add(this.textBox5);
+            this.BrakeTab.Controls.Add(this.textBox6);
+            this.BrakeTab.Controls.Add(this.textBox3);
+            this.BrakeTab.Controls.Add(this.textBox2);
+            this.BrakeTab.Controls.Add(this.textBox1);
             this.BrakeTab.Location = new System.Drawing.Point(4, 22);
             this.BrakeTab.Name = "BrakeTab";
             this.BrakeTab.Padding = new System.Windows.Forms.Padding(3);
             this.BrakeTab.Size = new System.Drawing.Size(803, 574);
             this.BrakeTab.TabIndex = 3;
-            this.BrakeTab.Text = "Brake";
+            this.BrakeTab.Text = "Tuning";
             this.BrakeTab.UseVisualStyleBackColor = true;
             // 
-            // btn_BrakeTab_PowerOff
+            // label100
             // 
-            this.btn_BrakeTab_PowerOff.Location = new System.Drawing.Point(673, 156);
-            this.btn_BrakeTab_PowerOff.Name = "btn_BrakeTab_PowerOff";
-            this.btn_BrakeTab_PowerOff.Size = new System.Drawing.Size(75, 23);
-            this.btn_BrakeTab_PowerOff.TabIndex = 3;
-            this.btn_BrakeTab_PowerOff.Text = "OFF";
-            this.btn_BrakeTab_PowerOff.UseVisualStyleBackColor = true;
+            this.label100.AutoSize = true;
+            this.label100.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label100.Location = new System.Drawing.Point(242, 319);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(22, 19);
+            this.label100.TabIndex = 31;
+            this.label100.Text = "IP";
             // 
-            // btn_BrakeTab_PowerOn
+            // checkBox1
             // 
-            this.btn_BrakeTab_PowerOn.Location = new System.Drawing.Point(573, 156);
-            this.btn_BrakeTab_PowerOn.Name = "btn_BrakeTab_PowerOn";
-            this.btn_BrakeTab_PowerOn.Size = new System.Drawing.Size(75, 23);
-            this.btn_BrakeTab_PowerOn.TabIndex = 3;
-            this.btn_BrakeTab_PowerOn.Text = "ON";
-            this.btn_BrakeTab_PowerOn.UseVisualStyleBackColor = true;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(266, 322);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1.TabIndex = 30;
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // txt_StopPoint_BrakeT
+            // label99
             // 
-            this.txt_StopPoint_BrakeT.Location = new System.Drawing.Point(709, 332);
-            this.txt_StopPoint_BrakeT.Name = "txt_StopPoint_BrakeT";
-            this.txt_StopPoint_BrakeT.Size = new System.Drawing.Size(70, 20);
-            this.txt_StopPoint_BrakeT.TabIndex = 2;
-            this.txt_StopPoint_BrakeT.Visible = false;
+            this.label99.AutoSize = true;
+            this.label99.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label99.Location = new System.Drawing.Point(463, 178);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(95, 19);
+            this.label99.TabIndex = 29;
+            this.label99.Text = "Point B Error";
             // 
-            // txt_StartPoint_BrakeT
+            // textBox9
             // 
-            this.txt_StartPoint_BrakeT.Location = new System.Drawing.Point(709, 254);
-            this.txt_StartPoint_BrakeT.Name = "txt_StartPoint_BrakeT";
-            this.txt_StartPoint_BrakeT.Size = new System.Drawing.Size(70, 20);
-            this.txt_StartPoint_BrakeT.TabIndex = 2;
-            this.txt_StartPoint_BrakeT.Visible = false;
+            this.textBox9.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox9.Location = new System.Drawing.Point(562, 175);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.ReadOnly = true;
+            this.textBox9.Size = new System.Drawing.Size(100, 25);
+            this.textBox9.TabIndex = 28;
+            // 
+            // label98
+            // 
+            this.label98.AutoSize = true;
+            this.label98.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label98.Location = new System.Drawing.Point(165, 178);
+            this.label98.Name = "label98";
+            this.label98.Size = new System.Drawing.Size(96, 19);
+            this.label98.TabIndex = 27;
+            this.label98.Text = "Point A Error";
+            // 
+            // textBox8
+            // 
+            this.textBox8.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox8.Location = new System.Drawing.Point(264, 175);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.ReadOnly = true;
+            this.textBox8.Size = new System.Drawing.Size(100, 25);
+            this.textBox8.TabIndex = 26;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox7.Location = new System.Drawing.Point(266, 251);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.ReadOnly = true;
+            this.textBox7.Size = new System.Drawing.Size(100, 25);
+            this.textBox7.TabIndex = 25;
+            // 
+            // label97
+            // 
+            this.label97.AutoSize = true;
+            this.label97.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label97.Location = new System.Drawing.Point(152, 254);
+            this.label97.Name = "label97";
+            this.label97.Size = new System.Drawing.Size(112, 19);
+            this.label97.TabIndex = 24;
+            this.label97.Text = "Dynamic Range";
+            // 
+            // label96
+            // 
+            this.label96.AutoSize = true;
+            this.label96.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label96.Location = new System.Drawing.Point(202, 290);
+            this.label96.Name = "label96";
+            this.label96.Size = new System.Drawing.Size(62, 19);
+            this.label96.TabIndex = 23;
+            this.label96.Text = "Product";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "SL610",
+            "SL620",
+            "SL910"});
+            this.comboBox1.Location = new System.Drawing.Point(266, 286);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(100, 27);
+            this.comboBox1.TabIndex = 22;
+            // 
+            // label93
+            // 
+            this.label93.AutoSize = true;
+            this.label93.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label93.Location = new System.Drawing.Point(439, 75);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(122, 19);
+            this.label93.TabIndex = 21;
+            this.label93.Text = "Target Point B IP";
+            // 
+            // label94
+            // 
+            this.label94.AutoSize = true;
+            this.label94.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label94.Location = new System.Drawing.Point(415, 143);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(146, 19);
+            this.label94.TabIndex = 20;
+            this.label94.Text = "Current Point B Vout";
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(421, 109);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(140, 19);
+            this.label95.TabIndex = 19;
+            this.label95.Text = "Target Point B Vout";
             // 
             // label80
             // 
             this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(619, 391);
+            this.label80.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label80.Location = new System.Drawing.Point(138, 75);
             this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(73, 13);
-            this.label80.TabIndex = 1;
-            this.label80.Text = "STEP 3: Fuse";
-            this.label80.Visible = false;
+            this.label80.Size = new System.Drawing.Size(123, 19);
+            this.label80.TabIndex = 18;
+            this.label80.Text = "Target Point A IP";
             // 
             // label79
             // 
             this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(619, 313);
+            this.label79.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.Location = new System.Drawing.Point(114, 143);
             this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(154, 13);
-            this.label79.TabIndex = 1;
-            this.label79.Text = "STEP 2: Press Brake and Click";
-            this.label79.Visible = false;
+            this.label79.Size = new System.Drawing.Size(147, 19);
+            this.label79.TabIndex = 17;
+            this.label79.Text = "Current Point A Vout";
             // 
             // label78
             // 
             this.label78.AutoSize = true;
-            this.label78.Location = new System.Drawing.Point(619, 235);
+            this.label78.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.Location = new System.Drawing.Point(120, 109);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(167, 13);
-            this.label78.TabIndex = 1;
-            this.label78.Text = "STEP 1: Release Brake and Click";
-            this.label78.Visible = false;
+            this.label78.Size = new System.Drawing.Size(141, 19);
+            this.label78.TabIndex = 16;
+            this.label78.Text = "Target Point A Vout";
             // 
-            // btn_Fuse_BrakeT
+            // button21
             // 
-            this.btn_Fuse_BrakeT.Location = new System.Drawing.Point(619, 410);
-            this.btn_Fuse_BrakeT.Name = "btn_Fuse_BrakeT";
-            this.btn_Fuse_BrakeT.Size = new System.Drawing.Size(80, 28);
-            this.btn_Fuse_BrakeT.TabIndex = 0;
-            this.btn_Fuse_BrakeT.Text = "Fuse";
-            this.btn_Fuse_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_Fuse_BrakeT.Visible = false;
-            this.btn_Fuse_BrakeT.Click += new System.EventHandler(this.btn_Fuse_BrakeT_Click);
+            this.button21.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button21.Location = new System.Drawing.Point(560, 436);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(100, 49);
+            this.button21.TabIndex = 15;
+            this.button21.Text = "- Fine    Offset";
+            this.button21.UseVisualStyleBackColor = true;
             // 
-            // btn_StopPoint_BrakeT
+            // button22
             // 
-            this.btn_StopPoint_BrakeT.Location = new System.Drawing.Point(619, 332);
-            this.btn_StopPoint_BrakeT.Name = "btn_StopPoint_BrakeT";
-            this.btn_StopPoint_BrakeT.Size = new System.Drawing.Size(80, 28);
-            this.btn_StopPoint_BrakeT.TabIndex = 0;
-            this.btn_StopPoint_BrakeT.Text = "Stop Point";
-            this.btn_StopPoint_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_StopPoint_BrakeT.Visible = false;
-            this.btn_StopPoint_BrakeT.Click += new System.EventHandler(this.btn_StopPoint_BrakeT_Click);
+            this.button22.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button22.Location = new System.Drawing.Point(560, 381);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(100, 49);
+            this.button22.TabIndex = 14;
+            this.button22.Text = "+ Fine Offset";
+            this.button22.UseVisualStyleBackColor = true;
             // 
-            // btn_StartPoint_BrakeT
+            // button23
             // 
-            this.btn_StartPoint_BrakeT.Location = new System.Drawing.Point(619, 254);
-            this.btn_StartPoint_BrakeT.Name = "btn_StartPoint_BrakeT";
-            this.btn_StartPoint_BrakeT.Size = new System.Drawing.Size(80, 28);
-            this.btn_StartPoint_BrakeT.TabIndex = 0;
-            this.btn_StartPoint_BrakeT.Text = "Start Point";
-            this.btn_StartPoint_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_StartPoint_BrakeT.Visible = false;
-            this.btn_StartPoint_BrakeT.Click += new System.EventHandler(this.btn_StartPoint_BrakeT_Click);
+            this.button23.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button23.Location = new System.Drawing.Point(420, 436);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(100, 49);
+            this.button23.TabIndex = 13;
+            this.button23.Text = "- Coarse Offset";
+            this.button23.UseVisualStyleBackColor = true;
             // 
-            // groupBox9
+            // button24
             // 
-            this.groupBox9.Controls.Add(this.btn_BrakeTab_InitializeUart);
-            this.groupBox9.Location = new System.Drawing.Point(546, 35);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(227, 169);
-            this.groupBox9.TabIndex = 4;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "TEST";
+            this.button24.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button24.Location = new System.Drawing.Point(420, 381);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(100, 49);
+            this.button24.TabIndex = 12;
+            this.button24.Text = "+ Coarse Offset";
+            this.button24.UseVisualStyleBackColor = true;
             // 
-            // btn_BrakeTab_InitializeUart
+            // button19
             // 
-            this.btn_BrakeTab_InitializeUart.Location = new System.Drawing.Point(27, 19);
-            this.btn_BrakeTab_InitializeUart.Name = "btn_BrakeTab_InitializeUart";
-            this.btn_BrakeTab_InitializeUart.Size = new System.Drawing.Size(175, 39);
-            this.btn_BrakeTab_InitializeUart.TabIndex = 3;
-            this.btn_BrakeTab_InitializeUart.Text = "Initialize";
-            this.btn_BrakeTab_InitializeUart.UseVisualStyleBackColor = true;
-            this.btn_BrakeTab_InitializeUart.Click += new System.EventHandler(this.btn_BrakeTab_InitializeUart_Click);
+            this.button19.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button19.Location = new System.Drawing.Point(280, 436);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(100, 49);
+            this.button19.TabIndex = 11;
+            this.button19.Text = "-  Fine      Gain ";
+            this.button19.UseVisualStyleBackColor = true;
+            // 
+            // button20
+            // 
+            this.button20.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button20.Location = new System.Drawing.Point(280, 381);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(100, 49);
+            this.button20.TabIndex = 10;
+            this.button20.Text = "+ Fine    Gain";
+            this.button20.UseVisualStyleBackColor = true;
+            // 
+            // button17
+            // 
+            this.button17.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button17.Location = new System.Drawing.Point(140, 436);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(100, 49);
+            this.button17.TabIndex = 9;
+            this.button17.Text = "- Coarse Gain";
+            this.button17.UseVisualStyleBackColor = true;
+            // 
+            // button18
+            // 
+            this.button18.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button18.Location = new System.Drawing.Point(140, 381);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(100, 49);
+            this.button18.TabIndex = 8;
+            this.button18.Text = "+ Coarse Gain";
+            this.button18.UseVisualStyleBackColor = true;
+            // 
+            // button16
+            // 
+            this.button16.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button16.Location = new System.Drawing.Point(420, 289);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(141, 40);
+            this.button16.TabIndex = 7;
+            this.button16.Text = "Update Point B";
+            this.button16.UseVisualStyleBackColor = true;
+            // 
+            // button15
+            // 
+            this.button15.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button15.Location = new System.Drawing.Point(420, 243);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(141, 40);
+            this.button15.TabIndex = 6;
+            this.button15.Text = "Update Point A";
+            this.button15.UseVisualStyleBackColor = true;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.Location = new System.Drawing.Point(562, 72);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(100, 25);
+            this.textBox4.TabIndex = 5;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox5.Location = new System.Drawing.Point(562, 140);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(100, 25);
+            this.textBox5.TabIndex = 4;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox6.Location = new System.Drawing.Point(562, 106);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(100, 25);
+            this.textBox6.TabIndex = 3;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox3.Location = new System.Drawing.Point(264, 72);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 25);
+            this.textBox3.TabIndex = 2;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(264, 140);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(100, 25);
+            this.textBox2.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(264, 106);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 25);
+            this.textBox1.TabIndex = 0;
             // 
             // SL910Tab
             // 
@@ -4413,9 +4645,9 @@
             this.label87.AutoSize = true;
             this.label87.Location = new System.Drawing.Point(272, 16);
             this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(47, 13);
+            this.label87.Size = new System.Drawing.Size(34, 13);
             this.label87.TabIndex = 6;
-            this.label87.Text = "DUT ID:";
+            this.label87.Text = "Temp";
             // 
             // label86
             // 
@@ -4700,7 +4932,6 @@
             this.groupBox8.PerformLayout();
             this.BrakeTab.ResumeLayout(false);
             this.BrakeTab.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
             this.SL910Tab.ResumeLayout(false);
             this.SL910Tab.PerformLayout();
             this.panel10.ResumeLayout(false);
@@ -4970,20 +5201,8 @@
         private System.Windows.Forms.ComboBox cmb_ProgramMode_AutoT;
         private System.Windows.Forms.Label label77;
         private System.Windows.Forms.TabPage BrakeTab;
-        private System.Windows.Forms.TextBox txt_StopPoint_BrakeT;
-        private System.Windows.Forms.TextBox txt_StartPoint_BrakeT;
-        private System.Windows.Forms.Label label79;
-        private System.Windows.Forms.Label label78;
-        private System.Windows.Forms.Button btn_StopPoint_BrakeT;
-        private System.Windows.Forms.Button btn_StartPoint_BrakeT;
-        private System.Windows.Forms.Label label80;
-        private System.Windows.Forms.Button btn_Fuse_BrakeT;
         private System.Windows.Forms.Button btn_CommunicationTest;
         private System.Windows.Forms.Button btn_SafetyHighRead_EngT;
-        private System.Windows.Forms.Button btn_BrakeTab_PowerOff;
-        private System.Windows.Forms.Button btn_BrakeTab_PowerOn;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Button btn_BrakeTab_InitializeUart;
         private System.Windows.Forms.TextBox txt_Delay_PreT;
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.Label label81;
@@ -5076,5 +5295,37 @@
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label92;
+        private System.Windows.Forms.Label label94;
+        private System.Windows.Forms.Label label95;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.Label label79;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label99;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label98;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label97;
+        private System.Windows.Forms.Label label96;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label93;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label100;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
