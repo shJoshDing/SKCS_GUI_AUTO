@@ -11347,6 +11347,102 @@ namespace CurrentSensorV3
             btn_SL620Tab_PowerOff_Click(null, null);
         }
 
+        private void Sweep620Linearity(uint index)
+        {
+            int delay_temp = 300;
+            double[] tempvout = new double[5];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\rawTestData\Sweep780Linearity";
+            filename += ".csv";
+
+            //power on 5V
+            btn_SL620Tab_PowerOn_Click(null, null);
+            Delay(Delay_Sync);
+            //enter test mode
+            btn_SL620Tab_TestKey_Click(null, null);
+            Delay(Delay_Sync);
+            //enter normal mode
+            btn_SL620Tab_NormalMode_Click(null, null);
+            Delay(Delay_Sync);
+
+            //Init IP current
+            btn_EngTab_Connect_Click(null, null);
+            Delay(Delay_Sync);
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                writer.WriteLine(System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss"));
+                string headers = "Temp,ID,25,24,23,22,21,20,19";
+                writer.WriteLine(headers);
+
+                writer.Write(this.txt_Char910_DutId.Text + "," + Convert.ToString(index) + ",");
+
+                for (uint i = 25; i > 0; i--)
+                {
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(delay_temp);
+                    SetIP(i);
+                    Delay(Delay_Power);
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(delay_temp);
+                    for (uint k = 0; k < 2; k++)
+                    {
+                        //tempvout[k] = GetMout();
+                        tempvout[k] = ReadVout();
+                        Delay(Delay_Power);
+                    }
+                    writer.Write(tempvout[1].ToString("F4") + ",");
+                }
+
+                btn_EngTab_Ipoff_Click(null, null);
+
+                //MessageBox("Please Invert IP!");
+                DialogResult dr = MessageBox.Show("Please Invert IP", "IP", MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    return;
+                }
+                else if (dr == DialogResult.Yes)
+                {
+                    for (uint i = 0; i <= 25; i++)
+                    {
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(delay_temp);
+                        //if (i > 0)
+                        SetIP(i);
+                        Delay(Delay_Power);
+                        if (i != 0)
+                            btn_EngTab_Ipon_Click(null, null);
+                        else
+                            btn_EngTab_Ipoff_Click(null, null);
+                        Delay(delay_temp);
+                        for (uint k = 0; k < 2; k++)
+                        {
+                            //tempvout[k] = GetMout();
+                            tempvout[k] = ReadVout();
+                            Delay(Delay_Power);
+                        }
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                    }
+
+                    btn_EngTab_Ipoff_Click(null, null);
+                }
+
+                writer.Write("\r\n");
+
+                //MessageBox("Please Invert IP!");
+                dr = MessageBox.Show("Please Invert IP", "IP", MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    btn_SL620Tab_PowerOff_Click(null, null);
+                    return;
+                }
+            }
+
+            btn_SL620Tab_PowerOff_Click(null, null);
+        }
+
         private void Sweep620RoughGain()
         {
             int delay_temp = 1000;
@@ -12368,7 +12464,7 @@ namespace CurrentSensorV3
                     else if (dr == DialogResult.OK)
                     {
                         #region Liniearity
-                        Sweep620Linearity();
+                        Sweep620Linearity(i);
                         #endregion Liniearity
 
                         #region TC
@@ -12458,7 +12554,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //set trim code
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 80);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x80);
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12490,7 +12586,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //set trim code
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 10);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x10);
                         Delay(Delay_Sync);
 
                         //enter normal mode
