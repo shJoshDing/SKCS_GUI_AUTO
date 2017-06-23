@@ -74,6 +74,7 @@ namespace CurrentSensorV3
         bool bMRE = false;
         bool bMASK = false;
         bool bSAFEREAD = false;
+        bool bFastVersion = false;
 
         uint DeviceAddress = 0x73;
         uint SampleRateNum = 1024;
@@ -389,11 +390,11 @@ namespace CurrentSensorV3
         uint[] MultiSiteReg7 = new uint[16];
         uint[] MultiSiteRoughGainCodeIndex = new uint[16];
 
-        uint[] BrakeReg = new uint[5];                          //Brake usage
-        int Ix_OffsetA_Brake = 0;
-        int Ix_OffsetB_Brake = 0;
-        int Ix_GainRough_Brake = 0;
-        int Ix_GainPrecision_Brake = 0;
+        uint[] TunningTabReg = new uint[9];                          //Brake usage
+        int Ix_OffsetA_TunningTab = 0;
+        int Ix_OffsetB_TunningTab = 0;
+        int Ix_GainRough_TunningTab = 0;
+        int Ix_GainFine_TunningTab = 0;
 
         enum PRGMRSULT{
             DUT_BIN_1 = 1,
@@ -596,6 +597,8 @@ namespace CurrentSensorV3
 
             Fillsl620CoarseGainTable();
             Fillsl620FineGainTable();
+
+            InitTuningTab();
 
             //Init combobox
             //1. Engineering
@@ -4990,7 +4993,7 @@ namespace CurrentSensorV3
 
                     Reg80Value = 0x05;
                     Reg81Value = 0x0F;
-                    Reg82Value = 0xFF;
+                    Reg82Value = 0x51;
                     Reg83Value = 0x30;
                     Reg84Value = 0x00;
                     Reg85Value = 0x00;
@@ -5091,41 +5094,30 @@ namespace CurrentSensorV3
             //clear log
             DisplayOperateMesClear();
             /*  power on */
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
-            RePower();
-            Delay(Delay_Sync);
-            this.lbl_passOrFailed.Text = "Trimming";
-            /* Get module current */
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
-            {
-                if (bAutoTrimTest)
-                    DisplayOperateMes("Set ADC VIN to VCS");
-            }
-            else
+            if(!oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V))
             {
                 DisplayOperateMes("Set ADC VIN to VCS failed", Color.Red);
                 PowerOff();
                 return;
             }
+            RePower();
             Delay(Delay_Sync);
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
-            {
-                if (bAutoTrimTest)
-                    DisplayOperateMes("Set ADC current sensor");
-            }
+            this.lbl_passOrFailed.Text = "Trimming";
+            /* Get module current */
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS);          
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE);
 
             this.txt_ModuleCurrent_EngT.Text = GetModuleCurrent().ToString("F1");
             this.txt_ModuleCurrent_PreT.Text = this.txt_ModuleCurrent_EngT.Text;
 
-
             dModuleCurrent = GetModuleCurrent();
             sDUT.dIQ = dModuleCurrent;
+
             if (dCurrentDownLimit > dModuleCurrent)
             {
                 DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_ABNORMAL;
                 PowerOff();
-                //PrintDutAttribute(sDUT);
                 MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
                 return;
             }
@@ -5136,7 +5128,6 @@ namespace CurrentSensorV3
                 PowerOff();
                 sDUT.iErrorCode = uDutTrimResult[idut];
                 PrintDutAttribute(sDUT);
-                //MessageBox.Show(String.Format("电流异常，模块短路或损坏！"), "Error", MessageBoxButtons.OK);
                 this.lbl_passOrFailed.ForeColor = Color.Yellow;
                 this.lbl_passOrFailed.Text = "短路!";
                 return;
@@ -5147,12 +5138,9 @@ namespace CurrentSensorV3
             #endregion Get module current
 
             #region Saturation judgement
-
-
             //Redundency delay in case of power off failure.
             Delay(Delay_Sync);
             EnterTestMode();
-            //Delay(Delay_Sync);
             BurstRead(0x80, 5, tempReadback);
             if (tempReadback[0] + tempReadback[1] + tempReadback[2] + tempReadback[3] + tempReadback[4] != 0)
             {
@@ -5181,7 +5169,9 @@ namespace CurrentSensorV3
                     oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
                     Delay(Delay_Fuse);
                     dMultiSiteVout0A[idut] = AverageVout();
-                    if (dMultiSiteVout0A[idut] < 4.5 && dMultiSiteVout0A[idut] > 1.5)
+                    DisplayOperateMes("V0A once power on = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+                    if (dMultiSiteVout0A[idut] < 2.6 && dMultiSiteVout0A[idut] > 1.6)
                     {
                         DisplayOperateMes("DUT Trimmed!", Color.Red);
                         uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_TRIMMRD_ALREADY;
@@ -5190,12 +5180,11 @@ namespace CurrentSensorV3
                         sDUT.bTrimmed = true;
                         sDUT.iErrorCode = uDutTrimResult[idut];
                         PrintDutAttribute(sDUT);
-                        //MessageBox.Show(String.Format("模组已编程，交至研发部！"), "Error", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "混料!";
                         return;
                     }
-                    else
+                    else if (dMultiSiteVout0A[idut] < 0.5 || dMultiSiteVout0A[idut] > 4.8)
                     {
                         DisplayOperateMes("VOUT Short!", Color.Red);
                         uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SHORT;
@@ -5203,9 +5192,20 @@ namespace CurrentSensorV3
                         sDUT.bDigitalCommFail = true;
                         sDUT.iErrorCode = uDutTrimResult[idut];
                         PrintDutAttribute(sDUT);
-                        //MessageBox.Show(String.Format("输出管脚短路！", Color.YellowGreen), "Warning", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "短路!";
+                        return;
+                    }
+                    else
+                    {
+                        DisplayOperateMes("DUT digital communication fail!", Color.Red);
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_COMM_FAIL;
+                        TrimFinish();
+                        sDUT.bDigitalCommFail = true;
+                        sDUT.iErrorCode = uDutTrimResult[idut];
+                        PrintDutAttribute(sDUT);
+                        this.lbl_passOrFailed.ForeColor = Color.Red;
+                        this.lbl_passOrFailed.Text = "FAIL!";
                         return;
                     }
                 }
@@ -5217,7 +5217,6 @@ namespace CurrentSensorV3
                     sDUT.bDigitalCommFail = true;
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     PrintDutAttribute(sDUT);
-                    //MessageBox.Show(String.Format("输出管脚短路！", Color.YellowGreen), "Warning", MessageBoxButtons.OK);
                     this.lbl_passOrFailed.ForeColor = Color.Red;
                     this.lbl_passOrFailed.Text = "FAIL!";
                     return;
@@ -5227,11 +5226,8 @@ namespace CurrentSensorV3
             EnterNomalMode();
 
             /* Change Current to IP  */
-            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-            //3. Set Voltage
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -5253,8 +5249,6 @@ namespace CurrentSensorV3
                 }
             }
 
-
-            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
             Delay(Delay_Fuse);
             dMultiSiteVoutIP[idut] = AverageVout();
             sDUT.dVoutIPNative = dMultiSiteVoutIP[idut];
@@ -5300,7 +5294,7 @@ namespace CurrentSensorV3
                 {
                     oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0);
                     Delay(Delay_Sync);
-                    oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP));
+                    oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP/2));
                 }
 
                 if (dMultiSiteVoutIP[idut] > saturationVout)
@@ -5316,7 +5310,6 @@ namespace CurrentSensorV3
                 }
                 else
                 {
-                    //dr = MessageBox.Show(String.Format("输出饱和，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                     TrimFinish();
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
                     sDUT.iErrorCode = uDutTrimResult[idut];
@@ -5342,10 +5335,8 @@ namespace CurrentSensorV3
 
             #region Get Vout@0A
             /* Change Current to 0A */
-            //3. Set Voltage
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                 else
@@ -5376,7 +5367,6 @@ namespace CurrentSensorV3
             if (dMultiSiteVoutIP[idut] < dMultiSiteVout0A[idut])
             {
                 TrimFinish();
-                //PrintDutAttribute(sDUT);
                 MessageBox.Show(String.Format("请确认IP方向!"), "Try Again", MessageBoxButtons.OK);
                 return;
             }
@@ -5425,7 +5415,6 @@ namespace CurrentSensorV3
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
                 Delay(Delay_Sync);
                 RePower();
-                //Delay(Delay_Sync);
                 EnterTestMode();
                 RegisterWrite(5, new uint[10] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 
                     0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut], 0x84, 0x07 });
@@ -5433,7 +5422,6 @@ namespace CurrentSensorV3
                 /* fuse */
                 FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                 DisplayOperateMes("Processing...");
-                //Delay(Delay_Fuse);
                 ReloadPreset();
                 Delay(Delay_Sync);
                 BurstRead(0x80, 5, tempReadback);
@@ -5463,7 +5451,6 @@ namespace CurrentSensorV3
 
                 if (bSAFEREAD)
                 {
-                    //Delay(Delay_Sync);
                     SafetyReadPreset();
                     Delay(Delay_Sync);
                     BurstRead(0x80, 5, tempReadback);
@@ -5474,49 +5461,52 @@ namespace CurrentSensorV3
                         bSafety = true;
                 }
 
-                //capture Vout
-                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
-                RePower();
-                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
-                Delay(Delay_Sync);
-                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
-
-                Delay(Delay_Sync);
-                dMultiSiteVout0A[idut] = AverageVout();
-                sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
-                DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
-
-                /* Change Current to IP  */
-                if (ProgramMode == 0)
+                #region Re-Test after Trim
+                if (bFastVersion == false)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
-                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                    //capture Vout
+                    oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+                    RePower();
+                    oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+                    Delay(Delay_Sync);
+                    oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+
+                    Delay(Delay_Sync);
+                    dMultiSiteVout0A[idut] = AverageVout();
+                    sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
+                    DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+                    /* Change Current to IP  */
+                    if (ProgramMode == 0)
+                    {
+                        if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                            DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                        else
+                        {
+                            DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            TrimFinish();
+                            return;
+                        }
+                    }
                     else
                     {
-                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
-                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                        TrimFinish();
-                        return;
+                        dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                        if (dr == DialogResult.Cancel)
+                        {
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            PowerOff();
+                            RestoreReg80ToReg83Value();
+                            return;
+                        }
                     }
-                }
-                else
-                {
-                    dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-                    if (dr == DialogResult.Cancel)
-                    {
-                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                        PowerOff();
-                        RestoreReg80ToReg83Value();
-                        return;
-                    }
-                }
 
-                Delay(Delay_Fuse);
-                dMultiSiteVoutIP[idut] = AverageVout();
-                sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
-                DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
-                //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+                    Delay(Delay_Fuse);
+                    dMultiSiteVoutIP[idut] = AverageVout();
+                    sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
+                    DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+                }
+                #endregion
 
                 sDUT.bReadMarginal = bMarginal;
                 sDUT.bReadSafety = bSafety;
@@ -5524,7 +5514,6 @@ namespace CurrentSensorV3
                 if (!(bMarginal | bSafety))
                 {
                     DisplayOperateMes("DUT" + idut.ToString() + "Pass! Bin Normal");
-                    //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_NORMAL;
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -5540,7 +5529,6 @@ namespace CurrentSensorV3
                 else
                 {
                     DisplayOperateMes("DUT" + idut.ToString() + "Pass! Bin Mriginal");
-                    //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_MARGINAL;
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
                     sDUT.iErrorCode = uDutTrimResult[idut];
                     this.lbl_passOrFailed.ForeColor = Color.Green;
@@ -5563,12 +5551,12 @@ namespace CurrentSensorV3
             #endregion No need Trim case
 
             #region For low sensitivity case, with IP
-
+            dGainPreset = RoughTable_Customer[0][MultiSiteRoughGainCodeIndex[idut]] / 100d;
             dGainTest = 1000d * (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) / IP;
-            if (dGainTest < (TargetGain_customer * ThresholdOfGain))
+            if ( (dGainTest * 100d / dGainPreset) < (TargetGain_customer * ThresholdOfGain))
             {
                 dGainTestMinusTarget = dGainTest / TargetGain_customer;
-                dGainPreset = RoughTable_Customer[0][MultiSiteRoughGainCodeIndex[idut]] / 100d;
+                //dGainPreset = RoughTable_Customer[0][MultiSiteRoughGainCodeIndex[idut]] / 100d;
 
                 if (this.cmb_IPRange_PreT.SelectedItem.ToString() == "1.5x610")
                 {
@@ -5592,10 +5580,7 @@ namespace CurrentSensorV3
                         uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_LOW_SENSITIVITY;
                         TrimFinish();
                         sDUT.iErrorCode = uDutTrimResult[idut];
-                        //this.lbl_passOrFailed.ForeColor = Color.Red;
-                        //this.lbl_passOrFailed.Text = "MOA!";
                         PrintDutAttribute(sDUT);
-                        //dr = MessageBox.Show(String.Format("灵敏度过低，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "低敏!";
                         return;
@@ -5641,10 +5626,7 @@ namespace CurrentSensorV3
                             uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_LOW_SENSITIVITY;
                             TrimFinish();
                             sDUT.iErrorCode = uDutTrimResult[idut];
-                            //this.lbl_passOrFailed.ForeColor = Color.Red;
-                            //this.lbl_passOrFailed.Text = "MOA!";
                             PrintDutAttribute(sDUT);
-                            //dr = MessageBox.Show(String.Format("灵敏度过低，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                             this.lbl_passOrFailed.ForeColor = Color.Yellow;
                             this.lbl_passOrFailed.Text = "低敏!";
                             return;
@@ -5670,10 +5652,8 @@ namespace CurrentSensorV3
                 EnterNomalMode();
 
                 /* Change Current to IP  */
-                //3. Set Voltage
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -5735,10 +5715,7 @@ namespace CurrentSensorV3
                         uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_VOUT_SATURATION;
                         TrimFinish();
                         sDUT.iErrorCode = uDutTrimResult[idut];
-                        //this.lbl_passOrFailed.ForeColor = Color.Red;
-                        //this.lbl_passOrFailed.Text = "MOA!";
                         PrintDutAttribute(sDUT);
-                        //dr = MessageBox.Show(String.Format("输出饱和，交研发部重新编程！"), "Warning", MessageBoxButtons.OK);
                         this.lbl_passOrFailed.ForeColor = Color.Yellow;
                         this.lbl_passOrFailed.Text = "饱和!";
                         return;
@@ -5746,10 +5723,8 @@ namespace CurrentSensorV3
                 }
 
                 /* Change Current to 0A */
-                //3. Set Voltage
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                     else
@@ -5778,26 +5753,11 @@ namespace CurrentSensorV3
                 dMultiSiteVout0A[idut] = AverageVout();
                 sDUT.dVout0AMiddle = dMultiSiteVout0A[idut];
                 DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
-
-                //V0A is abnormal
-                //if( Math.Abs(sDUT.dVout0AMiddle - sDUT.dVout0ANative) > 0.005 )
-                //{
-                //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OK);
-                //    if (dr == DialogResult.OK)
-                //    {
-                //        DisplayOperateMes("V0A abnormal, Rebuild rough gain code for low gain case!");
-                //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                //        PowerOff();
-                //        RestoreReg80ToReg83Value();
-                //        return;
-                //    }
-                //}
             }
-
             #endregion For low sensitivity case, with IP
 
             #region Adapting algorithm
-
+            #region coarse gain
             tempG1 = RoughTable_Customer[0][MultiSiteRoughGainCodeIndex[idut]] / 100d;
             tempG2 = (TargetGain_customer / ((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) / IP)) / 1000d;
 
@@ -5842,6 +5802,7 @@ namespace CurrentSensorV3
             bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
             MultiSiteReg0[idut] &= ~bit_op_mask;
             MultiSiteReg0[idut] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_forAutoAdaptingPresionGain]);
+            #endregion 
 
             if (bAutoTrimTest)
             {
@@ -5849,93 +5810,94 @@ namespace CurrentSensorV3
                 DisplayOperateMes("***new add approach***");
             }
 
-            RePower();
-            EnterTestMode();
-            RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
-            EnterNomalMode();
-
-            /* Change Current to IP  */
-            if (ProgramMode == 0)
+            #region fine gain
+            if (bFastVersion == false)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
-                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                RePower();
+                EnterTestMode();
+                RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+                EnterNomalMode();
+
+                /* Change Current to IP  */
+                if (ProgramMode == 0)
+                {
+                    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                    else
+                    {
+                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        TrimFinish();
+                        return;
+                    }
+                }
                 else
                 {
-                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    TrimFinish();
-                    return;
+                    dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                    {
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        PowerOff();
+                        RestoreReg80ToReg83Value();
+                        return;
+                    }
                 }
-            }
-            else
-            {
-                dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-                if (dr == DialogResult.Cancel)
+
+                Delay(Delay_Fuse);
+                dMultiSiteVoutIP[idut] = AverageVout();
+                DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+
+                /* Change Current to 0A */
+                if (ProgramMode == 0)
                 {
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    PowerOff();
-                    RestoreReg80ToReg83Value();
-                    return;
+                    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
+                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
+                    else
+                    {
+                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0u));
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        TrimFinish();
+                        return;
+                    }
                 }
-            }
-
-            Delay(Delay_Fuse);
-            dMultiSiteVoutIP[idut] = AverageVout();
-            DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
-
-            /* Change Current to 0A */
-            if (ProgramMode == 0)
-            {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
-                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                 else
                 {
-                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0u));
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    TrimFinish();
-                    return;
+                    dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                    {
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        PowerOff();
+                        RestoreReg80ToReg83Value();
+                        return;
+                    }
                 }
-            }
-            else
-            {
-                dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
-                if (dr == DialogResult.Cancel)
+
+                /*  power on */
+                Delay(Delay_Fuse);
+                dMultiSiteVout0A[idut] = AverageVout();
+                DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+                if (((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000 - TargetGain_customer * IP) > 4)
                 {
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    PowerOff();
-                    RestoreReg80ToReg83Value();
-                    return;
+                    /* Presion Gain Code*/
+                    bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+                    MultiSiteReg0[idut] &= ~bit_op_mask;
+                    MultiSiteReg0[idut] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_forAutoAdaptingPresionGain + 1]);
+                }
+                else if (((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000 - TargetGain_customer * IP) < -4)
+                {
+                    /* Presion Gain Code*/
+                    bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+                    MultiSiteReg0[idut] &= ~bit_op_mask;
+                    MultiSiteReg0[idut] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_forAutoAdaptingPresionGain - 1]);
                 }
             }
-
-            /*  power on */
-            Delay(Delay_Fuse);
-            //this.lbl_passOrFailed.Text = "Processing!";
-            dMultiSiteVout0A[idut] = AverageVout();
-            DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
-
-            if (((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000 - TargetGain_customer * IP) > 4 )
-            {
-                /* Presion Gain Code*/
-                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
-                MultiSiteReg0[idut] &= ~bit_op_mask;
-                MultiSiteReg0[idut] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_forAutoAdaptingPresionGain + 1]);
-            }
-            else if (((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000 - TargetGain_customer * IP) < -4 )
-            {
-                /* Presion Gain Code*/
-                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
-                MultiSiteReg0[idut] &= ~bit_op_mask;
-                MultiSiteReg0[idut] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_forAutoAdaptingPresionGain - 1]);
-            }
-
-
+            #endregion
 
             if (bAutoTrimTest)
                 DisplayOperateMes("***new approach end***");
 
+            #region Offset tuning
             RePower();
             EnterTestMode();
             RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
@@ -5945,20 +5907,6 @@ namespace CurrentSensorV3
             dVout_0A_Temp = dMultiSiteVout0A[idut];
             if (bAutoTrimTest)
                 DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
-
-            //V0A is abnormal
-            //if (Math.Abs(dVout_0A_Temp - sDUT.dVout0ANative) > 0.010)
-            //{
-            //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
-            //    if (dr == DialogResult.Cancel)
-            //    {
-            //        DisplayOperateMes("V0A abnormal, Rebuild rough gain and precision gain code!");
-            //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //        PowerOff();
-            //        RestoreReg80ToReg83Value();
-            //        return;
-            //    }
-            //}
 
             /* Offset trim code calculate */
             Vout_0A = dMultiSiteVout0A[idut];
@@ -5988,19 +5936,6 @@ namespace CurrentSensorV3
             DisplayOperateMes("MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
             DisplayOperateMes("ix_forOffsetIndex_Rough = " + ix_forOffsetIndex_Rough.ToString());
             DisplayOperateMes("dMultiSiteVout0A = " + dMultiSiteVout0A[idut].ToString("F3"));
-
-            //V0A is abnormal
-            //if (Math.Abs(sDUT.dVout0AMiddle - dVout_0A_Temp) > 0.005)
-            //{
-            //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
-            //    if (dr == DialogResult.Cancel)
-            //    {
-            //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //        PowerOff();
-            //        RestoreReg80ToReg83Value();
-            //        return;
-            //    }
-            //}
 
             if (dMultiSiteVout0A[idut] > TargetOffset)
             {
@@ -6034,19 +5969,6 @@ namespace CurrentSensorV3
             DisplayOperateMes("ix_forOffsetIndex_Rough = " + ix_forOffsetIndex_Rough.ToString());
             DisplayOperateMes("dMultiSiteVout_0A_Complementary = " + dMultiSiteVout_0A_Complementary.ToString("F3"));
 
-            //V0A is abnormal
-            //if (Math.Abs(sDUT.dVout0AMiddle - dMultiSiteVout_0A_Complementary) > 0.005)
-            //{
-            //    dr = MessageBox.Show(String.Format("Vout @ 0A is abnormal"), "Warning!", MessageBoxButtons.OKCancel);
-            //    if (dr == DialogResult.Cancel)
-            //    {
-            //        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-            //        PowerOff();
-            //        RestoreReg80ToReg83Value();
-            //        return;
-            //    }
-            //}
-
             if (Math.Abs(dMultiSiteVout0A[idut] - TargetOffset) < Math.Abs(dMultiSiteVout_0A_Complementary - TargetOffset))
             {
                 bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
@@ -6061,13 +5983,13 @@ namespace CurrentSensorV3
                 MultiSiteReg3[idut] |= Convert.ToUInt32(OffsetTableB_Customer[1][ix_forOffsetIndex_Rough]);
                 DisplayOperateMes("Last MultiSiteReg3 = 0x" + MultiSiteReg3[idut].ToString("X2"));
             }
+            #endregion 
 
             DisplayOperateMes("Processing...");
 
             #endregion Adapting algorithm
 
             #region Fuse
-            //Fuse
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
             RePower();
             EnterTestMode();
@@ -6077,7 +5999,6 @@ namespace CurrentSensorV3
             BurstRead(0x80, 5, tempReadback);
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
-            //Delay(Delay_Fuse);
 
             ReloadPreset();
             Delay(Delay_Sync);
@@ -6092,7 +6013,6 @@ namespace CurrentSensorV3
                 BurstRead(0x80, 5, tempReadback);
                 FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                 DisplayOperateMes("Trimming...");
-                //Delay(Delay_Fuse);
             }
             Delay(Delay_Sync);
             /* Margianl read, compare with writed code; 
@@ -6119,7 +6039,6 @@ namespace CurrentSensorV3
 
             if (bSAFEREAD)
             {
-                //Delay(Delay_Sync);
                 SafetyReadPreset();
                 Delay(Delay_Sync);
                 BurstRead(0x80, 5, tempReadback);
@@ -6143,144 +6062,157 @@ namespace CurrentSensorV3
                 DisplayOperateMes("DUT" + "Pass! Bin Mriginal");
                 uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_MARGINAL;
             }
-            //sDUT.iErrorCode = uDutTrimResult[idut];
 
             #endregion
 
             #region Bin
-            /* Repower on 5V */
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
-            RePower();
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
-            Delay(Delay_Sync);
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
 
-            Delay(Delay_Sync);
-            dMultiSiteVout0A[idut] = AverageVout();
-            sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
-            DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
-
-            /* Change Current to IP  */
-            if (ProgramMode == 0)
+            if (bFastVersion == false)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
-                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                /* Repower on 5V */
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+                RePower();
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+                Delay(Delay_Sync);
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+
+                Delay(Delay_Sync);
+                dMultiSiteVout0A[idut] = AverageVout();
+                sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
+                DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+                #region IP control
+                if (ProgramMode == 0)
+                {
+                    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                    else
+                    {
+                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        TrimFinish();
+                        return;
+                    }
+                }
                 else
                 {
-                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    TrimFinish();
-                    return;
+                    dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                    {
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        PowerOff();
+                        RestoreReg80ToReg83Value();
+                        return;
+                    }
+                }
+                #endregion
+
+                Delay(Delay_Fuse);
+                dMultiSiteVoutIP[idut] = AverageVout();
+                sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
+                DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+
+                if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_MARGINAL)
+                {
+                    if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                    {
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
+                        if (bMRE)
+                        {
+                            this.lbl_passOrFailed.ForeColor = Color.Red;
+                            this.lbl_passOrFailed.Text = "FAIL!";
+                        }
+                        else
+                        {
+                            this.lbl_passOrFailed.ForeColor = Color.Green;
+                            this.lbl_passOrFailed.Text = "PASS!";
+                        }
+                    }
+                    else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                        dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                    {
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_5;
+                        if (bMRE)
+                        {
+                            this.lbl_passOrFailed.ForeColor = Color.Red;
+                            this.lbl_passOrFailed.Text = "FAIL!";
+                        }
+                        else
+                        {
+                            this.lbl_passOrFailed.ForeColor = Color.Green;
+                            this.lbl_passOrFailed.Text = "PASS!";
+                        }
+                    }
+                    else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                        dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                    {
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_6;
+                        if (bMRE)
+                        {
+                            this.lbl_passOrFailed.ForeColor = Color.Red;
+                            this.lbl_passOrFailed.Text = "FAIL!";
+                        }
+                        else
+                        {
+                            this.lbl_passOrFailed.ForeColor = Color.Green;
+                            this.lbl_passOrFailed.Text = "PASS!";
+                        }
+                    }
+                    else
+                    {
+                        this.lbl_passOrFailed.ForeColor = Color.Red;
+                        this.lbl_passOrFailed.Text = "FAIL!";
+                    }
+
+                }
+
+                /* bin1,2,3 */
+                else if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_NORMAL)
+                {
+                    if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                    {
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
+                        this.lbl_passOrFailed.ForeColor = Color.Green;
+                        this.lbl_passOrFailed.Text = "PASS!";
+                    }
+                    else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                        dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
+                    {
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
+                        this.lbl_passOrFailed.ForeColor = Color.Green;
+                        this.lbl_passOrFailed.Text = "PASS!";
+                    }
+                    else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                        dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
+                        (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                    {
+                        uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
+                        this.lbl_passOrFailed.ForeColor = Color.Green;
+                        this.lbl_passOrFailed.Text = "PASS!";
+                    }
+                    else
+                    {
+                        this.lbl_passOrFailed.ForeColor = Color.Red;
+                        this.lbl_passOrFailed.Text = "FAIL!";
+                    }
                 }
             }
             else
             {
-                dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-                if (dr == DialogResult.Cancel)
-                {
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    PowerOff();
-                    RestoreReg80ToReg83Value();
-                    return;
-                }
-            }
-
-            Delay(Delay_Fuse);
-            dMultiSiteVoutIP[idut] = AverageVout();
-            sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
-            DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
-
-            if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_MARGINAL)
-            {
-                if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
-                {
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_4;
-                    //this.lbl_passOrFailed.ForeColor = Color.Green;
-                    if (bMRE)
-                    {
-                        this.lbl_passOrFailed.ForeColor = Color.Red;
-                        this.lbl_passOrFailed.Text = "FAIL!";
-                    }
-                    else
-                    {
-                        this.lbl_passOrFailed.ForeColor = Color.Green;
-                        this.lbl_passOrFailed.Text = "PASS!";
-                    }
-                }
-                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
-                {
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_5;
-                    //this.lbl_passOrFailed.ForeColor = Color.Green;
-                    if (bMRE)
-                    {
-                        this.lbl_passOrFailed.ForeColor = Color.Red;
-                        this.lbl_passOrFailed.Text = "FAIL!";
-                    }
-                    else
-                    {
-                        this.lbl_passOrFailed.ForeColor = Color.Green;
-                        this.lbl_passOrFailed.Text = "PASS!";
-                    }
-                }
-                else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
-                {
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_6;
-                    //this.lbl_passOrFailed.ForeColor = Color.Green;
-                    if (bMRE)
-                    {
-                        this.lbl_passOrFailed.ForeColor = Color.Red;
-                        this.lbl_passOrFailed.Text = "FAIL!";
-                    }
-                    else
-                    {
-                        this.lbl_passOrFailed.ForeColor = Color.Green;
-                        this.lbl_passOrFailed.Text = "PASS!";
-                    }
-                }
-                else
-                {
-                    this.lbl_passOrFailed.ForeColor = Color.Red;
-                    this.lbl_passOrFailed.Text = "FAIL!";
-                }
-
-            }
-
-            /* bin1,2,3 */
-            //if ((!bMarginal) && (!bSafety))
-            else if (uDutTrimResult[idut] == (uint)PRGMRSULT.DUT_BIN_NORMAL)
-            {
-                if (TargetOffset * (1 - 0.01) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.01) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.01))
+                if (!(bMarginal | bSafety))
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
-                    this.lbl_passOrFailed.ForeColor = Color.Green;
-                    this.lbl_passOrFailed.Text = "PASS!";
-                }
-                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin2accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin2accuracy / 100d))
-                {
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
-                    this.lbl_passOrFailed.ForeColor = Color.Green;
-                    this.lbl_passOrFailed.Text = "PASS!";
-                }
-                else if (TargetOffset * (1 - bin3accuracy / 100d) <= dMultiSiteVout0A[idut] && 
-                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin3accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) && 
-                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
-                {
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
                     this.lbl_passOrFailed.ForeColor = Color.Green;
                     this.lbl_passOrFailed.Text = "PASS!";
                 }
@@ -8916,9 +8848,11 @@ namespace CurrentSensorV3
         {
             SocketType = this.cmb_SocketType_AutoT.SelectedIndex;
             if (SocketType == 0)
-                DisplayOperateMes("Signle-Side Socket");
+                DisplayOperateMes("SL610-Signle-End");
             else if (SocketType == 1)
-                DisplayOperateMes("Multi-Side Socket");
+                DisplayOperateMes("SL610-Diff-Mode");
+            else if (SocketType == 2)
+                DisplayOperateMes("SL620-Single-Mode");
             else
                 DisplayOperateMes("Invalid Socket Type", Color.DarkRed); ;
         }
@@ -9434,8 +9368,8 @@ namespace CurrentSensorV3
             double dStartPoint = 0;
             //double dStopPoint = 0;
             bool bTerminate = false;
-            Ix_OffsetA_Brake = 0;
-            Ix_OffsetB_Brake = 0;
+            Ix_OffsetA_TunningTab = 0;
+            Ix_OffsetB_TunningTab = 0;
             //uint[] BrakeReg = new uint[5];
 
             //BrakeReg = [0;0;0;0;0];
@@ -9452,9 +9386,9 @@ namespace CurrentSensorV3
                     return;
                 }
 
-                RegisterWrite(4, new uint[8] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3] });
+                RegisterWrite(4, new uint[8] { 0x80, TunningTabReg[0], 0x81, TunningTabReg[1], 0x82, TunningTabReg[2], 0x83, TunningTabReg[3] });
                 BurstRead(0x80, 5, tempReadback);
-                if (tempReadback[0] != BrakeReg[0] || tempReadback[1] != BrakeReg[1] || tempReadback[2] != BrakeReg[2] || tempReadback[3] != BrakeReg[3])
+                if (tempReadback[0] != TunningTabReg[0] || tempReadback[1] != TunningTabReg[1] || tempReadback[2] != TunningTabReg[2] || tempReadback[3] != TunningTabReg[3])
                 {
                     DisplayOperateMes("DUT digital communication fail!", Color.Red);
                     PowerOff();
@@ -9469,25 +9403,25 @@ namespace CurrentSensorV3
                     bTerminate = true;
                 }
 
-                if (Ix_OffsetA_Brake < 8)
+                if (Ix_OffsetA_TunningTab < 8)
                 {
                     bit_op_mask = bit7_Mask;
-                    BrakeReg[1] &= ~bit_op_mask;
-                    BrakeReg[1] |= Convert.ToUInt32(OffsetTableA_Customer[1][Ix_OffsetA_Brake]);
+                    TunningTabReg[1] &= ~bit_op_mask;
+                    TunningTabReg[1] |= Convert.ToUInt32(OffsetTableA_Customer[1][Ix_OffsetA_TunningTab]);
 
                     bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask;
-                    BrakeReg[2] &= ~bit_op_mask;
-                    BrakeReg[2] |= Convert.ToUInt32(OffsetTableA_Customer[2][Ix_OffsetA_Brake]);
+                    TunningTabReg[2] &= ~bit_op_mask;
+                    TunningTabReg[2] |= Convert.ToUInt32(OffsetTableA_Customer[2][Ix_OffsetA_TunningTab]);
 
-                    Ix_OffsetA_Brake++;
+                    Ix_OffsetA_TunningTab++;
                 }
-                else if (Ix_OffsetB_Brake < 8)
+                else if (Ix_OffsetB_TunningTab < 8)
                 {
                     bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-                    BrakeReg[3] &= ~bit_op_mask;
-                    BrakeReg[3] |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_OffsetB_Brake]);
+                    TunningTabReg[3] &= ~bit_op_mask;
+                    TunningTabReg[3] |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_OffsetB_TunningTab]);
 
-                    Ix_OffsetB_Brake++;
+                    Ix_OffsetB_TunningTab++;
                 }
                 else
                 {
@@ -9502,11 +9436,11 @@ namespace CurrentSensorV3
         {
             double dStopPoint = 0;
             bool bTerminate = false;
-            Ix_GainRough_Brake = 0;
-            Ix_GainPrecision_Brake = 0;
+            Ix_GainRough_TunningTab = 0;
+            Ix_GainFine_TunningTab = 0;
             //uint[] BrakeReg = new uint[5];
-            BrakeReg[0] |= 0xE0;
-            BrakeReg[1] |= 0x01;
+            TunningTabReg[0] |= 0xE0;
+            TunningTabReg[1] |= 0x01;
 
             //BrakeReg = [0;0;0;0;0];
 
@@ -9522,9 +9456,9 @@ namespace CurrentSensorV3
                     return;
                 }
 
-                RegisterWrite(4, new uint[8] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3] });
+                RegisterWrite(4, new uint[8] { 0x80, TunningTabReg[0], 0x81, TunningTabReg[1], 0x82, TunningTabReg[2], 0x83, TunningTabReg[3] });
                 BurstRead(0x80, 5, tempReadback);
-                if (tempReadback[0] != BrakeReg[0] || tempReadback[1] != BrakeReg[1] || tempReadback[2] != BrakeReg[2] || tempReadback[3] != BrakeReg[3])
+                if (tempReadback[0] != TunningTabReg[0] || tempReadback[1] != TunningTabReg[1] || tempReadback[2] != TunningTabReg[2] || tempReadback[3] != TunningTabReg[3])
                 {
                     DisplayOperateMes("DUT digital communication fail!", Color.Red);
                     PowerOff();
@@ -9539,17 +9473,17 @@ namespace CurrentSensorV3
                     bTerminate = true;
                 }
 
-                if (Ix_GainRough_Brake < 16)
+                if (Ix_GainRough_TunningTab < 16)
                 {
                     bit_op_mask = bit7_Mask | bit6_Mask | bit5_Mask ;
-                    BrakeReg[0] &= ~bit_op_mask;
-                    BrakeReg[0] |= Convert.ToUInt32(RoughTable_Customer[1][Ix_GainRough_Brake]);
+                    TunningTabReg[0] &= ~bit_op_mask;
+                    TunningTabReg[0] |= Convert.ToUInt32(RoughTable_Customer[1][Ix_GainRough_TunningTab]);
 
                     bit_op_mask = bit0_Mask;
-                    BrakeReg[1] &= ~bit_op_mask;
-                    BrakeReg[1] |= Convert.ToUInt32(RoughTable_Customer[2][Ix_GainRough_Brake]);
+                    TunningTabReg[1] &= ~bit_op_mask;
+                    TunningTabReg[1] |= Convert.ToUInt32(RoughTable_Customer[2][Ix_GainRough_TunningTab]);
 
-                    Ix_GainRough_Brake++;
+                    Ix_GainRough_TunningTab++;
                 }
                 else
                 {
@@ -9572,9 +9506,9 @@ namespace CurrentSensorV3
                     return;
                 }
 
-                RegisterWrite(4, new uint[8] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3] });
+                RegisterWrite(4, new uint[8] { 0x80, TunningTabReg[0], 0x81, TunningTabReg[1], 0x82, TunningTabReg[2], 0x83, TunningTabReg[3] });
                 BurstRead(0x80, 5, tempReadback);
-                if (tempReadback[0] != BrakeReg[0] || tempReadback[1] != BrakeReg[1] || tempReadback[2] != BrakeReg[2] || tempReadback[3] != BrakeReg[3])
+                if (tempReadback[0] != TunningTabReg[0] || tempReadback[1] != TunningTabReg[1] || tempReadback[2] != TunningTabReg[2] || tempReadback[3] != TunningTabReg[3])
                 {
                     DisplayOperateMes("DUT digital communication fail!", Color.Red);
                     PowerOff();
@@ -9589,13 +9523,13 @@ namespace CurrentSensorV3
                     bTerminate = true;
                 }
 
-                if (Ix_GainPrecision_Brake < 32)
+                if (Ix_GainFine_TunningTab < 32)
                 {
                     bit_op_mask = bit4_Mask | bit3_Mask | bit2_Mask | bit1_Mask | bit0_Mask;
-                    BrakeReg[0] &= ~bit_op_mask;
-                    BrakeReg[0] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_GainPrecision_Brake]);
+                    TunningTabReg[0] &= ~bit_op_mask;
+                    TunningTabReg[0] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_GainFine_TunningTab]);
 
-                    Ix_GainPrecision_Brake++;
+                    Ix_GainFine_TunningTab++;
                 }
                 else
                 {
@@ -9604,10 +9538,10 @@ namespace CurrentSensorV3
                     bTerminate = true;
                 }
             }
-            Ix_GainPrecision_Brake--;
+            Ix_GainFine_TunningTab--;
             bit_op_mask = bit4_Mask | bit3_Mask | bit2_Mask | bit1_Mask | bit0_Mask;
-            BrakeReg[0] &= ~bit_op_mask;
-            BrakeReg[0] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_GainPrecision_Brake]);
+            TunningTabReg[0] &= ~bit_op_mask;
+            TunningTabReg[0] |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_GainFine_TunningTab]);
         }
 
         private void btn_Fuse_BrakeT_Click(object sender, EventArgs e)
@@ -9618,7 +9552,7 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
             RePower();
             EnterTestMode();
-            RegisterWrite(5, new uint[10] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3], 0x84, 0x07 });
+            RegisterWrite(5, new uint[10] { 0x80, TunningTabReg[0], 0x81, TunningTabReg[1], 0x82, TunningTabReg[2], 0x83, TunningTabReg[3], 0x84, 0x07 });
             BurstRead(0x80, 5, tempReadback);
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
@@ -9631,7 +9565,7 @@ namespace CurrentSensorV3
             {
                 RePower();
                 EnterTestMode();
-                RegisterWrite(5, new uint[10] { 0x80, BrakeReg[0], 0x81, BrakeReg[1], 0x82, BrakeReg[2], 0x83, BrakeReg[3], 0x84, 0x07 });
+                RegisterWrite(5, new uint[10] { 0x80, TunningTabReg[0], 0x81, TunningTabReg[1], 0x82, TunningTabReg[2], 0x83, TunningTabReg[3], 0x84, 0x07 });
                 BurstRead(0x80, 5, tempReadback);
                 FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
                 DisplayOperateMes("Trimming...");
@@ -9645,14 +9579,14 @@ namespace CurrentSensorV3
             bMarginal = false;
             if (bMASK)
             {
-                if (((tempReadback[0] & 0xE0) != (BrakeReg[0] & 0xE0)) | (tempReadback[1] & 0x81) != (BrakeReg[1] & 0x81) |
-                    (tempReadback[2] & 0x99) != (BrakeReg[2] & 0x99) | (tempReadback[3] & 0x83) != (BrakeReg[3] & 0x83) | (tempReadback[4] < 1))
+                if (((tempReadback[0] & 0xE0) != (TunningTabReg[0] & 0xE0)) | (tempReadback[1] & 0x81) != (TunningTabReg[1] & 0x81) |
+                    (tempReadback[2] & 0x99) != (TunningTabReg[2] & 0x99) | (tempReadback[3] & 0x83) != (TunningTabReg[3] & 0x83) | (tempReadback[4] < 1))
                     bMarginal = true;
             }
             else
             {
-                if (((tempReadback[0] & 0xFF) != (BrakeReg[0] & 0xFF)) | (tempReadback[1] & 0xFF) != (BrakeReg[1] & 0xFF) |
-                        (tempReadback[2] & 0xFF) != (BrakeReg[2] & 0xFF) | (tempReadback[3] & 0xFF) != (BrakeReg[3] & 0xFF) | (tempReadback[4] < 7))
+                if (((tempReadback[0] & 0xFF) != (TunningTabReg[0] & 0xFF)) | (tempReadback[1] & 0xFF) != (TunningTabReg[1] & 0xFF) |
+                        (tempReadback[2] & 0xFF) != (TunningTabReg[2] & 0xFF) | (tempReadback[3] & 0xFF) != (TunningTabReg[3] & 0xFF) | (tempReadback[4] < 7))
                     bMarginal = true;
             }
             if (bMarginal)
@@ -10703,7 +10637,7 @@ namespace CurrentSensorV3
                         Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
                         Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
                         Char910_Tab_DataGridView.Update();
-                        Sc780Char(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
+                        Sc780Char0623(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
                         Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
                         Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
@@ -10717,7 +10651,35 @@ namespace CurrentSensorV3
                         Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
                         Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
                         Char910_Tab_DataGridView.Update();
-                        AutoCalcSL620TrimCode(Convert.ToDouble(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
+                        AutoCalcSL620TrimCode(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value), Convert.ToDouble(Char910_Tab_DataGridView.Rows[index].Cells[4].Value));
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sl620 reliability":
+                    case "sl620reliability":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        ReliabilityTest(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
+
+                    case "sl620 power cycle":
+                    case "sl620powercycle":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        PowerCycleTest(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
                         Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
                         Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
                         Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
@@ -11057,8 +11019,10 @@ namespace CurrentSensorV3
 
             Delay(Delay_Sync);
 
+            _reg_data = oneWrie_device.I2CRead_Single(this.DeviceAddress, 0x42);
+
             _reg_addr = 0x42;
-            _reg_data = 0x02;
+            _reg_data |= 0x02;
 
             bool writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
             //Console.WriteLine("I2C write result->{0}", oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data));
@@ -12415,9 +12379,220 @@ namespace CurrentSensorV3
             }
         }
 
-        private void Sc780Char(uint q)
+        private void ReliabilityTest(uint count)
         {
-            //int delay_temp = 800;
+            Delay_Power = 200;
+            uint _dev_addr = this.DeviceAddress;
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\SL620ReliabilityTest";
+            filename += ".csv";
+
+            uint[] sl620RegValue = new uint[3];
+
+            #region Init RS232
+            btn_EngTab_Connect_Click(null, null);
+            Delay(Delay_Power);
+            SetIP(20);
+            Delay(Delay_Power);
+            #endregion
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                //uint tempResult = 0;
+                //writer.WriteLine(filename);
+                //if(writer.)
+                //string headers = "ID,native vout0A,native vref,native voutIP,native vrefIP,vout0A after meg,vref after meg,voutIP after trim,vrefIP after trim,vout0A after trim,vref0A after trim";
+                //writer.WriteLine(headers);
+
+                for (uint index = 0; index < count; index++)
+                {
+                    //MessageBox("DUT ON");
+                    ResetTempBuf();
+                    DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                        return;
+                    else if (dr == DialogResult.OK)
+                    {
+
+                        //write ID
+                        writer.Write(index.ToString() + ",");
+
+                        //trim set2
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x03);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);
+                        Delay(Delay_Sync);
+
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                 
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+
+                        //calc trim code
+                        sl620RegValue = AutoCalcSL620TrimCode(20, 50);
+
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //write trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, sl620RegValue[0]);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, sl620RegValue[1]);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, sl620RegValue[2]);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x88, 0x02);
+                        Delay(Delay_Sync);
+
+                        //Trim
+                        btn_SL620Tab_TrimSet1_Click(null, null);
+                        Delay(Delay_Fuse * 2);
+
+                        //read again
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+                    }
+                    writer.Write("\r\n");
+                    //writer.Close();
+                }
+            }
+           
+        }
+
+        private void PowerCycleTest(uint count)
+        {
+            Delay_Power = 200;
+            uint _dev_addr = this.DeviceAddress;
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\SL620PowerCycleTest";
+            filename += ".csv";
+
+            #region Init RS232
+            btn_EngTab_Connect_Click(null, null);
+            Delay(Delay_Power);
+            SetIP(20);
+            Delay(Delay_Power);
+            #endregion
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                //uint tempResult = 0;
+                //writer.WriteLine(filename);
+                //string headers = "ID,voutIP,vrefIP,vout0A,vref0A,";
+                //writer.WriteLine(headers);
+
+                for (uint index = 0; index < count; index++)
+                {
+                    //MessageBox("DUT ON");
+                    ResetTempBuf();
+                    DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                        return;
+                    else if (dr == DialogResult.OK)
+                    {
+
+                        //write ID
+                        writer.Write(index.ToString() + ",");
+
+                        //IP ON                      
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+
+                        //IP OFF
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                        writer.Write(ReadRef().ToString("F3") + ",");        //VREF
+                        Delay(Delay_Sync);
+
+                    }
+                    writer.Write("\r\n");
+                    //writer.Close();
+                }
+            }
+        }
+
+        //new under test
+        private void CharSC780(uint i)
+        {
+            uint _dev_addr = this.DeviceAddress;
             double[] tempvout = new double[30];
             string filename = System.Windows.Forms.Application.StartupPath;
             filename += @"\rawTestData\SC780Char";
@@ -12429,6 +12604,424 @@ namespace CurrentSensorV3
                                                  { 0x17, 0xc5, 0x25, 0x67, 0xe5, 0x24, 0x97, 0xc5, 0x23, 0xb7, 0x85, 0x43 },
                                                  { 0x07, 0x06, 0x65, 0x57, 0x05, 0x66, 0x87, 0xc5, 0x45, 0xa7, 0x65, 0x64 },
                                                  { 0x07, 0x25, 0xe4, 0x57, 0x05, 0xe2, 0x87, 0xe4, 0xc5, 0xb7, 0x44, 0x05 } };
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+
+                #region write header
+                writer.WriteLine(System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss"));
+                //writer.WriteLine("gain tc1");
+                string headers = " DUT_ID,Temp,VoutIP_2p5V,Vout0A_2p5V,Vref_2p5V," +
+                                    "VoutIP_0p5VDD,Vout0A_0p5VDD,Vref_0p5VDD," +
+                                    "VoutIP_iHall,Vout0A_iHall,Vref_iHall," +
+                                    "VoutIP_SelSensor,Vout0A_SelSensor,Vref_SelSensor," +
+                                    "VoutIP_Invert,Vout0A_Invert,Vref_Invert," +
+                                    "VoutIP_VBG,Vout0A_VBG,Vref_VBG," +
+                                    "VoutIP_50A,Vout0A_50A,Vref_50A," +
+                                    "VoutIP_100A,Vout0A_100A,Vref_100A," +
+                                    "VoutIP_150A,Vout0A_150A,Vref_150A," +
+                                    "VoutIP_200A,Vout0A_200A,Vref_200A";
+                writer.WriteLine(headers);
+                #endregion
+
+                #region Char
+
+                #region Init RS232, IP = 25A
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(25);
+                Delay(Delay_Power);
+                //btn_EngTab_Ipon_Click(null, null);
+                //Delay(Delay_Power);
+                #endregion
+
+                #region 2.5V output
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[0] = ReadVout();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[1] = ReadVout();       //V0A
+                Delay(Delay_Sync);
+                tempvout[2] = ReadRef();        //VREF
+                #endregion
+
+                #region 0.5Vdd output
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 1);
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[3] = ReadVout();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[4] = ReadVout();       //V0A
+                Delay(Delay_Sync);
+                tempvout[5] = ReadRef();        //VREF
+
+                #endregion
+
+                #region iHall -33%
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x80);
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[6] = ReadVout();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[7] = ReadVout();       //V0A
+                Delay(Delay_Sync);
+                tempvout[8] = ReadRef();        //VREF
+
+                #endregion
+
+                #region Sel Sensor
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x10);
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[9] = ReadVout();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[10] = ReadVout();       //V0A
+                Delay(Delay_Sync);
+                tempvout[11] = ReadRef();        //VREF
+
+                #endregion
+
+                #region Invert
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 4);
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[12] = ReadVout();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[13] = ReadVout();       //V0A
+                Delay(Delay_Sync);
+                tempvout[14] = ReadRef();        //VREF
+
+                #endregion
+
+                #region VBG
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x04);
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[15] = ReadVout();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[16] = ReadVout();       //V0A
+                Delay(Delay_Sync);
+                tempvout[17] = ReadRef();        //VREF
+
+                #endregion
+
+                #region Init RS232, IP = 50A
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(50);
+                Delay(Delay_Power);
+                //btn_EngTab_Ipon_Click(null, null);
+                //Delay(Delay_Power);
+                #endregion
+
+                #region 50A
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //VBG,TcTH
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[18] = ReadVoutSlow();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[19] = ReadVoutSlow();       //V0A
+                Delay(Delay_Sync);
+                tempvout[20] = ReadRef();        //VREF
+                #endregion 50A
+
+                #region 100A
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[21] = ReadVoutSlow();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[22] = ReadVoutSlow();       //V0A
+                Delay(Delay_Sync);
+                tempvout[23] = ReadRef();        //VREF
+                #endregion 100A
+
+                #region 150A
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[24] = ReadVoutSlow();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[25] = ReadVoutSlow();       //V0A
+                Delay(Delay_Sync);
+                tempvout[26] = ReadRef();        //VREF
+                #endregion 150A
+
+                #region 200A
+                //power off and on
+                btn_SL620Tab_PowerOff_Click(null, null);
+                Delay(Delay_Power);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+
+                //enter test mode
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+
+                //set trim code
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                Delay(Delay_Sync);
+
+                //enter normal mode
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipon_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[27] = ReadVoutSlow();       //VIP
+                Delay(Delay_Sync);
+
+                btn_EngTab_Ipoff_Click(null, null);
+                Delay(Delay_Sync);
+                tempvout[28] = ReadVoutSlow();       //V0A
+                Delay(Delay_Sync);
+                tempvout[29] = ReadRef();        //VREF
+                #endregion 200A
+
+                #region write to file
+                writer.Write(Convert.ToString(i) + ",");
+                writer.Write(this.txt_Char910_DutId.Text + ",");
+                for (uint j = 0; j < 30; j++)
+                {
+                    if (j < 29)
+                        writer.Write(tempvout[j].ToString("F4") + ",");
+                    else
+                        writer.Write(tempvout[j].ToString("F4") + "\r\n");
+                }
+
+                btn_SL620Tab_PowerOff_Click(null, null);
+                #endregion
+
+                #endregion Char
+
+                DisplayOperateMesClear();
+            }
+        }
+
+        //20170622
+        private void Sc780Char(uint q)
+        {
+            //int delay_temp = 800;
+            double[] tempvout = new double[30];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\rawTestData\SC780Char";
+            filename += ".csv";
+
+            uint[,] trimCode = new uint[6, 12] { { 0x03, 0x86, 0xe3, 0x63, 0x26, 0x03, 0x83, 0x65, 0xe5, 0xb3, 0xc5, 0x05 }, 
+                                                 { 0x13, 0xe5, 0x04, 0x63, 0x24, 0x25, 0x93, 0x04, 0x25, 0xb3, 0xc4, 0x24 }, 
+                                                 { 0x13, 0x64, 0x02, 0x63, 0xa3, 0x05, 0x93, 0x84, 0x02, 0xb3, 0x23, 0x25 },
+                                                 { 0x13, 0xc5, 0x25, 0x63, 0xe5, 0x24, 0x93, 0xc5, 0x23, 0xb3, 0x85, 0x43 },
+                                                 { 0x03, 0x06, 0x65, 0x53, 0x05, 0x66, 0x83, 0xc5, 0x45, 0xa3, 0x65, 0x64 },
+                                                 { 0x03, 0x25, 0xe4, 0x53, 0x05, 0xe2, 0x83, 0xe4, 0xc5, 0xb3, 0x44, 0x05 } };
             //trimCode[ = new uint{0,0,0};
 
             uint _dev_addr = this.DeviceAddress;
@@ -12464,12 +13057,12 @@ namespace CurrentSensorV3
                     else if (dr == DialogResult.OK)
                     {
                         #region Liniearity
-                        Sweep620Linearity(i);
+                        //Sweep620Linearity(i);
                         #endregion Liniearity
 
                         #region TC
-                        Sweep620Tc1();
-                        Sweep620Tc2();
+                        //Sweep620Tc1();
+                        //Sweep620Tc2();
                         #endregion TC
 
                         #region Char
@@ -12492,6 +13085,10 @@ namespace CurrentSensorV3
 
                         //enter test mode
                         btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x04);
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12522,7 +13119,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //set trim code
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 1);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);  //0.5vdd; invert
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12554,7 +13151,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //set trim code
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x80);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall; invert; 0.5vdd
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12586,7 +13183,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //set trim code
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x10);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x15);  //sel sensor; invert
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12618,7 +13215,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         //set trim code
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 4);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12651,6 +13248,9 @@ namespace CurrentSensorV3
 
                         //set trim code
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x04);
+                        Delay(Delay_Sync);
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);
                         Delay(Delay_Sync);
 
                         //enter normal mode
@@ -12693,9 +13293,9 @@ namespace CurrentSensorV3
                         //set trim code
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
                         Delay(Delay_Sync);
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
                         Delay(Delay_Sync);
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //VBG,TcTH
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
                         Delay(Delay_Sync);
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
                         Delay(Delay_Sync);
@@ -12732,7 +13332,7 @@ namespace CurrentSensorV3
                         //set trim code
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
                         Delay(Delay_Sync);
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
                         Delay(Delay_Sync);
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
                         Delay(Delay_Sync);
@@ -12771,7 +13371,7 @@ namespace CurrentSensorV3
                         //set trim code
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
                         Delay(Delay_Sync);
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
                         Delay(Delay_Sync);
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
                         Delay(Delay_Sync);
@@ -12810,7 +13410,7 @@ namespace CurrentSensorV3
                         //set trim code
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
                         Delay(Delay_Sync);
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
                         Delay(Delay_Sync);
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
                         Delay(Delay_Sync);
@@ -12855,6 +13455,1372 @@ namespace CurrentSensorV3
                     DisplayOperateMesClear();
                 }
                 
+            }
+        }
+
+        //20170623
+        private void Sc780Char0623(uint q)
+        {
+            //int delay_temp = 800;
+            double[] tempvout = new double[30];
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\rawTestData\SC780Char";
+            filename += ".csv";
+
+            uint[,] trimCode = new uint[6, 12] { { 0x03, 0x86, 0xe3, 0x63, 0x26, 0x03, 0x83, 0x65, 0xe5, 0xb3, 0xc5, 0x05 }, 
+                                                 { 0x13, 0xe5, 0x04, 0x63, 0x24, 0x25, 0x93, 0x04, 0x25, 0xb3, 0xc4, 0x24 }, 
+                                                 { 0x13, 0x64, 0x02, 0x63, 0xa3, 0x05, 0x93, 0x84, 0x02, 0xb3, 0x23, 0x25 },
+                                                 { 0x13, 0xc5, 0x25, 0x63, 0xe5, 0x24, 0x93, 0xc5, 0x23, 0xb3, 0x85, 0x43 },
+                                                 { 0x03, 0x06, 0x65, 0x53, 0x05, 0x66, 0x83, 0xc5, 0x45, 0xa3, 0x65, 0x64 },
+                                                 { 0x03, 0x25, 0xe4, 0x53, 0x05, 0xe2, 0x83, 0xe4, 0xc5, 0xb3, 0x44, 0x05 } };
+            //trimCode[ = new uint{0,0,0};
+
+            uint _dev_addr = this.DeviceAddress;
+            uint count = q;
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+
+                #region write header
+                writer.WriteLine(System.DateTime.Now.ToString("yy-MM-dd") + "-" + System.DateTime.Now.ToString("hh-mm-ss"));
+                //writer.WriteLine("gain tc1");
+                string headers = " DUT_ID,Temp,VoutIP_2p5V,Vout0A_2p5V,Vref_2p5V," +
+                                    "VoutIP_0p5VDD,Vout0A_0p5VDD,Vref_0p5VDD," +
+                                    "VoutIP_iHall,Vout0A_iHall,Vref_iHall," +
+                                    "VoutIP_SelSensor,Vout0A_SelSensor,Vref_SelSensor," +
+                                    "VoutIP_Invert,Vout0A_Invert,Vref_Invert," +
+                                    "VoutIP_VBG,Vout0A_VBG,Vref_VBG," +
+                                    "VoutIP_50A,Vout0A_50A,Vref_50A," +
+                                    "VoutIP_100A,Vout0A_100A,Vref_100A," +
+                                    "VoutIP_150A,Vout0A_150A,Vref_150A," +
+                                    "VoutIP_200A,Vout0A_200A,Vref_200A";
+                writer.WriteLine(headers);
+                #endregion
+
+                for (uint i = 0; i < count; i++)
+                {
+                    Char910_Tab_DataGridView.Rows[0].Cells[4].Value = i + 1;
+                    Char910_Tab_DataGridView.Update();
+
+                    DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                        return;
+                    else if (dr == DialogResult.OK)
+                    {
+                        writer.Write(Convert.ToString(i) + ",");
+                        writer.Write(this.txt_Char910_DutId.Text + ",");
+
+                        #region Liniearity
+                        //Sweep620Linearity(i);
+                        #endregion Liniearity
+
+                        #region TC
+                        //Sweep620Tc1();
+                        //Sweep620Tc2();
+                        #endregion TC
+
+                        #region Char
+
+                        #region Init RS232, IP = 25A
+                        btn_EngTab_Connect_Click(null, null);
+                        Delay(Delay_Power);
+                        SetIP(25);
+                        Delay(Delay_Power);
+                        //btn_EngTab_Ipon_Click(null, null);
+                        //Delay(Delay_Power);
+                        #endregion
+
+                        #region 2.5V output
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x04);
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion
+
+                        #region 0.5Vdd output
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);  //0.5vdd; invert
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+
+                        #endregion
+
+                        #region Dis Chop
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);  //0.5vdd; invert
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x83, 0x08);  //dis chop
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+
+                        #endregion
+
+                        #region S1_02
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x23);
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+
+                        #endregion
+
+                        #region S1_04
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x43);
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+
+                        #endregion
+
+                        #region S1_06
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x63);
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+
+                        #endregion
+
+                        #region S1_08
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x05);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x83);
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+
+                        #endregion
+
+                        #region Init RS232, IP = 50A
+                        btn_EngTab_Connect_Click(null, null);
+                        Delay(Delay_Power);
+                        SetIP(50);
+                        Delay(Delay_Power);
+                        //btn_EngTab_Ipon_Click(null, null);
+                        //Delay(Delay_Power);
+                        #endregion
+
+                        #region 50A - 0
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x00);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 50A
+
+                        #region 50A - 1
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x11);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 50A
+
+                        #region 50A - 2
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x22);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 50A
+
+                        #region 50A - 3
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x33);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 50A
+
+                        #region 50A - 4
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x44);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 50A
+
+                        #region 50A - 5
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x55);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 0]);  //TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 1]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 2]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 50A
+
+                        #region 100A - 0
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x00);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 100A
+
+                        #region 100A - 1
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x11);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 100A
+
+                        #region 100A - 2
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x22);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 100A
+
+                        #region 100A - 3
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x33);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 100A
+
+                        #region 100A - 4
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x44);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 100A
+
+                        #region 100A - 5
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x55);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 3]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 4]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 5]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 100A
+
+                        #region 150A - 0
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x00);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 150A
+
+                        #region 150A - 1
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x11);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 150A
+
+                        #region 150A - 2
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x22);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 150A
+
+                        #region 150A - 3
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x33);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 150A
+
+                        #region 150A - 4
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x44);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 150A
+
+                        #region 150A - 5
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x55);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 6]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 7]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 8]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 150A
+
+                        #region 200A - 0
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x00);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 200A
+
+                        #region 200A - 1
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x11);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 200A
+
+                        #region 200A - 2
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x22);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 200A
+
+                        #region 200A - 3
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x33);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 200A
+
+                        #region 200A - 4
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x44);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 200A
+
+                        #region 200A - 5
+                        //power off and on
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //enter test mode
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        //set trim code
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x55);  //TC1/2
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, trimCode[i, 9]);  //VBG,TcTH
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, trimCode[i, 10]);  //
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, trimCode[i, 11]);  //
+                        Delay(Delay_Sync);
+
+                        //enter normal mode
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[0] = ReadVout();       //VIP
+                        Delay(Delay_Sync);
+                        writer.Write(tempvout[0].ToString("F4") + ",");
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        tempvout[1] = ReadVout();       //V0A
+                        writer.Write(tempvout[1].ToString("F4") + ",");
+                        Delay(Delay_Sync);
+                        tempvout[2] = ReadRef();        //VREF
+                        writer.Write(tempvout[2].ToString("F4") + ",");
+                        #endregion 200A
+
+                        #region write to file
+                        //writer.Write(Convert.ToString(i) + ",");
+                        //writer.Write(this.txt_Char910_DutId.Text + ",");
+                        //for (uint j = 0; j < 30; j++)
+                        //{
+                        //    if (j < 29)
+                        //        writer.Write(tempvout[j].ToString("F4") + ",");
+                        //    else
+                        //        writer.Write(tempvout[j].ToString("F4") + "\r\n");
+                        //}
+                        writer.Write("\r\n");
+                        btn_SL620Tab_PowerOff_Click(null, null);
+                        #endregion
+
+                        #endregion Char
+                    }
+
+                    DisplayOperateMesClear();
+                }
+
             }
         }
 
@@ -12983,29 +14949,65 @@ namespace CurrentSensorV3
             return 0;
         }
 
-        private uint LookupCoarseOffset_SL620(double os)
+        private uint LookupCoarseOffset_SL620(double os, uint mode)
         {
-            uint ix_CoarseOffsetCode = 0;
-            if (os > TargetOffset)
-                ix_CoarseOffsetCode = Convert.ToUInt32(Math.Floor(1000d * (os - TargetOffset) / 14));
-            else if (os < TargetOffset)
-                ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Floor(1000d * (TargetOffset - os) / 14));
+            if (mode == 0)
+            {
+                uint ix_CoarseOffsetCode = 0;
+                if (os > TargetOffset)
+                    ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * (os - TargetOffset) / 14));
+                else if (os < TargetOffset)
+                    ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset - os) / 14));
 
-            return ix_CoarseOffsetCode;
+                return ix_CoarseOffsetCode;
+            }
+            else
+            {
+                uint ix_CoarseOffsetCode = 0;
+                if (os > TargetOffset)
+                {
+                    ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * (os / TargetOffset - 1.0d) / 5));
+                }
+                else if (os < TargetOffset)
+                {
+                    if (Math.Round(1000d * (1.0d - os / TargetOffset) / 5) == 0)
+                        ix_CoarseOffsetCode = 0;
+                    else
+                        ix_CoarseOffsetCode = 32 - Convert.ToUInt32(Math.Round(1000d * (1.0d - os / TargetOffset) / 5));
+                }
+                return ix_CoarseOffsetCode;
+            }
         }
 
-        private uint LookupFineOffset_SL620(double os)
+        private uint LookupFineOffset_SL620(double os, uint mode)
         {
-            uint ix_FineOffsetCode = 0;
-            if (os > TargetOffset)
-                ix_FineOffsetCode = Convert.ToUInt32(Math.Floor(1000d * (os - TargetOffset) / 4));
-            else if (os < TargetOffset)
-                ix_FineOffsetCode = 31 - Convert.ToUInt32(Math.Floor(1000d * (TargetOffset - os) / 4));
+            if (mode == 0)
+            {
+                uint ix_FineOffsetCode = 0;
+                if (os > TargetOffset)
+                    ix_FineOffsetCode = Convert.ToUInt32(Math.Round(1000d * (os - TargetOffset) / 4));
+                else if (os < TargetOffset)
+                    ix_FineOffsetCode = 31 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset - os) / 4));
 
-            return ix_FineOffsetCode;
+                return ix_FineOffsetCode;
+            }
+            else
+            {
+                uint ix_FineOffsetCode = 0;
+                if (os > TargetOffset)
+                    ix_FineOffsetCode = Convert.ToUInt32(Math.Round(1000d * (os / TargetOffset - 1.0d) / 1.5));
+                else if (os < TargetOffset)
+                {
+                    if (Math.Round(1000d * (1.0d - TargetOffset / os) / 1.5) == 0)
+                        ix_FineOffsetCode = 0;
+                    else
+                        ix_FineOffsetCode = 32 - Convert.ToUInt32(Math.Round(1000d * (1.0d - TargetOffset / os) / 1.5));
+                }
+                return ix_FineOffsetCode;
+            }
         }
 
-        private uint[] AutoCalcSL620TrimCode(double tg )
+        private uint[] AutoCalcSL620TrimCode( uint ip, double tg )
         {
             int ix_Coarse = 0;
             int ix_Fine = 0;
@@ -13016,7 +15018,7 @@ namespace CurrentSensorV3
             double VIP = 0;
             double V0A = 0;
             double idealGain = 100;
-            uint dIP = 50;
+            uint dIP = ip;
 
             #region Init RS232
             btn_EngTab_Connect_Click(null, null);
@@ -13039,9 +15041,11 @@ namespace CurrentSensorV3
             //set trim code
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
             Delay(Delay_Sync);
-            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
             Delay(Delay_Sync);
-            sl620RegValue[0] = 0x07;
+            sl620RegValue[0] = 0x03;
+            sl620RegValue[1] = 0x00;
+            sl620RegValue[2] = 0x00;
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, sl620RegValue[0]);  //VBG,TcTH
             Delay(Delay_Sync);
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0x00);  //
@@ -13096,7 +15100,7 @@ namespace CurrentSensorV3
             //set trim code
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
             Delay(Delay_Sync);
-            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
             Delay(Delay_Sync);
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, sl620RegValue[0]);  //
             Delay(Delay_Sync);
@@ -13113,7 +15117,7 @@ namespace CurrentSensorV3
 
             bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
             sl620RegValue[1] &= ~bit_op_mask;
-            sl620RegValue[1] |= LookupCoarseOffset_SL620(V0A); ;
+            sl620RegValue[1] |= LookupCoarseOffset_SL620(V0A, 1); ;
             #endregion
 
             #region Get V0A, calc Fine Offset Code
@@ -13130,7 +15134,7 @@ namespace CurrentSensorV3
             //set trim code
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x85);  //iHall -33%, Invert, 0.5VDD
             Delay(Delay_Sync);
-            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0xFF);  //TC1/2
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x60);  //TC1/2
             Delay(Delay_Sync);
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, sl620RegValue[0]);  //
             Delay(Delay_Sync);
@@ -13147,7 +15151,7 @@ namespace CurrentSensorV3
 
             bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
             sl620RegValue[2] &= ~bit_op_mask;
-            sl620RegValue[2] |= LookupFineOffset_SL620(V0A);
+            sl620RegValue[2] |= LookupFineOffset_SL620(V0A , 1);
             #endregion
 
             DisplayOperateMes("0x81 = 0x" + sl620RegValue[0].ToString("X2"));
@@ -13162,6 +15166,396 @@ namespace CurrentSensorV3
         {
             btn_Program_Tc.Text = "TC\r\n-\r\n-600ppm";
         }
+
+
+        #region Tuning Tab
+
+        private void InitTuningTab()
+        {
+            //for (uint i = 0; i < 9; i++)
+            TunningTabReg[0] = 0x84;    //iHall -33%; Invert
+            TunningTabReg[1] = 0x03;    //TcTh
+            TunningTabReg[2] = 0x60;    //Tc2 = 6; Tc1 = 0
+            TunningTabReg[3] = 0x30;    //Multi-Driven
+
+            this.cb_TuningTab_IpUsage.SelectedIndex = 0;
+            this.cb_TuningTab_OutOption.SelectedIndex = 0;
+            this.cb_TuningTab_Product.SelectedIndex = 1;
+        }
+
+        private void btn_TuningTab_Trim_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_TuningTab_CoarseGainUp_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Coarse Gain ++");
+
+                if (Ix_GainRough_TunningTab > 0)
+                {
+                    Ix_GainRough_TunningTab--;
+                }
+
+                /* Rough Gain Code*/
+                bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+                TunningTabReg[1] &= ~bit_op_mask;
+                TunningTabReg[1] |= Convert.ToUInt32(sl620CoarseGainTable[1][Ix_GainRough_TunningTab]);
+            }
+            else if(this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_CoarseGainDown_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Coarse Gain --");
+
+                if (Ix_GainRough_TunningTab < 15)
+                {
+                    Ix_GainRough_TunningTab++;
+                }
+
+                /* Rough Gain Code*/
+                bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+                TunningTabReg[1] &= ~bit_op_mask;
+                TunningTabReg[1] |= Convert.ToUInt32(sl620CoarseGainTable[1][Ix_GainRough_TunningTab]);
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_FineGainUp_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Fine Gain ++");
+
+                if (Ix_GainFine_TunningTab > 0)
+                {
+                    Ix_GainFine_TunningTab--;
+                }
+
+                /* Fine Gain Code*/
+                bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+                TunningTabReg[6] &= ~bit_op_mask;
+                TunningTabReg[6] |= Convert.ToUInt32(sl620FineGainTable[1][Ix_GainFine_TunningTab]);
+
+                bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+                TunningTabReg[7] &= ~bit_op_mask;
+                TunningTabReg[7] |= Convert.ToUInt32(sl620FineGainTable[2][Ix_GainFine_TunningTab]);
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_FineGainDown_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Fine Gain --");
+
+                if (Ix_GainFine_TunningTab < 63)
+                {
+                    Ix_GainFine_TunningTab++;
+                }
+
+                /* Fine Gain Code*/
+                bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+                TunningTabReg[6] &= ~bit_op_mask;
+                TunningTabReg[6] |= Convert.ToUInt32(sl620FineGainTable[1][Ix_GainFine_TunningTab]);
+
+                bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+                TunningTabReg[7] &= ~bit_op_mask;
+                TunningTabReg[7] |= Convert.ToUInt32(sl620FineGainTable[2][Ix_GainFine_TunningTab]);
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_CoarseOffsetUp_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Coarse Offset ++");
+
+                if (Ix_OffsetA_TunningTab == 0)
+                    Ix_OffsetA_TunningTab = 31;
+                else if (Ix_OffsetA_TunningTab == 16)
+                    Ix_OffsetA_TunningTab =16;
+                else
+                    Ix_OffsetA_TunningTab--;
+
+                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+                TunningTabReg[6] &= ~bit_op_mask;
+                TunningTabReg[6] |= Convert.ToUInt32( Ix_OffsetA_TunningTab );
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_CoarseOffsetDown_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Coarse Offset --");
+
+                if (Ix_OffsetA_TunningTab == 31)
+                    Ix_OffsetA_TunningTab = 0;
+                else if (Ix_OffsetA_TunningTab == 15)
+                    Ix_OffsetA_TunningTab = 15;
+                else
+                    Ix_OffsetA_TunningTab++;
+
+                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+                TunningTabReg[6] &= ~bit_op_mask;
+                TunningTabReg[6] |= Convert.ToUInt32(Ix_OffsetA_TunningTab);
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_FineOffsetUp_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Fine Offset ++");
+
+                if (Ix_OffsetB_TunningTab == 0)
+                    Ix_OffsetB_TunningTab = 31;
+                else if (Ix_OffsetB_TunningTab == 16)
+                    Ix_OffsetB_TunningTab = 16;
+                else
+                    Ix_OffsetB_TunningTab--;
+
+                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+                TunningTabReg[7] &= ~bit_op_mask;
+                TunningTabReg[7] |= Convert.ToUInt32(Ix_OffsetB_TunningTab);
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_FineOffsetDown_Click(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                DisplayOperateMes("SL62x, Fine Offset --");
+
+                if (Ix_OffsetB_TunningTab == 31)
+                    Ix_OffsetB_TunningTab = 0;
+                else if (Ix_OffsetB_TunningTab == 15)
+                    Ix_OffsetB_TunningTab = 15;
+                else
+                    Ix_OffsetB_TunningTab++;
+
+                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+                TunningTabReg[7] &= ~bit_op_mask;
+                TunningTabReg[7] |= Convert.ToUInt32(Ix_OffsetB_TunningTab);
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 0)
+            {
+                //DisplayOperateMes("Prodcut is SL61x");
+            }
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+            {
+                //DisplayOperateMes("Prodcut is SL91x");
+            }
+            else
+                DisplayOperateMes("Not Supporting!");
+        }
+
+        private void btn_TuningTab_UpdateA_Click(object sender, EventArgs e)
+        {
+            uint _dev_addr = this.DeviceAddress;
+            double VoA = 0;
+
+            if (this.cb_TuningTab_IpUsage.SelectedIndex == 0)
+            {
+                #region Init RS232
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);
+                SetIP(Convert.ToUInt32(this.tb_TuningTab_Aip.Text));
+                Delay(Delay_Power);
+                #endregion
+            }
+
+            RePower();
+
+            EnterTestMode();
+
+            //set trim code
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, TunningTabReg[0]);  //iHall -33%, Invert, 0.5VDD
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, TunningTabReg[2]);  //TC1/2
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x83, TunningTabReg[3]);  //Multi-Driven
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, TunningTabReg[1]);  //
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, TunningTabReg[6]);  //
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, TunningTabReg[7]);  //
+            Delay(Delay_Sync);
+
+            btn_SL620Tab_NormalMode_Click(null, null);
+
+            if (this.cb_TuningTab_IpUsage.SelectedIndex == 0)
+            {
+                if (Convert.ToUInt32(this.tb_TuningTab_Aip.Text) != 0)
+                    btn_EngTab_Ipon_Click(null, null);
+            }
+
+            VoA = ReadVout();
+            this.tb_TuningTab_Va.Text = VoA.ToString("F3");
+            this.tb_TuningTab_VaError.Text = (Convert.ToDouble(this.tb_TuningTab_TargetVa.Text) - VoA).ToString("F3");
+
+            if (this.cb_TuningTab_IpUsage.SelectedIndex == 0)
+                btn_EngTab_Ipoff_Click(null, null);
+        }
+
+        private void btn_TuningTab_UpdateB_Click(object sender, EventArgs e)
+        {
+            uint _dev_addr = this.DeviceAddress;
+            double VoB = 0;
+
+            if (this.cb_TuningTab_IpUsage.SelectedIndex == 0)
+            {
+                #region Init RS232
+                btn_EngTab_Connect_Click(null, null);
+                Delay(Delay_Power);                
+                SetIP(Convert.ToUInt32(this.tb_TuningTab_Bip.Text));
+                Delay(Delay_Power);
+                #endregion
+            }
+
+            RePower();
+
+            EnterTestMode();
+
+            //set trim code
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, TunningTabReg[0]);  //iHall -33%, Invert, 0.5VDD
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, TunningTabReg[2]);  //TC1/2
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x83, TunningTabReg[3]);  //Multi-Driven
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, TunningTabReg[1]);  //
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, TunningTabReg[6]);  //
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, TunningTabReg[7]);  //
+            Delay(Delay_Sync);
+
+            btn_SL620Tab_NormalMode_Click(null, null);
+
+            if (this.cb_TuningTab_IpUsage.SelectedIndex == 0)
+            {
+                if (Convert.ToUInt32(this.tb_TuningTab_Bip.Text) != 0)
+                    btn_EngTab_Ipon_Click(null, null);
+            }
+
+            VoB = ReadVout();
+            this.tb_TuningTab_Vb.Text = VoB.ToString("F3");
+            this.tb_TuningTab_VbError.Text = (Convert.ToDouble(this.tb_TuningTab_TargetVb.Text) - VoB).ToString("F3");
+
+            if (this.cb_TuningTab_IpUsage.SelectedIndex == 0)
+                btn_EngTab_Ipoff_Click(null, null);
+        }
+
+        private void btn_TunningTab_ConfigChange(object sender, EventArgs e)
+        {
+            if (this.cb_TuningTab_Product.SelectedIndex == 1)
+            {
+                if (this.cb_TuningTab_OutOption.SelectedIndex == 0)
+                    TunningTabReg[0] &= 0xFC;
+                else if (this.cb_TuningTab_OutOption.SelectedIndex == 1)
+                    TunningTabReg[0] &= 0xFD;
+            }
+            else if(this.cb_TuningTab_Product.SelectedIndex == 0)
+                DisplayOperateMes("Init Code for SL610");
+            else if (this.cb_TuningTab_Product.SelectedIndex == 2)
+                DisplayOperateMes("Init Code for SL910");
+            else
+                DisplayOperateMes("To be supported!");
+        }
+
+        private void btn_PowerClick(object sender, EventArgs e)
+        {
+            if (this.btn_TuningTab_Power.Text == "OFF")
+            {
+                PowerOn();
+                this.btn_TuningTab_Power.Text = "ON";
+                this.btn_TuningTab_Power.BackColor = Color.YellowGreen;
+            }
+            else if (this.btn_TuningTab_Power.Text == "ON")
+            {
+                PowerOff();
+                this.btn_TuningTab_Power.Text = "OFF";
+                this.btn_TuningTab_Power.BackColor = Color.Snow;
+            }
+        }
+
+        #endregion
     }
 
     

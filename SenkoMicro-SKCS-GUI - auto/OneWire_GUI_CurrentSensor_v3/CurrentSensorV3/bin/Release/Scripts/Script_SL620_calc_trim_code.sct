@@ -4,4 +4,4 @@ test script for SL910
 ,write reg,0x4F,0xAA
 ,read reg,0x4E
 ,sweep 910 linearity,null
-auto calc 620 trim code,40
+auto calc 620 trim code,20,100

@@ -277,38 +277,43 @@
             this.label48 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
-            this.label100 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label99 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.label98 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.btn_TuningTab_Trim = new System.Windows.Forms.Button();
+            this.btn_TuningTab_FineOffsetDown = new System.Windows.Forms.Button();
+            this.btn_TuningTab_FineOffsetUp = new System.Windows.Forms.Button();
+            this.btn_TuningTab_UpdateA = new System.Windows.Forms.Button();
+            this.btn_TuningTab_UpdateB = new System.Windows.Forms.Button();
+            this.btn_TuningTab_CoarseOffsetDown = new System.Windows.Forms.Button();
+            this.btn_TuningTab_CoarseOffsetUp = new System.Windows.Forms.Button();
+            this.btn_TuningTab_FineGainDown = new System.Windows.Forms.Button();
+            this.btn_TuningTab_FineGainUp = new System.Windows.Forms.Button();
+            this.btn_TuningTab_CoarseGainDown = new System.Windows.Forms.Button();
+            this.btn_TuningTab_CoarseGainUp = new System.Windows.Forms.Button();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.cb_TuningTab_OutOption = new System.Windows.Forms.ComboBox();
             this.label97 = new System.Windows.Forms.Label();
+            this.cb_TuningTab_IpUsage = new System.Windows.Forms.ComboBox();
+            this.label100 = new System.Windows.Forms.Label();
             this.label96 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cb_TuningTab_Product = new System.Windows.Forms.ComboBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label99 = new System.Windows.Forms.Label();
+            this.tb_TuningTab_VbError = new System.Windows.Forms.TextBox();
             this.label93 = new System.Windows.Forms.Label();
             this.label94 = new System.Windows.Forms.Label();
             this.label95 = new System.Windows.Forms.Label();
+            this.tb_TuningTab_Bip = new System.Windows.Forms.TextBox();
+            this.tb_TuningTab_Vb = new System.Windows.Forms.TextBox();
+            this.tb_TuningTab_TargetVb = new System.Windows.Forms.TextBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label98 = new System.Windows.Forms.Label();
+            this.tb_TuningTab_VaError = new System.Windows.Forms.TextBox();
             this.label80 = new System.Windows.Forms.Label();
             this.label79 = new System.Windows.Forms.Label();
             this.label78 = new System.Windows.Forms.Label();
-            this.button21 = new System.Windows.Forms.Button();
-            this.button22 = new System.Windows.Forms.Button();
-            this.button23 = new System.Windows.Forms.Button();
-            this.button24 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tb_TuningTab_Aip = new System.Windows.Forms.TextBox();
+            this.tb_TuningTab_Va = new System.Windows.Forms.TextBox();
+            this.tb_TuningTab_TargetVa = new System.Windows.Forms.TextBox();
             this.SL910Tab = new System.Windows.Forms.TabPage();
             this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
             this.btn_SL910_910_out = new System.Windows.Forms.Button();
@@ -397,6 +402,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.btn_TuningTab_Power = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -429,6 +435,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUD_IPxForCalc_Customer)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.BrakeTab.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SL910Tab.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SL910_Tab_DataGridView)).BeginInit();
@@ -3217,17 +3227,16 @@
             this.txt_ModuleType_AutoT.Location = new System.Drawing.Point(181, 37);
             this.txt_ModuleType_AutoT.Name = "txt_ModuleType_AutoT";
             this.txt_ModuleType_AutoT.ReadOnly = true;
-            this.txt_ModuleType_AutoT.Size = new System.Drawing.Size(118, 29);
+            this.txt_ModuleType_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_ModuleType_AutoT.TabIndex = 113;
             this.txt_ModuleType_AutoT.Text = "5V";
-            this.txt_ModuleType_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label57
             // 
             this.label57.AutoSize = true;
             this.label57.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label57.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label57.Location = new System.Drawing.Point(299, 181);
+            this.label57.Location = new System.Drawing.Point(281, 182);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(23, 19);
             this.label57.TabIndex = 112;
@@ -3241,19 +3250,18 @@
             this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(180, 177);
             this.txt_ChosenGain_AutoT.Name = "txt_ChosenGain_AutoT";
             this.txt_ChosenGain_AutoT.ReadOnly = true;
-            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(118, 29);
+            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_ChosenGain_AutoT.TabIndex = 111;
             this.txt_ChosenGain_AutoT.Text = "100";
-            this.txt_ChosenGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label58.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label58.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label58.Location = new System.Drawing.Point(69, 180);
+            this.label58.Location = new System.Drawing.Point(46, 180);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(106, 21);
+            this.label58.Size = new System.Drawing.Size(94, 19);
             this.label58.TabIndex = 109;
             this.label58.Text = "Pre-Set Gain";
             // 
@@ -3265,10 +3273,9 @@
             this.txt_IP_AutoT.Location = new System.Drawing.Point(445, 107);
             this.txt_IP_AutoT.Name = "txt_IP_AutoT";
             this.txt_IP_AutoT.ReadOnly = true;
-            this.txt_IP_AutoT.Size = new System.Drawing.Size(100, 29);
+            this.txt_IP_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_IP_AutoT.TabIndex = 108;
             this.txt_IP_AutoT.Text = "20";
-            this.txt_IP_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_VoutOffset_AutoT
             // 
@@ -3278,10 +3285,9 @@
             this.txt_VoutOffset_AutoT.Location = new System.Drawing.Point(445, 37);
             this.txt_VoutOffset_AutoT.Name = "txt_VoutOffset_AutoT";
             this.txt_VoutOffset_AutoT.ReadOnly = true;
-            this.txt_VoutOffset_AutoT.Size = new System.Drawing.Size(100, 29);
+            this.txt_VoutOffset_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_VoutOffset_AutoT.TabIndex = 107;
             this.txt_VoutOffset_AutoT.Text = "2.5";
-            this.txt_VoutOffset_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_TargertVoltage_AutoT
             // 
@@ -3291,10 +3297,9 @@
             this.txt_TargertVoltage_AutoT.Location = new System.Drawing.Point(445, 72);
             this.txt_TargertVoltage_AutoT.Name = "txt_TargertVoltage_AutoT";
             this.txt_TargertVoltage_AutoT.ReadOnly = true;
-            this.txt_TargertVoltage_AutoT.Size = new System.Drawing.Size(100, 29);
+            this.txt_TargertVoltage_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_TargertVoltage_AutoT.TabIndex = 107;
             this.txt_TargertVoltage_AutoT.Text = "2";
-            this.txt_TargertVoltage_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_AdcOffset_AutoT
             // 
@@ -3304,10 +3309,9 @@
             this.txt_AdcOffset_AutoT.Location = new System.Drawing.Point(445, 177);
             this.txt_AdcOffset_AutoT.Name = "txt_AdcOffset_AutoT";
             this.txt_AdcOffset_AutoT.ReadOnly = true;
-            this.txt_AdcOffset_AutoT.Size = new System.Drawing.Size(100, 29);
+            this.txt_AdcOffset_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_AdcOffset_AutoT.TabIndex = 107;
             this.txt_AdcOffset_AutoT.Text = "0";
-            this.txt_AdcOffset_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_SensitivityAdapt_AutoT
             // 
@@ -3317,10 +3321,9 @@
             this.txt_SensitivityAdapt_AutoT.Location = new System.Drawing.Point(181, 107);
             this.txt_SensitivityAdapt_AutoT.Name = "txt_SensitivityAdapt_AutoT";
             this.txt_SensitivityAdapt_AutoT.ReadOnly = true;
-            this.txt_SensitivityAdapt_AutoT.Size = new System.Drawing.Size(118, 29);
+            this.txt_SensitivityAdapt_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_SensitivityAdapt_AutoT.TabIndex = 103;
             this.txt_SensitivityAdapt_AutoT.Text = "Default";
-            this.txt_SensitivityAdapt_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_TargetGain_AutoT
             // 
@@ -3330,10 +3333,9 @@
             this.txt_TargetGain_AutoT.Location = new System.Drawing.Point(445, 142);
             this.txt_TargetGain_AutoT.Name = "txt_TargetGain_AutoT";
             this.txt_TargetGain_AutoT.ReadOnly = true;
-            this.txt_TargetGain_AutoT.Size = new System.Drawing.Size(100, 29);
+            this.txt_TargetGain_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_TargetGain_AutoT.TabIndex = 107;
             this.txt_TargetGain_AutoT.Text = "100";
-            this.txt_TargetGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_IPRange_AutoT
             // 
@@ -3343,52 +3345,51 @@
             this.txt_IPRange_AutoT.Location = new System.Drawing.Point(180, 142);
             this.txt_IPRange_AutoT.Name = "txt_IPRange_AutoT";
             this.txt_IPRange_AutoT.ReadOnly = true;
-            this.txt_IPRange_AutoT.Size = new System.Drawing.Size(118, 29);
+            this.txt_IPRange_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_IPRange_AutoT.TabIndex = 105;
             this.txt_IPRange_AutoT.Text = "Default";
-            this.txt_IPRange_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label50.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label50.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label50.Location = new System.Drawing.Point(97, 145);
+            this.label50.Location = new System.Drawing.Point(46, 145);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(78, 21);
+            this.label50.Size = new System.Drawing.Size(68, 19);
             this.label50.TabIndex = 99;
             this.label50.Text = "IP Range";
             // 
             // label71
             // 
             this.label71.AutoSize = true;
-            this.label71.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label71.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label71.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label71.Location = new System.Drawing.Point(365, 41);
+            this.label71.Location = new System.Drawing.Point(345, 42);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(74, 21);
+            this.label71.Size = new System.Drawing.Size(67, 19);
             this.label71.TabIndex = 97;
             this.label71.Text = "Vout_0A";
             // 
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label52.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label52.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label52.Location = new System.Drawing.Point(39, 111);
+            this.label52.Location = new System.Drawing.Point(46, 111);
             this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(136, 21);
+            this.label52.Size = new System.Drawing.Size(125, 19);
             this.label52.TabIndex = 97;
             this.label52.Text = "Sensitivity Adapt";
             // 
             // label70
             // 
             this.label70.AutoSize = true;
-            this.label70.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label70.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label70.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label70.Location = new System.Drawing.Point(65, 41);
+            this.label70.Location = new System.Drawing.Point(46, 41);
             this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(108, 21);
+            this.label70.Size = new System.Drawing.Size(97, 19);
             this.label70.TabIndex = 97;
             this.label70.Text = "Power Mode";
             // 
@@ -3400,30 +3401,29 @@
             this.txt_TempComp_AutoT.Location = new System.Drawing.Point(180, 72);
             this.txt_TempComp_AutoT.Name = "txt_TempComp_AutoT";
             this.txt_TempComp_AutoT.ReadOnly = true;
-            this.txt_TempComp_AutoT.Size = new System.Drawing.Size(118, 29);
+            this.txt_TempComp_AutoT.Size = new System.Drawing.Size(95, 29);
             this.txt_TempComp_AutoT.TabIndex = 104;
             this.txt_TempComp_AutoT.Text = "-350ppm";
-            this.txt_TempComp_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label68.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label68.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label68.Location = new System.Drawing.Point(345, 181);
+            this.label68.Location = new System.Drawing.Point(345, 182);
             this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(96, 21);
+            this.label68.Size = new System.Drawing.Size(82, 19);
             this.label68.TabIndex = 91;
             this.label68.Text = "ADC Offset";
             // 
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label49.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label49.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label49.Location = new System.Drawing.Point(342, 146);
+            this.label49.Location = new System.Drawing.Point(345, 147);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(99, 21);
+            this.label49.Size = new System.Drawing.Size(87, 19);
             this.label49.TabIndex = 91;
             this.label49.Text = "Target Gain";
             // 
@@ -3441,11 +3441,11 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label51.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label51.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label51.Location = new System.Drawing.Point(26, 75);
+            this.label51.Location = new System.Drawing.Point(46, 75);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(149, 21);
+            this.label51.Size = new System.Drawing.Size(129, 19);
             this.label51.TabIndex = 98;
             this.label51.Text = "Tem Compesation";
             // 
@@ -3496,59 +3496,33 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label48.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label48.Location = new System.Drawing.Point(416, 111);
+            this.label48.Location = new System.Drawing.Point(345, 112);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(25, 21);
+            this.label48.Size = new System.Drawing.Size(22, 19);
             this.label48.TabIndex = 93;
             this.label48.Text = "IP";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label61.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label61.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label61.Location = new System.Drawing.Point(365, 76);
+            this.label61.Location = new System.Drawing.Point(345, 77);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(74, 21);
+            this.label61.Size = new System.Drawing.Size(63, 19);
             this.label61.TabIndex = 91;
             this.label61.Text = "VIP-V0A";
             // 
             // BrakeTab
             // 
-            this.BrakeTab.Controls.Add(this.label100);
-            this.BrakeTab.Controls.Add(this.checkBox1);
-            this.BrakeTab.Controls.Add(this.label99);
-            this.BrakeTab.Controls.Add(this.textBox9);
-            this.BrakeTab.Controls.Add(this.label98);
-            this.BrakeTab.Controls.Add(this.textBox8);
-            this.BrakeTab.Controls.Add(this.textBox7);
-            this.BrakeTab.Controls.Add(this.label97);
-            this.BrakeTab.Controls.Add(this.label96);
-            this.BrakeTab.Controls.Add(this.comboBox1);
-            this.BrakeTab.Controls.Add(this.label93);
-            this.BrakeTab.Controls.Add(this.label94);
-            this.BrakeTab.Controls.Add(this.label95);
-            this.BrakeTab.Controls.Add(this.label80);
-            this.BrakeTab.Controls.Add(this.label79);
-            this.BrakeTab.Controls.Add(this.label78);
-            this.BrakeTab.Controls.Add(this.button21);
-            this.BrakeTab.Controls.Add(this.button22);
-            this.BrakeTab.Controls.Add(this.button23);
-            this.BrakeTab.Controls.Add(this.button24);
-            this.BrakeTab.Controls.Add(this.button19);
-            this.BrakeTab.Controls.Add(this.button20);
-            this.BrakeTab.Controls.Add(this.button17);
-            this.BrakeTab.Controls.Add(this.button18);
-            this.BrakeTab.Controls.Add(this.button16);
-            this.BrakeTab.Controls.Add(this.button15);
-            this.BrakeTab.Controls.Add(this.textBox4);
-            this.BrakeTab.Controls.Add(this.textBox5);
-            this.BrakeTab.Controls.Add(this.textBox6);
-            this.BrakeTab.Controls.Add(this.textBox3);
-            this.BrakeTab.Controls.Add(this.textBox2);
-            this.BrakeTab.Controls.Add(this.textBox1);
+            this.BrakeTab.Controls.Add(this.btn_TuningTab_Power);
+            this.BrakeTab.Controls.Add(this.groupBox14);
+            this.BrakeTab.Controls.Add(this.btn_TuningTab_Trim);
+            this.BrakeTab.Controls.Add(this.groupBox13);
+            this.BrakeTab.Controls.Add(this.groupBox12);
+            this.BrakeTab.Controls.Add(this.groupBox9);
             this.BrakeTab.Location = new System.Drawing.Point(4, 22);
             this.BrakeTab.Name = "BrakeTab";
             this.BrakeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -3557,315 +3531,442 @@
             this.BrakeTab.Text = "Tuning";
             this.BrakeTab.UseVisualStyleBackColor = true;
             // 
-            // label100
+            // groupBox14
             // 
-            this.label100.AutoSize = true;
-            this.label100.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label100.Location = new System.Drawing.Point(242, 319);
-            this.label100.Name = "label100";
-            this.label100.Size = new System.Drawing.Size(22, 19);
-            this.label100.TabIndex = 31;
-            this.label100.Text = "IP";
+            this.groupBox14.Controls.Add(this.btn_TuningTab_FineOffsetDown);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_FineOffsetUp);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_UpdateA);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_UpdateB);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_CoarseOffsetDown);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_CoarseOffsetUp);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_FineGainDown);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_FineGainUp);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_CoarseGainDown);
+            this.groupBox14.Controls.Add(this.btn_TuningTab_CoarseGainUp);
+            this.groupBox14.Location = new System.Drawing.Point(419, 167);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(330, 355);
+            this.groupBox14.TabIndex = 36;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Tunning";
             // 
-            // checkBox1
+            // btn_TuningTab_Trim
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(266, 322);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 30;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.btn_TuningTab_Trim.BackColor = System.Drawing.Color.Sienna;
+            this.btn_TuningTab_Trim.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_Trim.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_Trim.Location = new System.Drawing.Point(590, 55);
+            this.btn_TuningTab_Trim.Name = "btn_TuningTab_Trim";
+            this.btn_TuningTab_Trim.Size = new System.Drawing.Size(127, 40);
+            this.btn_TuningTab_Trim.TabIndex = 37;
+            this.btn_TuningTab_Trim.Text = "Trim";
+            this.btn_TuningTab_Trim.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_Trim.Click += new System.EventHandler(this.btn_TuningTab_Trim_Click);
             // 
-            // label99
+            // btn_TuningTab_FineOffsetDown
             // 
-            this.label99.AutoSize = true;
-            this.label99.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label99.Location = new System.Drawing.Point(463, 178);
-            this.label99.Name = "label99";
-            this.label99.Size = new System.Drawing.Size(95, 19);
-            this.label99.TabIndex = 29;
-            this.label99.Text = "Point B Error";
+            this.btn_TuningTab_FineOffsetDown.BackColor = System.Drawing.Color.Salmon;
+            this.btn_TuningTab_FineOffsetDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_FineOffsetDown.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_FineOffsetDown.Location = new System.Drawing.Point(171, 283);
+            this.btn_TuningTab_FineOffsetDown.Name = "btn_TuningTab_FineOffsetDown";
+            this.btn_TuningTab_FineOffsetDown.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_FineOffsetDown.TabIndex = 15;
+            this.btn_TuningTab_FineOffsetDown.Text = "- Fine Offset";
+            this.btn_TuningTab_FineOffsetDown.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_FineOffsetDown.Click += new System.EventHandler(this.btn_TuningTab_FineOffsetDown_Click);
             // 
-            // textBox9
+            // btn_TuningTab_FineOffsetUp
             // 
-            this.textBox9.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(562, 175);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(100, 25);
-            this.textBox9.TabIndex = 28;
+            this.btn_TuningTab_FineOffsetUp.BackColor = System.Drawing.Color.Salmon;
+            this.btn_TuningTab_FineOffsetUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_FineOffsetUp.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_FineOffsetUp.Location = new System.Drawing.Point(171, 232);
+            this.btn_TuningTab_FineOffsetUp.Name = "btn_TuningTab_FineOffsetUp";
+            this.btn_TuningTab_FineOffsetUp.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_FineOffsetUp.TabIndex = 14;
+            this.btn_TuningTab_FineOffsetUp.Text = "+ Fine Offset";
+            this.btn_TuningTab_FineOffsetUp.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_FineOffsetUp.Click += new System.EventHandler(this.btn_TuningTab_FineOffsetUp_Click);
             // 
-            // label98
+            // btn_TuningTab_UpdateA
             // 
-            this.label98.AutoSize = true;
-            this.label98.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label98.Location = new System.Drawing.Point(165, 178);
-            this.label98.Name = "label98";
-            this.label98.Size = new System.Drawing.Size(96, 19);
-            this.label98.TabIndex = 27;
-            this.label98.Text = "Point A Error";
+            this.btn_TuningTab_UpdateA.BackColor = System.Drawing.Color.Coral;
+            this.btn_TuningTab_UpdateA.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_UpdateA.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_UpdateA.Location = new System.Drawing.Point(31, 33);
+            this.btn_TuningTab_UpdateA.Name = "btn_TuningTab_UpdateA";
+            this.btn_TuningTab_UpdateA.Size = new System.Drawing.Size(127, 40);
+            this.btn_TuningTab_UpdateA.TabIndex = 6;
+            this.btn_TuningTab_UpdateA.Text = "Update Point A";
+            this.btn_TuningTab_UpdateA.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_UpdateA.Click += new System.EventHandler(this.btn_TuningTab_UpdateA_Click);
             // 
-            // textBox8
+            // btn_TuningTab_UpdateB
             // 
-            this.textBox8.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox8.Location = new System.Drawing.Point(264, 175);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(100, 25);
-            this.textBox8.TabIndex = 26;
+            this.btn_TuningTab_UpdateB.BackColor = System.Drawing.Color.Coral;
+            this.btn_TuningTab_UpdateB.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_UpdateB.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_UpdateB.Location = new System.Drawing.Point(171, 33);
+            this.btn_TuningTab_UpdateB.Name = "btn_TuningTab_UpdateB";
+            this.btn_TuningTab_UpdateB.Size = new System.Drawing.Size(127, 40);
+            this.btn_TuningTab_UpdateB.TabIndex = 7;
+            this.btn_TuningTab_UpdateB.Text = "Update Point B";
+            this.btn_TuningTab_UpdateB.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_UpdateB.Click += new System.EventHandler(this.btn_TuningTab_UpdateB_Click);
             // 
-            // textBox7
+            // btn_TuningTab_CoarseOffsetDown
             // 
-            this.textBox7.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox7.Location = new System.Drawing.Point(266, 251);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(100, 25);
-            this.textBox7.TabIndex = 25;
+            this.btn_TuningTab_CoarseOffsetDown.BackColor = System.Drawing.Color.RosyBrown;
+            this.btn_TuningTab_CoarseOffsetDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_CoarseOffsetDown.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_CoarseOffsetDown.Location = new System.Drawing.Point(31, 283);
+            this.btn_TuningTab_CoarseOffsetDown.Name = "btn_TuningTab_CoarseOffsetDown";
+            this.btn_TuningTab_CoarseOffsetDown.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_CoarseOffsetDown.TabIndex = 13;
+            this.btn_TuningTab_CoarseOffsetDown.Text = "- Coarse Offset";
+            this.btn_TuningTab_CoarseOffsetDown.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_CoarseOffsetDown.Click += new System.EventHandler(this.btn_TuningTab_CoarseOffsetDown_Click);
+            // 
+            // btn_TuningTab_CoarseOffsetUp
+            // 
+            this.btn_TuningTab_CoarseOffsetUp.BackColor = System.Drawing.Color.RosyBrown;
+            this.btn_TuningTab_CoarseOffsetUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_CoarseOffsetUp.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_CoarseOffsetUp.Location = new System.Drawing.Point(31, 232);
+            this.btn_TuningTab_CoarseOffsetUp.Name = "btn_TuningTab_CoarseOffsetUp";
+            this.btn_TuningTab_CoarseOffsetUp.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_CoarseOffsetUp.TabIndex = 12;
+            this.btn_TuningTab_CoarseOffsetUp.Text = "+ Coarse Offset";
+            this.btn_TuningTab_CoarseOffsetUp.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_CoarseOffsetUp.Click += new System.EventHandler(this.btn_TuningTab_CoarseOffsetUp_Click);
+            // 
+            // btn_TuningTab_FineGainDown
+            // 
+            this.btn_TuningTab_FineGainDown.BackColor = System.Drawing.Color.Gray;
+            this.btn_TuningTab_FineGainDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_FineGainDown.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_FineGainDown.Location = new System.Drawing.Point(171, 163);
+            this.btn_TuningTab_FineGainDown.Name = "btn_TuningTab_FineGainDown";
+            this.btn_TuningTab_FineGainDown.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_FineGainDown.TabIndex = 11;
+            this.btn_TuningTab_FineGainDown.Text = "-  Fine Gain ";
+            this.btn_TuningTab_FineGainDown.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_FineGainDown.Click += new System.EventHandler(this.btn_TuningTab_FineGainDown_Click);
+            // 
+            // btn_TuningTab_FineGainUp
+            // 
+            this.btn_TuningTab_FineGainUp.BackColor = System.Drawing.Color.Gray;
+            this.btn_TuningTab_FineGainUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_FineGainUp.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_FineGainUp.Location = new System.Drawing.Point(171, 113);
+            this.btn_TuningTab_FineGainUp.Name = "btn_TuningTab_FineGainUp";
+            this.btn_TuningTab_FineGainUp.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_FineGainUp.TabIndex = 10;
+            this.btn_TuningTab_FineGainUp.Text = "+ Fine Gain";
+            this.btn_TuningTab_FineGainUp.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_FineGainUp.Click += new System.EventHandler(this.btn_TuningTab_FineGainUp_Click);
+            // 
+            // btn_TuningTab_CoarseGainDown
+            // 
+            this.btn_TuningTab_CoarseGainDown.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_TuningTab_CoarseGainDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_CoarseGainDown.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_CoarseGainDown.Location = new System.Drawing.Point(31, 163);
+            this.btn_TuningTab_CoarseGainDown.Name = "btn_TuningTab_CoarseGainDown";
+            this.btn_TuningTab_CoarseGainDown.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_CoarseGainDown.TabIndex = 9;
+            this.btn_TuningTab_CoarseGainDown.Text = "- Coarse Gain";
+            this.btn_TuningTab_CoarseGainDown.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_CoarseGainDown.Click += new System.EventHandler(this.btn_TuningTab_CoarseGainDown_Click);
+            // 
+            // btn_TuningTab_CoarseGainUp
+            // 
+            this.btn_TuningTab_CoarseGainUp.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_TuningTab_CoarseGainUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_CoarseGainUp.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_CoarseGainUp.Location = new System.Drawing.Point(31, 113);
+            this.btn_TuningTab_CoarseGainUp.Name = "btn_TuningTab_CoarseGainUp";
+            this.btn_TuningTab_CoarseGainUp.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_CoarseGainUp.TabIndex = 8;
+            this.btn_TuningTab_CoarseGainUp.Text = "+ Coarse Gain";
+            this.btn_TuningTab_CoarseGainUp.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_CoarseGainUp.Click += new System.EventHandler(this.btn_TuningTab_CoarseGainUp_Click);
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.cb_TuningTab_OutOption);
+            this.groupBox13.Controls.Add(this.label97);
+            this.groupBox13.Controls.Add(this.cb_TuningTab_IpUsage);
+            this.groupBox13.Controls.Add(this.label100);
+            this.groupBox13.Controls.Add(this.label96);
+            this.groupBox13.Controls.Add(this.cb_TuningTab_Product);
+            this.groupBox13.Location = new System.Drawing.Point(58, 394);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(318, 128);
+            this.groupBox13.TabIndex = 35;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Config";
+            // 
+            // cb_TuningTab_OutOption
+            // 
+            this.cb_TuningTab_OutOption.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_TuningTab_OutOption.FormattingEnabled = true;
+            this.cb_TuningTab_OutOption.Items.AddRange(new object[] {
+            "2.5V",
+            "0.5VDD"});
+            this.cb_TuningTab_OutOption.Location = new System.Drawing.Point(181, 81);
+            this.cb_TuningTab_OutOption.Name = "cb_TuningTab_OutOption";
+            this.cb_TuningTab_OutOption.Size = new System.Drawing.Size(100, 23);
+            this.cb_TuningTab_OutOption.TabIndex = 34;
+            this.cb_TuningTab_OutOption.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
             // 
             // label97
             // 
             this.label97.AutoSize = true;
-            this.label97.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label97.Location = new System.Drawing.Point(152, 254);
+            this.label97.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label97.Location = new System.Drawing.Point(60, 85);
             this.label97.Name = "label97";
-            this.label97.Size = new System.Drawing.Size(112, 19);
-            this.label97.TabIndex = 24;
-            this.label97.Text = "Dynamic Range";
+            this.label97.Size = new System.Drawing.Size(67, 15);
+            this.label97.TabIndex = 33;
+            this.label97.Text = "Out Option";
+            // 
+            // cb_TuningTab_IpUsage
+            // 
+            this.cb_TuningTab_IpUsage.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_TuningTab_IpUsage.FormattingEnabled = true;
+            this.cb_TuningTab_IpUsage.Items.AddRange(new object[] {
+            "YES",
+            "NO"});
+            this.cb_TuningTab_IpUsage.Location = new System.Drawing.Point(181, 51);
+            this.cb_TuningTab_IpUsage.Name = "cb_TuningTab_IpUsage";
+            this.cb_TuningTab_IpUsage.Size = new System.Drawing.Size(100, 23);
+            this.cb_TuningTab_IpUsage.TabIndex = 32;
+            this.cb_TuningTab_IpUsage.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
+            // 
+            // label100
+            // 
+            this.label100.AutoSize = true;
+            this.label100.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label100.Location = new System.Drawing.Point(60, 56);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(54, 15);
+            this.label100.TabIndex = 31;
+            this.label100.Text = "IP Usage";
             // 
             // label96
             // 
             this.label96.AutoSize = true;
-            this.label96.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label96.Location = new System.Drawing.Point(202, 290);
+            this.label96.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label96.Location = new System.Drawing.Point(60, 27);
             this.label96.Name = "label96";
-            this.label96.Size = new System.Drawing.Size(62, 19);
+            this.label96.Size = new System.Drawing.Size(50, 15);
             this.label96.TabIndex = 23;
             this.label96.Text = "Product";
             // 
-            // comboBox1
+            // cb_TuningTab_Product
             // 
-            this.comboBox1.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cb_TuningTab_Product.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_TuningTab_Product.FormattingEnabled = true;
+            this.cb_TuningTab_Product.Items.AddRange(new object[] {
             "SL610",
             "SL620",
             "SL910"});
-            this.comboBox1.Location = new System.Drawing.Point(266, 286);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 27);
-            this.comboBox1.TabIndex = 22;
+            this.cb_TuningTab_Product.Location = new System.Drawing.Point(181, 21);
+            this.cb_TuningTab_Product.Name = "cb_TuningTab_Product";
+            this.cb_TuningTab_Product.Size = new System.Drawing.Size(100, 23);
+            this.cb_TuningTab_Product.TabIndex = 22;
+            this.cb_TuningTab_Product.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.label99);
+            this.groupBox12.Controls.Add(this.tb_TuningTab_VbError);
+            this.groupBox12.Controls.Add(this.label93);
+            this.groupBox12.Controls.Add(this.label94);
+            this.groupBox12.Controls.Add(this.label95);
+            this.groupBox12.Controls.Add(this.tb_TuningTab_Bip);
+            this.groupBox12.Controls.Add(this.tb_TuningTab_Vb);
+            this.groupBox12.Controls.Add(this.tb_TuningTab_TargetVb);
+            this.groupBox12.Location = new System.Drawing.Point(58, 221);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(318, 159);
+            this.groupBox12.TabIndex = 34;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Point B";
+            // 
+            // label99
+            // 
+            this.label99.AutoSize = true;
+            this.label99.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label99.Location = new System.Drawing.Point(55, 121);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(77, 15);
+            this.label99.TabIndex = 29;
+            this.label99.Text = "Point B Error";
+            // 
+            // tb_TuningTab_VbError
+            // 
+            this.tb_TuningTab_VbError.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_VbError.Location = new System.Drawing.Point(183, 117);
+            this.tb_TuningTab_VbError.Name = "tb_TuningTab_VbError";
+            this.tb_TuningTab_VbError.ReadOnly = true;
+            this.tb_TuningTab_VbError.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_VbError.TabIndex = 28;
+            this.tb_TuningTab_VbError.Text = "0";
             // 
             // label93
             // 
             this.label93.AutoSize = true;
-            this.label93.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label93.Location = new System.Drawing.Point(439, 75);
+            this.label93.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label93.Location = new System.Drawing.Point(55, 33);
             this.label93.Name = "label93";
-            this.label93.Size = new System.Drawing.Size(122, 19);
+            this.label93.Size = new System.Drawing.Size(96, 15);
             this.label93.TabIndex = 21;
             this.label93.Text = "Target Point B IP";
             // 
             // label94
             // 
             this.label94.AutoSize = true;
-            this.label94.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label94.Location = new System.Drawing.Point(415, 143);
+            this.label94.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label94.Location = new System.Drawing.Point(55, 92);
             this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(146, 19);
+            this.label94.Size = new System.Drawing.Size(117, 15);
             this.label94.TabIndex = 20;
             this.label94.Text = "Current Point B Vout";
             // 
             // label95
             // 
             this.label95.AutoSize = true;
-            this.label95.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label95.Location = new System.Drawing.Point(421, 109);
+            this.label95.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label95.Location = new System.Drawing.Point(55, 63);
             this.label95.Name = "label95";
-            this.label95.Size = new System.Drawing.Size(140, 19);
+            this.label95.Size = new System.Drawing.Size(109, 15);
             this.label95.TabIndex = 19;
             this.label95.Text = "Target Point B Vout";
+            // 
+            // tb_TuningTab_Bip
+            // 
+            this.tb_TuningTab_Bip.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_Bip.Location = new System.Drawing.Point(183, 27);
+            this.tb_TuningTab_Bip.Name = "tb_TuningTab_Bip";
+            this.tb_TuningTab_Bip.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_Bip.TabIndex = 5;
+            this.tb_TuningTab_Bip.Text = "20";
+            // 
+            // tb_TuningTab_Vb
+            // 
+            this.tb_TuningTab_Vb.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_Vb.Location = new System.Drawing.Point(183, 87);
+            this.tb_TuningTab_Vb.Name = "tb_TuningTab_Vb";
+            this.tb_TuningTab_Vb.ReadOnly = true;
+            this.tb_TuningTab_Vb.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_Vb.TabIndex = 4;
+            this.tb_TuningTab_Vb.Text = "0";
+            // 
+            // tb_TuningTab_TargetVb
+            // 
+            this.tb_TuningTab_TargetVb.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_TargetVb.Location = new System.Drawing.Point(183, 57);
+            this.tb_TuningTab_TargetVb.Name = "tb_TuningTab_TargetVb";
+            this.tb_TuningTab_TargetVb.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_TargetVb.TabIndex = 3;
+            this.tb_TuningTab_TargetVb.Text = "4.5";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.label98);
+            this.groupBox9.Controls.Add(this.tb_TuningTab_VaError);
+            this.groupBox9.Controls.Add(this.label80);
+            this.groupBox9.Controls.Add(this.label79);
+            this.groupBox9.Controls.Add(this.label78);
+            this.groupBox9.Controls.Add(this.tb_TuningTab_Aip);
+            this.groupBox9.Controls.Add(this.tb_TuningTab_Va);
+            this.groupBox9.Controls.Add(this.tb_TuningTab_TargetVa);
+            this.groupBox9.Location = new System.Drawing.Point(58, 48);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(318, 162);
+            this.groupBox9.TabIndex = 33;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Point A";
+            // 
+            // label98
+            // 
+            this.label98.AutoSize = true;
+            this.label98.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label98.Location = new System.Drawing.Point(53, 122);
+            this.label98.Name = "label98";
+            this.label98.Size = new System.Drawing.Size(77, 15);
+            this.label98.TabIndex = 27;
+            this.label98.Text = "Point A Error";
+            // 
+            // tb_TuningTab_VaError
+            // 
+            this.tb_TuningTab_VaError.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_VaError.Location = new System.Drawing.Point(184, 119);
+            this.tb_TuningTab_VaError.Name = "tb_TuningTab_VaError";
+            this.tb_TuningTab_VaError.ReadOnly = true;
+            this.tb_TuningTab_VaError.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_VaError.TabIndex = 26;
+            this.tb_TuningTab_VaError.Text = "0";
             // 
             // label80
             // 
             this.label80.AutoSize = true;
-            this.label80.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label80.Location = new System.Drawing.Point(138, 75);
+            this.label80.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label80.Location = new System.Drawing.Point(50, 32);
             this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(123, 19);
+            this.label80.Size = new System.Drawing.Size(96, 15);
             this.label80.TabIndex = 18;
             this.label80.Text = "Target Point A IP";
             // 
             // label79
             // 
             this.label79.AutoSize = true;
-            this.label79.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label79.Location = new System.Drawing.Point(114, 143);
+            this.label79.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.Location = new System.Drawing.Point(51, 93);
             this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(147, 19);
+            this.label79.Size = new System.Drawing.Size(117, 15);
             this.label79.TabIndex = 17;
             this.label79.Text = "Current Point A Vout";
             // 
             // label78
             // 
             this.label78.AutoSize = true;
-            this.label78.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label78.Location = new System.Drawing.Point(120, 109);
+            this.label78.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.Location = new System.Drawing.Point(51, 64);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(141, 19);
+            this.label78.Size = new System.Drawing.Size(109, 15);
             this.label78.TabIndex = 16;
             this.label78.Text = "Target Point A Vout";
             // 
-            // button21
+            // tb_TuningTab_Aip
             // 
-            this.button21.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button21.Location = new System.Drawing.Point(560, 436);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(100, 49);
-            this.button21.TabIndex = 15;
-            this.button21.Text = "- Fine    Offset";
-            this.button21.UseVisualStyleBackColor = true;
+            this.tb_TuningTab_Aip.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_Aip.Location = new System.Drawing.Point(184, 29);
+            this.tb_TuningTab_Aip.Name = "tb_TuningTab_Aip";
+            this.tb_TuningTab_Aip.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_Aip.TabIndex = 2;
+            this.tb_TuningTab_Aip.Text = "0";
             // 
-            // button22
+            // tb_TuningTab_Va
             // 
-            this.button22.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button22.Location = new System.Drawing.Point(560, 381);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(100, 49);
-            this.button22.TabIndex = 14;
-            this.button22.Text = "+ Fine Offset";
-            this.button22.UseVisualStyleBackColor = true;
+            this.tb_TuningTab_Va.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_Va.Location = new System.Drawing.Point(184, 89);
+            this.tb_TuningTab_Va.Name = "tb_TuningTab_Va";
+            this.tb_TuningTab_Va.ReadOnly = true;
+            this.tb_TuningTab_Va.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_Va.TabIndex = 1;
+            this.tb_TuningTab_Va.Text = "0";
             // 
-            // button23
+            // tb_TuningTab_TargetVa
             // 
-            this.button23.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button23.Location = new System.Drawing.Point(420, 436);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(100, 49);
-            this.button23.TabIndex = 13;
-            this.button23.Text = "- Coarse Offset";
-            this.button23.UseVisualStyleBackColor = true;
-            // 
-            // button24
-            // 
-            this.button24.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button24.Location = new System.Drawing.Point(420, 381);
-            this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(100, 49);
-            this.button24.TabIndex = 12;
-            this.button24.Text = "+ Coarse Offset";
-            this.button24.UseVisualStyleBackColor = true;
-            // 
-            // button19
-            // 
-            this.button19.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button19.Location = new System.Drawing.Point(280, 436);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(100, 49);
-            this.button19.TabIndex = 11;
-            this.button19.Text = "-  Fine      Gain ";
-            this.button19.UseVisualStyleBackColor = true;
-            // 
-            // button20
-            // 
-            this.button20.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button20.Location = new System.Drawing.Point(280, 381);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(100, 49);
-            this.button20.TabIndex = 10;
-            this.button20.Text = "+ Fine    Gain";
-            this.button20.UseVisualStyleBackColor = true;
-            // 
-            // button17
-            // 
-            this.button17.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button17.Location = new System.Drawing.Point(140, 436);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(100, 49);
-            this.button17.TabIndex = 9;
-            this.button17.Text = "- Coarse Gain";
-            this.button17.UseVisualStyleBackColor = true;
-            // 
-            // button18
-            // 
-            this.button18.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button18.Location = new System.Drawing.Point(140, 381);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(100, 49);
-            this.button18.TabIndex = 8;
-            this.button18.Text = "+ Coarse Gain";
-            this.button18.UseVisualStyleBackColor = true;
-            // 
-            // button16
-            // 
-            this.button16.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button16.Location = new System.Drawing.Point(420, 289);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(141, 40);
-            this.button16.TabIndex = 7;
-            this.button16.Text = "Update Point B";
-            this.button16.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button15.Location = new System.Drawing.Point(420, 243);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(141, 40);
-            this.button15.TabIndex = 6;
-            this.button15.Text = "Update Point A";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(562, 72);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 25);
-            this.textBox4.TabIndex = 5;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(562, 140);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(100, 25);
-            this.textBox5.TabIndex = 4;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.Location = new System.Drawing.Point(562, 106);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 25);
-            this.textBox6.TabIndex = 3;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(264, 72);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 25);
-            this.textBox3.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(264, 140);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(100, 25);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(264, 106);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 25);
-            this.textBox1.TabIndex = 0;
+            this.tb_TuningTab_TargetVa.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_TargetVa.Location = new System.Drawing.Point(184, 59);
+            this.tb_TuningTab_TargetVa.Name = "tb_TuningTab_TargetVa";
+            this.tb_TuningTab_TargetVa.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_TargetVa.TabIndex = 0;
+            this.tb_TuningTab_TargetVa.Text = "2.5";
             // 
             // SL910Tab
             // 
@@ -4864,6 +4965,19 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // btn_TuningTab_Power
+            // 
+            this.btn_TuningTab_Power.BackColor = System.Drawing.Color.Snow;
+            this.btn_TuningTab_Power.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_Power.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_Power.Location = new System.Drawing.Point(450, 55);
+            this.btn_TuningTab_Power.Name = "btn_TuningTab_Power";
+            this.btn_TuningTab_Power.Size = new System.Drawing.Size(127, 40);
+            this.btn_TuningTab_Power.TabIndex = 38;
+            this.btn_TuningTab_Power.Text = "OFF";
+            this.btn_TuningTab_Power.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_Power.Click += new System.EventHandler(this.btn_PowerClick);
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4876,7 +4990,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Current Sensor Console v1.4.0 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.1 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -4931,7 +5045,13 @@
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.BrakeTab.ResumeLayout(false);
-            this.BrakeTab.PerformLayout();
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.SL910Tab.ResumeLayout(false);
             this.SL910Tab.PerformLayout();
             this.panel10.ResumeLayout(false);
@@ -5300,32 +5420,38 @@
         private System.Windows.Forms.Label label80;
         private System.Windows.Forms.Label label79;
         private System.Windows.Forms.Label label78;
-        private System.Windows.Forms.Button button21;
-        private System.Windows.Forms.Button button22;
-        private System.Windows.Forms.Button button23;
-        private System.Windows.Forms.Button button24;
-        private System.Windows.Forms.Button button19;
-        private System.Windows.Forms.Button button20;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btn_TuningTab_FineOffsetDown;
+        private System.Windows.Forms.Button btn_TuningTab_FineOffsetUp;
+        private System.Windows.Forms.Button btn_TuningTab_CoarseOffsetDown;
+        private System.Windows.Forms.Button btn_TuningTab_CoarseOffsetUp;
+        private System.Windows.Forms.Button btn_TuningTab_FineGainDown;
+        private System.Windows.Forms.Button btn_TuningTab_FineGainUp;
+        private System.Windows.Forms.Button btn_TuningTab_CoarseGainDown;
+        private System.Windows.Forms.Button btn_TuningTab_CoarseGainUp;
+        private System.Windows.Forms.Button btn_TuningTab_UpdateB;
+        private System.Windows.Forms.Button btn_TuningTab_UpdateA;
+        private System.Windows.Forms.TextBox tb_TuningTab_Vb;
+        private System.Windows.Forms.TextBox tb_TuningTab_TargetVb;
+        private System.Windows.Forms.TextBox tb_TuningTab_Aip;
+        private System.Windows.Forms.TextBox tb_TuningTab_Va;
+        private System.Windows.Forms.TextBox tb_TuningTab_TargetVa;
         private System.Windows.Forms.Label label99;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox tb_TuningTab_VbError;
         private System.Windows.Forms.Label label98;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Label label97;
+        private System.Windows.Forms.TextBox tb_TuningTab_VaError;
         private System.Windows.Forms.Label label96;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cb_TuningTab_Product;
         private System.Windows.Forms.Label label93;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tb_TuningTab_Bip;
         private System.Windows.Forms.Label label100;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.ComboBox cb_TuningTab_IpUsage;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button btn_TuningTab_Trim;
+        private System.Windows.Forms.ComboBox cb_TuningTab_OutOption;
+        private System.Windows.Forms.Label label97;
+        private System.Windows.Forms.Button btn_TuningTab_Power;
     }
 }
