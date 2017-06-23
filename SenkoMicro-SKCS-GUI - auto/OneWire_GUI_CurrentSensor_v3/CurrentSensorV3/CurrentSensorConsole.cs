@@ -608,6 +608,8 @@ namespace CurrentSensorV3
             this.cmb_SocketType_AutoT.SelectedIndex = 0;
             this.cmb_ProgramMode_AutoT.SelectedIndex = 0;
 
+            this.cb_AutoTab_Retest.SelectedIndex = 0;
+
             //Serial Num
             this.txt_SerialNum_EngT.Text = SerialNum;
             this.txt_SerialNum_PreT.Text = SerialNum;
@@ -7818,7 +7820,11 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Rough Gain RegValue81 = 0x" + MultiSiteReg1[idut].ToString("X2"));
             }
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////
+            /******************************************************************************
+            *
+            *   Coarse Offset Alg
+            *
+            ******************************************************************************/
             RePower();
             EnterTestMode();
 
@@ -7838,9 +7844,25 @@ namespace CurrentSensorV3
             bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
             uint ix_CoarseOffsetCode = 0;
             if (Vout_0A > TargetOffset)
+            {
                 ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * (1.0d - TargetOffset / Vout_0A) / 5));
+                autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 - ix_CoarseOffsetCode * 0.005);
+                Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
+                /* Rough Gain Code*/
+                bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+                MultiSiteReg1[idut] &= ~bit_op_mask;
+                MultiSiteReg1[idut] |= Convert.ToUInt32(sl620CoarseGainTable[1][Ix_forAutoAdaptingRoughGain + 1]);
+            }
             else if (Vout_0A < TargetOffset)
+            {
                 ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
+                autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 + ix_CoarseOffsetCode * 0.005);
+                Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
+                /* Rough Gain Code*/
+                bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+                MultiSiteReg1[idut] &= ~bit_op_mask;
+                MultiSiteReg1[idut] |= Convert.ToUInt32(sl620CoarseGainTable[1][Ix_forAutoAdaptingRoughGain]);
+            }
 
             MultiSiteReg6[idut] &= ~bit_op_mask;
             MultiSiteReg6[idut] |= ix_CoarseOffsetCode;
@@ -7848,6 +7870,8 @@ namespace CurrentSensorV3
             DisplayOperateMes("Vout_0A = " + Vout_0A.ToString("F3"));
             DisplayOperateMes("ix_CoarseOffsetCode = " + ix_CoarseOffsetCode.ToString());
             /////////////////////////////////////////////////////////////////////////////////////////////////
+
+            
 
 
             RePower();
@@ -8048,82 +8072,119 @@ namespace CurrentSensorV3
             #endregion
 
             #region Bin
-            /* Repower on 5V */
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
-            Delay(Delay_Sync);
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
-            RePower();
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
-            Delay(Delay_Fuse);
-            
-            dMultiSiteVout0A[idut] = AverageVout();
-            sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
-            DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
 
-            /* Change Current to IP  */
-            if (ProgramMode == 0)
+            if (this.cb_AutoTab_Retest.Text == "Yes")
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
-                    DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                /* Repower on 5V */
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+                Delay(Delay_Sync);
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+                RePower();
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+                Delay(Delay_Fuse);
+
+                dMultiSiteVout0A[idut] = AverageVout();
+                sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
+                DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+                /* Change Current to IP  */
+                if (ProgramMode == 0)
+                {
+                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
+                    if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                        DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+                    else
+                    {
+                        DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        TrimFinish();
+                        return;
+                    }
+                }
                 else
                 {
-                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    TrimFinish();
-                    return;
+                    dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                    {
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        PowerOff();
+                        RestoreReg80ToReg83Value();
+                        return;
+                    }
                 }
-            }
-            else
-            {
-                dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-                if (dr == DialogResult.Cancel)
+
+                Delay(Delay_Fuse);
+                dMultiSiteVoutIP[idut] = AverageVout();
+                sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
+                DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+
+                /* bin1,2,3 */
+                if (TargetOffset * (1 - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.001) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.001) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.001))
                 {
-                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
-                    PowerOff();
-                    RestoreReg80ToReg83Value();
-                    return;
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    this.lbl_passOrFailed.Text = "PASS!";
+                }
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                {
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    this.lbl_passOrFailed.Text = "PASS!";
+                }
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
+                    (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
+                {
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    this.lbl_passOrFailed.Text = "PASS!";
+                }
+                else
+                {
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "FAIL!";
                 }
             }
+            else if (this.cb_AutoTab_Retest.Text == "No")
+            {
+                /* Repower on 5V */
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+                Delay(Delay_Sync);
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+                RePower();
+                oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+                Delay(Delay_Fuse);
 
-            Delay(Delay_Fuse);
-            dMultiSiteVoutIP[idut] = AverageVout();
-            sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
-            DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+                dMultiSiteVout0A[idut] = AverageVout();
+                sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
+                DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
 
-            /* bin1,2,3 */
-            if (TargetOffset * (1 - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.001) &&
-                (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + 0.001) &&
-                (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - 0.001))
-            {
-                uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
-                this.lbl_passOrFailed.ForeColor = Color.Green;
-                this.lbl_passOrFailed.Text = "PASS!";
+                /* bin1,2,3 */
+                if (TargetOffset * (1 - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= TargetOffset * (1 + 0.001))
+                {
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_1;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    this.lbl_passOrFailed.Text = "PASS!";
+                }
+                else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
+                    dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d))
+                {
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
+                    this.lbl_passOrFailed.ForeColor = Color.Green;
+                    this.lbl_passOrFailed.Text = "PASS!";
+                }
+                else
+                {
+                    this.lbl_passOrFailed.ForeColor = Color.Red;
+                    this.lbl_passOrFailed.Text = "FAIL!";
+                }
             }
-            else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
-                dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
-                (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
-                (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
-            {
-                uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_2;
-                this.lbl_passOrFailed.ForeColor = Color.Green;
-                this.lbl_passOrFailed.Text = "PASS!";
-            }
-            else if (TargetOffset * (1 - bin2accuracy / 100d) <= dMultiSiteVout0A[idut] &&
-                dMultiSiteVout0A[idut] <= TargetOffset * (1 + bin2accuracy / 100d) &&
-                (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= TargetVoltage_customer * (1 + bin3accuracy / 100d) &&
-                (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= TargetVoltage_customer * (1 - bin3accuracy / 100d))
-            {
-                uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_BIN_3;
-                this.lbl_passOrFailed.ForeColor = Color.Green;
-                this.lbl_passOrFailed.Text = "PASS!";
-            }
-            else
-            {
-                this.lbl_passOrFailed.ForeColor = Color.Red;
-                this.lbl_passOrFailed.Text = "FAIL!";
-            }
-            
 
             #endregion Bin
 
@@ -11174,6 +11235,8 @@ namespace CurrentSensorV3
 
 
         #endregion 
+
+
     }
 
     
