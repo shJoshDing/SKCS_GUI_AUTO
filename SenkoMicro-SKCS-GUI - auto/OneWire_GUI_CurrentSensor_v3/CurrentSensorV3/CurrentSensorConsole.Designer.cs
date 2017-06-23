@@ -2759,9 +2759,9 @@
             this.cmb_ProgramMode_AutoT.Items.AddRange(new object[] {
             "Automatic",
             "Manual"});
-            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(284, 346);
+            this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(260, 346);
             this.cmb_ProgramMode_AutoT.Name = "cmb_ProgramMode_AutoT";
-            this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(147, 25);
+            this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(166, 25);
             this.cmb_ProgramMode_AutoT.TabIndex = 115;
             this.cmb_ProgramMode_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_ProgramMode_AutoT_SelectedIndexChanged);
             // 
@@ -2772,10 +2772,11 @@
             this.cmb_SocketType_AutoT.Items.AddRange(new object[] {
             "SL610-Single End",
             "SL610-Differential",
-            "SL622-Single End"});
-            this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(284, 317);
+            "SL622-Single-End",
+            "SL622-Differential"});
+            this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(260, 317);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
-            this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(147, 25);
+            this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(166, 25);
             this.cmb_SocketType_AutoT.TabIndex = 115;
             this.cmb_SocketType_AutoT.SelectedIndexChanged += new System.EventHandler(this.cmb_SocketType_AutoT_SelectedIndexChanged);
             // 
@@ -2784,7 +2785,7 @@
             this.label77.AutoSize = true;
             this.label77.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label77.Location = new System.Drawing.Point(170, 348);
+            this.label77.Location = new System.Drawing.Point(146, 348);
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(112, 19);
             this.label77.TabIndex = 114;
@@ -2795,7 +2796,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label21.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label21.Location = new System.Drawing.Point(170, 320);
+            this.label21.Location = new System.Drawing.Point(146, 320);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(99, 19);
             this.label21.TabIndex = 114;
@@ -2972,7 +2973,7 @@
             // btn_AutomaticaTrim
             // 
             this.btn_AutomaticaTrim.Font = new System.Drawing.Font("Microsoft Sans Serif", 21F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.btn_AutomaticaTrim.Location = new System.Drawing.Point(448, 315);
+            this.btn_AutomaticaTrim.Location = new System.Drawing.Point(442, 317);
             this.btn_AutomaticaTrim.Name = "btn_AutomaticaTrim";
             this.btn_AutomaticaTrim.Size = new System.Drawing.Size(147, 59);
             this.btn_AutomaticaTrim.TabIndex = 57;
@@ -3010,7 +3011,7 @@
             this.groupBox8.Controls.Add(this.label61);
             this.groupBox8.Location = new System.Drawing.Point(88, 32);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(610, 239);
+            this.groupBox8.Size = new System.Drawing.Size(625, 239);
             this.groupBox8.TabIndex = 109;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Preset";
@@ -3791,7 +3792,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.2.8 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.2.9 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
