@@ -14998,10 +14998,10 @@ namespace CurrentSensorV3
                     ix_FineOffsetCode = Convert.ToUInt32(Math.Round(1000d * (os / TargetOffset - 1.0d) / 1.5));
                 else if (os < TargetOffset)
                 {
-                    if (Math.Round(1000d * (1.0d - TargetOffset / os) / 1.5) == 0)
+                    if (Math.Round(1000d * (1.0d - os / TargetOffset) / 1.5) == 0)
                         ix_FineOffsetCode = 0;
                     else
-                        ix_FineOffsetCode = 32 - Convert.ToUInt32(Math.Round(1000d * (1.0d - TargetOffset / os) / 1.5));
+                        ix_FineOffsetCode = 32 - Convert.ToUInt32(Math.Round(1000d * (1.0d - os / TargetOffset) / 1.5));
                 }
                 return ix_FineOffsetCode;
             }
@@ -15172,15 +15172,38 @@ namespace CurrentSensorV3
 
         private void InitTuningTab()
         {
-            //for (uint i = 0; i < 9; i++)
-            TunningTabReg[0] = 0x84;    //iHall -33%; Invert
+            TunningTabReg[0] = 0x04;    //iHall -33%; Invert
             TunningTabReg[1] = 0x03;    //TcTh
             TunningTabReg[2] = 0x60;    //Tc2 = 6; Tc1 = 0
             TunningTabReg[3] = 0x30;    //Multi-Driven
-
+            //for (uint i = 0; i < 9; i++)
             this.cb_TuningTab_IpUsage.SelectedIndex = 0;
             this.cb_TuningTab_OutOption.SelectedIndex = 0;
             this.cb_TuningTab_Product.SelectedIndex = 1;
+            this.cb_TuningTab_PowerSupply.SelectedIndex = 0;
+        }
+
+        private void UpdateTrimCode()
+        {
+            if(this.cb_TuningTab_OutOption.SelectedText == "0.5VDD")
+            {
+                TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
+                TunningTabReg[0] |= 0x01;
+            }
+            else if(this.cb_TuningTab_OutOption.SelectedText == "2.5V")
+            {
+                TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
+                TunningTabReg[0] |= 0x00;
+            }
+            else if (this.cb_TuningTab_OutOption.SelectedText == "1.65V")
+            {
+                TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
+                TunningTabReg[0] |= 0x02;
+            }
+
+            TunningTabReg[1] = 0x03;    //TcTh
+            TunningTabReg[2] = 0x60;    //Tc2 = 6; Tc1 = 0
+            TunningTabReg[3] = 0x30;    //Multi-Driven
         }
 
         private void btn_TuningTab_Trim_Click(object sender, EventArgs e)
@@ -15439,7 +15462,12 @@ namespace CurrentSensorV3
                 #endregion
             }
 
-            RePower();
+            if (this.cb_TuningTab_PowerSupply.SelectedText == "E3631A")
+                DisplayOperateMes("Todo...E3631A Control");
+            else if (this.cb_TuningTab_PowerSupply.SelectedText == "Manual")
+                DisplayOperateMes("Manual Control");
+            else if (this.cb_TuningTab_PowerSupply.SelectedText == "OnBoard")
+                RePower();
 
             EnterTestMode();
 
@@ -15488,7 +15516,12 @@ namespace CurrentSensorV3
                 #endregion
             }
 
-            RePower();
+            if (this.cb_TuningTab_PowerSupply.SelectedText == "E3631A")
+                DisplayOperateMes("Todo...E3631A Control");
+            else if (this.cb_TuningTab_PowerSupply.SelectedText == "Manual")
+                DisplayOperateMes("Manual Control");
+            else if (this.cb_TuningTab_PowerSupply.SelectedText == "OnBoard")
+                RePower();
 
             EnterTestMode();
 
@@ -15556,6 +15589,8 @@ namespace CurrentSensorV3
         }
 
         #endregion
+
+
     }
 
     
