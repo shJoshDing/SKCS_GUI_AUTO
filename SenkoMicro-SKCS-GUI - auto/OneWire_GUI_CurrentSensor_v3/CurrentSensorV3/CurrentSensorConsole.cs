@@ -3262,7 +3262,7 @@ namespace CurrentSensorV3
             {
                 if (bAutoTrimTest)
                 {
-                    DisplayOperateMes("Power off succeeded!");
+                    //DisplayOperateMes("Power off succeeded!");
                 }
             }
             else
@@ -3275,7 +3275,7 @@ namespace CurrentSensorV3
             {
                 if (bAutoTrimTest)
                 {
-                    DisplayOperateMes("Power on succeeded!");
+                    //DisplayOperateMes("Power on succeeded!");
                 }
             }
             else
@@ -9332,8 +9332,8 @@ namespace CurrentSensorV3
         {
             //Set Voltage
             //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
-            if(oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0))
-                DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0));
+            if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0))
+            { }//DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0));
             else
             {
                 DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0));
@@ -9345,7 +9345,7 @@ namespace CurrentSensorV3
             //Set Voltage
             //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
             if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
-                DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
+            {}//DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
             else
             {
                 DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
@@ -12501,6 +12501,8 @@ namespace CurrentSensorV3
 
                         writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
                         Delay(Delay_Sync);
+                        DisplayOperateMes("VIP = " + ReadVout().ToString("F3"));
+                        Delay(Delay_Sync);
                         writer.Write(ReadRef().ToString("F3") + ",");        //VREF
                         Delay(Delay_Sync);
 
@@ -12509,8 +12511,11 @@ namespace CurrentSensorV3
 
                         writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
                         Delay(Delay_Sync);
+                        DisplayOperateMes("V0A = " + ReadVout().ToString("F3"));
+                        Delay(Delay_Sync);
                         writer.Write(ReadRef().ToString("F3") + ",");        //VREF
                         Delay(Delay_Sync);
+
                     }
                     writer.Write("\r\n");
                     //writer.Close();
@@ -12565,6 +12570,8 @@ namespace CurrentSensorV3
 
                         writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
                         Delay(Delay_Sync);
+                        DisplayOperateMes("VIP = " + ReadVout().ToString("F3"));
+                        Delay(Delay_Sync);
                         writer.Write(ReadRef().ToString("F3") + ",");        //VREF
                         Delay(Delay_Sync);
 
@@ -12578,6 +12585,8 @@ namespace CurrentSensorV3
                         Delay(Delay_Sync);
 
                         writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                        DisplayOperateMes("V0A = " + ReadVout().ToString("F3"));
                         Delay(Delay_Sync);
                         writer.Write(ReadRef().ToString("F3") + ",");        //VREF
                         Delay(Delay_Sync);
@@ -15199,12 +15208,7 @@ namespace CurrentSensorV3
             {
                 TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
                 TunningTabReg[0] |= 0x02;
-            }
-            else if (this.cb_TuningTab_OutOption.SelectedText == "VREF")
-            {
-                TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
-                TunningTabReg[0] |= 0x01;
-            }
+            } 
 
             TunningTabReg[1] = 0x03;    //TcTh
             TunningTabReg[2] = 0x60;    //Tc2 = 6; Tc1 = 0
