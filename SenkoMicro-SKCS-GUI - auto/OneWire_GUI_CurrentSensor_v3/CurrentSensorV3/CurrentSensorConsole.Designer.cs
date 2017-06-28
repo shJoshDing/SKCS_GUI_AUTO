@@ -3796,7 +3796,8 @@
             this.cb_TuningTab_OutOption.Items.AddRange(new object[] {
             "2.5V",
             "0.5VDD",
-            "1.65V"});
+            "1.65V",
+            "VREF"});
             this.cb_TuningTab_OutOption.Location = new System.Drawing.Point(30, 101);
             this.cb_TuningTab_OutOption.Name = "cb_TuningTab_OutOption";
             this.cb_TuningTab_OutOption.Size = new System.Drawing.Size(100, 23);

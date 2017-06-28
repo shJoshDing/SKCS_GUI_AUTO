@@ -9308,7 +9308,7 @@ namespace CurrentSensorV3
             //2. Current On
             //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
             //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-            if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 20))
+            if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 DisplayOperateMes("Set Current to IP succeeded!");
             else
                 DisplayOperateMes("Set Current to IP failed!");
@@ -15199,6 +15199,11 @@ namespace CurrentSensorV3
             {
                 TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
                 TunningTabReg[0] |= 0x02;
+            }
+            else if (this.cb_TuningTab_OutOption.SelectedText == "VREF")
+            {
+                TunningTabReg[0] &= 0xC0;    //iHall -33%; Invert
+                TunningTabReg[0] |= 0x01;
             }
 
             TunningTabReg[1] = 0x03;    //TcTh
