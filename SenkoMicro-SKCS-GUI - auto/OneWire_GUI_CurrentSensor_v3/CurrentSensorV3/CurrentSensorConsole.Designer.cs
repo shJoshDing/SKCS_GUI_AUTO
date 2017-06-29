@@ -2320,9 +2320,9 @@
             this.cmb_Voffset_PreT.FormattingEnabled = true;
             this.cmb_Voffset_PreT.Items.AddRange(new object[] {
             "Default",
-            "2.5V Low Power",
-            "Half Vdd",
-            "1.65V Low Power"});
+            "2.5V LP",
+            "0.5 VCC",
+            "1.65V"});
             this.cmb_Voffset_PreT.Location = new System.Drawing.Point(182, 137);
             this.cmb_Voffset_PreT.Name = "cmb_Voffset_PreT";
             this.cmb_Voffset_PreT.Size = new System.Drawing.Size(126, 24);
@@ -2417,9 +2417,9 @@
             this.label59.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label59.Location = new System.Drawing.Point(406, 39);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(74, 16);
+            this.label59.Size = new System.Drawing.Size(58, 16);
             this.label59.TabIndex = 82;
-            this.label59.Text = "VIP-Voffset";
+            this.label59.Text = "VIP-V0A";
             // 
             // txt_AdcOffset_PreT
             // 
@@ -2494,9 +2494,9 @@
             this.label69.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label69.Location = new System.Drawing.Point(75, 141);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(91, 16);
+            this.label69.Size = new System.Drawing.Size(75, 16);
             this.label69.TabIndex = 8;
-            this.label69.Text = "Voffset Option";
+            this.label69.Text = "V0A Option";
             // 
             // label33
             // 
@@ -3819,7 +3819,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.0 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.1 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
