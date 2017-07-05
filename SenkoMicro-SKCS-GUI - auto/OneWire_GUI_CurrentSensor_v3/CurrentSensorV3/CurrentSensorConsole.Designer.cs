@@ -218,7 +218,6 @@
             this.label54 = new System.Windows.Forms.Label();
             this.btn_ModuleCurrent_PreT = new System.Windows.Forms.Button();
             this.txt_ModuleCurrent_PreT = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
             this.txt_SerialNum_PreT = new System.Windows.Forms.TextBox();
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
@@ -310,6 +309,8 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
+            this.label79 = new System.Windows.Forms.Label();
+            this.cmb_PreTrim_SensorDirection = new System.Windows.Forms.ComboBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -1918,8 +1919,11 @@
             // 
             // PriTrimTab
             // 
+            this.PriTrimTab.Controls.Add(this.label76);
+            this.PriTrimTab.Controls.Add(this.txt_bin3accuracy_PreT);
             this.PriTrimTab.Controls.Add(this.label42);
             this.PriTrimTab.Controls.Add(this.label41);
+            this.PriTrimTab.Controls.Add(this.label75);
             this.PriTrimTab.Controls.Add(this.txt_Reg80_PreT);
             this.PriTrimTab.Controls.Add(this.txt_Reg81_PreT);
             this.PriTrimTab.Controls.Add(this.txt_Reg82_PreT);
@@ -2070,7 +2074,7 @@
             this.txt_Delay_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Delay_PreT.Location = new System.Drawing.Point(553, 37);
             this.txt_Delay_PreT.Name = "txt_Delay_PreT";
-            this.txt_Delay_PreT.Size = new System.Drawing.Size(48, 21);
+            this.txt_Delay_PreT.Size = new System.Drawing.Size(73, 21);
             this.txt_Delay_PreT.TabIndex = 115;
             this.txt_Delay_PreT.Text = "300";
             this.txt_Delay_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2080,7 +2084,7 @@
             // 
             this.label82.AutoSize = true;
             this.label82.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label82.Location = new System.Drawing.Point(602, 40);
+            this.label82.Location = new System.Drawing.Point(631, 40);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(24, 15);
             this.label82.TabIndex = 114;
@@ -2092,9 +2096,9 @@
             this.label81.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label81.Location = new System.Drawing.Point(502, 40);
             this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(52, 15);
+            this.label81.Size = new System.Drawing.Size(49, 15);
             this.label81.TabIndex = 114;
-            this.label81.Text = "IP Delay";
+            this.label81.Text = "Latency";
             // 
             // label64
             // 
@@ -2212,9 +2216,8 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.txt_bin3accuracy_PreT);
-            this.groupBox6.Controls.Add(this.label76);
-            this.groupBox6.Controls.Add(this.label75);
+            this.groupBox6.Controls.Add(this.cmb_PreTrim_SensorDirection);
+            this.groupBox6.Controls.Add(this.label79);
             this.groupBox6.Controls.Add(this.label74);
             this.groupBox6.Controls.Add(this.txt_bin2accuracy_PreT);
             this.groupBox6.Controls.Add(this.label73);
@@ -2250,34 +2253,37 @@
             this.txt_bin3accuracy_PreT.BackColor = System.Drawing.Color.CadetBlue;
             this.txt_bin3accuracy_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_bin3accuracy_PreT.ForeColor = System.Drawing.Color.White;
-            this.txt_bin3accuracy_PreT.Location = new System.Drawing.Point(505, 172);
+            this.txt_bin3accuracy_PreT.Location = new System.Drawing.Point(548, 382);
             this.txt_bin3accuracy_PreT.Name = "txt_bin3accuracy_PreT";
             this.txt_bin3accuracy_PreT.Size = new System.Drawing.Size(120, 22);
             this.txt_bin3accuracy_PreT.TabIndex = 97;
             this.txt_bin3accuracy_PreT.Text = "3";
             this.txt_bin3accuracy_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_bin3accuracy_PreT.Visible = false;
             // 
             // label76
             // 
             this.label76.AutoSize = true;
             this.label76.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label76.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label76.Location = new System.Drawing.Point(631, 175);
+            this.label76.Location = new System.Drawing.Point(674, 388);
             this.label76.Name = "label76";
             this.label76.Size = new System.Drawing.Size(20, 16);
             this.label76.TabIndex = 96;
             this.label76.Text = "%";
+            this.label76.Visible = false;
             // 
             // label75
             // 
             this.label75.AutoSize = true;
             this.label75.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label75.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label75.Location = new System.Drawing.Point(397, 175);
+            this.label75.Location = new System.Drawing.Point(439, 388);
             this.label75.Name = "label75";
             this.label75.Size = new System.Drawing.Size(93, 16);
             this.label75.TabIndex = 95;
             this.label75.Text = "Bin3 Accuracy";
+            this.label75.Visible = false;
             // 
             // label74
             // 
@@ -2305,11 +2311,11 @@
             // label73
             // 
             this.label73.AutoSize = true;
-            this.label73.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label73.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label73.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label73.Location = new System.Drawing.Point(397, 141);
+            this.label73.Location = new System.Drawing.Point(417, 141);
             this.label73.Name = "label73";
-            this.label73.Size = new System.Drawing.Size(93, 16);
+            this.label73.Size = new System.Drawing.Size(85, 15);
             this.label73.TabIndex = 92;
             this.label73.Text = "Bin2 Accuracy";
             // 
@@ -2356,7 +2362,7 @@
             this.label66.AutoSize = true;
             this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label66.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label66.Location = new System.Drawing.Point(296, 175);
+            this.label66.Location = new System.Drawing.Point(629, 178);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(28, 16);
             this.label66.TabIndex = 89;
@@ -2389,11 +2395,11 @@
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label34.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label34.Location = new System.Drawing.Point(433, 73);
+            this.label34.Location = new System.Drawing.Point(417, 73);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(20, 16);
+            this.label34.Size = new System.Drawing.Size(18, 15);
             this.label34.TabIndex = 87;
             this.label34.Text = "IP";
             // 
@@ -2413,11 +2419,11 @@
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label59.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label59.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label59.Location = new System.Drawing.Point(406, 39);
+            this.label59.Location = new System.Drawing.Point(417, 39);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(58, 16);
+            this.label59.Size = new System.Drawing.Size(50, 15);
             this.label59.TabIndex = 82;
             this.label59.Text = "VIP-V0A";
             // 
@@ -2426,9 +2432,9 @@
             this.txt_AdcOffset_PreT.BackColor = System.Drawing.Color.CadetBlue;
             this.txt_AdcOffset_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_AdcOffset_PreT.ForeColor = System.Drawing.Color.White;
-            this.txt_AdcOffset_PreT.Location = new System.Drawing.Point(182, 172);
+            this.txt_AdcOffset_PreT.Location = new System.Drawing.Point(506, 175);
             this.txt_AdcOffset_PreT.Name = "txt_AdcOffset_PreT";
-            this.txt_AdcOffset_PreT.Size = new System.Drawing.Size(104, 22);
+            this.txt_AdcOffset_PreT.Size = new System.Drawing.Size(119, 22);
             this.txt_AdcOffset_PreT.TabIndex = 83;
             this.txt_AdcOffset_PreT.Text = "0";
             this.txt_AdcOffset_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2451,22 +2457,22 @@
             // label65
             // 
             this.label65.AutoSize = true;
-            this.label65.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label65.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label65.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label65.Location = new System.Drawing.Point(82, 175);
+            this.label65.Location = new System.Drawing.Point(417, 178);
             this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(76, 16);
+            this.label65.Size = new System.Drawing.Size(68, 15);
             this.label65.TabIndex = 82;
             this.label65.Text = "ADC Offset ";
             // 
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label38.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label38.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label38.Location = new System.Drawing.Point(404, 107);
+            this.label38.Location = new System.Drawing.Point(417, 107);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(79, 16);
+            this.label38.Size = new System.Drawing.Size(69, 15);
             this.label38.TabIndex = 82;
             this.label38.Text = "Target Gain";
             // 
@@ -2490,22 +2496,22 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label69.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label69.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label69.Location = new System.Drawing.Point(75, 141);
+            this.label69.Location = new System.Drawing.Point(76, 141);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(75, 16);
+            this.label69.Size = new System.Drawing.Size(68, 15);
             this.label69.TabIndex = 8;
             this.label69.Text = "V0A Option";
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label33.Location = new System.Drawing.Point(81, 107);
+            this.label33.Location = new System.Drawing.Point(76, 107);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(78, 16);
+            this.label33.Size = new System.Drawing.Size(73, 15);
             this.label33.TabIndex = 8;
             this.label33.Text = "Gain Option";
             // 
@@ -2532,11 +2538,11 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label32.Location = new System.Drawing.Point(61, 73);
+            this.label32.Location = new System.Drawing.Point(76, 73);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(119, 16);
+            this.label32.Size = new System.Drawing.Size(102, 15);
             this.label32.TabIndex = 6;
             this.label32.Text = "Tem Compesation";
             // 
@@ -2547,8 +2553,8 @@
             this.cmb_SensitivityAdapt_PreT.FormattingEnabled = true;
             this.cmb_SensitivityAdapt_PreT.Items.AddRange(new object[] {
             "Default",
-            "Grade A",
-            "Grade B"});
+            "GradeA",
+            "GradeB"});
             this.cmb_SensitivityAdapt_PreT.Location = new System.Drawing.Point(182, 35);
             this.cmb_SensitivityAdapt_PreT.Name = "cmb_SensitivityAdapt_PreT";
             this.cmb_SensitivityAdapt_PreT.Size = new System.Drawing.Size(126, 24);
@@ -2558,11 +2564,11 @@
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label35.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label35.Location = new System.Drawing.Point(67, 39);
+            this.label35.Location = new System.Drawing.Point(76, 39);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(107, 16);
+            this.label35.Size = new System.Drawing.Size(98, 15);
             this.label35.TabIndex = 0;
             this.label35.Text = "Sensitivity Adapt";
             // 
@@ -2597,7 +2603,6 @@
             this.groupBox4.Controls.Add(this.label54);
             this.groupBox4.Controls.Add(this.btn_ModuleCurrent_PreT);
             this.groupBox4.Controls.Add(this.txt_ModuleCurrent_PreT);
-            this.groupBox4.Controls.Add(this.label30);
             this.groupBox4.Controls.Add(this.txt_SerialNum_PreT);
             this.groupBox4.Controls.Add(this.btn_PowerOff_PreT);
             this.groupBox4.Controls.Add(this.label31);
@@ -2651,7 +2656,7 @@
             this.btn_ModuleCurrent_PreT.Name = "btn_ModuleCurrent_PreT";
             this.btn_ModuleCurrent_PreT.Size = new System.Drawing.Size(60, 25);
             this.btn_ModuleCurrent_PreT.TabIndex = 83;
-            this.btn_ModuleCurrent_PreT.Text = "IQ";
+            this.btn_ModuleCurrent_PreT.Text = "Iq (mA)";
             this.btn_ModuleCurrent_PreT.UseVisualStyleBackColor = true;
             this.btn_ModuleCurrent_PreT.Click += new System.EventHandler(this.btn_ModuleCurrent_EngT_Click);
             // 
@@ -2667,17 +2672,6 @@
             this.txt_ModuleCurrent_PreT.TabIndex = 85;
             this.txt_ModuleCurrent_PreT.Text = "0.0";
             this.txt_ModuleCurrent_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label30.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label30.Location = new System.Drawing.Point(462, 41);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(25, 15);
-            this.label30.TabIndex = 84;
-            this.label30.Text = "mA";
             // 
             // txt_SerialNum_PreT
             // 
@@ -2761,11 +2755,11 @@
             // label78
             // 
             this.label78.AutoSize = true;
-            this.label78.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label78.Font = new System.Drawing.Font("Cambria", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label78.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label78.Location = new System.Drawing.Point(173, 366);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(109, 19);
+            this.label78.Size = new System.Drawing.Size(116, 20);
             this.label78.TabIndex = 117;
             this.label78.Text = "Test after Trim";
             // 
@@ -2810,22 +2804,22 @@
             // label77
             // 
             this.label77.AutoSize = true;
-            this.label77.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label77.Font = new System.Drawing.Font("Cambria", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label77.Location = new System.Drawing.Point(173, 338);
             this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(112, 19);
+            this.label77.Size = new System.Drawing.Size(116, 20);
             this.label77.TabIndex = 114;
             this.label77.Text = "Program Mode";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label21.Font = new System.Drawing.Font("Cambria", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label21.Location = new System.Drawing.Point(173, 310);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(99, 19);
+            this.label21.Size = new System.Drawing.Size(107, 20);
             this.label21.TabIndex = 114;
             this.label21.Text = "Prodcut Type";
             // 
@@ -3083,11 +3077,11 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label58.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label58.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label58.Location = new System.Drawing.Point(62, 189);
+            this.label58.Location = new System.Drawing.Point(69, 189);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(96, 19);
+            this.label58.Size = new System.Drawing.Size(87, 19);
             this.label58.TabIndex = 109;
             this.label58.Text = "Chosen Gain";
             // 
@@ -3185,44 +3179,44 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label50.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label50.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label50.Location = new System.Drawing.Point(72, 149);
+            this.label50.Location = new System.Drawing.Point(69, 149);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(69, 19);
+            this.label50.Size = new System.Drawing.Size(64, 19);
             this.label50.TabIndex = 99;
             this.label50.Text = "IP Range";
             // 
             // label71
             // 
             this.label71.AutoSize = true;
-            this.label71.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label71.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label71.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label71.Location = new System.Drawing.Point(363, 41);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(59, 19);
+            this.label71.Size = new System.Drawing.Size(51, 19);
             this.label71.TabIndex = 97;
             this.label71.Text = "Voffset";
             // 
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label52.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label52.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label52.Location = new System.Drawing.Point(52, 113);
+            this.label52.Location = new System.Drawing.Point(69, 113);
             this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(123, 19);
+            this.label52.Size = new System.Drawing.Size(110, 19);
             this.label52.TabIndex = 97;
             this.label52.Text = "Sensitivity Adapt";
             // 
             // label70
             // 
             this.label70.AutoSize = true;
-            this.label70.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label70.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label70.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label70.Location = new System.Drawing.Point(63, 41);
+            this.label70.Location = new System.Drawing.Point(69, 41);
             this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(98, 19);
+            this.label70.Size = new System.Drawing.Size(90, 19);
             this.label70.TabIndex = 97;
             this.label70.Text = "Module Type";
             // 
@@ -3242,22 +3236,22 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label68.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label68.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label68.Location = new System.Drawing.Point(349, 189);
+            this.label68.Location = new System.Drawing.Point(363, 189);
             this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(91, 19);
+            this.label68.Size = new System.Drawing.Size(83, 19);
             this.label68.TabIndex = 91;
             this.label68.Text = "ADC Offset";
             // 
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label49.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label49.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label49.Location = new System.Drawing.Point(349, 149);
+            this.label49.Location = new System.Drawing.Point(363, 149);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(87, 19);
+            this.label49.Size = new System.Drawing.Size(79, 19);
             this.label49.TabIndex = 91;
             this.label49.Text = "Target Gain";
             // 
@@ -3275,13 +3269,13 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label51.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label51.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label51.Location = new System.Drawing.Point(49, 77);
+            this.label51.Location = new System.Drawing.Point(69, 77);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(132, 19);
+            this.label51.Size = new System.Drawing.Size(77, 19);
             this.label51.TabIndex = 98;
-            this.label51.Text = "Tem Compesation";
+            this.label51.Text = "Tem Comp";
             // 
             // label67
             // 
@@ -3330,22 +3324,22 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label48.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label48.Location = new System.Drawing.Point(381, 113);
+            this.label48.Location = new System.Drawing.Point(363, 113);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(24, 19);
+            this.label48.Size = new System.Drawing.Size(23, 19);
             this.label48.TabIndex = 93;
             this.label48.Text = "IP";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label61.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label61.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label61.Location = new System.Drawing.Point(349, 77);
+            this.label61.Location = new System.Drawing.Point(363, 77);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(91, 19);
+            this.label61.Size = new System.Drawing.Size(82, 19);
             this.label61.TabIndex = 91;
             this.label61.Text = "VIP-Voffset";
             // 
@@ -3807,6 +3801,30 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label79.Location = new System.Drawing.Point(76, 175);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(97, 15);
+            this.label79.TabIndex = 95;
+            this.label79.Text = "Sensor Direction";
+            // 
+            // cmb_PreTrim_SensorDirection
+            // 
+            this.cmb_PreTrim_SensorDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_PreTrim_SensorDirection.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_PreTrim_SensorDirection.FormattingEnabled = true;
+            this.cmb_PreTrim_SensorDirection.Items.AddRange(new object[] {
+            "Default",
+            "Invert"});
+            this.cmb_PreTrim_SensorDirection.Location = new System.Drawing.Point(182, 171);
+            this.cmb_PreTrim_SensorDirection.Name = "cmb_PreTrim_SensorDirection";
+            this.cmb_PreTrim_SensorDirection.Size = new System.Drawing.Size(126, 24);
+            this.cmb_PreTrim_SensorDirection.TabIndex = 96;
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3819,7 +3837,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.1 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.2 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -4024,7 +4042,6 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btn_ModuleCurrent_PreT;
         private System.Windows.Forms.TextBox txt_ModuleCurrent_PreT;
-        private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox txt_SerialNum_PreT;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.GroupBox groupBox6;
@@ -4171,5 +4188,7 @@
         private System.Windows.Forms.Button btn_FineDRUp_BrakeT;
         private System.Windows.Forms.ComboBox cb_AutoTab_Retest;
         private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.ComboBox cmb_PreTrim_SensorDirection;
+        private System.Windows.Forms.Label label79;
     }
 }

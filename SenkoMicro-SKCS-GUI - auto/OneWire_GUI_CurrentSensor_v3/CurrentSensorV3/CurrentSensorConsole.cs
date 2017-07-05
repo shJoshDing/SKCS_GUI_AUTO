@@ -609,6 +609,7 @@ namespace CurrentSensorV3
             this.cmb_Voffset_PreT.SelectedIndex = 0;
             this.cmb_SocketType_AutoT.SelectedIndex = 0;
             this.cmb_ProgramMode_AutoT.SelectedIndex = 0;
+            this.cmb_PreTrim_SensorDirection.SelectedIndex = 0;
 
             this.cb_AutoTab_Retest.SelectedIndex = 0;
 
@@ -4564,20 +4565,38 @@ namespace CurrentSensorV3
 
             if (this.cmb_Module_PreT.SelectedItem.ToString() == "5V" || this.cmb_Module_PreT.SelectedItem.ToString() == "3.3V")
             {
+                if (this.TargetGain_customer < 20)
+                    Reg80Value = 0x80;      //iHall decrease 33%
+
                 if (SocketType == 0)
                     AutomaticaTrim_5V_SingleSite();
                 else if (SocketType == 1)
                     AutomaticaTrim_5V_DiffMode();
                 else if (SocketType == 2)
                 {
-                    if(this.cmb_OffsetOption_EngT.SelectedIndex == 0)
-                        Reg80Value = 0x04;
-                    else if (this.cmb_OffsetOption_EngT.SelectedIndex == 1)
-                        Reg80Value = 0x04;
-                    else if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
-                        Reg80Value = 0x05;
-                    else if (this.cmb_OffsetOption_EngT.SelectedIndex == 3)
-                        Reg80Value = 0x06;
+                    if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
+                    {
+                        if (this.cmb_OffsetOption_EngT.SelectedIndex == 0)
+                            Reg80Value |= 0x04;
+                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 1)
+                            Reg80Value |= 0x04;
+                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
+                            Reg80Value |= 0x05;
+                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 3)
+                            Reg80Value |= 0x06;
+                    }
+                    else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
+                    {
+                        DisplayOperateMes("Inverted Sensor Direction");
+                        if (this.cmb_OffsetOption_EngT.SelectedIndex == 0)
+                            Reg80Value |= 0x00;
+                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 1)
+                            Reg80Value |= 0x00;
+                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
+                            Reg80Value |= 0x01;
+                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 3)
+                            Reg80Value |= 0x02;
+                    }
 
                     preSetCoareseGainCode = 2;
 
@@ -9679,9 +9698,9 @@ namespace CurrentSensorV3
 
                 // Senseing Directon
                 msg = string.Format("Sensing Direction |{0}|{1}",
-                    this.cmb_SensingDirection_EngT.SelectedIndex.ToString(), this.cmb_SensingDirection_EngT.SelectedItem.ToString());
+                    this.cmb_PreTrim_SensorDirection.SelectedIndex.ToString(), this.cmb_PreTrim_SensorDirection.SelectedItem.ToString());
                 sw.WriteLine(msg);
-
+                
                 //vout capture latency of IP ON
                 msg = string.Format("Delay | {0}", this.txt_Delay_PreT.Text);
                 sw.WriteLine(msg);
@@ -9793,11 +9812,12 @@ namespace CurrentSensorV3
                 msg = sr.ReadLine().Split("|".ToCharArray());
                 ix = int.Parse(msg[1]);
                 this.cmb_SensingDirection_EngT.SelectedIndex = ix;
+                this.cmb_PreTrim_SensorDirection.SelectedIndex = ix;
 
                 // Delay
                 msg = sr.ReadLine().Split("|".ToArray());
                 Delay_Fuse = int.Parse(msg[1]);
-                this.txt_Delay_PreT.Text = msg[1];
+                this.txt_Delay_PreT.Text = double.Parse(msg[1]).ToString();
 
                 sr.Close();
 
