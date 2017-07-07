@@ -4598,15 +4598,116 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x02;
                     }
 
-                    preSetCoareseGainCode = 2;
-
+                    DialogResult dr;
+                    double Vip_Pretrim = 0;
+                    double V0A_Pretrim = 0;
+                    double coarse_PretrimGain = 0;
+                    preSetCoareseGainCode = 15;
                     Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                     Reg82Value = 0x51;
                     Reg83Value = 0x30;
                     Reg84Value = 0x00;
                     Reg85Value = 0x00;
                     Reg86Value = 0x00;
-                    Reg87Value = 0x00;
+                    Reg87Value = 0x00; 
+
+                    RePower();
+                    Delay(Delay_Sync);
+                    RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+                    Delay(Delay_Sync);
+                    BurstRead(0x80, 5, tempReadback);
+                    EnterNomalMode();
+                    Delay(Delay_Fuse);
+                    V0A_Pretrim = AverageVout();
+
+                    #region /* Change Current to IP  */
+                    if (ProgramMode == 0)
+                    {
+                        //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
+                        if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                        {
+                            DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                            TrimFinish();
+                            return;
+                        }
+                    }
+                    else if (ProgramMode == 1)
+                    {
+                        dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                        if (dr == DialogResult.Cancel)
+                        {
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            PowerOff();
+                            RestoreReg80ToReg83Value();
+                            return;
+                        }
+                    }
+                    #endregion
+
+                    Delay(Delay_Fuse);
+                    Vip_Pretrim = AverageVout();
+                    DisplayOperateMes("Vout@0A = " + V0A_Pretrim.ToString("F3"));
+                    DisplayOperateMes("Vout@IP_1 = " + Vip_Pretrim.ToString("F3"));
+
+
+                    if (Vip_Pretrim - V0A_Pretrim < 0)
+                    {
+                        DisplayOperateMes("请确认IP方向！");
+                        return;
+                    }
+                    else if (Vip_Pretrim - V0A_Pretrim < 0.005d)
+                    {
+                        DisplayOperateMes("请确认IP是否ON！");
+                        return;
+                    }
+                    coarse_PretrimGain = 2.0d * 12.7d / (Vip_Pretrim - V0A_Pretrim);
+                    DisplayOperateMes("coarse_PretrimGain = " + coarse_PretrimGain.ToString("F3"));
+                    preSetCoareseGainCode = Convert.ToUInt32( LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable) );
+                    Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+
+                    RePower();
+                    Delay(Delay_Sync);
+                    RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+                    Delay(Delay_Sync);
+                    BurstRead(0x80, 5, tempReadback);
+                    EnterNomalMode();
+                    Delay(Delay_Fuse);
+                    Vip_Pretrim = AverageVout();
+                    DisplayOperateMes("Vout@IP_2 = " + Vip_Pretrim.ToString("F3"));
+                    if (Vip_Pretrim < 4.5)
+                    {
+                        preSetCoareseGainCode--;
+                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                    }
+                    else if (Vip_Pretrim > 4.9)
+                    {
+                        preSetCoareseGainCode++;
+                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                    }
+
+                    #region /* Change Current to 0A */
+                    if (ProgramMode == 0)
+                    {
+                        if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
+                        {
+                            DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0u));
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            TrimFinish();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        dr = MessageBox.Show(String.Format("请将IP降至0A!"), "Try Again", MessageBoxButtons.OKCancel);
+                        if (dr == DialogResult.Cancel)
+                        {
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            PowerOff();
+                            RestoreReg80ToReg83Value();
+                            return;
+                        }
+                    }
+                    #endregion
 
                     if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
                         AutoTrim_SL620_SingleEnd_HalfVDD();
@@ -8365,9 +8466,7 @@ namespace CurrentSensorV3
             /* Get vout @ IP */
             EnterNomalMode();
 
-            /* Change Current to IP  */
-            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-            //3. Set Voltage
+            #region /* Change Current to IP  */
             if (ProgramMode == 0)
             {
                 //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
@@ -8389,7 +8488,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-
+            #endregion 
 
             //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
             Delay(Delay_Fuse);
@@ -8478,8 +8577,8 @@ namespace CurrentSensorV3
             #endregion Saturation judgement
 
             #region Get Vout@0A
-            /* Change Current to 0A */
-            //3. Set Voltage
+
+            #region /* Change Current to 0A */
             if (ProgramMode == 0)
             {
                 //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
@@ -8502,6 +8601,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
+            #endregion
 
             Delay(Delay_Fuse);
             dMultiSiteVout0A[idut] = AverageVout();

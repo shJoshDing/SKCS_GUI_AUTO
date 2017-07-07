@@ -161,8 +161,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.btn_preciseTrim = new System.Windows.Forms.Button();
             this.PriTrimTab = new System.Windows.Forms.TabPage();
+            this.label76 = new System.Windows.Forms.Label();
+            this.txt_bin3accuracy_PreT = new System.Windows.Forms.TextBox();
             this.label42 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
+            this.label75 = new System.Windows.Forms.Label();
             this.txt_Reg80_PreT = new System.Windows.Forms.TextBox();
             this.txt_Reg81_PreT = new System.Windows.Forms.TextBox();
             this.txt_Reg82_PreT = new System.Windows.Forms.TextBox();
@@ -184,9 +187,8 @@
             this.label63 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.txt_bin3accuracy_PreT = new System.Windows.Forms.TextBox();
-            this.label76 = new System.Windows.Forms.Label();
-            this.label75 = new System.Windows.Forms.Label();
+            this.cmb_PreTrim_SensorDirection = new System.Windows.Forms.ComboBox();
+            this.label79 = new System.Windows.Forms.Label();
             this.label74 = new System.Windows.Forms.Label();
             this.txt_bin2accuracy_PreT = new System.Windows.Forms.TextBox();
             this.label73 = new System.Windows.Forms.Label();
@@ -309,8 +311,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.label79 = new System.Windows.Forms.Label();
-            this.cmb_PreTrim_SensorDirection = new System.Windows.Forms.ComboBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -1942,6 +1942,31 @@
             this.PriTrimTab.Text = "PreTrim";
             this.PriTrimTab.UseVisualStyleBackColor = true;
             // 
+            // label76
+            // 
+            this.label76.AutoSize = true;
+            this.label76.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label76.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label76.Location = new System.Drawing.Point(674, 388);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(20, 16);
+            this.label76.TabIndex = 96;
+            this.label76.Text = "%";
+            this.label76.Visible = false;
+            // 
+            // txt_bin3accuracy_PreT
+            // 
+            this.txt_bin3accuracy_PreT.BackColor = System.Drawing.Color.CadetBlue;
+            this.txt_bin3accuracy_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_bin3accuracy_PreT.ForeColor = System.Drawing.Color.White;
+            this.txt_bin3accuracy_PreT.Location = new System.Drawing.Point(548, 382);
+            this.txt_bin3accuracy_PreT.Name = "txt_bin3accuracy_PreT";
+            this.txt_bin3accuracy_PreT.Size = new System.Drawing.Size(120, 22);
+            this.txt_bin3accuracy_PreT.TabIndex = 97;
+            this.txt_bin3accuracy_PreT.Text = "3";
+            this.txt_bin3accuracy_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_bin3accuracy_PreT.Visible = false;
+            // 
             // label42
             // 
             this.label42.AutoSize = true;
@@ -1963,6 +1988,18 @@
             this.label41.TabIndex = 87;
             this.label41.Text = "Reg4";
             this.label41.Visible = false;
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label75.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label75.Location = new System.Drawing.Point(439, 388);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(93, 16);
+            this.label75.TabIndex = 95;
+            this.label75.Text = "Bin3 Accuracy";
+            this.label75.Visible = false;
             // 
             // txt_Reg80_PreT
             // 
@@ -2248,42 +2285,29 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Sensor Options";
             // 
-            // txt_bin3accuracy_PreT
+            // cmb_PreTrim_SensorDirection
             // 
-            this.txt_bin3accuracy_PreT.BackColor = System.Drawing.Color.CadetBlue;
-            this.txt_bin3accuracy_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_bin3accuracy_PreT.ForeColor = System.Drawing.Color.White;
-            this.txt_bin3accuracy_PreT.Location = new System.Drawing.Point(548, 382);
-            this.txt_bin3accuracy_PreT.Name = "txt_bin3accuracy_PreT";
-            this.txt_bin3accuracy_PreT.Size = new System.Drawing.Size(120, 22);
-            this.txt_bin3accuracy_PreT.TabIndex = 97;
-            this.txt_bin3accuracy_PreT.Text = "3";
-            this.txt_bin3accuracy_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txt_bin3accuracy_PreT.Visible = false;
+            this.cmb_PreTrim_SensorDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_PreTrim_SensorDirection.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_PreTrim_SensorDirection.FormattingEnabled = true;
+            this.cmb_PreTrim_SensorDirection.Items.AddRange(new object[] {
+            "Default",
+            "Invert"});
+            this.cmb_PreTrim_SensorDirection.Location = new System.Drawing.Point(182, 171);
+            this.cmb_PreTrim_SensorDirection.Name = "cmb_PreTrim_SensorDirection";
+            this.cmb_PreTrim_SensorDirection.Size = new System.Drawing.Size(126, 24);
+            this.cmb_PreTrim_SensorDirection.TabIndex = 96;
             // 
-            // label76
+            // label79
             // 
-            this.label76.AutoSize = true;
-            this.label76.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label76.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label76.Location = new System.Drawing.Point(674, 388);
-            this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(20, 16);
-            this.label76.TabIndex = 96;
-            this.label76.Text = "%";
-            this.label76.Visible = false;
-            // 
-            // label75
-            // 
-            this.label75.AutoSize = true;
-            this.label75.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label75.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label75.Location = new System.Drawing.Point(439, 388);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(93, 16);
-            this.label75.TabIndex = 95;
-            this.label75.Text = "Bin3 Accuracy";
-            this.label75.Visible = false;
+            this.label79.AutoSize = true;
+            this.label79.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label79.Location = new System.Drawing.Point(76, 175);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(97, 15);
+            this.label79.TabIndex = 95;
+            this.label79.Text = "Sensor Direction";
             // 
             // label74
             // 
@@ -3801,30 +3825,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // label79
-            // 
-            this.label79.AutoSize = true;
-            this.label79.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label79.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label79.Location = new System.Drawing.Point(76, 175);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(97, 15);
-            this.label79.TabIndex = 95;
-            this.label79.Text = "Sensor Direction";
-            // 
-            // cmb_PreTrim_SensorDirection
-            // 
-            this.cmb_PreTrim_SensorDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_PreTrim_SensorDirection.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmb_PreTrim_SensorDirection.FormattingEnabled = true;
-            this.cmb_PreTrim_SensorDirection.Items.AddRange(new object[] {
-            "Default",
-            "Invert"});
-            this.cmb_PreTrim_SensorDirection.Location = new System.Drawing.Point(182, 171);
-            this.cmb_PreTrim_SensorDirection.Name = "cmb_PreTrim_SensorDirection";
-            this.cmb_PreTrim_SensorDirection.Size = new System.Drawing.Size(126, 24);
-            this.cmb_PreTrim_SensorDirection.TabIndex = 96;
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3837,7 +3837,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.2 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.3 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
