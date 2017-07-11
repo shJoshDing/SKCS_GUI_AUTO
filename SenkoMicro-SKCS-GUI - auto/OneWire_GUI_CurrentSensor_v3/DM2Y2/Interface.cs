@@ -3603,7 +3603,8 @@ namespace ADI.DMY2
             SP_CONFIG_TO_MOUT = 0x75,
             SP_CONFIG_TO_VCS = 0x76,
             SP_MULTISITTE_GROUP_A = 0X79,
-            SP_MULTISITTE_GROUP_B = 0X7A
+            SP_MULTISITTE_GROUP_B = 0X7A,
+            SP_VDD_FROM_3V3 = 0x7B
         }
 
         public enum UARTControlCommand

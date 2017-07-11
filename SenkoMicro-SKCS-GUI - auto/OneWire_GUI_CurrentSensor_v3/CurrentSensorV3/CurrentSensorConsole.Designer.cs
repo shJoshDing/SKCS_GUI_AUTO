@@ -278,40 +278,42 @@
             this.label61 = new System.Windows.Forms.Label();
             this.BrakeTab = new System.Windows.Forms.TabPage();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.btn_TuningTab_FineOffsetDown = new System.Windows.Forms.Button();
-            this.btn_TuningTab_FineOffsetUp = new System.Windows.Forms.Button();
+            this.label98 = new System.Windows.Forms.Label();
+            this.btn_TuningTab_Trim = new System.Windows.Forms.Button();
+            this.btn_TuningTab_Power = new System.Windows.Forms.Button();
             this.btn_TuningTab_UpdateA = new System.Windows.Forms.Button();
             this.btn_TuningTab_UpdateB = new System.Windows.Forms.Button();
-            this.btn_TuningTab_CoarseOffsetDown = new System.Windows.Forms.Button();
-            this.btn_TuningTab_CoarseOffsetUp = new System.Windows.Forms.Button();
-            this.btn_TuningTab_FineGainDown = new System.Windows.Forms.Button();
-            this.btn_TuningTab_FineGainUp = new System.Windows.Forms.Button();
-            this.btn_TuningTab_CoarseGainDown = new System.Windows.Forms.Button();
-            this.btn_TuningTab_CoarseGainUp = new System.Windows.Forms.Button();
-            this.label98 = new System.Windows.Forms.Label();
-            this.label99 = new System.Windows.Forms.Label();
             this.tb_TuningTab_VbError = new System.Windows.Forms.TextBox();
             this.tb_TuningTab_VaError = new System.Windows.Forms.TextBox();
+            this.btn_TuningTab_FineOffsetDown = new System.Windows.Forms.Button();
+            this.label99 = new System.Windows.Forms.Label();
+            this.btn_TuningTab_FineOffsetUp = new System.Windows.Forms.Button();
+            this.btn_TuningTab_CoarseOffsetDown = new System.Windows.Forms.Button();
+            this.btn_TuningTab_CoarseOffsetUp = new System.Windows.Forms.Button();
             this.label94 = new System.Windows.Forms.Label();
+            this.btn_TuningTab_FineGainDown = new System.Windows.Forms.Button();
             this.tb_TuningTab_Vb = new System.Windows.Forms.TextBox();
+            this.btn_TuningTab_FineGainUp = new System.Windows.Forms.Button();
             this.tb_TuningTab_Va = new System.Windows.Forms.TextBox();
+            this.btn_TuningTab_CoarseGainDown = new System.Windows.Forms.Button();
             this.label79 = new System.Windows.Forms.Label();
+            this.btn_TuningTab_CoarseGainUp = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.cb_TuningTab_PowerSupply = new System.Windows.Forms.ComboBox();
+            this.label101 = new System.Windows.Forms.Label();
             this.cb_TuningTab_OutOption = new System.Windows.Forms.ComboBox();
-            this.btn_TuningTab_Power = new System.Windows.Forms.Button();
-            this.label97 = new System.Windows.Forms.Label();
-            this.btn_TuningTab_Trim = new System.Windows.Forms.Button();
             this.label80 = new System.Windows.Forms.Label();
-            this.label78 = new System.Windows.Forms.Label();
             this.cb_TuningTab_IpUsage = new System.Windows.Forms.ComboBox();
-            this.label93 = new System.Windows.Forms.Label();
+            this.label97 = new System.Windows.Forms.Label();
             this.label100 = new System.Windows.Forms.Label();
+            this.label78 = new System.Windows.Forms.Label();
+            this.label93 = new System.Windows.Forms.Label();
             this.tb_TuningTab_Aip = new System.Windows.Forms.TextBox();
+            this.cb_TuningTab_Product = new System.Windows.Forms.ComboBox();
+            this.label96 = new System.Windows.Forms.Label();
             this.tb_TuningTab_TargetVa = new System.Windows.Forms.TextBox();
             this.label95 = new System.Windows.Forms.Label();
-            this.label96 = new System.Windows.Forms.Label();
             this.tb_TuningTab_Bip = new System.Windows.Forms.TextBox();
-            this.cb_TuningTab_Product = new System.Windows.Forms.ComboBox();
             this.tb_TuningTab_TargetVb = new System.Windows.Forms.TextBox();
             this.SL910Tab = new System.Windows.Forms.TabPage();
             this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
@@ -401,8 +403,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.cb_TuningTab_PowerSupply = new System.Windows.Forms.ComboBox();
-            this.label101 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3554,31 +3554,41 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Tunning";
             // 
-            // btn_TuningTab_FineOffsetDown
+            // label98
             // 
-            this.btn_TuningTab_FineOffsetDown.BackColor = System.Drawing.Color.Salmon;
-            this.btn_TuningTab_FineOffsetDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_TuningTab_FineOffsetDown.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_TuningTab_FineOffsetDown.Location = new System.Drawing.Point(546, 239);
-            this.btn_TuningTab_FineOffsetDown.Name = "btn_TuningTab_FineOffsetDown";
-            this.btn_TuningTab_FineOffsetDown.Size = new System.Drawing.Size(127, 42);
-            this.btn_TuningTab_FineOffsetDown.TabIndex = 15;
-            this.btn_TuningTab_FineOffsetDown.Text = "- Fine Offset";
-            this.btn_TuningTab_FineOffsetDown.UseVisualStyleBackColor = false;
-            this.btn_TuningTab_FineOffsetDown.Click += new System.EventHandler(this.btn_TuningTab_FineOffsetDown_Click);
+            this.label98.AutoSize = true;
+            this.label98.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label98.Location = new System.Drawing.Point(165, 34);
+            this.label98.Name = "label98";
+            this.label98.Size = new System.Drawing.Size(77, 15);
+            this.label98.TabIndex = 27;
+            this.label98.Text = "Point A Error";
             // 
-            // btn_TuningTab_FineOffsetUp
+            // btn_TuningTab_Trim
             // 
-            this.btn_TuningTab_FineOffsetUp.BackColor = System.Drawing.Color.Salmon;
-            this.btn_TuningTab_FineOffsetUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_TuningTab_FineOffsetUp.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_TuningTab_FineOffsetUp.Location = new System.Drawing.Point(546, 188);
-            this.btn_TuningTab_FineOffsetUp.Name = "btn_TuningTab_FineOffsetUp";
-            this.btn_TuningTab_FineOffsetUp.Size = new System.Drawing.Size(127, 42);
-            this.btn_TuningTab_FineOffsetUp.TabIndex = 14;
-            this.btn_TuningTab_FineOffsetUp.Text = "+ Fine Offset";
-            this.btn_TuningTab_FineOffsetUp.UseVisualStyleBackColor = false;
-            this.btn_TuningTab_FineOffsetUp.Click += new System.EventHandler(this.btn_TuningTab_FineOffsetUp_Click);
+            this.btn_TuningTab_Trim.BackColor = System.Drawing.Color.Sienna;
+            this.btn_TuningTab_Trim.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_Trim.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_Trim.Location = new System.Drawing.Point(507, 96);
+            this.btn_TuningTab_Trim.Name = "btn_TuningTab_Trim";
+            this.btn_TuningTab_Trim.Size = new System.Drawing.Size(130, 40);
+            this.btn_TuningTab_Trim.TabIndex = 37;
+            this.btn_TuningTab_Trim.Text = "Trim";
+            this.btn_TuningTab_Trim.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_Trim.Click += new System.EventHandler(this.btn_TuningTab_Trim_Click);
+            // 
+            // btn_TuningTab_Power
+            // 
+            this.btn_TuningTab_Power.BackColor = System.Drawing.Color.Snow;
+            this.btn_TuningTab_Power.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_Power.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_Power.Location = new System.Drawing.Point(507, 37);
+            this.btn_TuningTab_Power.Name = "btn_TuningTab_Power";
+            this.btn_TuningTab_Power.Size = new System.Drawing.Size(130, 40);
+            this.btn_TuningTab_Power.TabIndex = 38;
+            this.btn_TuningTab_Power.Text = "OFF";
+            this.btn_TuningTab_Power.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_Power.Click += new System.EventHandler(this.btn_PowerClick);
             // 
             // btn_TuningTab_UpdateA
             // 
@@ -3606,6 +3616,62 @@
             this.btn_TuningTab_UpdateB.UseVisualStyleBackColor = false;
             this.btn_TuningTab_UpdateB.Click += new System.EventHandler(this.btn_TuningTab_UpdateB_Click);
             // 
+            // tb_TuningTab_VbError
+            // 
+            this.tb_TuningTab_VbError.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_VbError.Location = new System.Drawing.Point(168, 111);
+            this.tb_TuningTab_VbError.Name = "tb_TuningTab_VbError";
+            this.tb_TuningTab_VbError.ReadOnly = true;
+            this.tb_TuningTab_VbError.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_VbError.TabIndex = 28;
+            this.tb_TuningTab_VbError.Text = "0";
+            // 
+            // tb_TuningTab_VaError
+            // 
+            this.tb_TuningTab_VaError.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_VaError.Location = new System.Drawing.Point(168, 52);
+            this.tb_TuningTab_VaError.Name = "tb_TuningTab_VaError";
+            this.tb_TuningTab_VaError.ReadOnly = true;
+            this.tb_TuningTab_VaError.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_VaError.TabIndex = 26;
+            this.tb_TuningTab_VaError.Text = "0";
+            // 
+            // btn_TuningTab_FineOffsetDown
+            // 
+            this.btn_TuningTab_FineOffsetDown.BackColor = System.Drawing.Color.Salmon;
+            this.btn_TuningTab_FineOffsetDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_FineOffsetDown.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_FineOffsetDown.Location = new System.Drawing.Point(546, 239);
+            this.btn_TuningTab_FineOffsetDown.Name = "btn_TuningTab_FineOffsetDown";
+            this.btn_TuningTab_FineOffsetDown.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_FineOffsetDown.TabIndex = 15;
+            this.btn_TuningTab_FineOffsetDown.Text = "- Fine Offset";
+            this.btn_TuningTab_FineOffsetDown.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_FineOffsetDown.Click += new System.EventHandler(this.btn_TuningTab_FineOffsetDown_Click);
+            // 
+            // label99
+            // 
+            this.label99.AutoSize = true;
+            this.label99.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label99.Location = new System.Drawing.Point(165, 93);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(77, 15);
+            this.label99.TabIndex = 29;
+            this.label99.Text = "Point B Error";
+            // 
+            // btn_TuningTab_FineOffsetUp
+            // 
+            this.btn_TuningTab_FineOffsetUp.BackColor = System.Drawing.Color.Salmon;
+            this.btn_TuningTab_FineOffsetUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_TuningTab_FineOffsetUp.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_TuningTab_FineOffsetUp.Location = new System.Drawing.Point(546, 188);
+            this.btn_TuningTab_FineOffsetUp.Name = "btn_TuningTab_FineOffsetUp";
+            this.btn_TuningTab_FineOffsetUp.Size = new System.Drawing.Size(127, 42);
+            this.btn_TuningTab_FineOffsetUp.TabIndex = 14;
+            this.btn_TuningTab_FineOffsetUp.Text = "+ Fine Offset";
+            this.btn_TuningTab_FineOffsetUp.UseVisualStyleBackColor = false;
+            this.btn_TuningTab_FineOffsetUp.Click += new System.EventHandler(this.btn_TuningTab_FineOffsetUp_Click);
+            // 
             // btn_TuningTab_CoarseOffsetDown
             // 
             this.btn_TuningTab_CoarseOffsetDown.BackColor = System.Drawing.Color.RosyBrown;
@@ -3632,6 +3698,16 @@
             this.btn_TuningTab_CoarseOffsetUp.UseVisualStyleBackColor = false;
             this.btn_TuningTab_CoarseOffsetUp.Click += new System.EventHandler(this.btn_TuningTab_CoarseOffsetUp_Click);
             // 
+            // label94
+            // 
+            this.label94.AutoSize = true;
+            this.label94.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label94.Location = new System.Drawing.Point(34, 93);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(88, 15);
+            this.label94.TabIndex = 20;
+            this.label94.Text = "Vout @ Point B";
+            // 
             // btn_TuningTab_FineGainDown
             // 
             this.btn_TuningTab_FineGainDown.BackColor = System.Drawing.Color.Gray;
@@ -3644,6 +3720,16 @@
             this.btn_TuningTab_FineGainDown.Text = "-  Fine Gain ";
             this.btn_TuningTab_FineGainDown.UseVisualStyleBackColor = false;
             this.btn_TuningTab_FineGainDown.Click += new System.EventHandler(this.btn_TuningTab_FineGainDown_Click);
+            // 
+            // tb_TuningTab_Vb
+            // 
+            this.tb_TuningTab_Vb.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_Vb.Location = new System.Drawing.Point(37, 111);
+            this.tb_TuningTab_Vb.Name = "tb_TuningTab_Vb";
+            this.tb_TuningTab_Vb.ReadOnly = true;
+            this.tb_TuningTab_Vb.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_Vb.TabIndex = 4;
+            this.tb_TuningTab_Vb.Text = "0";
             // 
             // btn_TuningTab_FineGainUp
             // 
@@ -3658,6 +3744,16 @@
             this.btn_TuningTab_FineGainUp.UseVisualStyleBackColor = false;
             this.btn_TuningTab_FineGainUp.Click += new System.EventHandler(this.btn_TuningTab_FineGainUp_Click);
             // 
+            // tb_TuningTab_Va
+            // 
+            this.tb_TuningTab_Va.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_TuningTab_Va.Location = new System.Drawing.Point(37, 52);
+            this.tb_TuningTab_Va.Name = "tb_TuningTab_Va";
+            this.tb_TuningTab_Va.ReadOnly = true;
+            this.tb_TuningTab_Va.Size = new System.Drawing.Size(100, 25);
+            this.tb_TuningTab_Va.TabIndex = 1;
+            this.tb_TuningTab_Va.Text = "0";
+            // 
             // btn_TuningTab_CoarseGainDown
             // 
             this.btn_TuningTab_CoarseGainDown.BackColor = System.Drawing.Color.DarkGray;
@@ -3671,6 +3767,16 @@
             this.btn_TuningTab_CoarseGainDown.UseVisualStyleBackColor = false;
             this.btn_TuningTab_CoarseGainDown.Click += new System.EventHandler(this.btn_TuningTab_CoarseGainDown_Click);
             // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.Location = new System.Drawing.Point(34, 34);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(88, 15);
+            this.label79.TabIndex = 17;
+            this.label79.Text = "Vout @ Point A";
+            // 
             // btn_TuningTab_CoarseGainUp
             // 
             this.btn_TuningTab_CoarseGainUp.BackColor = System.Drawing.Color.DarkGray;
@@ -3683,86 +3789,6 @@
             this.btn_TuningTab_CoarseGainUp.Text = "+ Coarse Gain";
             this.btn_TuningTab_CoarseGainUp.UseVisualStyleBackColor = false;
             this.btn_TuningTab_CoarseGainUp.Click += new System.EventHandler(this.btn_TuningTab_CoarseGainUp_Click);
-            // 
-            // label98
-            // 
-            this.label98.AutoSize = true;
-            this.label98.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label98.Location = new System.Drawing.Point(165, 34);
-            this.label98.Name = "label98";
-            this.label98.Size = new System.Drawing.Size(77, 15);
-            this.label98.TabIndex = 27;
-            this.label98.Text = "Point A Error";
-            // 
-            // label99
-            // 
-            this.label99.AutoSize = true;
-            this.label99.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label99.Location = new System.Drawing.Point(165, 93);
-            this.label99.Name = "label99";
-            this.label99.Size = new System.Drawing.Size(77, 15);
-            this.label99.TabIndex = 29;
-            this.label99.Text = "Point B Error";
-            // 
-            // tb_TuningTab_VbError
-            // 
-            this.tb_TuningTab_VbError.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_TuningTab_VbError.Location = new System.Drawing.Point(168, 111);
-            this.tb_TuningTab_VbError.Name = "tb_TuningTab_VbError";
-            this.tb_TuningTab_VbError.ReadOnly = true;
-            this.tb_TuningTab_VbError.Size = new System.Drawing.Size(100, 25);
-            this.tb_TuningTab_VbError.TabIndex = 28;
-            this.tb_TuningTab_VbError.Text = "0";
-            // 
-            // tb_TuningTab_VaError
-            // 
-            this.tb_TuningTab_VaError.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_TuningTab_VaError.Location = new System.Drawing.Point(168, 52);
-            this.tb_TuningTab_VaError.Name = "tb_TuningTab_VaError";
-            this.tb_TuningTab_VaError.ReadOnly = true;
-            this.tb_TuningTab_VaError.Size = new System.Drawing.Size(100, 25);
-            this.tb_TuningTab_VaError.TabIndex = 26;
-            this.tb_TuningTab_VaError.Text = "0";
-            // 
-            // label94
-            // 
-            this.label94.AutoSize = true;
-            this.label94.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label94.Location = new System.Drawing.Point(34, 93);
-            this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(88, 15);
-            this.label94.TabIndex = 20;
-            this.label94.Text = "Vout @ Point B";
-            // 
-            // tb_TuningTab_Vb
-            // 
-            this.tb_TuningTab_Vb.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_TuningTab_Vb.Location = new System.Drawing.Point(37, 111);
-            this.tb_TuningTab_Vb.Name = "tb_TuningTab_Vb";
-            this.tb_TuningTab_Vb.ReadOnly = true;
-            this.tb_TuningTab_Vb.Size = new System.Drawing.Size(100, 25);
-            this.tb_TuningTab_Vb.TabIndex = 4;
-            this.tb_TuningTab_Vb.Text = "0";
-            // 
-            // tb_TuningTab_Va
-            // 
-            this.tb_TuningTab_Va.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_TuningTab_Va.Location = new System.Drawing.Point(37, 52);
-            this.tb_TuningTab_Va.Name = "tb_TuningTab_Va";
-            this.tb_TuningTab_Va.ReadOnly = true;
-            this.tb_TuningTab_Va.Size = new System.Drawing.Size(100, 25);
-            this.tb_TuningTab_Va.TabIndex = 1;
-            this.tb_TuningTab_Va.Text = "0";
-            // 
-            // label79
-            // 
-            this.label79.AutoSize = true;
-            this.label79.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label79.Location = new System.Drawing.Point(34, 34);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(88, 15);
-            this.label79.TabIndex = 17;
-            this.label79.Text = "Vout @ Point A";
             // 
             // groupBox9
             // 
@@ -3789,6 +3815,30 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Configration";
             // 
+            // cb_TuningTab_PowerSupply
+            // 
+            this.cb_TuningTab_PowerSupply.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_TuningTab_PowerSupply.FormattingEnabled = true;
+            this.cb_TuningTab_PowerSupply.Items.AddRange(new object[] {
+            "OnBoard",
+            "Manual",
+            "E3631A",
+            "IT8200"});
+            this.cb_TuningTab_PowerSupply.Location = new System.Drawing.Point(507, 101);
+            this.cb_TuningTab_PowerSupply.Name = "cb_TuningTab_PowerSupply";
+            this.cb_TuningTab_PowerSupply.Size = new System.Drawing.Size(100, 23);
+            this.cb_TuningTab_PowerSupply.TabIndex = 36;
+            // 
+            // label101
+            // 
+            this.label101.AutoSize = true;
+            this.label101.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label101.Location = new System.Drawing.Point(504, 83);
+            this.label101.Name = "label101";
+            this.label101.Size = new System.Drawing.Size(81, 15);
+            this.label101.TabIndex = 35;
+            this.label101.Text = "Power Supply";
+            // 
             // cb_TuningTab_OutOption
             // 
             this.cb_TuningTab_OutOption.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3804,42 +3854,6 @@
             this.cb_TuningTab_OutOption.TabIndex = 34;
             this.cb_TuningTab_OutOption.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
             // 
-            // btn_TuningTab_Power
-            // 
-            this.btn_TuningTab_Power.BackColor = System.Drawing.Color.Snow;
-            this.btn_TuningTab_Power.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_TuningTab_Power.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_TuningTab_Power.Location = new System.Drawing.Point(507, 37);
-            this.btn_TuningTab_Power.Name = "btn_TuningTab_Power";
-            this.btn_TuningTab_Power.Size = new System.Drawing.Size(130, 40);
-            this.btn_TuningTab_Power.TabIndex = 38;
-            this.btn_TuningTab_Power.Text = "OFF";
-            this.btn_TuningTab_Power.UseVisualStyleBackColor = false;
-            this.btn_TuningTab_Power.Click += new System.EventHandler(this.btn_PowerClick);
-            // 
-            // label97
-            // 
-            this.label97.AutoSize = true;
-            this.label97.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label97.Location = new System.Drawing.Point(27, 83);
-            this.label97.Name = "label97";
-            this.label97.Size = new System.Drawing.Size(67, 15);
-            this.label97.TabIndex = 33;
-            this.label97.Text = "Out Option";
-            // 
-            // btn_TuningTab_Trim
-            // 
-            this.btn_TuningTab_Trim.BackColor = System.Drawing.Color.Sienna;
-            this.btn_TuningTab_Trim.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_TuningTab_Trim.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_TuningTab_Trim.Location = new System.Drawing.Point(507, 96);
-            this.btn_TuningTab_Trim.Name = "btn_TuningTab_Trim";
-            this.btn_TuningTab_Trim.Size = new System.Drawing.Size(130, 40);
-            this.btn_TuningTab_Trim.TabIndex = 37;
-            this.btn_TuningTab_Trim.Text = "Trim";
-            this.btn_TuningTab_Trim.UseVisualStyleBackColor = false;
-            this.btn_TuningTab_Trim.Click += new System.EventHandler(this.btn_TuningTab_Trim_Click);
-            // 
             // label80
             // 
             this.label80.AutoSize = true;
@@ -3849,16 +3863,6 @@
             this.label80.Size = new System.Drawing.Size(75, 15);
             this.label80.TabIndex = 18;
             this.label80.Text = "IP @ Point A";
-            // 
-            // label78
-            // 
-            this.label78.AutoSize = true;
-            this.label78.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label78.Location = new System.Drawing.Point(326, 24);
-            this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(121, 15);
-            this.label78.TabIndex = 16;
-            this.label78.Text = "Target Volt @ Point A";
             // 
             // cb_TuningTab_IpUsage
             // 
@@ -3873,15 +3877,15 @@
             this.cb_TuningTab_IpUsage.TabIndex = 32;
             this.cb_TuningTab_IpUsage.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
             // 
-            // label93
+            // label97
             // 
-            this.label93.AutoSize = true;
-            this.label93.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label93.Location = new System.Drawing.Point(200, 83);
-            this.label93.Name = "label93";
-            this.label93.Size = new System.Drawing.Size(75, 15);
-            this.label93.TabIndex = 21;
-            this.label93.Text = "IP @ Point B";
+            this.label97.AutoSize = true;
+            this.label97.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label97.Location = new System.Drawing.Point(27, 83);
+            this.label97.Name = "label97";
+            this.label97.Size = new System.Drawing.Size(67, 15);
+            this.label97.TabIndex = 33;
+            this.label97.Text = "Out Option";
             // 
             // label100
             // 
@@ -3893,6 +3897,26 @@
             this.label100.TabIndex = 31;
             this.label100.Text = "IP Usage";
             // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.Location = new System.Drawing.Point(326, 24);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(121, 15);
+            this.label78.TabIndex = 16;
+            this.label78.Text = "Target Volt @ Point A";
+            // 
+            // label93
+            // 
+            this.label93.AutoSize = true;
+            this.label93.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label93.Location = new System.Drawing.Point(200, 83);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(75, 15);
+            this.label93.TabIndex = 21;
+            this.label93.Text = "IP @ Point B";
+            // 
             // tb_TuningTab_Aip
             // 
             this.tb_TuningTab_Aip.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3901,6 +3925,30 @@
             this.tb_TuningTab_Aip.Size = new System.Drawing.Size(100, 25);
             this.tb_TuningTab_Aip.TabIndex = 2;
             this.tb_TuningTab_Aip.Text = "0";
+            // 
+            // cb_TuningTab_Product
+            // 
+            this.cb_TuningTab_Product.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_TuningTab_Product.FormattingEnabled = true;
+            this.cb_TuningTab_Product.Items.AddRange(new object[] {
+            "SL610",
+            "SL620",
+            "SL910"});
+            this.cb_TuningTab_Product.Location = new System.Drawing.Point(30, 42);
+            this.cb_TuningTab_Product.Name = "cb_TuningTab_Product";
+            this.cb_TuningTab_Product.Size = new System.Drawing.Size(100, 23);
+            this.cb_TuningTab_Product.TabIndex = 22;
+            this.cb_TuningTab_Product.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
+            // 
+            // label96
+            // 
+            this.label96.AutoSize = true;
+            this.label96.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label96.Location = new System.Drawing.Point(27, 24);
+            this.label96.Name = "label96";
+            this.label96.Size = new System.Drawing.Size(50, 15);
+            this.label96.TabIndex = 23;
+            this.label96.Text = "Product";
             // 
             // tb_TuningTab_TargetVa
             // 
@@ -3921,16 +3969,6 @@
             this.label95.TabIndex = 19;
             this.label95.Text = "Target Volt @ Point B";
             // 
-            // label96
-            // 
-            this.label96.AutoSize = true;
-            this.label96.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label96.Location = new System.Drawing.Point(27, 24);
-            this.label96.Name = "label96";
-            this.label96.Size = new System.Drawing.Size(50, 15);
-            this.label96.TabIndex = 23;
-            this.label96.Text = "Product";
-            // 
             // tb_TuningTab_Bip
             // 
             this.tb_TuningTab_Bip.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3939,20 +3977,6 @@
             this.tb_TuningTab_Bip.Size = new System.Drawing.Size(100, 25);
             this.tb_TuningTab_Bip.TabIndex = 5;
             this.tb_TuningTab_Bip.Text = "20";
-            // 
-            // cb_TuningTab_Product
-            // 
-            this.cb_TuningTab_Product.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_TuningTab_Product.FormattingEnabled = true;
-            this.cb_TuningTab_Product.Items.AddRange(new object[] {
-            "SL610",
-            "SL620",
-            "SL910"});
-            this.cb_TuningTab_Product.Location = new System.Drawing.Point(30, 42);
-            this.cb_TuningTab_Product.Name = "cb_TuningTab_Product";
-            this.cb_TuningTab_Product.Size = new System.Drawing.Size(100, 23);
-            this.cb_TuningTab_Product.TabIndex = 22;
-            this.cb_TuningTab_Product.SelectedValueChanged += new System.EventHandler(this.btn_TunningTab_ConfigChange);
             // 
             // tb_TuningTab_TargetVb
             // 
@@ -4959,30 +4983,6 @@
             this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            // 
-            // cb_TuningTab_PowerSupply
-            // 
-            this.cb_TuningTab_PowerSupply.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_TuningTab_PowerSupply.FormattingEnabled = true;
-            this.cb_TuningTab_PowerSupply.Items.AddRange(new object[] {
-            "OnBoard",
-            "Manual",
-            "E3631A",
-            "IT8200"});
-            this.cb_TuningTab_PowerSupply.Location = new System.Drawing.Point(507, 101);
-            this.cb_TuningTab_PowerSupply.Name = "cb_TuningTab_PowerSupply";
-            this.cb_TuningTab_PowerSupply.Size = new System.Drawing.Size(100, 23);
-            this.cb_TuningTab_PowerSupply.TabIndex = 36;
-            // 
-            // label101
-            // 
-            this.label101.AutoSize = true;
-            this.label101.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label101.Location = new System.Drawing.Point(504, 83);
-            this.label101.Name = "label101";
-            this.label101.Size = new System.Drawing.Size(81, 15);
-            this.label101.TabIndex = 35;
-            this.label101.Text = "Power Supply";
             // 
             // CurrentSensorConsole
             // 
