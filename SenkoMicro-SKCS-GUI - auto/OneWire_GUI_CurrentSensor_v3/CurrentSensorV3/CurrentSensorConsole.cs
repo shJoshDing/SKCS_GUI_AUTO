@@ -81,6 +81,8 @@ namespace CurrentSensorV3
         bool bSAFEREAD = false;
         bool bUartInit = false;
 
+        bool bDualRelayIpOn = false;
+
         uint DeviceAddress = 0x73;
         uint SampleRateNum = 1024;
         uint SampleRate = 1000;     //KHz
@@ -3630,6 +3632,12 @@ namespace CurrentSensorV3
             //DisplayOperateMes("AutoTrim Canceled!", Color.Red);
             if(ProgramMode == 0)
                 oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u);
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
+            }
             Delay(Delay_Sync);
             PowerOff();
             RestoreReg80ToReg83Value();
@@ -4499,6 +4507,8 @@ namespace CurrentSensorV3
         //bool bAutoTrimTest = false;
         private void btn_AutomaticaTrim_Click(object sender, EventArgs e)
         {
+            DialogResult dr;
+
             #region Check HW connection
             if (!bUsbConnected)
             {
@@ -4507,7 +4517,7 @@ namespace CurrentSensorV3
             }
             #endregion
 
-            #region UART Initialize
+            #region IP Initialize
             if (ProgramMode == 0)
             {
                 //if (ProgramMode == 0 && bUartInit == false)
@@ -4558,7 +4568,24 @@ namespace CurrentSensorV3
                 //bUartInit = true;
                 //}
             }
-            #endregion UART Initialize
+            else if (ProgramMode == 2) 
+            {
+                MultiSiteSocketSelect(1);   //epio1,3 = high
+
+                if(!bDualRelayIpOn)
+                {
+                    bDualRelayIpOn = true;
+                    dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.Cancel)
+                    {
+                        DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                        PowerOff();
+                        RestoreReg80ToReg83Value();
+                        return;
+                    }
+                }
+            }
+            #endregion IP Initialize
 
             #region Trim Routines 
             DateTime StartTime = System.DateTime.Now;
@@ -4574,6 +4601,7 @@ namespace CurrentSensorV3
                     AutomaticaTrim_5V_DiffMode();
                 else if (SocketType == 2)
                 {
+                    #region SL622 routines
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
                         if (this.cmb_OffsetOption_EngT.SelectedIndex == 0)
@@ -4598,7 +4626,7 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x02;
                     }
 
-                    DialogResult dr;
+                    
                     double Vip_Pretrim = 0;
                     double V0A_Pretrim = 0;
                     double coarse_PretrimGain = 0;
@@ -4641,6 +4669,12 @@ namespace CurrentSensorV3
                             RestoreReg80ToReg83Value();
                             return;
                         }
+                    }
+                    else if (ProgramMode == 2)
+                    {
+                        MultiSiteSocketSelect(1);   //epio1,3 = high
+                        Delay(Delay_Sync);
+                        MultiSiteSocketSelect(0);   //set epio1 = high; epio3 = low
                     }
                     #endregion
 
@@ -4696,7 +4730,7 @@ namespace CurrentSensorV3
                             return;
                         }
                     }
-                    else
+                    else if (ProgramMode == 1)
                     {
                         dr = MessageBox.Show(String.Format("请将IP降至0A!"), "Try Again", MessageBoxButtons.OKCancel);
                         if (dr == DialogResult.Cancel)
@@ -4707,12 +4741,20 @@ namespace CurrentSensorV3
                             return;
                         }
                     }
+                    else if (ProgramMode == 2)
+                    {
+                        //set epio1 and epio3 to low
+                        MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                        Delay(Delay_Sync);
+                        MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
+                    }
                     #endregion
 
                     if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
                         AutoTrim_SL620_SingleEnd_HalfVDD();
                     else
                         AutoTrim_SL620_SingleEnd();
+                    #endregion
                 }
                 else if (SocketType == 3)
                 {
@@ -4982,6 +5024,13 @@ namespace CurrentSensorV3
                     return;
                 }
             }
+            else if (ProgramMode == 2)
+            {
+                //IP ON
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+            }
             #endregion
 
             Delay(Delay_Fuse);
@@ -5017,6 +5066,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP ON
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -5086,7 +5142,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将IP降至0A!"), "Try Again", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -5096,6 +5152,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP OFF
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
 
             Delay(Delay_Fuse);
@@ -5219,7 +5282,6 @@ namespace CurrentSensorV3
                 /* Change Current to IP  */
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -5230,7 +5292,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -5240,6 +5302,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP ON
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -5400,10 +5469,8 @@ namespace CurrentSensorV3
                 EnterNomalMode();
 
                 /* Change Current to IP  */
-                //3. Set Voltage
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -5414,7 +5481,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if (ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -5424,6 +5491,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP ON
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -5476,10 +5550,8 @@ namespace CurrentSensorV3
                 }
 
                 /* Change Current to 0A */
-                //3. Set Voltage
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                     else
@@ -5490,7 +5562,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -5500,6 +5572,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP OFF
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
                 }
 
                 /*  power on */
@@ -5604,7 +5683,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if (ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -5614,6 +5693,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP ON
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
             #endregion
 
@@ -5635,7 +5721,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if (ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -5645,6 +5731,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP OFF
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
             #endregion
 
@@ -5888,7 +5981,6 @@ namespace CurrentSensorV3
             #region /* Change Current to IP  */
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -5899,7 +5991,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if (ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -5909,6 +6001,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP ON
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
             #endregion
 
@@ -6170,59 +6269,6 @@ namespace CurrentSensorV3
 
             #endregion Get module current
 
-            #region UART Initialize
-            if (ProgramMode == 0)
-            {
-                //if (ProgramMode == 0 && bUartInit == false)
-                //{
-
-                //UART Initialization
-                if (oneWrie_device.UARTInitilize(9600, 1))
-                    DisplayOperateMes("UART Initilize succeeded!");
-                else
-                    DisplayOperateMes("UART Initilize failed!");
-                //ding hao
-                Delay(Delay_Power);
-                //DisplayAutoTrimOperateMes("Delay 300ms");
-
-                //1. Current Remote CTL
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
-                    DisplayOperateMes("Set Current Remote succeeded!");
-                else
-                    DisplayOperateMes("Set Current Remote failed!");
-
-                //Delay 300ms
-                //Thread.Sleep(300);
-                Delay(Delay_Power);
-                //DisplayAutoTrimOperateMes("Delay 300ms");
-
-                //2. Current On
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                    DisplayOperateMes("Set Current to IP succeeded!");
-                else
-                    DisplayOperateMes("Set Current to IP failed!");
-
-                //Delay 300ms
-                Delay(Delay_Power);
-                //DisplayOperateMes("Delay 300ms");
-
-                //3. Set Voltage
-                if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 6u))
-                    DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
-                else
-                    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
-
-
-                //Delay 300ms
-                Delay(Delay_Power);
-                //DisplayOperateMes("Delay 300ms");
-
-                //bUartInit = true;
-                //}
-            }
-            #endregion UART Initialize
-
             #region Saturation judgement
 
 
@@ -6304,11 +6350,8 @@ namespace CurrentSensorV3
             EnterNomalMode();
 
             /* Change Current to IP  */
-            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-            //3. Set Voltage
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -6328,6 +6371,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP ON
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
 
 
@@ -6367,6 +6417,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP ON
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -6421,10 +6478,8 @@ namespace CurrentSensorV3
 
             #region Get Vout@0A
             /* Change Current to 0A */
-            //3. Set Voltage
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                 else
@@ -6435,7 +6490,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if (ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将IP降至0A!"), "Try Again", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -6445,6 +6500,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP OFF
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
 
             Delay(Delay_Fuse);
@@ -6581,7 +6643,6 @@ namespace CurrentSensorV3
                 /* Change Current to IP  */
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -6592,7 +6653,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -6603,12 +6664,18 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
+                else if (ProgramMode == 2)
+                {
+                    //IP ON
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+                }
 
                 Delay(Delay_Fuse);
                 dMultiSiteVoutIP[idut] = GetVout();
                 sDUT.dVoutIPTrimmed = dMultiSiteVoutIP[idut];
                 DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
-                //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
 
                 sDUT.bReadMarginal = bMarginal;
                 sDUT.bReadSafety = bSafety;
@@ -6762,10 +6829,8 @@ namespace CurrentSensorV3
                 EnterNomalMode();
 
                 /* Change Current to IP  */
-                //3. Set Voltage
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -6776,7 +6841,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -6786,6 +6851,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP ON
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -6838,10 +6910,8 @@ namespace CurrentSensorV3
                 }
 
                 /* Change Current to 0A */
-                //3. Set Voltage
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                     else
@@ -6852,7 +6922,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if (ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -6862,6 +6932,13 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    //IP OFF
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
                 }
 
                 /*  power on */
@@ -6946,7 +7023,6 @@ namespace CurrentSensorV3
             /* Change Current to IP  */
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -6957,7 +7033,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -6968,6 +7044,13 @@ namespace CurrentSensorV3
                     return;
                 }
             }
+            else if (ProgramMode == 2)
+            {
+                //IP ON
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+            }
 
             Delay(Delay_Fuse);
             dMultiSiteVoutIP[idut] = GetVout();
@@ -6976,7 +7059,6 @@ namespace CurrentSensorV3
             /* Change Current to 0A */
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                 else
@@ -6987,7 +7069,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -6997,6 +7079,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP OFF
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
 
             /*  power on */
@@ -7228,7 +7317,6 @@ namespace CurrentSensorV3
             /* Change Current to IP  */
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -7239,7 +7327,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if (ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -7249,6 +7337,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //IP ON
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
 
             Delay(Delay_Fuse);
@@ -7594,11 +7689,8 @@ namespace CurrentSensorV3
             EnterNomalMode();
 
             /* Change Current to IP  */
-            //dr = MessageBox.Show(String.Format("Please Change Current To {0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
-            //3. Set Voltage
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                 else
@@ -7618,6 +7710,13 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                //set epio1 and epio3 to low
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
 
 
@@ -7656,6 +7755,13 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
+                else if (ProgramMode == 2)
+                {
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+                }
+
 
                 Delay(Delay_Fuse);
                 dMultiSiteVoutIP[idut] = AverageVout();
@@ -7669,6 +7775,7 @@ namespace CurrentSensorV3
                     Delay(Delay_Sync);
                     oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP));
                 }
+
 
                 if (dMultiSiteVoutIP[idut] > saturationVout)
                 {
@@ -7709,10 +7816,8 @@ namespace CurrentSensorV3
 
             #region Get Vout@0A
             /* Change Current to 0A */
-            //3. Set Voltage
             if (ProgramMode == 0)
             {
-                //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, 0u))
                 if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
                     DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", 0u));
                 else
@@ -7723,7 +7828,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将IP降至0A!"), "Try Again", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -7733,6 +7838,12 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
 
             Delay(Delay_Fuse);
@@ -7822,7 +7933,6 @@ namespace CurrentSensorV3
                 /* Change Current to IP  */
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -7833,7 +7943,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -7843,6 +7953,12 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -7983,7 +8099,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -7993,6 +8109,12 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
             #endregion
 
@@ -8011,7 +8133,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -8021,6 +8143,12 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
             #endregion
 
@@ -8148,7 +8276,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -8158,6 +8286,12 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -8488,6 +8622,12 @@ namespace CurrentSensorV3
                     return;
                 }
             }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+            }
             #endregion 
 
             //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
@@ -8524,6 +8664,12 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -8590,7 +8736,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将IP降至0A!"), "Try Again", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -8600,6 +8746,12 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
             #endregion
 
@@ -8701,7 +8853,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -8711,6 +8863,12 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -8812,7 +8970,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -8822,6 +8980,12 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
             }
 
             Delay(Delay_Fuse);
@@ -8839,7 +9003,7 @@ namespace CurrentSensorV3
                     return;
                 }
             }
-            else
+            else if(ProgramMode == 1)
             {
                 dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel)
@@ -8849,6 +9013,12 @@ namespace CurrentSensorV3
                     RestoreReg80ToReg83Value();
                     return;
                 }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
             }
 
             /*  power on */
@@ -9055,7 +9225,6 @@ namespace CurrentSensorV3
                 /* Change Current to IP  */
                 if (ProgramMode == 0)
                 {
-                    //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                     if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         DisplayOperateMes(string.Format("Set Current to {0}A succeeded!", IP));
                     else
@@ -9066,7 +9235,7 @@ namespace CurrentSensorV3
                         return;
                     }
                 }
-                else
+                else if(ProgramMode == 1)
                 {
                     dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
                     if (dr == DialogResult.Cancel)
@@ -9076,6 +9245,12 @@ namespace CurrentSensorV3
                         RestoreReg80ToReg83Value();
                         return;
                     }
+                }
+                else if (ProgramMode == 2)
+                {
+                    MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                    Delay(Delay_Sync);
+                    MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
                 }
 
                 Delay(Delay_Fuse);
@@ -10178,6 +10353,8 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Automatic Program");
             else if (ProgramMode == 1)
                 DisplayOperateMes("Manual Program");
+            else if (ProgramMode == 2)
+                DisplayOperateMes("DualRelay Program");
             else
                 DisplayOperateMes("Invalid Program Mode", Color.DarkRed);
         }       

@@ -2803,7 +2803,8 @@
             this.cmb_ProgramMode_AutoT.FormattingEnabled = true;
             this.cmb_ProgramMode_AutoT.Items.AddRange(new object[] {
             "Automatic",
-            "Manual"});
+            "Manual",
+            "DualRelay"});
             this.cmb_ProgramMode_AutoT.Location = new System.Drawing.Point(286, 335);
             this.cmb_ProgramMode_AutoT.Name = "cmb_ProgramMode_AutoT";
             this.cmb_ProgramMode_AutoT.Size = new System.Drawing.Size(166, 25);
@@ -3837,7 +3838,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.3 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.4 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
