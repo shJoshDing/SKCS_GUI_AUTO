@@ -10980,6 +10980,16 @@ namespace CurrentSensorV3
             btn_PowerOn_OWCI_ADC_Click(null,null);
             btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
             btn_SL620Tab_PowerOn.BackColor = Color.GreenYellow;
+            btn_SL620Tab_PowerOn3v3.BackColor = Color.Transparent;
+        }
+
+        private void btn_SL620Tab_PowerOn3v3_Click(object sender, EventArgs e)
+        {
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_3V3);
+            btn_PowerOn_OWCI_ADC_Click(null, null);
+            btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn3v3.BackColor = Color.GreenYellow;
         }
 
         private void btn_SL620Tab_PowerOff_Click(object sender, EventArgs e)
@@ -10987,6 +10997,7 @@ namespace CurrentSensorV3
             btn_PowerOff_OWCI_ADC_Click(null, null);
             btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
             btn_SL620Tab_PowerOn6V.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn3v3.BackColor = Color.Transparent;
         }
 
         private void btn_SL620Tab_TestKey_Click(object sender, EventArgs e)
@@ -11158,6 +11169,7 @@ namespace CurrentSensorV3
             btn_PowerOn_OWCI_ADC_Click(null, null);
             btn_SL620Tab_PowerOn6V.BackColor = Color.GreenYellow;
             btn_SL620Tab_PowerOn.BackColor = Color.Transparent;
+            btn_SL620Tab_PowerOn3v3.BackColor = Color.Transparent;
         }
 
         private void btn_SL620Tab_ReadTrim_Click(object sender, EventArgs e)
@@ -15598,6 +15610,9 @@ namespace CurrentSensorV3
         }
 
         #endregion
+
+
+
 
 
     }
