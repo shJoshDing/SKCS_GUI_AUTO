@@ -9727,6 +9727,8 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
             rbt_signalPathSeting_Config_EngT.Checked = true;
 
+            Delay(Delay_Sync);
+
             //try
             {
                 //string temp;
