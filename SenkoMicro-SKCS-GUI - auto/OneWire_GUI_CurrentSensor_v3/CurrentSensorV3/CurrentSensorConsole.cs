@@ -609,11 +609,12 @@ namespace CurrentSensorV3
             this.cmb_IPRange_PreT.SelectedIndex = 1;
             this.cmb_Module_PreT.SelectedIndex = 0;
             this.cmb_Voffset_PreT.SelectedIndex = 0;
-            this.cmb_SocketType_AutoT.SelectedIndex = 0;
+            this.cmb_SocketType_AutoT.SelectedIndex = 2;
             this.cmb_ProgramMode_AutoT.SelectedIndex = 0;
             this.cmb_PreTrim_SensorDirection.SelectedIndex = 0;
 
             this.cb_AutoTab_Retest.SelectedIndex = 0;
+            //this.cmb_SocketType_AutoT.SelectedIndex = 2;
 
             //Serial Num
             this.txt_SerialNum_EngT.Text = SerialNum;
@@ -4604,25 +4605,25 @@ namespace CurrentSensorV3
                     #region SL622 routines
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
-                        if (this.cmb_OffsetOption_EngT.SelectedIndex == 0)
+                        if (this.cmb_Voffset_PreT.SelectedIndex == 0)
                             Reg80Value |= 0x04;
-                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 1)
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 1)
                             Reg80Value |= 0x04;
-                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 2)
                             Reg80Value |= 0x05;
-                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 3)
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
                             Reg80Value |= 0x06;
                     }
                     else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
                     {
                         DisplayOperateMes("Inverted Sensor Direction");
-                        if (this.cmb_OffsetOption_EngT.SelectedIndex == 0)
+                        if (this.cmb_Voffset_PreT.SelectedIndex == 0)
                             Reg80Value |= 0x00;
-                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 1)
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 1)
                             Reg80Value |= 0x00;
-                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 2)
                             Reg80Value |= 0x01;
-                        else if (this.cmb_OffsetOption_EngT.SelectedIndex == 3)
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
                             Reg80Value |= 0x02;
                     }
 
@@ -4651,7 +4652,6 @@ namespace CurrentSensorV3
                     #region /* Change Current to IP  */
                     if (ProgramMode == 0)
                     {
-                        //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
                         if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
                         {
                             DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
@@ -4687,11 +4687,13 @@ namespace CurrentSensorV3
                     if (Vip_Pretrim - V0A_Pretrim < 0)
                     {
                         DisplayOperateMes("请确认IP方向！");
+                        TrimFinish();
                         return;
                     }
                     else if (Vip_Pretrim - V0A_Pretrim < 0.005d)
                     {
                         DisplayOperateMes("请确认IP是否ON！");
+                        TrimFinish();
                         return;
                     }
                     coarse_PretrimGain = 2.0d * 12.7d / (Vip_Pretrim - V0A_Pretrim);
@@ -4710,7 +4712,8 @@ namespace CurrentSensorV3
                     DisplayOperateMes("Vout@IP_2 = " + Vip_Pretrim.ToString("F3"));
                     if (Vip_Pretrim < 4.5)
                     {
-                        preSetCoareseGainCode--;
+                        if (preSetCoareseGainCode > 0)
+                            preSetCoareseGainCode--;
                         Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                     }
                     else if (Vip_Pretrim > 4.9)
@@ -4750,7 +4753,7 @@ namespace CurrentSensorV3
                     }
                     #endregion
 
-                    if (this.cmb_OffsetOption_EngT.SelectedIndex == 2)
+                    if (this.cmb_Voffset_PreT.SelectedIndex == 2)
                         AutoTrim_SL620_SingleEnd_HalfVDD();
                     else
                         AutoTrim_SL620_SingleEnd();
@@ -6513,6 +6516,7 @@ namespace CurrentSensorV3
             dMultiSiteVout0A[idut] = GetVout();
             sDUT.dVout0ANative = dMultiSiteVout0A[idut];
             DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+            DisplayOperateMes("TargetOffset = " + TargetOffset.ToString("F3"));
 
             if (dMultiSiteVoutIP[idut] < dMultiSiteVout0A[idut])
             {
@@ -6544,7 +6548,7 @@ namespace CurrentSensorV3
             }
             else if (TargetOffset == 1.65)
             {
-                if (dMultiSiteVout0A[idut] < 1.0 || dMultiSiteVout0A[idut] > 2.5)
+                if (dMultiSiteVout0A[idut] < 1.4 || dMultiSiteVout0A[idut] > 2.0)
                 {
                     uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_OFFSET_ABN;
                     TrimFinish();
@@ -6572,9 +6576,9 @@ namespace CurrentSensorV3
             #endregion  Get Vout@0A
 
             #region No need Trim case
-            if ((TargetOffset - 0.001) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + 0.001)
-                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.001)
-                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.001))
+            if ((TargetOffset - 0.004) <= dMultiSiteVout0A[idut] && dMultiSiteVout0A[idut] <= (TargetOffset + 0.004)
+                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) <= (TargetVoltage_customer + 0.004)
+                && (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) >= (TargetVoltage_customer - 0.004))
             {
                 oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
                 Delay(Delay_Sync);
@@ -7627,6 +7631,8 @@ namespace CurrentSensorV3
 
 
             RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+            DisplayOperateMes(string.Format("0x80 = 0x{0}; 0x81 = 0x{1}; 0x82 = 0x{2}; 0x83 = 0x{3}", 
+                MultiSiteReg0[idut].ToString("X2"), MultiSiteReg1[idut].ToString("X2"), MultiSiteReg2[idut].ToString("X2"), MultiSiteReg3[idut].ToString("X2")));
             Delay(Delay_Sync);
             RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
             Delay(Delay_Sync);
@@ -8058,9 +8064,9 @@ namespace CurrentSensorV3
             }
             else if (Vout_0A < TargetOffset)
             {
-                ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
+                ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Ceiling(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
                 //autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 + ix_CoarseOffsetCode * 0.005);
-                autoAdaptingGoughGain = tempG2 * tempG1 * 100d / (1.0 + ix_CoarseOffsetCode * 0.005);
+                autoAdaptingGoughGain = tempG2 * tempG1 * 100d / (1.0 + (31 - ix_CoarseOffsetCode) * 0.005);
                 Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
                 /* Rough Gain Code*/
                 bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
@@ -8539,6 +8545,8 @@ namespace CurrentSensorV3
 
 
             RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+            DisplayOperateMes(string.Format("0x80 = 0x{0}; 0x81 = 0x{1}; 0x82 = 0x{2}; 0x83 = 0x{3}",
+                MultiSiteReg0[idut].ToString("X2"), MultiSiteReg1[idut].ToString("X2"), MultiSiteReg2[idut].ToString("X2"), MultiSiteReg3[idut].ToString("X2")));
             Delay(Delay_Sync);
             RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
             Delay(Delay_Sync);
