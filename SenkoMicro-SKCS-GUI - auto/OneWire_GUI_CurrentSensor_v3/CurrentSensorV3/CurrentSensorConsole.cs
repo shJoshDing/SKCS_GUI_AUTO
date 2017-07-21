@@ -645,19 +645,22 @@ namespace CurrentSensorV3
                 this.tabControl1.Controls.Remove(EngineeringTab);
                 DisplayOperateMes("Load config profile success!");
             }
-            else if (uTabVisibleCode == 3)
+            else if (uTabVisibleCode == 3 || uTabVisibleCode == 4)
             {
                 //this.tabControl1.Controls.Remove(AutoTrimTab);
                 this.tabControl1.Controls.Remove(BrakeTab);
                 this.tabControl1.Controls.Remove(EngineeringTab);
                 DisplayOperateMes("Load config profile success!");
             }
-            else if (uTabVisibleCode == 4)
+            else if (uTabVisibleCode == 1201)
             {
                 DisplayOperateMes("Load config profile success!");
             }
             else
             {
+                this.tabControl1.Controls.Remove(BrakeTab);
+                this.tabControl1.Controls.Remove(EngineeringTab);
+                this.tabControl1.Controls.Remove(PriTrimTab);
                 DisplayOperateMes("Invalid config profile!", Color.DarkRed);
                 //MessageBox.Show("Invalid config profile!");
                 MessageBox.Show("Invalid config profile!", "Change Current", MessageBoxButtons.OKCancel);
@@ -4761,6 +4764,10 @@ namespace CurrentSensorV3
                 }
                 else if (SocketType == 3)
                 {
+                }
+                else if (SocketType == 4)
+                {
+                    DualPartMode();
                 }
                 else
                     return;
@@ -9326,6 +9333,11 @@ namespace CurrentSensorV3
             DisplayOperateMes("Next...");
             #endregion Display Result and Reset parameters
         }
+
+        private void DualPartMode()
+        { 
+        
+        }
          
         private double abs(double p)
         {
@@ -10094,7 +10106,10 @@ namespace CurrentSensorV3
                 // Sensing Direction
                 msg = sr.ReadLine().Split("|".ToCharArray());
                 ix = int.Parse(msg[1]);
-                this.cmb_SensingDirection_EngT.SelectedIndex = ix;
+                if(ix == 0)
+                    this.cmb_SensingDirection_EngT.SelectedIndex = 0;
+                else if(ix == 1)
+                    this.cmb_SensingDirection_EngT.SelectedIndex = 2;
                 this.cmb_PreTrim_SensorDirection.SelectedIndex = ix;
 
                 // Delay
@@ -11529,6 +11544,14 @@ namespace CurrentSensorV3
 
 
         #endregion 
+
+        private void cmb_PreTrim_SensorDirection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
+                this.cmb_SensingDirection_EngT.SelectedIndex = 0;
+            else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
+                this.cmb_SensingDirection_EngT.SelectedIndex = 2;
+        }
 
 
     }

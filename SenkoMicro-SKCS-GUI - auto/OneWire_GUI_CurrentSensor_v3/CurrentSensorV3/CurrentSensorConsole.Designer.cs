@@ -2297,6 +2297,7 @@
             this.cmb_PreTrim_SensorDirection.Name = "cmb_PreTrim_SensorDirection";
             this.cmb_PreTrim_SensorDirection.Size = new System.Drawing.Size(126, 24);
             this.cmb_PreTrim_SensorDirection.TabIndex = 96;
+            this.cmb_PreTrim_SensorDirection.SelectedIndexChanged += new System.EventHandler(this.cmb_PreTrim_SensorDirection_SelectedIndexChanged);
             // 
             // label79
             // 
@@ -2819,7 +2820,8 @@
             "SL610-Single End",
             "SL610-Differential",
             "SL622-Single-End",
-            "SL622-Differential"});
+            "SL622-Differential",
+            "SL622-DualPart"});
             this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(286, 307);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(166, 25);
@@ -3838,7 +3840,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.5 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.6 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
