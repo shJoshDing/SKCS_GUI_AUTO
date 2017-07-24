@@ -4597,16 +4597,17 @@ namespace CurrentSensorV3
             DateTime StartTime = System.DateTime.Now;
 
             if (this.cmb_Module_PreT.SelectedItem.ToString() == "5V" || this.cmb_Module_PreT.SelectedItem.ToString() == "3.3V")
-            {
-                if (this.TargetGain_customer < 20)
-                    Reg80Value = 0x80;      //iHall decrease 33%
-
+            {             
                 if (SocketType == 0)
                     AutomaticaTrim_5V_SingleSite();
                 else if (SocketType == 1)
                     AutomaticaTrim_5V_DiffMode();
                 else if (SocketType == 2)
                 {
+                    if (this.TargetGain_customer < 20)
+                        Reg80Value = 0x80;      //iHall decrease 33%
+                    else
+                        Reg80Value = 0x00;
                     #region SL622 routines
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
@@ -4707,8 +4708,8 @@ namespace CurrentSensorV3
 
                     if (coarse_PretrimGain > 100)
                     {
-                        Reg80Value += 0x40;
-                        preSetCoareseGainCode = 0;
+                        Reg83Value += 0x04;
+                        preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
                         Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                     }
                     else
@@ -4795,6 +4796,7 @@ namespace CurrentSensorV3
             DateTime StopTime = System.DateTime.Now;
             TimeSpan ts = StopTime - StartTime;
 
+            DisplayOperateMes("Program Time Span = " + ts.Minutes.ToString() + "m");
             DisplayOperateMes("Program Time Span = " + ts.Seconds.ToString() + "s");
             #endregion
         }
@@ -11559,6 +11561,21 @@ namespace CurrentSensorV3
                 this.cmb_SensingDirection_EngT.SelectedIndex = 0;
             else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
                 this.cmb_SensingDirection_EngT.SelectedIndex = 2;
+
+            /* bit5 & bit6 of 0x82 */
+            //bit_op_mask = bit5_Mask | bit6_Mask;
+            //uint[] valueTable = new uint[4]
+            //{
+            //    0x0,
+            //    0x20,
+            //    0x40,
+            //    0x60
+            //};
+
+            //int ix_TableStart = this.cmb_SensingDirection_EngT.SelectedIndex;
+            ////back up to register and update GUI
+            //Reg82Value &= ~bit_op_mask;
+            //Reg82Value |= valueTable[ix_TableStart];
         }
 
 
