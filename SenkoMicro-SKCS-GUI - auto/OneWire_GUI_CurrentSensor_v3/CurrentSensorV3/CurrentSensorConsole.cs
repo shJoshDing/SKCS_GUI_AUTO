@@ -4608,6 +4608,7 @@ namespace CurrentSensorV3
                         Reg80Value = 0x80;      //iHall decrease 33%
                     else
                         Reg80Value = 0x00;
+
                     #region SL622 routines
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
@@ -4639,7 +4640,7 @@ namespace CurrentSensorV3
                     double coarse_PretrimGain = 0;
                     preSetCoareseGainCode = 15;
                     Reg81Value = 0x03 + preSetCoareseGainCode * 16;
-                    Reg82Value = 0x51;
+                    Reg82Value = Convert.ToUInt32(this.txt_SL620TC_AutoTab.Text, 16);
                     Reg83Value = 0x30;
                     Reg84Value = 0x00;
                     Reg85Value = 0x00;

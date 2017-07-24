@@ -161,11 +161,9 @@
             this.label9 = new System.Windows.Forms.Label();
             this.btn_preciseTrim = new System.Windows.Forms.Button();
             this.PriTrimTab = new System.Windows.Forms.TabPage();
-            this.label76 = new System.Windows.Forms.Label();
             this.txt_bin3accuracy_PreT = new System.Windows.Forms.TextBox();
             this.label42 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
-            this.label75 = new System.Windows.Forms.Label();
             this.txt_Reg80_PreT = new System.Windows.Forms.TextBox();
             this.txt_Reg81_PreT = new System.Windows.Forms.TextBox();
             this.txt_Reg82_PreT = new System.Windows.Forms.TextBox();
@@ -246,7 +244,6 @@
             this.btn_AutomaticaTrim = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.txt_ModuleType_AutoT = new System.Windows.Forms.TextBox();
-            this.label57 = new System.Windows.Forms.Label();
             this.txt_ChosenGain_AutoT = new System.Windows.Forms.TextBox();
             this.label58 = new System.Windows.Forms.Label();
             this.txt_IP_AutoT = new System.Windows.Forms.TextBox();
@@ -311,6 +308,7 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
+            this.txt_SL620TC_AutoTab = new System.Windows.Forms.TextBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -1919,11 +1917,9 @@
             // 
             // PriTrimTab
             // 
-            this.PriTrimTab.Controls.Add(this.label76);
             this.PriTrimTab.Controls.Add(this.txt_bin3accuracy_PreT);
             this.PriTrimTab.Controls.Add(this.label42);
             this.PriTrimTab.Controls.Add(this.label41);
-            this.PriTrimTab.Controls.Add(this.label75);
             this.PriTrimTab.Controls.Add(this.txt_Reg80_PreT);
             this.PriTrimTab.Controls.Add(this.txt_Reg81_PreT);
             this.PriTrimTab.Controls.Add(this.txt_Reg82_PreT);
@@ -1942,26 +1938,14 @@
             this.PriTrimTab.Text = "PreTrim";
             this.PriTrimTab.UseVisualStyleBackColor = true;
             // 
-            // label76
-            // 
-            this.label76.AutoSize = true;
-            this.label76.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label76.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label76.Location = new System.Drawing.Point(674, 388);
-            this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(20, 16);
-            this.label76.TabIndex = 96;
-            this.label76.Text = "%";
-            this.label76.Visible = false;
-            // 
             // txt_bin3accuracy_PreT
             // 
             this.txt_bin3accuracy_PreT.BackColor = System.Drawing.Color.CadetBlue;
             this.txt_bin3accuracy_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_bin3accuracy_PreT.ForeColor = System.Drawing.Color.White;
-            this.txt_bin3accuracy_PreT.Location = new System.Drawing.Point(548, 382);
+            this.txt_bin3accuracy_PreT.Location = new System.Drawing.Point(763, 197);
             this.txt_bin3accuracy_PreT.Name = "txt_bin3accuracy_PreT";
-            this.txt_bin3accuracy_PreT.Size = new System.Drawing.Size(120, 22);
+            this.txt_bin3accuracy_PreT.Size = new System.Drawing.Size(36, 22);
             this.txt_bin3accuracy_PreT.TabIndex = 97;
             this.txt_bin3accuracy_PreT.Text = "3";
             this.txt_bin3accuracy_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1988,18 +1972,6 @@
             this.label41.TabIndex = 87;
             this.label41.Text = "Reg4";
             this.label41.Visible = false;
-            // 
-            // label75
-            // 
-            this.label75.AutoSize = true;
-            this.label75.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label75.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label75.Location = new System.Drawing.Point(439, 388);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(93, 16);
-            this.label75.TabIndex = 95;
-            this.label75.Text = "Bin3 Accuracy";
-            this.label75.Visible = false;
             // 
             // txt_Reg80_PreT
             // 
@@ -2739,6 +2711,7 @@
             // AutoTrimTab
             // 
             this.AutoTrimTab.Controls.Add(this.cb_AutoTab_Retest);
+            this.AutoTrimTab.Controls.Add(this.txt_ChosenGain_AutoT);
             this.AutoTrimTab.Controls.Add(this.label78);
             this.AutoTrimTab.Controls.Add(this.btn_CommunicationTest);
             this.AutoTrimTab.Controls.Add(this.cmb_ProgramMode_AutoT);
@@ -3034,11 +3007,10 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.txt_SL620TC_AutoTab);
             this.groupBox8.Controls.Add(this.txt_ModuleType_AutoT);
-            this.groupBox8.Controls.Add(this.label57);
-            this.groupBox8.Controls.Add(this.txt_ChosenGain_AutoT);
-            this.groupBox8.Controls.Add(this.label58);
             this.groupBox8.Controls.Add(this.txt_IP_AutoT);
+            this.groupBox8.Controls.Add(this.label58);
             this.groupBox8.Controls.Add(this.txt_VoutOffset_AutoT);
             this.groupBox8.Controls.Add(this.txt_TargertVoltage_AutoT);
             this.groupBox8.Controls.Add(this.txt_AdcOffset_AutoT);
@@ -3080,40 +3052,30 @@
             this.txt_ModuleType_AutoT.Text = "5V";
             this.txt_ModuleType_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Font = new System.Drawing.Font("Times New Roman", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label57.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label57.Location = new System.Drawing.Point(298, 189);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(23, 19);
-            this.label57.TabIndex = 112;
-            this.label57.Text = "%";
-            // 
             // txt_ChosenGain_AutoT
             // 
             this.txt_ChosenGain_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.txt_ChosenGain_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.txt_ChosenGain_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(180, 185);
+            this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(12, 380);
             this.txt_ChosenGain_AutoT.Name = "txt_ChosenGain_AutoT";
             this.txt_ChosenGain_AutoT.ReadOnly = true;
-            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(118, 27);
+            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(56, 27);
             this.txt_ChosenGain_AutoT.TabIndex = 111;
             this.txt_ChosenGain_AutoT.Text = "100";
             this.txt_ChosenGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_ChosenGain_AutoT.Visible = false;
             // 
             // label58
             // 
             this.label58.AutoSize = true;
             this.label58.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label58.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label58.Location = new System.Drawing.Point(69, 189);
+            this.label58.Location = new System.Drawing.Point(69, 185);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(87, 19);
+            this.label58.Size = new System.Drawing.Size(68, 19);
             this.label58.TabIndex = 109;
-            this.label58.Text = "Chosen Gain";
+            this.label58.Text = "TC (Hex)";
             // 
             // txt_IP_AutoT
             // 
@@ -3831,6 +3793,18 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
+            // txt_SL620TC_AutoTab
+            // 
+            this.txt_SL620TC_AutoTab.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.txt_SL620TC_AutoTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_SL620TC_AutoTab.ForeColor = System.Drawing.Color.White;
+            this.txt_SL620TC_AutoTab.Location = new System.Drawing.Point(180, 181);
+            this.txt_SL620TC_AutoTab.Name = "txt_SL620TC_AutoTab";
+            this.txt_SL620TC_AutoTab.Size = new System.Drawing.Size(118, 27);
+            this.txt_SL620TC_AutoTab.TabIndex = 119;
+            this.txt_SL620TC_AutoTab.Text = "00";
+            this.txt_SL620TC_AutoTab.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4109,7 +4083,6 @@
         private System.Windows.Forms.Button btn_PowerOff_PreT;
         private System.Windows.Forms.TextBox txt_ChosenGain_AutoT;
         private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.Label label57;
         private System.Windows.Forms.Button btn_FlashLed_PreT;
         private System.Windows.Forms.Button btn_Reset_PreT;
         private System.Windows.Forms.Button btn_PowerOff_AutoT;
@@ -4141,8 +4114,6 @@
         private System.Windows.Forms.Label label72;
         private System.Windows.Forms.Button btn_fuse_clock_ow_EngT;
         private System.Windows.Forms.TextBox txt_bin3accuracy_PreT;
-        private System.Windows.Forms.Label label76;
-        private System.Windows.Forms.Label label75;
         private System.Windows.Forms.Label label74;
         private System.Windows.Forms.TextBox txt_bin2accuracy_PreT;
         private System.Windows.Forms.Label label73;
@@ -4196,5 +4167,6 @@
         private System.Windows.Forms.Label label78;
         private System.Windows.Forms.ComboBox cmb_PreTrim_SensorDirection;
         private System.Windows.Forms.Label label79;
+        private System.Windows.Forms.TextBox txt_SL620TC_AutoTab;
     }
 }
