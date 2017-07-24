@@ -2162,6 +2162,7 @@
             // btn_GainCtrlMinus_PreT
             // 
             this.btn_GainCtrlMinus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Minus;
+            this.btn_GainCtrlMinus_PreT.Enabled = false;
             this.btn_GainCtrlMinus_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.btn_GainCtrlMinus_PreT.Location = new System.Drawing.Point(326, 33);
             this.btn_GainCtrlMinus_PreT.Name = "btn_GainCtrlMinus_PreT";
@@ -2173,6 +2174,7 @@
             // btn_GainCtrlPlus_PreT
             // 
             this.btn_GainCtrlPlus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Plus;
+            this.btn_GainCtrlPlus_PreT.Enabled = false;
             this.btn_GainCtrlPlus_PreT.Location = new System.Drawing.Point(276, 33);
             this.btn_GainCtrlPlus_PreT.Name = "btn_GainCtrlPlus_PreT";
             this.btn_GainCtrlPlus_PreT.Size = new System.Drawing.Size(32, 32);
@@ -2182,6 +2184,7 @@
             // 
             // btn_Vout_PreT
             // 
+            this.btn_Vout_PreT.Enabled = false;
             this.btn_Vout_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.btn_Vout_PreT.Location = new System.Drawing.Point(276, 71);
             this.btn_Vout_PreT.Name = "btn_Vout_PreT";
@@ -3840,7 +3843,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.6 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.7 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

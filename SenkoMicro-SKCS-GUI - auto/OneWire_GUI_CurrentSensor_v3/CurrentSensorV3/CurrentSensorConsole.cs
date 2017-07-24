@@ -660,7 +660,7 @@ namespace CurrentSensorV3
             {
                 this.tabControl1.Controls.Remove(BrakeTab);
                 this.tabControl1.Controls.Remove(EngineeringTab);
-                this.tabControl1.Controls.Remove(PriTrimTab);
+                //this.tabControl1.Controls.Remove(PriTrimTab);
                 DisplayOperateMes("Invalid config profile!", Color.DarkRed);
                 //MessageBox.Show("Invalid config profile!");
                 MessageBox.Show("Invalid config profile!", "Change Current", MessageBoxButtons.OKCancel);
@@ -4513,6 +4513,8 @@ namespace CurrentSensorV3
         {
             DialogResult dr;
 
+            DisplayOperateMesClear();
+
             #region Check HW connection
             if (!bUsbConnected)
             {
@@ -4699,10 +4701,21 @@ namespace CurrentSensorV3
                         TrimFinish();
                         return;
                     }
-                    coarse_PretrimGain = 2.0d * 12.7d / (Vip_Pretrim - V0A_Pretrim);
+                    //coarse_PretrimGain = 2.0d * 12.7d / (Vip_Pretrim - V0A_Pretrim);
+                    coarse_PretrimGain = TargetVoltage_customer * 12.7d / (Vip_Pretrim - V0A_Pretrim);
                     DisplayOperateMes("coarse_PretrimGain = " + coarse_PretrimGain.ToString("F3"));
-                    preSetCoareseGainCode = Convert.ToUInt32( LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable) );
-                    Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+
+                    if (coarse_PretrimGain > 100)
+                    {
+                        Reg80Value += 0x40;
+                        preSetCoareseGainCode = 0;
+                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                    }
+                    else
+                    {
+                        preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
+                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                    }
 
                     RePower();
                     Delay(Delay_Sync);
@@ -4757,9 +4770,15 @@ namespace CurrentSensorV3
                     #endregion
 
                     if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                    {
+                        DisplayOperateMes("SL622 half VDD Signle End");
                         AutoTrim_SL620_SingleEnd_HalfVDD();
+                    }
                     else
+                    {
+                        DisplayOperateMes("SL622 2.5V Single End");
                         AutoTrim_SL620_SingleEnd();
+                    }
                     #endregion
                 }
                 else if (SocketType == 3)
@@ -8471,19 +8490,14 @@ namespace CurrentSensorV3
 
             #region Get module current
             //clear log
-            DisplayOperateMesClear();
+            //DisplayOperateMesClear();
             /*  power on */
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
             RePower();
             Delay(Delay_Sync);
             this.lbl_passOrFailed.Text = "Trimming!";
             /* Get module current */
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
-            {
-                if (bAutoTrimTest)
-                    DisplayOperateMes("Set ADC VIN to VCS");
-            }
-            else
+            if ( !oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
             {
                 DisplayOperateMes("Set ADC VIN to VCS failed", Color.Red);
                 PowerOff();
@@ -8491,10 +8505,7 @@ namespace CurrentSensorV3
             }
             Delay(Delay_Sync);
             if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
-            {
-                if (bAutoTrimTest)
-                    DisplayOperateMes("Set ADC current sensor");
-            }
+
 
             this.txt_ModuleCurrent_EngT.Text = GetModuleCurrent().ToString("F1");
             this.txt_ModuleCurrent_PreT.Text = this.txt_ModuleCurrent_EngT.Text;
@@ -8505,9 +8516,7 @@ namespace CurrentSensorV3
             if (dCurrentDownLimit > dModuleCurrent)
             {
                 DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_ABNORMAL;
                 PowerOff();
-                //PrintDutAttribute(sDUT);
                 MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
                 return;
             }
@@ -8518,7 +8527,6 @@ namespace CurrentSensorV3
                 PowerOff();
                 sDUT.iErrorCode = uDutTrimResult[idut];
                 PrintDutAttribute(sDUT);
-                //MessageBox.Show(String.Format("电流异常，模块短路或损坏！"), "Error", MessageBoxButtons.OK);
                 this.lbl_passOrFailed.ForeColor = Color.Yellow;
                 this.lbl_passOrFailed.Text = "短路!";
                 return;
