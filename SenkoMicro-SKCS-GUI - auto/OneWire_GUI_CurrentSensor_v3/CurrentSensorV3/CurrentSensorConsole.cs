@@ -11178,6 +11178,10 @@ namespace CurrentSensorV3
         {
             uint _dev_addr = this.DeviceAddress;
 
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x42, 0x0C);
+
+            Thread.Sleep(50);
+
             //Enter test mode
             uint _reg_addr = 0x43;
             uint _reg_data = 0x02;
