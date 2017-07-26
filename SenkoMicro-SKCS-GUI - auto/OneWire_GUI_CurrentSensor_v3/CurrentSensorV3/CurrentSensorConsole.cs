@@ -2961,7 +2961,7 @@ namespace CurrentSensorV3
 
             _reg_addr = 0x42;
 
-            if (SocketType == 2)
+            if (SocketType == 2 || SocketType == 3 || SocketType == 4 || SocketType == 5)
                 _reg_data = 0x02;
             else
                 _reg_data = 0x04;
@@ -7641,12 +7641,12 @@ namespace CurrentSensorV3
 
             #region Get module current
             //clear log
-            DisplayOperateMesClear();
+            //DisplayOperateMesClear();
             /*  power on */
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
             RePower();
             Delay(Delay_Sync);
-            this.lbl_passOrFailed.Text = "Trimming!";
+            //this.lbl_passOrFailed.Text = "Trimming!";
             /* Get module current */
             if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
             {
@@ -9939,6 +9939,10 @@ namespace CurrentSensorV3
                 DisplayOperateMes("SL622 Single End");
             else if (SocketType == 3)
                 DisplayOperateMes("SL622 Differential");
+            else if (SocketType == 4)
+                DisplayOperateMes("Dual Part");
+            else if (SocketType == 5)
+                DisplayOperateMes("SC810 Single End");
             else
                 DisplayOperateMes("Invalid Socket Type", Color.DarkRed); ;
         }
