@@ -4604,12 +4604,13 @@ namespace CurrentSensorV3
                     AutomaticaTrim_5V_DiffMode();
                 else if (SocketType == 2)
                 {
+                    #region SL622 routines
                     if (this.TargetGain_customer < 20)
                         Reg80Value = 0x80;      //iHall decrease 33%
                     else
                         Reg80Value = 0x00;
 
-                    #region SL622 routines
+                    
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
                         if (this.cmb_Voffset_PreT.SelectedIndex == 0)
@@ -4707,16 +4708,22 @@ namespace CurrentSensorV3
                     coarse_PretrimGain = TargetVoltage_customer * 12.7d / (Vip_Pretrim - V0A_Pretrim);
                     DisplayOperateMes("coarse_PretrimGain = " + coarse_PretrimGain.ToString("F3"));
 
-                    if (coarse_PretrimGain > 100)
+                    if (coarse_PretrimGain > 100 && coarse_PretrimGain < 150)
                     {
-                        Reg83Value += 0x04;
+                        Reg83Value += 0x03;
                         preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
+                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                    }
+                    else if (coarse_PretrimGain <= 100)
+                    {
+                        preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
                         Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                     }
                     else
                     {
-                        preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
-                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        DisplayOperateMes("产品灵敏度要求过高！");
+                        TrimFinish();
+                        return;
                     }
 
                     RePower();
@@ -4789,6 +4796,61 @@ namespace CurrentSensorV3
                 else if (SocketType == 4)
                 {
                     DualPartMode();
+                }
+                else if (SocketType == 5)
+                {
+                    #region SC810 routines
+                    if (this.TargetGain_customer < 20)
+                        Reg80Value = 0x80;      //iHall decrease 33%
+                    else
+                        Reg80Value = 0x00;
+
+
+                    if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
+                    {
+                        if (this.cmb_Voffset_PreT.SelectedIndex == 0)
+                            Reg80Value |= 0x04;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 1)
+                            Reg80Value |= 0x04;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                            Reg80Value |= 0x05;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
+                            Reg80Value |= 0x06;
+                    }
+                    else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
+                    {
+                        DisplayOperateMes("Inverted Sensor Direction");
+                        if (this.cmb_Voffset_PreT.SelectedIndex == 0)
+                            Reg80Value |= 0x00;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 1)
+                            Reg80Value |= 0x00;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                            Reg80Value |= 0x01;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
+                            Reg80Value |= 0x02;
+                    }
+
+                    preSetCoareseGainCode = 2;
+                    Reg81Value = 0x00 + preSetCoareseGainCode * 16;
+                    Reg82Value = Convert.ToUInt32(this.txt_SL620TC_AutoTab.Text, 16);
+                    Reg83Value = 0x30;
+                    Reg84Value = 0x00;
+                    Reg85Value = 0x00;
+                    Reg86Value = 0x00;
+                    Reg87Value = 0x00;
+
+
+                    if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                    {
+                        DisplayOperateMes("SC810 half VDD Signle End");
+                        AutoTrim_SL620_SingleEnd_HalfVDD();
+                    }
+                    else
+                    {
+                        DisplayOperateMes("SC810 2.5V Single End");
+                        AutoTrim_SL620_SingleEnd();
+                    }
+                    #endregion
                 }
                 else
                     return;

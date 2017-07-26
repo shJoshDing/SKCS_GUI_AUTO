@@ -223,6 +223,7 @@
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
             this.cb_AutoTab_Retest = new System.Windows.Forms.ComboBox();
+            this.txt_ChosenGain_AutoT = new System.Windows.Forms.TextBox();
             this.label78 = new System.Windows.Forms.Label();
             this.btn_CommunicationTest = new System.Windows.Forms.Button();
             this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
@@ -243,10 +244,10 @@
             this.btn_AutomaticaTrim5V = new System.Windows.Forms.Button();
             this.btn_AutomaticaTrim = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.txt_SL620TC_AutoTab = new System.Windows.Forms.TextBox();
             this.txt_ModuleType_AutoT = new System.Windows.Forms.TextBox();
-            this.txt_ChosenGain_AutoT = new System.Windows.Forms.TextBox();
-            this.label58 = new System.Windows.Forms.Label();
             this.txt_IP_AutoT = new System.Windows.Forms.TextBox();
+            this.label58 = new System.Windows.Forms.Label();
             this.txt_VoutOffset_AutoT = new System.Windows.Forms.TextBox();
             this.txt_TargertVoltage_AutoT = new System.Windows.Forms.TextBox();
             this.txt_AdcOffset_AutoT = new System.Windows.Forms.TextBox();
@@ -308,7 +309,6 @@
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.txt_SL620TC_AutoTab = new System.Windows.Forms.TextBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2753,6 +2753,20 @@
             this.cb_AutoTab_Retest.Size = new System.Drawing.Size(166, 25);
             this.cb_AutoTab_Retest.TabIndex = 118;
             // 
+            // txt_ChosenGain_AutoT
+            // 
+            this.txt_ChosenGain_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.txt_ChosenGain_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_ChosenGain_AutoT.ForeColor = System.Drawing.Color.White;
+            this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(12, 380);
+            this.txt_ChosenGain_AutoT.Name = "txt_ChosenGain_AutoT";
+            this.txt_ChosenGain_AutoT.ReadOnly = true;
+            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(56, 27);
+            this.txt_ChosenGain_AutoT.TabIndex = 111;
+            this.txt_ChosenGain_AutoT.Text = "100";
+            this.txt_ChosenGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_ChosenGain_AutoT.Visible = false;
+            // 
             // label78
             // 
             this.label78.AutoSize = true;
@@ -2797,7 +2811,8 @@
             "SL610-Differential",
             "SL622-Single-End",
             "SL622-Differential",
-            "SL622-DualPart"});
+            "SL622-DualPart",
+            "SC810-Single End"});
             this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(286, 307);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(166, 25);
@@ -3039,6 +3054,18 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Preset";
             // 
+            // txt_SL620TC_AutoTab
+            // 
+            this.txt_SL620TC_AutoTab.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.txt_SL620TC_AutoTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_SL620TC_AutoTab.ForeColor = System.Drawing.Color.White;
+            this.txt_SL620TC_AutoTab.Location = new System.Drawing.Point(180, 181);
+            this.txt_SL620TC_AutoTab.Name = "txt_SL620TC_AutoTab";
+            this.txt_SL620TC_AutoTab.Size = new System.Drawing.Size(118, 27);
+            this.txt_SL620TC_AutoTab.TabIndex = 119;
+            this.txt_SL620TC_AutoTab.Text = "00";
+            this.txt_SL620TC_AutoTab.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // txt_ModuleType_AutoT
             // 
             this.txt_ModuleType_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -3052,31 +3079,6 @@
             this.txt_ModuleType_AutoT.Text = "5V";
             this.txt_ModuleType_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // txt_ChosenGain_AutoT
-            // 
-            this.txt_ChosenGain_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_ChosenGain_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_ChosenGain_AutoT.ForeColor = System.Drawing.Color.White;
-            this.txt_ChosenGain_AutoT.Location = new System.Drawing.Point(12, 380);
-            this.txt_ChosenGain_AutoT.Name = "txt_ChosenGain_AutoT";
-            this.txt_ChosenGain_AutoT.ReadOnly = true;
-            this.txt_ChosenGain_AutoT.Size = new System.Drawing.Size(56, 27);
-            this.txt_ChosenGain_AutoT.TabIndex = 111;
-            this.txt_ChosenGain_AutoT.Text = "100";
-            this.txt_ChosenGain_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txt_ChosenGain_AutoT.Visible = false;
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label58.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label58.Location = new System.Drawing.Point(69, 185);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(68, 19);
-            this.label58.TabIndex = 109;
-            this.label58.Text = "TC (Hex)";
-            // 
             // txt_IP_AutoT
             // 
             this.txt_IP_AutoT.BackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -3089,6 +3091,17 @@
             this.txt_IP_AutoT.TabIndex = 108;
             this.txt_IP_AutoT.Text = "20";
             this.txt_IP_AutoT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label58.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label58.Location = new System.Drawing.Point(69, 185);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(68, 19);
+            this.label58.TabIndex = 109;
+            this.label58.Text = "TC (Hex)";
             // 
             // txt_VoutOffset_AutoT
             // 
@@ -3793,18 +3806,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // txt_SL620TC_AutoTab
-            // 
-            this.txt_SL620TC_AutoTab.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txt_SL620TC_AutoTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_SL620TC_AutoTab.ForeColor = System.Drawing.Color.White;
-            this.txt_SL620TC_AutoTab.Location = new System.Drawing.Point(180, 181);
-            this.txt_SL620TC_AutoTab.Name = "txt_SL620TC_AutoTab";
-            this.txt_SL620TC_AutoTab.Size = new System.Drawing.Size(118, 27);
-            this.txt_SL620TC_AutoTab.TabIndex = 119;
-            this.txt_SL620TC_AutoTab.Text = "00";
-            this.txt_SL620TC_AutoTab.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3817,7 +3818,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.3.7 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.3.8 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
