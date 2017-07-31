@@ -4708,22 +4708,61 @@ namespace CurrentSensorV3
                     coarse_PretrimGain = TargetVoltage_customer * 12.7d / (Vip_Pretrim - V0A_Pretrim);
                     DisplayOperateMes("coarse_PretrimGain = " + coarse_PretrimGain.ToString("F3"));
 
-                    if (coarse_PretrimGain > 100 && coarse_PretrimGain < 150)
+                    if (TargetOffset == 2.5)
                     {
-                        Reg83Value += 0x03;
-                        preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
-                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        if (coarse_PretrimGain > 100 && coarse_PretrimGain < 150)
+                        {
+                            Reg83Value += 0x03;
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 1.5d, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else if (coarse_PretrimGain <= 100)
+                        {
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else if (coarse_PretrimGain > 150 && coarse_PretrimGain < 200)
+                        {
+                            Reg83Value += 0x03;
+                            Reg80Value += 0x20;
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else
+                        {
+                            DisplayOperateMes("产品灵敏度要求过高！");
+                            TrimFinish();
+                            return;
+                        }
                     }
-                    else if (coarse_PretrimGain <= 100)
+                    else if (TargetOffset == 1.65)
                     {
-                        preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
-                        Reg81Value = 0x03 + preSetCoareseGainCode * 16;
-                    }
-                    else
-                    {
-                        DisplayOperateMes("产品灵敏度要求过高！");
-                        TrimFinish();
-                        return;
+                        if (coarse_PretrimGain > 73 * 1.5)
+                        {
+                            Reg83Value += 0x03;
+                            Reg80Value += 0x20;
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+
+                            
+                        }
+                        else if (coarse_PretrimGain <= 73) 
+                        {
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else if (coarse_PretrimGain > 73 * 1.5)
+                        {
+                            Reg83Value += 0x03;
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 1.5d, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else
+                        {
+                            DisplayOperateMes("产品灵敏度要求过高！");
+                            TrimFinish();
+                            return;
+                        }
                     }
 
                     RePower();
@@ -8147,7 +8186,12 @@ namespace CurrentSensorV3
                 ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * (1.0d - TargetOffset / Vout_0A) / 5));
                 //autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 - ix_CoarseOffsetCode * 0.005);
                 autoAdaptingGoughGain = tempG2 * tempG1 * 100d / (1.0 - ix_CoarseOffsetCode * 0.005);
-                Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
+
+                if (TargetOffset == 2.5)
+                    Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
+                //1.65V case
+                else
+                    Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable); 
                 /* Rough Gain Code*/
                 bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
                 MultiSiteReg1[idut] &= ~bit_op_mask;
@@ -8158,7 +8202,13 @@ namespace CurrentSensorV3
                 ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Ceiling(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
                 //autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 + ix_CoarseOffsetCode * 0.005);
                 autoAdaptingGoughGain = tempG2 * tempG1 * 100d / (1.0 + (31 - ix_CoarseOffsetCode) * 0.005);
-                Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
+
+                if (TargetOffset == 2.5)
+                    Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable);
+                //1.65V case
+                else
+                    Ix_forAutoAdaptingRoughGain = LookupCoarseGain_SL620(autoAdaptingGoughGain, sl620CoarseGainTable); 
+
                 /* Rough Gain Code*/
                 bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
                 MultiSiteReg1[idut] &= ~bit_op_mask;
@@ -8261,6 +8311,9 @@ namespace CurrentSensorV3
 
             if (gainTest < TargetGain_customer * 0.999)
             {
+
+
+
                 DisplayOperateMes("####Caution####", Color.DarkRed);
                 return;
             }
