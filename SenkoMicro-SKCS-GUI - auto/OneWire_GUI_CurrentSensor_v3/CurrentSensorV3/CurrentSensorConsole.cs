@@ -3758,10 +3758,10 @@ namespace CurrentSensorV3
 
         private void btn_PowerOn_OWCI_ADC_Click(object sender, EventArgs e)
         {
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_POWER_ON))
-                DisplayOperateMes("Power on succeeded!");
-            else
+            if ( ! oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_POWER_ON))
                 DisplayOperateMes("Power on failed!");
+
+            btn_ModuleCurrent_EngT_Click(null, null);
         }
 
         private void btn_PowerOff_OWCI_ADC_Click(object sender, EventArgs e)
@@ -4605,10 +4605,15 @@ namespace CurrentSensorV3
                 else if (SocketType == 2)
                 {
                     #region SL622 routines
-                    if (this.TargetGain_customer < 20)
+                    if (this.cb_iHallDecrease_AutoTab.Checked)
                         Reg80Value = 0x80;      //iHall decrease 33%
                     else
                         Reg80Value = 0x00;
+
+                    if (this.cb_ChopCkDis_AutoTab.Checked)
+                        Reg83Value = 0x08;
+                    else
+                        Reg83Value = 0x00;
 
                     
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
@@ -4642,7 +4647,7 @@ namespace CurrentSensorV3
                     preSetCoareseGainCode = 15;
                     Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                     Reg82Value = Convert.ToUInt32(this.txt_SL620TC_AutoTab.Text, 16);
-                    Reg83Value = 0x30;
+                    Reg83Value += 0x30;
                     Reg84Value = 0x00;
                     Reg85Value = 0x00;
                     Reg86Value = 0x00;
@@ -4839,11 +4844,7 @@ namespace CurrentSensorV3
                 else if (SocketType == 5)
                 {
                     #region SC810 routines
-                    if (this.TargetGain_customer < 20)
-                        Reg80Value = 0x80;      //iHall decrease 33%
-                    else
-                        Reg80Value = 0x00;
-
+                    Reg80Value = 0x00;
 
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
@@ -4869,7 +4870,7 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x02;
                     }
 
-                    preSetCoareseGainCode = 2;
+                    preSetCoareseGainCode = 0;
                     Reg81Value = 0x00 + preSetCoareseGainCode * 16;
                     Reg82Value = Convert.ToUInt32(this.txt_SL620TC_AutoTab.Text, 16);
                     Reg83Value = 0x30;
@@ -4877,6 +4878,16 @@ namespace CurrentSensorV3
                     Reg85Value = 0x00;
                     Reg86Value = 0x00;
                     Reg87Value = 0x00;
+
+                    if (this.TargetGain_customer < 20)
+                        Reg80Value += 0x80;      //iHall decrease 33%
+                    else if (this.TargetGain_customer > 150 && this.TargetGain_customer <= 185)
+                        Reg83Value += 0x03;
+                    else if (this.TargetGain_customer > 185)
+                    {
+                        Reg80Value += 0x40;
+                        Reg83Value += 0x03;
+                    }
 
 
                     if (this.cmb_Voffset_PreT.SelectedIndex == 2)
@@ -8309,11 +8320,8 @@ namespace CurrentSensorV3
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             gainTest = (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000d / IP;
 
-            if (gainTest < TargetGain_customer * 0.999)
+            if (gainTest < TargetGain_customer * 0.995)
             {
-
-
-
                 DisplayOperateMes("####Caution####", Color.DarkRed);
                 return;
             }
@@ -8941,6 +8949,13 @@ namespace CurrentSensorV3
                     this.lbl_passOrFailed.Text = "FAIL!";
                     return;
                 }
+            }
+
+            if ((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut])*1000 / IP < TargetGain_customer * 0.998)
+            {
+                DisplayOperateMes("灵敏度不够！！！");
+                TrimFinish();
+                return;
             }
 
             #endregion  Get Vout@0A
@@ -9700,27 +9715,27 @@ namespace CurrentSensorV3
 
         private void btn_Vout_PreT_Click(object sender, EventArgs e)
         {
-            RePower();
-            MultiSiteSocketSelect(0);
-            EnterTestMode();
+            //RePower();
+            //MultiSiteSocketSelect(0);
+            //EnterTestMode();
 
-            int wrNum = 4;
-            uint[] data = new uint[2 * wrNum];
-            data[0] = 0x80;
-            data[1] = Reg80Value;
-            data[2] = 0x81;
-            data[3] = Reg81Value;
-            data[4] = 0x82;
-            data[5] = Reg82Value;
-            data[6] = 0x83;
-            data[7] = Reg83Value;
+            //int wrNum = 4;
+            //uint[] data = new uint[2 * wrNum];
+            //data[0] = 0x80;
+            //data[1] = Reg80Value;
+            //data[2] = 0x81;
+            //data[3] = Reg81Value;
+            //data[4] = 0x82;
+            //data[5] = Reg82Value;
+            //data[6] = 0x83;
+            //data[7] = Reg83Value;
 
-            if (!RegisterWrite(wrNum, data))
-               DisplayOperateMes("Register write failed!", Color.Red);
+            //if (!RegisterWrite(wrNum, data))
+            //   DisplayOperateMes("Register write failed!", Color.Red);
 
-            EnterNomalMode();
+            //EnterNomalMode();
 
-            Delay(Delay_Fuse);
+            //Delay(Delay_Fuse);
 
             txt_PresetVoutIP_PreT.Text = AverageVout().ToString("F3");
         }
@@ -10392,7 +10407,7 @@ namespace CurrentSensorV3
 
         private void btn_Vout_AutoT_Click(object sender, EventArgs e)
         {
-            uint uDutCount = 16;
+            //uint uDutCount = 16;
             uint idut = 0;
             double[] uVout = new double[16];
 
@@ -10401,15 +10416,15 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
             Delay(Delay_Sync);
             RePower();
-            for (idut = 0; idut < uDutCount; idut++)
+            //for (idut = 0; idut < uDutCount; idut++)
             {
-                MultiSiteSocketSelect(idut);
+                //MultiSiteSocketSelect(idut);
                 Delay(Delay_Power);
                 uVout[idut] = AverageVout();
                 DisplayOperateMes("Vout[" + idut.ToString() + "] @ 0A = " + uVout[idut].ToString("F3"));
             }
 
-            MultiSiteDisplayVout(uVout);
+            //MultiSiteDisplayVout(uVout);
         }
 
         private void btn_EngTab_Connect_Click(object sender, EventArgs e)
@@ -10752,44 +10767,53 @@ namespace CurrentSensorV3
         {
             //bool bCommPass = false;
 
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
-            RePower();
-            EnterTestMode();
-            RegisterWrite(5, new uint[10] { 0x80, 0xAA, 0x81, 0xAA, 0x82, 0xAA, 0x83, 0xAA, 0x84, 0x07 });
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+            //RePower();
+            //EnterTestMode();
+            //RegisterWrite(5, new uint[10] { 0x80, 0xAA, 0x81, 0xAA, 0x82, 0xAA, 0x83, 0xAA, 0x84, 0x07 });
+            ////DisplayOperateMes("Write In Data is: ");
+            //DisplayOperateMes("Reg{0} = 0xAA");
+            //DisplayOperateMes("Reg{1} = 0xAA");
+            //DisplayOperateMes("Reg{2} = 0xAA");
+            //DisplayOperateMes("Reg{3} = 0xAA");
+            //DisplayOperateMes("Reg{4} = 0x07");
+            //BurstRead(0x80, 5, tempReadback);
+
+            //if (tempReadback[0]!=0xAA || tempReadback[1]!=0xAA || tempReadback[2]!=0xAA || tempReadback[3]!=0xAA || tempReadback[4]!=0x07)
+            //{
+            //    //bCommPass = false;
+            //    DisplayOperateMes("Communication Fail!", Color.Red);
+            //    return;
+            //}
+
+            //Delay(Delay_Sync);
+
+            //RegisterWrite(5, new uint[10] { 0x80, 0x55, 0x81, 0x55, 0x82, 0x55, 0x83, 0x55, 0x84, 0x07 });
             //DisplayOperateMes("Write In Data is: ");
-            DisplayOperateMes("Reg{0} = 0xAA");
-            DisplayOperateMes("Reg{1} = 0xAA");
-            DisplayOperateMes("Reg{2} = 0xAA");
-            DisplayOperateMes("Reg{3} = 0xAA");
-            DisplayOperateMes("Reg{4} = 0x07");
-            BurstRead(0x80, 5, tempReadback);
+            //DisplayOperateMes("Reg{0} = 0x55");
+            //DisplayOperateMes("Reg{1} = 0x55");
+            //DisplayOperateMes("Reg{2} = 0x55");
+            //DisplayOperateMes("Reg{3} = 0x55");
+            //DisplayOperateMes("Reg{4} = 0x07");
+            //BurstRead(0x80, 5, tempReadback);
 
-            if (tempReadback[0]!=0xAA || tempReadback[1]!=0xAA || tempReadback[2]!=0xAA || tempReadback[3]!=0xAA || tempReadback[4]!=0x07)
+            //if (tempReadback[0] != 0x55 || tempReadback[1] != 0x55 || tempReadback[2] != 0x55 || tempReadback[3] != 0x55 || tempReadback[4] != 0x07)
+            //{
+            //    //bCommPass = false;
+            //    DisplayOperateMes("Communication Fail!", Color.Red);
+            //    return;
+            //}
+            if (this.txt_SL620TC_AutoTab.Text == "1201")
             {
-                //bCommPass = false;
-                DisplayOperateMes("Communication Fail!", Color.Red);
-                return;
+                DisplayOperateMes("Key Pass! ");
+                this.cb_iHallDecrease_AutoTab.Visible = true;
+                this.cb_ChopCkDis_AutoTab.Visible = true;
             }
-
-            Delay(Delay_Sync);
-
-            RegisterWrite(5, new uint[10] { 0x80, 0x55, 0x81, 0x55, 0x82, 0x55, 0x83, 0x55, 0x84, 0x07 });
-            DisplayOperateMes("Write In Data is: ");
-            DisplayOperateMes("Reg{0} = 0x55");
-            DisplayOperateMes("Reg{1} = 0x55");
-            DisplayOperateMes("Reg{2} = 0x55");
-            DisplayOperateMes("Reg{3} = 0x55");
-            DisplayOperateMes("Reg{4} = 0x07");
-            BurstRead(0x80, 5, tempReadback);
-
-            if (tempReadback[0] != 0x55 || tempReadback[1] != 0x55 || tempReadback[2] != 0x55 || tempReadback[3] != 0x55 || tempReadback[4] != 0x07)
+            else
             {
-                //bCommPass = false;
-                DisplayOperateMes("Communication Fail!", Color.Red);
-                return;
+                this.cb_iHallDecrease_AutoTab.Visible = false;
+                this.cb_ChopCkDis_AutoTab.Visible = false;
             }
-
-            DisplayOperateMes("Communication Pass! ");
         }                  
 
         private void btn_SafetyHighRead_EngT_Click(object sender, EventArgs e)
@@ -11696,6 +11720,12 @@ namespace CurrentSensorV3
             ////back up to register and update GUI
             //Reg82Value &= ~bit_op_mask;
             //Reg82Value |= valueTable[ix_TableStart];
+        }
+
+        private void keyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.cb_iHallDecrease_AutoTab.Visible = true;
+            this.cb_ChopCkDis_AutoTab.Visible = true;
         }
 
 
