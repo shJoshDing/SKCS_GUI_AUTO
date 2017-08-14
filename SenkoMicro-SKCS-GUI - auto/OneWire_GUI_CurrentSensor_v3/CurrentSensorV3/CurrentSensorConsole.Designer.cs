@@ -162,7 +162,10 @@
             this.btn_preciseTrim = new System.Windows.Forms.Button();
             this.PriTrimTab = new System.Windows.Forms.TabPage();
             this.txt_bin3accuracy_PreT = new System.Windows.Forms.TextBox();
+            this.btn_ModuleCurrent_PreT = new System.Windows.Forms.Button();
+            this.cmb_Module_PreT = new System.Windows.Forms.ComboBox();
             this.label42 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
             this.txt_Reg80_PreT = new System.Windows.Forms.TextBox();
             this.txt_Reg81_PreT = new System.Windows.Forms.TextBox();
@@ -177,8 +180,8 @@
             this.label64 = new System.Windows.Forms.Label();
             this.btn_SaveConfig_PreT = new System.Windows.Forms.Button();
             this.btn_GainCtrlMinus_PreT = new System.Windows.Forms.Button();
-            this.btn_GainCtrlPlus_PreT = new System.Windows.Forms.Button();
             this.btn_Vout_PreT = new System.Windows.Forms.Button();
+            this.btn_GainCtrlPlus_PreT = new System.Windows.Forms.Button();
             this.label36 = new System.Windows.Forms.Label();
             this.txt_ChosenGain_PreT = new System.Windows.Forms.TextBox();
             this.txt_PresetVoutIP_PreT = new System.Windows.Forms.TextBox();
@@ -213,15 +216,15 @@
             this.btn_Reset_PreT = new System.Windows.Forms.Button();
             this.btn_FlashLed_PreT = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label_Iq_PreTrim = new System.Windows.Forms.Label();
             this.btn_PowerOn_PreT = new System.Windows.Forms.Button();
-            this.cmb_Module_PreT = new System.Windows.Forms.ComboBox();
-            this.label54 = new System.Windows.Forms.Label();
-            this.btn_ModuleCurrent_PreT = new System.Windows.Forms.Button();
             this.txt_ModuleCurrent_PreT = new System.Windows.Forms.TextBox();
             this.txt_SerialNum_PreT = new System.Windows.Forms.TextBox();
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.cb_iHallDecrease_AutoTab = new System.Windows.Forms.CheckBox();
+            this.cb_ChopCkDis_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_AutoTab_Retest = new System.Windows.Forms.ComboBox();
             this.txt_ChosenGain_AutoT = new System.Windows.Forms.TextBox();
             this.label78 = new System.Windows.Forms.Label();
@@ -307,12 +310,9 @@
             this.contextMenuStrip_Paste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip_Clear = new System.Windows.Forms.ToolStripMenuItem();
+            this.keyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.label_Iq_PreTrim = new System.Windows.Forms.Label();
-            this.cb_ChopCkDis_AutoTab = new System.Windows.Forms.CheckBox();
-            this.cb_iHallDecrease_AutoTab = new System.Windows.Forms.CheckBox();
-            this.keyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -1958,6 +1958,34 @@
             this.txt_bin3accuracy_PreT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txt_bin3accuracy_PreT.Visible = false;
             // 
+            // btn_ModuleCurrent_PreT
+            // 
+            this.btn_ModuleCurrent_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.btn_ModuleCurrent_PreT.Location = new System.Drawing.Point(359, 4);
+            this.btn_ModuleCurrent_PreT.Name = "btn_ModuleCurrent_PreT";
+            this.btn_ModuleCurrent_PreT.Size = new System.Drawing.Size(60, 25);
+            this.btn_ModuleCurrent_PreT.TabIndex = 83;
+            this.btn_ModuleCurrent_PreT.Text = "Iq (mA)";
+            this.btn_ModuleCurrent_PreT.UseVisualStyleBackColor = true;
+            this.btn_ModuleCurrent_PreT.Visible = false;
+            this.btn_ModuleCurrent_PreT.Click += new System.EventHandler(this.btn_ModuleCurrent_EngT_Click);
+            // 
+            // cmb_Module_PreT
+            // 
+            this.cmb_Module_PreT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_Module_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_Module_PreT.FormattingEnabled = true;
+            this.cmb_Module_PreT.Items.AddRange(new object[] {
+            "5V",
+            "+/-15V",
+            "3.3V"});
+            this.cmb_Module_PreT.Location = new System.Drawing.Point(269, 6);
+            this.cmb_Module_PreT.Name = "cmb_Module_PreT";
+            this.cmb_Module_PreT.Size = new System.Drawing.Size(74, 23);
+            this.cmb_Module_PreT.TabIndex = 90;
+            this.cmb_Module_PreT.Visible = false;
+            this.cmb_Module_PreT.SelectedIndexChanged += new System.EventHandler(this.cmb_Module_EngT_SelectedIndexChanged);
+            // 
             // label42
             // 
             this.label42.AutoSize = true;
@@ -1968,6 +1996,17 @@
             this.label42.TabIndex = 86;
             this.label42.Text = "Reg3";
             this.label42.Visible = false;
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label54.Location = new System.Drawing.Point(186, 10);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(77, 15);
+            this.label54.TabIndex = 89;
+            this.label54.Text = "Module Type:";
+            this.label54.Visible = false;
             // 
             // label41
             // 
@@ -2150,17 +2189,6 @@
             this.btn_GainCtrlMinus_PreT.UseVisualStyleBackColor = true;
             this.btn_GainCtrlMinus_PreT.Click += new System.EventHandler(this.btn_GainCtrlMinus_PreT_Click);
             // 
-            // btn_GainCtrlPlus_PreT
-            // 
-            this.btn_GainCtrlPlus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Plus;
-            this.btn_GainCtrlPlus_PreT.Enabled = false;
-            this.btn_GainCtrlPlus_PreT.Location = new System.Drawing.Point(267, 33);
-            this.btn_GainCtrlPlus_PreT.Name = "btn_GainCtrlPlus_PreT";
-            this.btn_GainCtrlPlus_PreT.Size = new System.Drawing.Size(32, 32);
-            this.btn_GainCtrlPlus_PreT.TabIndex = 89;
-            this.btn_GainCtrlPlus_PreT.UseVisualStyleBackColor = true;
-            this.btn_GainCtrlPlus_PreT.Click += new System.EventHandler(this.btn_GainCtrlPlus_PreT_Click);
-            // 
             // btn_Vout_PreT
             // 
             this.btn_Vout_PreT.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2171,6 +2199,17 @@
             this.btn_Vout_PreT.Text = "Vout";
             this.btn_Vout_PreT.UseVisualStyleBackColor = true;
             this.btn_Vout_PreT.Click += new System.EventHandler(this.btn_Vout_PreT_Click);
+            // 
+            // btn_GainCtrlPlus_PreT
+            // 
+            this.btn_GainCtrlPlus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Plus;
+            this.btn_GainCtrlPlus_PreT.Enabled = false;
+            this.btn_GainCtrlPlus_PreT.Location = new System.Drawing.Point(267, 33);
+            this.btn_GainCtrlPlus_PreT.Name = "btn_GainCtrlPlus_PreT";
+            this.btn_GainCtrlPlus_PreT.Size = new System.Drawing.Size(32, 32);
+            this.btn_GainCtrlPlus_PreT.TabIndex = 89;
+            this.btn_GainCtrlPlus_PreT.UseVisualStyleBackColor = true;
+            this.btn_GainCtrlPlus_PreT.Click += new System.EventHandler(this.btn_GainCtrlPlus_PreT_Click);
             // 
             // label36
             // 
@@ -2617,6 +2656,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Hardware Info";
             // 
+            // label_Iq_PreTrim
+            // 
+            this.label_Iq_PreTrim.AutoSize = true;
+            this.label_Iq_PreTrim.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Iq_PreTrim.Location = new System.Drawing.Point(229, 41);
+            this.label_Iq_PreTrim.Name = "label_Iq_PreTrim";
+            this.label_Iq_PreTrim.Size = new System.Drawing.Size(47, 13);
+            this.label_Iq_PreTrim.TabIndex = 93;
+            this.label_Iq_PreTrim.Text = "Iq (mA)";
+            // 
             // btn_PowerOn_PreT
             // 
             this.btn_PowerOn_PreT.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2627,45 +2676,6 @@
             this.btn_PowerOn_PreT.Text = "Power On";
             this.btn_PowerOn_PreT.UseVisualStyleBackColor = true;
             this.btn_PowerOn_PreT.Click += new System.EventHandler(this.btn_PowerOn_OWCI_ADC_Click);
-            // 
-            // cmb_Module_PreT
-            // 
-            this.cmb_Module_PreT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_Module_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_Module_PreT.FormattingEnabled = true;
-            this.cmb_Module_PreT.Items.AddRange(new object[] {
-            "5V",
-            "+/-15V",
-            "3.3V"});
-            this.cmb_Module_PreT.Location = new System.Drawing.Point(269, 6);
-            this.cmb_Module_PreT.Name = "cmb_Module_PreT";
-            this.cmb_Module_PreT.Size = new System.Drawing.Size(74, 23);
-            this.cmb_Module_PreT.TabIndex = 90;
-            this.cmb_Module_PreT.Visible = false;
-            this.cmb_Module_PreT.SelectedIndexChanged += new System.EventHandler(this.cmb_Module_EngT_SelectedIndexChanged);
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label54.Location = new System.Drawing.Point(186, 10);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(77, 15);
-            this.label54.TabIndex = 89;
-            this.label54.Text = "Module Type:";
-            this.label54.Visible = false;
-            // 
-            // btn_ModuleCurrent_PreT
-            // 
-            this.btn_ModuleCurrent_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.btn_ModuleCurrent_PreT.Location = new System.Drawing.Point(359, 4);
-            this.btn_ModuleCurrent_PreT.Name = "btn_ModuleCurrent_PreT";
-            this.btn_ModuleCurrent_PreT.Size = new System.Drawing.Size(60, 25);
-            this.btn_ModuleCurrent_PreT.TabIndex = 83;
-            this.btn_ModuleCurrent_PreT.Text = "Iq (mA)";
-            this.btn_ModuleCurrent_PreT.UseVisualStyleBackColor = true;
-            this.btn_ModuleCurrent_PreT.Visible = false;
-            this.btn_ModuleCurrent_PreT.Click += new System.EventHandler(this.btn_ModuleCurrent_EngT_Click);
             // 
             // txt_ModuleCurrent_PreT
             // 
@@ -2749,6 +2759,28 @@
             this.AutoTrimTab.Text = "AutoTrim";
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
+            // 
+            // cb_iHallDecrease_AutoTab
+            // 
+            this.cb_iHallDecrease_AutoTab.AutoSize = true;
+            this.cb_iHallDecrease_AutoTab.Location = new System.Drawing.Point(55, 338);
+            this.cb_iHallDecrease_AutoTab.Name = "cb_iHallDecrease_AutoTab";
+            this.cb_iHallDecrease_AutoTab.Size = new System.Drawing.Size(72, 17);
+            this.cb_iHallDecrease_AutoTab.TabIndex = 120;
+            this.cb_iHallDecrease_AutoTab.Text = "iHall -33%";
+            this.cb_iHallDecrease_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_iHallDecrease_AutoTab.Visible = false;
+            // 
+            // cb_ChopCkDis_AutoTab
+            // 
+            this.cb_ChopCkDis_AutoTab.AutoSize = true;
+            this.cb_ChopCkDis_AutoTab.Location = new System.Drawing.Point(55, 315);
+            this.cb_ChopCkDis_AutoTab.Name = "cb_ChopCkDis_AutoTab";
+            this.cb_ChopCkDis_AutoTab.Size = new System.Drawing.Size(91, 17);
+            this.cb_ChopCkDis_AutoTab.TabIndex = 119;
+            this.cb_ChopCkDis_AutoTab.Text = "Chop_Ck_Dis";
+            this.cb_ChopCkDis_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_ChopCkDis_AutoTab.Visible = false;
             // 
             // cb_AutoTab_Retest
             // 
@@ -3784,6 +3816,13 @@
             this.contextMenuStrip_Clear.Text = "C&lear";
             this.contextMenuStrip_Clear.MouseUp += new System.Windows.Forms.MouseEventHandler(this.contextMenuStrip_Clear_MouseUp);
             // 
+            // keyToolStripMenuItem
+            // 
+            this.keyToolStripMenuItem.Name = "keyToolStripMenuItem";
+            this.keyToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.keyToolStripMenuItem.Text = "Key";
+            this.keyToolStripMenuItem.Click += new System.EventHandler(this.keyToolStripMenuItem_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3815,45 +3854,6 @@
             this.txt_OutputLogInfo.Size = new System.Drawing.Size(283, 599);
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
-            // 
-            // label_Iq_PreTrim
-            // 
-            this.label_Iq_PreTrim.AutoSize = true;
-            this.label_Iq_PreTrim.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Iq_PreTrim.Location = new System.Drawing.Point(229, 41);
-            this.label_Iq_PreTrim.Name = "label_Iq_PreTrim";
-            this.label_Iq_PreTrim.Size = new System.Drawing.Size(47, 13);
-            this.label_Iq_PreTrim.TabIndex = 93;
-            this.label_Iq_PreTrim.Text = "Iq (mA)";
-            // 
-            // cb_ChopCkDis_AutoTab
-            // 
-            this.cb_ChopCkDis_AutoTab.AutoSize = true;
-            this.cb_ChopCkDis_AutoTab.Location = new System.Drawing.Point(55, 315);
-            this.cb_ChopCkDis_AutoTab.Name = "cb_ChopCkDis_AutoTab";
-            this.cb_ChopCkDis_AutoTab.Size = new System.Drawing.Size(91, 17);
-            this.cb_ChopCkDis_AutoTab.TabIndex = 119;
-            this.cb_ChopCkDis_AutoTab.Text = "Chop_Ck_Dis";
-            this.cb_ChopCkDis_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_ChopCkDis_AutoTab.Visible = false;
-            // 
-            // cb_iHallDecrease_AutoTab
-            // 
-            this.cb_iHallDecrease_AutoTab.AutoSize = true;
-            this.cb_iHallDecrease_AutoTab.Location = new System.Drawing.Point(55, 338);
-            this.cb_iHallDecrease_AutoTab.Name = "cb_iHallDecrease_AutoTab";
-            this.cb_iHallDecrease_AutoTab.Size = new System.Drawing.Size(72, 17);
-            this.cb_iHallDecrease_AutoTab.TabIndex = 120;
-            this.cb_iHallDecrease_AutoTab.Text = "iHall -33%";
-            this.cb_iHallDecrease_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_iHallDecrease_AutoTab.Visible = false;
-            // 
-            // keyToolStripMenuItem
-            // 
-            this.keyToolStripMenuItem.Name = "keyToolStripMenuItem";
-            this.keyToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.keyToolStripMenuItem.Text = "Key";
-            this.keyToolStripMenuItem.Click += new System.EventHandler(this.keyToolStripMenuItem_Click);
             // 
             // CurrentSensorConsole
             // 
