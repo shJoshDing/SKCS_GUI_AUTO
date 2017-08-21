@@ -223,6 +223,9 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.cb_MeasureiQ_AutoTab = new System.Windows.Forms.CheckBox();
+            this.cb_s3drv_autoTab = new System.Windows.Forms.CheckBox();
+            this.cb_s2double_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_iHallDecrease_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_ChopCkDis_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_AutoTab_Retest = new System.Windows.Forms.ComboBox();
@@ -2373,7 +2376,8 @@
             "Default",
             "2.5V LP",
             "0.5 VCC",
-            "1.65V"});
+            "1.65V",
+            "0.1 VCC"});
             this.cmb_Voffset_PreT.Location = new System.Drawing.Point(147, 137);
             this.cmb_Voffset_PreT.Name = "cmb_Voffset_PreT";
             this.cmb_Voffset_PreT.Size = new System.Drawing.Size(126, 24);
@@ -2727,6 +2731,9 @@
             // 
             // AutoTrimTab
             // 
+            this.AutoTrimTab.Controls.Add(this.cb_MeasureiQ_AutoTab);
+            this.AutoTrimTab.Controls.Add(this.cb_s3drv_autoTab);
+            this.AutoTrimTab.Controls.Add(this.cb_s2double_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_iHallDecrease_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_ChopCkDis_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_AutoTab_Retest);
@@ -2760,12 +2767,48 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
+            // cb_MeasureiQ_AutoTab
+            // 
+            this.cb_MeasureiQ_AutoTab.AutoSize = true;
+            this.cb_MeasureiQ_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_MeasureiQ_AutoTab.Location = new System.Drawing.Point(26, 404);
+            this.cb_MeasureiQ_AutoTab.Name = "cb_MeasureiQ_AutoTab";
+            this.cb_MeasureiQ_AutoTab.Size = new System.Drawing.Size(107, 23);
+            this.cb_MeasureiQ_AutoTab.TabIndex = 123;
+            this.cb_MeasureiQ_AutoTab.Text = "BYP  iQ test";
+            this.cb_MeasureiQ_AutoTab.UseVisualStyleBackColor = true;
+            // 
+            // cb_s3drv_autoTab
+            // 
+            this.cb_s3drv_autoTab.AutoSize = true;
+            this.cb_s3drv_autoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_s3drv_autoTab.Location = new System.Drawing.Point(26, 381);
+            this.cb_s3drv_autoTab.Name = "cb_s3drv_autoTab";
+            this.cb_s3drv_autoTab.Size = new System.Drawing.Size(77, 23);
+            this.cb_s3drv_autoTab.TabIndex = 122;
+            this.cb_s3drv_autoTab.Text = "S3_Drv";
+            this.cb_s3drv_autoTab.UseVisualStyleBackColor = true;
+            this.cb_s3drv_autoTab.Visible = false;
+            // 
+            // cb_s2double_AutoTab
+            // 
+            this.cb_s2double_AutoTab.AutoSize = true;
+            this.cb_s2double_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_s2double_AutoTab.Location = new System.Drawing.Point(26, 356);
+            this.cb_s2double_AutoTab.Name = "cb_s2double_AutoTab";
+            this.cb_s2double_AutoTab.Size = new System.Drawing.Size(101, 23);
+            this.cb_s2double_AutoTab.TabIndex = 121;
+            this.cb_s2double_AutoTab.Text = "S2_Double";
+            this.cb_s2double_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_s2double_AutoTab.Visible = false;
+            // 
             // cb_iHallDecrease_AutoTab
             // 
             this.cb_iHallDecrease_AutoTab.AutoSize = true;
-            this.cb_iHallDecrease_AutoTab.Location = new System.Drawing.Point(55, 338);
+            this.cb_iHallDecrease_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_iHallDecrease_AutoTab.Location = new System.Drawing.Point(26, 331);
             this.cb_iHallDecrease_AutoTab.Name = "cb_iHallDecrease_AutoTab";
-            this.cb_iHallDecrease_AutoTab.Size = new System.Drawing.Size(72, 17);
+            this.cb_iHallDecrease_AutoTab.Size = new System.Drawing.Size(100, 23);
             this.cb_iHallDecrease_AutoTab.TabIndex = 120;
             this.cb_iHallDecrease_AutoTab.Text = "iHall -33%";
             this.cb_iHallDecrease_AutoTab.UseVisualStyleBackColor = true;
@@ -2774,9 +2817,10 @@
             // cb_ChopCkDis_AutoTab
             // 
             this.cb_ChopCkDis_AutoTab.AutoSize = true;
-            this.cb_ChopCkDis_AutoTab.Location = new System.Drawing.Point(55, 315);
+            this.cb_ChopCkDis_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_ChopCkDis_AutoTab.Location = new System.Drawing.Point(26, 306);
             this.cb_ChopCkDis_AutoTab.Name = "cb_ChopCkDis_AutoTab";
-            this.cb_ChopCkDis_AutoTab.Size = new System.Drawing.Size(91, 17);
+            this.cb_ChopCkDis_AutoTab.Size = new System.Drawing.Size(115, 23);
             this.cb_ChopCkDis_AutoTab.TabIndex = 119;
             this.cb_ChopCkDis_AutoTab.Text = "Chop_Ck_Dis";
             this.cb_ChopCkDis_AutoTab.UseVisualStyleBackColor = true;
@@ -2811,11 +2855,11 @@
             // label78
             // 
             this.label78.AutoSize = true;
-            this.label78.Font = new System.Drawing.Font("Cambria", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label78.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label78.Location = new System.Drawing.Point(173, 366);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(116, 20);
+            this.label78.Size = new System.Drawing.Size(110, 19);
             this.label78.TabIndex = 117;
             this.label78.Text = "Test after Trim";
             // 
@@ -2863,22 +2907,22 @@
             // label77
             // 
             this.label77.AutoSize = true;
-            this.label77.Font = new System.Drawing.Font("Cambria", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label77.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label77.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label77.Location = new System.Drawing.Point(173, 338);
             this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(116, 20);
+            this.label77.Size = new System.Drawing.Size(113, 19);
             this.label77.TabIndex = 114;
             this.label77.Text = "Program Mode";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Cambria", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label21.Location = new System.Drawing.Point(173, 310);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(107, 20);
+            this.label21.Size = new System.Drawing.Size(102, 19);
             this.label21.TabIndex = 114;
             this.label21.Text = "Prodcut Type";
             // 
@@ -3104,7 +3148,7 @@
             this.txt_SL620TC_AutoTab.Name = "txt_SL620TC_AutoTab";
             this.txt_SL620TC_AutoTab.Size = new System.Drawing.Size(118, 27);
             this.txt_SL620TC_AutoTab.TabIndex = 119;
-            this.txt_SL620TC_AutoTab.Text = "00";
+            this.txt_SL620TC_AutoTab.Text = "57";
             this.txt_SL620TC_AutoTab.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_ModuleType_AutoT
@@ -3867,7 +3911,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.1 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.4 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -4222,5 +4266,8 @@
         private System.Windows.Forms.CheckBox cb_iHallDecrease_AutoTab;
         private System.Windows.Forms.CheckBox cb_ChopCkDis_AutoTab;
         private System.Windows.Forms.ToolStripMenuItem keyToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cb_s2double_AutoTab;
+        private System.Windows.Forms.CheckBox cb_s3drv_autoTab;
+        private System.Windows.Forms.CheckBox cb_MeasureiQ_AutoTab;
     }
 }

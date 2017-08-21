@@ -3031,8 +3031,8 @@ namespace CurrentSensorV3
             if (data.Length < wrNum * 2)
                 return false;
 
-            if (bAutoTrimTest)
-                DisplayOperateMes("Write In Data is:");
+            //if (bAutoTrimTest)
+            //    DisplayOperateMes("Write In Data is:");
 
             for (int ix = 0; ix < wrNum; ix++)
             {
@@ -3620,7 +3620,7 @@ namespace CurrentSensorV3
                 for (int ix = 0; ix < num; ix++)
                 {
                     if (bAutoTrimTest)
-                        DisplayOperateMes(string.Format("Reg{0} = 0x{1}", ix, _readBack_data[ix].ToString("X2")));
+                        DisplayOperateMes(string.Format("Reg0x{0} = 0x{1}", (_reg_addr_start + ix).ToString("X2"), _readBack_data[ix].ToString("X2")));
                 }
                 return true;
             }
@@ -4856,6 +4856,8 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x05;
                         else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
                             Reg80Value |= 0x06;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 4)
+                            Reg80Value |= 0x07;
                     }
                     else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
                     {
@@ -4868,6 +4870,8 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x01;
                         else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
                             Reg80Value |= 0x02;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 4)
+                            Reg80Value |= 0x03;
                     }
 
                     preSetCoareseGainCode = 0;
@@ -4879,18 +4883,47 @@ namespace CurrentSensorV3
                     Reg86Value = 0x00;
                     Reg87Value = 0x00;
 
-                    if (this.TargetGain_customer < 20)
-                        Reg80Value += 0x80;      //iHall decrease 33%
-                    else if (this.TargetGain_customer > 150 && this.TargetGain_customer <= 185)
-                        Reg83Value += 0x03;
-                    else if (this.TargetGain_customer > 185)
+
+                    if (this.TargetGain_customer == 100)     //---------------------------------------> 20A
                     {
-                        Reg80Value += 0x40;
-                        Reg83Value += 0x03;
+                        Reg80Value += 0x80;      //iHall decrease 33%
+                        Reg81Value += 0x0F;
+                    }
+                    else if (this.TargetGain_customer == 200) //--------------------------------------> 10A
+                    {
+                        Reg80Value += 0xC0;
+                        Reg81Value += 0x07;
+                        Reg83Value += 0x04;
+                    }
+                    else if (this.TargetGain_customer < 67 && this.TargetGain_customer > 66) //-------->30A
+                    {
+                        Reg80Value += 0x80;      //iHall decrease 33%
+                        Reg81Value += 0x0F;
+                    }
+                    else if (this.TargetGain_customer == 264)    //------------------------------------->ACS725, 264mV/A
+                    {
+                        Reg81Value += 0x03;
+                        Reg83Value += 0x04;
+                    }
+                    else
+                    {
+                        DisplayOperateMes("Customized Gain!");
+
+                        if (this.cb_s2double_AutoTab.Checked)
+                            Reg83Value += 0x04;
+
+                        if (this.cb_s3drv_autoTab.Checked)
+                            Reg83Value += 0x02;
+
+                        if (this.cb_iHallDecrease_AutoTab.Checked)
+                            Reg80Value += 0x80;      //iHall decrease 33%
+
+                        if (this.cb_ChopCkDis_AutoTab.Checked)
+                            Reg83Value += 0x08;
                     }
 
 
-                    if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                    if (this.cmb_Voffset_PreT.SelectedIndex == 2 || this.cmb_Voffset_PreT.SelectedIndex == 4)
                     {
                         DisplayOperateMes("SC810 half VDD Signle End");
                         AutoTrim_SL620_SingleEnd_HalfVDD();
@@ -7697,55 +7730,58 @@ namespace CurrentSensorV3
             RePower();
             Delay(Delay_Sync);
             //this.lbl_passOrFailed.Text = "Trimming!";
-            /* Get module current */
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
-            {
-                if (bAutoTrimTest)
-                    DisplayOperateMes("Set ADC VIN to VCS");
-            }
-            else
-            {
-                DisplayOperateMes("Set ADC VIN to VCS failed", Color.Red);
-                PowerOff();
-                return;
-            }
-            Delay(Delay_Sync);
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
-            {
-                if (bAutoTrimTest)
-                    DisplayOperateMes("Set ADC current sensor");
-            }
 
-            this.txt_ModuleCurrent_EngT.Text = GetModuleCurrent().ToString("F1");
-            this.txt_ModuleCurrent_PreT.Text = this.txt_ModuleCurrent_EngT.Text;
-
-
-            dModuleCurrent = GetModuleCurrent();
-            sDUT.dIQ = dModuleCurrent;
-            if (dCurrentDownLimit > dModuleCurrent)
+            if (!this.cb_MeasureiQ_AutoTab.Checked)
             {
-                DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_ABNORMAL;
-                PowerOff();
-                //PrintDutAttribute(sDUT);
-                MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
-                return;
-            }
-            else if (dModuleCurrent > dCurrentUpLimit)
-            {
-                DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_HIGH;
-                PowerOff();
-                sDUT.iErrorCode = uDutTrimResult[idut];
-                PrintDutAttribute(sDUT);
-                //MessageBox.Show(String.Format("电流异常，模块短路或损坏！"), "Error", MessageBoxButtons.OK);
-                this.lbl_passOrFailed.ForeColor = Color.Yellow;
-                this.lbl_passOrFailed.Text = "短路!";
-                return;
-            }
-            else
-                DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"));
+                /* Get module current */
+                if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
+                {
+                    if (bAutoTrimTest)
+                        DisplayOperateMes("Set ADC VIN to VCS");
+                }
+                else
+                {
+                    DisplayOperateMes("Set ADC VIN to VCS failed", Color.Red);
+                    PowerOff();
+                    return;
+                }
+                Delay(Delay_Sync);
+                if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
+                {
+                    if (bAutoTrimTest)
+                        DisplayOperateMes("Set ADC current sensor");
+                }
 
+                this.txt_ModuleCurrent_EngT.Text = GetModuleCurrent().ToString("F1");
+                this.txt_ModuleCurrent_PreT.Text = this.txt_ModuleCurrent_EngT.Text;
+
+
+                dModuleCurrent = GetModuleCurrent();
+                sDUT.dIQ = dModuleCurrent;
+                if (dCurrentDownLimit > dModuleCurrent)
+                {
+                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
+                    //uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_ABNORMAL;
+                    PowerOff();
+                    //PrintDutAttribute(sDUT);
+                    MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
+                    return;
+                }
+                else if (dModuleCurrent > dCurrentUpLimit)
+                {
+                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_HIGH;
+                    PowerOff();
+                    sDUT.iErrorCode = uDutTrimResult[idut];
+                    PrintDutAttribute(sDUT);
+                    //MessageBox.Show(String.Format("电流异常，模块短路或损坏！"), "Error", MessageBoxButtons.OK);
+                    this.lbl_passOrFailed.ForeColor = Color.Yellow;
+                    this.lbl_passOrFailed.Text = "短路!";
+                    return;
+                }
+                else
+                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"));
+            }
             #endregion Get module current 
 
             #region Saturation judgement
@@ -8195,6 +8231,9 @@ namespace CurrentSensorV3
             if (Vout_0A > TargetOffset)
             {
                 ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * (1.0d - TargetOffset / Vout_0A) / 5));
+                if (ix_CoarseOffsetCode > 15)
+                    ix_CoarseOffsetCode = 15;
+
                 //autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 - ix_CoarseOffsetCode * 0.005);
                 autoAdaptingGoughGain = tempG2 * tempG1 * 100d / (1.0 - ix_CoarseOffsetCode * 0.005);
 
@@ -8207,10 +8246,17 @@ namespace CurrentSensorV3
                 bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
                 MultiSiteReg1[idut] &= ~bit_op_mask;
                 MultiSiteReg1[idut] |= Convert.ToUInt32(sl620CoarseGainTable[1][Ix_forAutoAdaptingRoughGain]);
+                
+
             }
             else if (Vout_0A < TargetOffset)
             {
-                ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Ceiling(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
+                ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
+                //if (ix_CoarseOffsetCode == 32)
+                //    ix_CoarseOffsetCode = 0;
+                if (ix_CoarseOffsetCode < 16)
+                    ix_CoarseOffsetCode = 16;
+
                 //autoAdaptingGoughGain = sl620CoarseGainTable[0][Ix_forAutoAdaptingRoughGain] / (1.0 + ix_CoarseOffsetCode * 0.005);
                 autoAdaptingGoughGain = tempG2 * tempG1 * 100d / (1.0 + (31 - ix_CoarseOffsetCode) * 0.005);
 
@@ -8322,7 +8368,7 @@ namespace CurrentSensorV3
 
             if (gainTest < TargetGain_customer * 0.995)
             {
-                DisplayOperateMes("####Caution####", Color.DarkRed);
+                DisplayOperateMes("####Caution#### preset gain is too low", Color.DarkRed);
                 return;
             }
 
@@ -8344,20 +8390,17 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Precesion Gain RegValue87 = 0x" + MultiSiteReg7[idut].ToString("X2"));
                 DisplayOperateMes("***new add approach***");
             }
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            if (bAutoTrimTest)
-                DisplayOperateMes("***new approach end***");
-
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////         
 
             RePower();
             EnterTestMode();
 
             RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
-            Delay(Delay_Sync);
+            Delay(Delay_Sync*2);
             RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
             Delay(Delay_Sync);
+
+            BurstRead(0x85, 4, tempReadback);
 
             //RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
             EnterNomalMode();
@@ -8389,7 +8432,7 @@ namespace CurrentSensorV3
 
             #region Fuse
             //Fuse
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
             RePower();
             EnterTestMode();
 
@@ -8622,43 +8665,47 @@ namespace CurrentSensorV3
             RePower();
             Delay(Delay_Sync);
             this.lbl_passOrFailed.Text = "Trimming!";
-            /* Get module current */
-            if ( !oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
+
+            if (!this.cb_MeasureiQ_AutoTab.Checked)
             {
-                DisplayOperateMes("Set ADC VIN to VCS failed", Color.Red);
-                PowerOff();
-                return;
+                /* Get module current */
+                if (!oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VCS))
+                {
+                    DisplayOperateMes("Set ADC VIN to VCS failed", Color.Red);
+                    PowerOff();
+                    return;
+                }
+                Delay(Delay_Sync);
+                if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
+
+
+                    this.txt_ModuleCurrent_EngT.Text = GetModuleCurrent().ToString("F1");
+                this.txt_ModuleCurrent_PreT.Text = this.txt_ModuleCurrent_EngT.Text;
+
+
+                dModuleCurrent = GetModuleCurrent();
+                sDUT.dIQ = dModuleCurrent;
+                if (dCurrentDownLimit > dModuleCurrent)
+                {
+                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
+                    PowerOff();
+                    MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
+                    return;
+                }
+                else if (dModuleCurrent > dCurrentUpLimit)
+                {
+                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
+                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_HIGH;
+                    PowerOff();
+                    sDUT.iErrorCode = uDutTrimResult[idut];
+                    PrintDutAttribute(sDUT);
+                    this.lbl_passOrFailed.ForeColor = Color.Yellow;
+                    this.lbl_passOrFailed.Text = "短路!";
+                    return;
+                }
+                else
+                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"));
             }
-            Delay(Delay_Sync);
-            if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_SET_CURRENT_SENCE))
-
-
-            this.txt_ModuleCurrent_EngT.Text = GetModuleCurrent().ToString("F1");
-            this.txt_ModuleCurrent_PreT.Text = this.txt_ModuleCurrent_EngT.Text;
-
-
-            dModuleCurrent = GetModuleCurrent();
-            sDUT.dIQ = dModuleCurrent;
-            if (dCurrentDownLimit > dModuleCurrent)
-            {
-                DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                PowerOff();
-                MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
-                return;
-            }
-            else if (dModuleCurrent > dCurrentUpLimit)
-            {
-                DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_HIGH;
-                PowerOff();
-                sDUT.iErrorCode = uDutTrimResult[idut];
-                PrintDutAttribute(sDUT);
-                this.lbl_passOrFailed.ForeColor = Color.Yellow;
-                this.lbl_passOrFailed.Text = "短路!";
-                return;
-            }
-            else
-                DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"));
 
             #endregion Get module current
 
@@ -9246,7 +9293,7 @@ namespace CurrentSensorV3
             else if (((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000 - TargetGain_customer * IP) < -10 &&
                  ((dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000 - TargetGain_customer * IP) > 12)
             {
-                DisplayOperateMes("###Caution###", Color.DarkRed);
+                DisplayOperateMes("###Caution### preset is too low", Color.DarkRed);
                 return;
             }
 
@@ -9281,6 +9328,15 @@ namespace CurrentSensorV3
             /* Offset trim code calculate */
             Vout_0A = dMultiSiteVout0A[idut];
 
+            if (TargetOffset == 0.5)
+            {
+                if (Vout_0A < 0.455 || Vout_0A > 0.555)
+                {
+                    DisplayOperateMes("###Caution### Offset NOT trimmable!", Color.DarkRed);
+                    return;
+                }
+            }
+
             //btn_offset_Click(null, null);
             //uint[] regTMultiSite = new uint[3];
 
@@ -9292,9 +9348,19 @@ namespace CurrentSensorV3
             bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
             uint ix_CoarseOffsetCode = 0;
             if (Vout_0A > TargetOffset)
-                ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * ( 1.0d - TargetOffset / Vout_0A) / 5));
+            {
+                ix_CoarseOffsetCode = Convert.ToUInt32(Math.Round(1000d * (1.0d - TargetOffset / Vout_0A) / 5));
+                if (ix_CoarseOffsetCode > 15)
+                    ix_CoarseOffsetCode = 15;
+            }
             else if (Vout_0A < TargetOffset)
-                ix_CoarseOffsetCode = 31 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
+            {
+                ix_CoarseOffsetCode = 32 - Convert.ToUInt32(Math.Round(1000d * (TargetOffset / Vout_0A - 1.0d) / 5));
+                if (ix_CoarseOffsetCode == 32)
+                    ix_CoarseOffsetCode = 0;
+                else if (ix_CoarseOffsetCode < 16)
+                    ix_CoarseOffsetCode = 16;
+            }
 
             MultiSiteReg6[idut] &= ~bit_op_mask;
             MultiSiteReg6[idut] |= ix_CoarseOffsetCode;
@@ -10360,7 +10426,7 @@ namespace CurrentSensorV3
         {
             int ix = 0;
             ix = this.cmb_Voffset_PreT.SelectedIndex;
-            if( ix == 0 )
+            if (ix == 0)
             {
                 TargetOffset = 2.5;
                 bit_op_mask = bit3_Mask | bit4_Mask;
@@ -10370,7 +10436,7 @@ namespace CurrentSensorV3
                 this.cmb_OffsetOption_EngT.SelectedIndex = 0;
                 this.txt_VoutOffset_AutoT.Text = "2.5";
             }
-            else if( ix == 1 )
+            else if (ix == 1)
             {
                 TargetOffset = 2.5;
                 bit_op_mask = bit3_Mask | bit4_Mask;
@@ -10402,6 +10468,11 @@ namespace CurrentSensorV3
                 //Reg82Value = 0x00;
                 this.cmb_OffsetOption_EngT.SelectedIndex = 3;
                 this.txt_VoutOffset_AutoT.Text = "1.65";
+            }
+            else if (ix == 4)
+            {
+                TargetOffset = 0.5;
+                this.txt_VoutOffset_AutoT.Text = "0.5";
             }
         }
 
@@ -10808,11 +10879,17 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Key Pass! ");
                 this.cb_iHallDecrease_AutoTab.Visible = true;
                 this.cb_ChopCkDis_AutoTab.Visible = true;
+                this.cb_s2double_AutoTab.Visible = true;
+                this.cb_s3drv_autoTab.Visible = true;
+                this.cb_MeasureiQ_AutoTab.Visible = true;
             }
             else
             {
                 this.cb_iHallDecrease_AutoTab.Visible = false;
                 this.cb_ChopCkDis_AutoTab.Visible = false;
+                this.cb_s2double_AutoTab.Visible = false;
+                this.cb_s3drv_autoTab.Visible = false;
+                this.cb_MeasureiQ_AutoTab.Visible = false;
             }
         }                  
 

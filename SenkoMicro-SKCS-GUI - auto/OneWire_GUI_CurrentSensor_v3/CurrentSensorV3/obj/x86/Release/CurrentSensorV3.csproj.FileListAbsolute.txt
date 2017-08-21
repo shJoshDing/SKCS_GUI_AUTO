@@ -103,7 +103,7 @@ C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_
 C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.CurrentSensorConsole.resources
 C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.Properties.Resources.resources
 C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\CurrentSensorV3.csproj.GenerateResource.Cache
-C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\Senko_Console v1.3.x.exe
-C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\Senko_Console v1.3.x.pdb
-C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\Senko_Console v1.3.x.exe
-C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\Senko_Console v1.3.x.pdb
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\Senko_Console v1.4.x.exe
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\bin\Release\Senko_Console v1.4.x.pdb
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\Senko_Console v1.4.x.exe
+C:\Users\Work\Documents\Github\SKCS_GUI_AUTO\SenkoMicro-SKCS-GUI - auto\OneWire_GUI_CurrentSensor_v3\CurrentSensorV3\obj\x86\Release\Senko_Console v1.4.x.pdb
