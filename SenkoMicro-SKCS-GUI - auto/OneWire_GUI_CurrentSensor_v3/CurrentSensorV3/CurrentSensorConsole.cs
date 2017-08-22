@@ -4884,21 +4884,40 @@ namespace CurrentSensorV3
                     Reg87Value = 0x00;
 
 
-                    if (this.TargetGain_customer == 100)     //---------------------------------------> 20A
+                    if (this.TargetGain_customer > 80 && this.TargetGain_customer < 120)     //---------------------------------------> 100mv/A
                     {
-                        Reg80Value += 0x80;      //iHall decrease 33%
-                        Reg81Value += 0x0F;
+                        Reg80Value += 0xC0;      //iHall decrease 17%
+                        //Reg80Value += 0x80;      //iHall decrease 33%
+                        //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
+                        Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
+                        if(!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x35;
                     }
-                    else if (this.TargetGain_customer == 200) //--------------------------------------> 10A
+                    else if (this.TargetGain_customer > 120 && this.TargetGain_customer < 180)     //---------------------------------------> 133mv/A
+                    {
+                        Reg80Value += 0x00;      //iHall decrease 17%
+                        //Reg80Value += 0x80;      //iHall decrease 33%
+                        //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
+                        Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x23;
+                    }
+                    else if (this.TargetGain_customer > 180 && this.TargetGain_customer < 220) //--------------------------------------> 200mv/A
                     {
                         Reg80Value += 0xC0;
                         Reg81Value += 0x07;
                         Reg83Value += 0x04;
+
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x00;
                     }
-                    else if (this.TargetGain_customer < 67 && this.TargetGain_customer > 66) //-------->30A
+                    else if (this.TargetGain_customer > 60 && this.TargetGain_customer < 70) //-------->30A
                     {
                         Reg80Value += 0x80;      //iHall decrease 33%
                         Reg81Value += 0x0F;
+
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x24;
                     }
                     else if (this.TargetGain_customer == 264)    //------------------------------------->ACS725, 264mV/A
                     {

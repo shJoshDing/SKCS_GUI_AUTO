@@ -316,6 +316,7 @@
             this.keyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
+            this.cb_CustTc_AutoTab = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2731,6 +2732,7 @@
             // 
             // AutoTrimTab
             // 
+            this.AutoTrimTab.Controls.Add(this.cb_CustTc_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_MeasureiQ_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_s3drv_autoTab);
             this.AutoTrimTab.Controls.Add(this.cb_s2double_AutoTab);
@@ -3899,6 +3901,17 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
+            // cb_CustTc_AutoTab
+            // 
+            this.cb_CustTc_AutoTab.AutoSize = true;
+            this.cb_CustTc_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(26, 430);
+            this.cb_CustTc_AutoTab.Name = "cb_CustTc_AutoTab";
+            this.cb_CustTc_AutoTab.Size = new System.Drawing.Size(77, 23);
+            this.cb_CustTc_AutoTab.TabIndex = 124;
+            this.cb_CustTc_AutoTab.Text = "Cust Tc";
+            this.cb_CustTc_AutoTab.UseVisualStyleBackColor = true;
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4269,5 +4282,6 @@
         private System.Windows.Forms.CheckBox cb_s2double_AutoTab;
         private System.Windows.Forms.CheckBox cb_s3drv_autoTab;
         private System.Windows.Forms.CheckBox cb_MeasureiQ_AutoTab;
+        private System.Windows.Forms.CheckBox cb_CustTc_AutoTab;
     }
 }
