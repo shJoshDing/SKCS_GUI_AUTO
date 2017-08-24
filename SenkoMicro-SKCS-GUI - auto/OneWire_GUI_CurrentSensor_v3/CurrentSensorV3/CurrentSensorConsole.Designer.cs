@@ -223,6 +223,7 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.cb_CustTc_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_MeasureiQ_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_s3drv_autoTab = new System.Windows.Forms.CheckBox();
             this.cb_s2double_AutoTab = new System.Windows.Forms.CheckBox();
@@ -316,7 +317,6 @@
             this.keyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.cb_CustTc_AutoTab = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2550,9 +2550,9 @@
             this.label69.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label69.Location = new System.Drawing.Point(41, 141);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(68, 15);
+            this.label69.Size = new System.Drawing.Size(85, 15);
             this.label69.TabIndex = 8;
-            this.label69.Text = "V0A Option";
+            this.label69.Text = "Vout0A Option";
             // 
             // label33
             // 
@@ -2768,6 +2768,17 @@
             this.AutoTrimTab.Text = "AutoTrim";
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
+            // 
+            // cb_CustTc_AutoTab
+            // 
+            this.cb_CustTc_AutoTab.AutoSize = true;
+            this.cb_CustTc_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(26, 430);
+            this.cb_CustTc_AutoTab.Name = "cb_CustTc_AutoTab";
+            this.cb_CustTc_AutoTab.Size = new System.Drawing.Size(77, 23);
+            this.cb_CustTc_AutoTab.TabIndex = 124;
+            this.cb_CustTc_AutoTab.Text = "Cust Tc";
+            this.cb_CustTc_AutoTab.UseVisualStyleBackColor = true;
             // 
             // cb_MeasureiQ_AutoTab
             // 
@@ -3197,7 +3208,6 @@
             this.txt_VoutOffset_AutoT.ForeColor = System.Drawing.Color.White;
             this.txt_VoutOffset_AutoT.Location = new System.Drawing.Point(445, 37);
             this.txt_VoutOffset_AutoT.Name = "txt_VoutOffset_AutoT";
-            this.txt_VoutOffset_AutoT.ReadOnly = true;
             this.txt_VoutOffset_AutoT.Size = new System.Drawing.Size(100, 27);
             this.txt_VoutOffset_AutoT.TabIndex = 107;
             this.txt_VoutOffset_AutoT.Text = "2.5";
@@ -3286,9 +3296,9 @@
             this.label71.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label71.Location = new System.Drawing.Point(363, 41);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(51, 19);
+            this.label71.Size = new System.Drawing.Size(56, 19);
             this.label71.TabIndex = 97;
-            this.label71.Text = "Voffset";
+            this.label71.Text = "Vout0A";
             // 
             // label52
             // 
@@ -3900,17 +3910,6 @@
             this.txt_OutputLogInfo.Size = new System.Drawing.Size(283, 599);
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
-            // 
-            // cb_CustTc_AutoTab
-            // 
-            this.cb_CustTc_AutoTab.AutoSize = true;
-            this.cb_CustTc_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(26, 430);
-            this.cb_CustTc_AutoTab.Name = "cb_CustTc_AutoTab";
-            this.cb_CustTc_AutoTab.Size = new System.Drawing.Size(77, 23);
-            this.cb_CustTc_AutoTab.TabIndex = 124;
-            this.cb_CustTc_AutoTab.Text = "Cust Tc";
-            this.cb_CustTc_AutoTab.UseVisualStyleBackColor = true;
             // 
             // CurrentSensorConsole
             // 
