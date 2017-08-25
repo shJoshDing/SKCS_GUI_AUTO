@@ -8682,6 +8682,14 @@ namespace CurrentSensorV3
             Delay(Delay_Sync);
             RegisterWrite(1, new uint[2] {0x88, 0x02});
 
+            if (this.cb_BypFuse_AutoTab.Checked)
+            {
+                for (int i = 0; i < 8; i++ )
+                    DisplayOperateMes("Reg0x8" + i.ToString() + "= 0x" + MultiSiteReg0[idut].ToString("X2"));
+                TrimFinish();
+                return;
+            }
+
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
 
@@ -9664,6 +9672,14 @@ namespace CurrentSensorV3
             Delay(Delay_Sync);
             RegisterWrite(1, new uint[2] { 0x88, 0x02 });
 
+            if (this.cb_BypFuse_AutoTab.Checked)
+            {
+                for (int i = 0; i < 8; i++)
+                    DisplayOperateMes("Reg0x8" + i.ToString() + "= 0x" + MultiSiteReg0[idut].ToString("X2"));
+                TrimFinish();
+                return;
+            }
+
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
 
@@ -10532,6 +10548,14 @@ namespace CurrentSensorV3
             RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
             Delay(Delay_Sync);
             RegisterWrite(1, new uint[2] { 0x88, 0x02 });
+
+            if (this.cb_BypFuse_AutoTab.Checked)
+            {
+                for (int i = 0; i < 8; i++)
+                    DisplayOperateMes("Reg0x8" + i.ToString() + "= 0x" + MultiSiteReg0[idut].ToString("X2"));
+                TrimFinish();
+                return;
+            }
 
             FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
             DisplayOperateMes("Trimming...");
@@ -11997,6 +12021,7 @@ namespace CurrentSensorV3
                 this.cb_s3drv_autoTab.Visible = true;
                 this.cb_MeasureiQ_AutoTab.Visible = true;
                 this.cb_CustTc_AutoTab.Visible = true;
+                this.cb_BypFuse_AutoTab.Visible = true;
             }
             else
             {
@@ -12005,7 +12030,7 @@ namespace CurrentSensorV3
                 this.cb_s2double_AutoTab.Visible = false;
                 this.cb_s3drv_autoTab.Visible = false;
                 this.cb_MeasureiQ_AutoTab.Visible = false;
-                this.cb_CustTc_AutoTab.Visible = false;
+                this.cb_BypFuse_AutoTab.Visible = false;
             }
         }                  
 

@@ -317,6 +317,7 @@
             this.keyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
+            this.cb_BypFuse_AutoTab = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2732,6 +2733,7 @@
             // 
             // AutoTrimTab
             // 
+            this.AutoTrimTab.Controls.Add(this.cb_BypFuse_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_CustTc_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_MeasureiQ_AutoTab);
             this.AutoTrimTab.Controls.Add(this.cb_s3drv_autoTab);
@@ -2773,7 +2775,7 @@
             // 
             this.cb_CustTc_AutoTab.AutoSize = true;
             this.cb_CustTc_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(622, 332);
+            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(622, 338);
             this.cb_CustTc_AutoTab.Name = "cb_CustTc_AutoTab";
             this.cb_CustTc_AutoTab.Size = new System.Drawing.Size(77, 23);
             this.cb_CustTc_AutoTab.TabIndex = 124;
@@ -2785,7 +2787,7 @@
             // 
             this.cb_MeasureiQ_AutoTab.AutoSize = true;
             this.cb_MeasureiQ_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_MeasureiQ_AutoTab.Location = new System.Drawing.Point(622, 308);
+            this.cb_MeasureiQ_AutoTab.Location = new System.Drawing.Point(622, 312);
             this.cb_MeasureiQ_AutoTab.Name = "cb_MeasureiQ_AutoTab";
             this.cb_MeasureiQ_AutoTab.Size = new System.Drawing.Size(107, 23);
             this.cb_MeasureiQ_AutoTab.TabIndex = 123;
@@ -2797,7 +2799,7 @@
             // 
             this.cb_s3drv_autoTab.AutoSize = true;
             this.cb_s3drv_autoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_s3drv_autoTab.Location = new System.Drawing.Point(622, 386);
+            this.cb_s3drv_autoTab.Location = new System.Drawing.Point(49, 377);
             this.cb_s3drv_autoTab.Name = "cb_s3drv_autoTab";
             this.cb_s3drv_autoTab.Size = new System.Drawing.Size(77, 23);
             this.cb_s3drv_autoTab.TabIndex = 122;
@@ -2809,7 +2811,7 @@
             // 
             this.cb_s2double_AutoTab.AutoSize = true;
             this.cb_s2double_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_s2double_AutoTab.Location = new System.Drawing.Point(622, 361);
+            this.cb_s2double_AutoTab.Location = new System.Drawing.Point(49, 351);
             this.cb_s2double_AutoTab.Name = "cb_s2double_AutoTab";
             this.cb_s2double_AutoTab.Size = new System.Drawing.Size(101, 23);
             this.cb_s2double_AutoTab.TabIndex = 121;
@@ -2821,23 +2823,25 @@
             // 
             this.cb_iHallDecrease_AutoTab.AutoSize = true;
             this.cb_iHallDecrease_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_iHallDecrease_AutoTab.Location = new System.Drawing.Point(50, 348);
+            this.cb_iHallDecrease_AutoTab.Location = new System.Drawing.Point(50, 325);
             this.cb_iHallDecrease_AutoTab.Name = "cb_iHallDecrease_AutoTab";
             this.cb_iHallDecrease_AutoTab.Size = new System.Drawing.Size(100, 23);
             this.cb_iHallDecrease_AutoTab.TabIndex = 120;
             this.cb_iHallDecrease_AutoTab.Text = "iHall -33%";
             this.cb_iHallDecrease_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_iHallDecrease_AutoTab.Visible = false;
             // 
             // cb_ChopCkDis_AutoTab
             // 
             this.cb_ChopCkDis_AutoTab.AutoSize = true;
             this.cb_ChopCkDis_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_ChopCkDis_AutoTab.Location = new System.Drawing.Point(50, 323);
+            this.cb_ChopCkDis_AutoTab.Location = new System.Drawing.Point(50, 299);
             this.cb_ChopCkDis_AutoTab.Name = "cb_ChopCkDis_AutoTab";
             this.cb_ChopCkDis_AutoTab.Size = new System.Drawing.Size(115, 23);
             this.cb_ChopCkDis_AutoTab.TabIndex = 119;
             this.cb_ChopCkDis_AutoTab.Text = "Chop_Ck_Dis";
             this.cb_ChopCkDis_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_ChopCkDis_AutoTab.Visible = false;
             // 
             // cb_AutoTab_Retest
             // 
@@ -3911,6 +3915,18 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
+            // cb_BypFuse_AutoTab
+            // 
+            this.cb_BypFuse_AutoTab.AutoSize = true;
+            this.cb_BypFuse_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_BypFuse_AutoTab.Location = new System.Drawing.Point(622, 364);
+            this.cb_BypFuse_AutoTab.Name = "cb_BypFuse_AutoTab";
+            this.cb_BypFuse_AutoTab.Size = new System.Drawing.Size(93, 23);
+            this.cb_BypFuse_AutoTab.TabIndex = 125;
+            this.cb_BypFuse_AutoTab.Text = "BYP Fuse";
+            this.cb_BypFuse_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_BypFuse_AutoTab.Visible = false;
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4282,5 +4298,6 @@
         private System.Windows.Forms.CheckBox cb_s3drv_autoTab;
         private System.Windows.Forms.CheckBox cb_MeasureiQ_AutoTab;
         private System.Windows.Forms.CheckBox cb_CustTc_AutoTab;
+        private System.Windows.Forms.CheckBox cb_BypFuse_AutoTab;
     }
 }
