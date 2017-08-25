@@ -4692,6 +4692,14 @@ namespace CurrentSensorV3
                         TrimFinish();
                         return;
                     }
+
+                    if (Vip_Pretrim > 4.9)
+                    {
+                        DisplayOperateMes("灵敏度要求过低，无法满足！");
+                        TrimFinish();
+                        return;
+                    }
+
                     //coarse_PretrimGain = 2.0d * 12.7d / (Vip_Pretrim - V0A_Pretrim);
                     coarse_PretrimGain = TargetVoltage_customer * 12.7d / (Vip_Pretrim - V0A_Pretrim);
                     DisplayOperateMes("coarse_PretrimGain = " + coarse_PretrimGain.ToString("F3"));
@@ -9878,25 +9886,25 @@ namespace CurrentSensorV3
 
                 dModuleCurrent = GetModuleCurrent();
                 sDUT.dIQ = dModuleCurrent;
-                if (dCurrentDownLimit > dModuleCurrent)
-                {
-                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                    PowerOff();
-                    MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
-                    return;
-                }
-                else if (dModuleCurrent > dCurrentUpLimit)
-                {
-                    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
-                    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_HIGH;
-                    PowerOff();
-                    sDUT.iErrorCode = uDutTrimResult[idut];
-                    PrintDutAttribute(sDUT);
-                    this.lbl_passOrFailed.ForeColor = Color.Yellow;
-                    this.lbl_passOrFailed.Text = "短路!";
-                    return;
-                }
-                else
+                //if (dCurrentDownLimit > dModuleCurrent)
+                //{
+                //    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
+                //    PowerOff();
+                //    MessageBox.Show(String.Format("电流偏低，检查模组是否连接！"), "Warning", MessageBoxButtons.OK);
+                //    return;
+                //}
+                //else if (dModuleCurrent > dCurrentUpLimit)
+                //{
+                //    DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"), Color.Red);
+                //    uDutTrimResult[idut] = (uint)PRGMRSULT.DUT_CURRENT_HIGH;
+                //    PowerOff();
+                //    sDUT.iErrorCode = uDutTrimResult[idut];
+                //    PrintDutAttribute(sDUT);
+                //    this.lbl_passOrFailed.ForeColor = Color.Yellow;
+                //    this.lbl_passOrFailed.Text = "短路!";
+                //    return;
+                //}
+                //else
                     DisplayOperateMes("Module " + " current is " + dModuleCurrent.ToString("F3"));
             }
 
@@ -10433,8 +10441,9 @@ namespace CurrentSensorV3
             dMultiSiteVout0A[idut] = GetVout();
 
             dVout_0A_Temp = dMultiSiteVout0A[idut];
-            if (bAutoTrimTest)
-                DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+            //if (bAutoTrimTest)
+            DisplayOperateMes("DUT" + " Vref = " + TargetOffset.ToString("F3"));
+            DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
 
 
             /* Offset trim code calculate */
@@ -10502,7 +10511,7 @@ namespace CurrentSensorV3
             MultiSiteReg7[idut] &= ~bit_op_mask;
             MultiSiteReg7[idut] |= ix_FineOffsetCode;
             //***************************************************
-
+            DisplayOperateMes("DUT" + " Vref = " + TargetOffset.ToString("F3"));
             DisplayOperateMes("Vout_0A = " + Vout_0A.ToString("F3"));
             DisplayOperateMes("ix_FineOffsetCode = " + ix_FineOffsetCode.ToString());
             DisplayOperateMes("\r\nProcessing...");
@@ -10538,8 +10547,13 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
             Delay(Delay_Fuse);
 
-            dMultiSiteVout0A[idut] = AverageVout();
+            //###########################################################################
+            this.TargetOffset = GetVref();
+            //###########################################################################
+            dMultiSiteVout0A[idut] = GetVout();
             sDUT.dVout0ATrimmed = dMultiSiteVout0A[idut];
+
+            DisplayOperateMes("DUT" + " Vref = " + TargetOffset.ToString("F3"));
             DisplayOperateMes("Vout" + " @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
 
             if (this.cb_AutoTab_Retest.SelectedIndex == 0)
@@ -11982,6 +11996,7 @@ namespace CurrentSensorV3
                 this.cb_s2double_AutoTab.Visible = true;
                 this.cb_s3drv_autoTab.Visible = true;
                 this.cb_MeasureiQ_AutoTab.Visible = true;
+                this.cb_CustTc_AutoTab.Visible = true;
             }
             else
             {
@@ -11990,6 +12005,7 @@ namespace CurrentSensorV3
                 this.cb_s2double_AutoTab.Visible = false;
                 this.cb_s3drv_autoTab.Visible = false;
                 this.cb_MeasureiQ_AutoTab.Visible = false;
+                this.cb_CustTc_AutoTab.Visible = false;
             }
         }                  
 
