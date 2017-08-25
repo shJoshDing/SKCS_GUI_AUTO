@@ -17258,6 +17258,16 @@ namespace CurrentSensorV3
 
         #endregion
 
+        private void btn_SL620Tab_IpOn_Click(object sender, EventArgs e)
+        {
+            btn_EngTab_Ipon_Click(null,null);
+        }
+
+        private void btn_SL620Tab_IpOff_Click(object sender, EventArgs e)
+        {
+            btn_EngTab_Ipoff_Click(null, null);
+        }
+
 
 
 
