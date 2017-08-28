@@ -334,6 +334,8 @@
             this.SL910_Tab_DataGridView = new System.Windows.Forms.DataGridView();
             this.BoolSel = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.SL620Tab = new System.Windows.Forms.TabPage();
+            this.btn_SL620Tab_IpOff = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IpOn = new System.Windows.Forms.Button();
             this.btn_SL620Tab_PowerOn3v3 = new System.Windows.Forms.Button();
             this.btn_SL620Tab_Vout = new System.Windows.Forms.Button();
             this.btn_SL620Tab_WriteSelect = new System.Windows.Forms.Button();
@@ -404,8 +406,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_SL620Tab_IpOn = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_IpOff = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4219,6 +4219,30 @@
             this.SL620Tab.Text = "SL620";
             this.SL620Tab.UseVisualStyleBackColor = true;
             // 
+            // btn_SL620Tab_IpOff
+            // 
+            this.btn_SL620Tab_IpOff.BackColor = System.Drawing.Color.Orange;
+            this.btn_SL620Tab_IpOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_IpOff.Location = new System.Drawing.Point(578, 18);
+            this.btn_SL620Tab_IpOff.Name = "btn_SL620Tab_IpOff";
+            this.btn_SL620Tab_IpOff.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_IpOff.TabIndex = 13;
+            this.btn_SL620Tab_IpOff.Text = "IP OFF";
+            this.btn_SL620Tab_IpOff.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IpOff.Click += new System.EventHandler(this.btn_SL620Tab_IpOff_Click);
+            // 
+            // btn_SL620Tab_IpOn
+            // 
+            this.btn_SL620Tab_IpOn.BackColor = System.Drawing.Color.Orange;
+            this.btn_SL620Tab_IpOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_IpOn.Location = new System.Drawing.Point(528, 18);
+            this.btn_SL620Tab_IpOn.Name = "btn_SL620Tab_IpOn";
+            this.btn_SL620Tab_IpOn.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_IpOn.TabIndex = 12;
+            this.btn_SL620Tab_IpOn.Text = "IP ON";
+            this.btn_SL620Tab_IpOn.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IpOn.Click += new System.EventHandler(this.btn_SL620Tab_IpOn_Click);
+            // 
             // btn_SL620Tab_PowerOn3v3
             // 
             this.btn_SL620Tab_PowerOn3v3.BackColor = System.Drawing.Color.Transparent;
@@ -5011,30 +5035,6 @@
             this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            // 
-            // btn_SL620Tab_IpOn
-            // 
-            this.btn_SL620Tab_IpOn.BackColor = System.Drawing.Color.Orange;
-            this.btn_SL620Tab_IpOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpOn.Location = new System.Drawing.Point(528, 18);
-            this.btn_SL620Tab_IpOn.Name = "btn_SL620Tab_IpOn";
-            this.btn_SL620Tab_IpOn.Size = new System.Drawing.Size(43, 40);
-            this.btn_SL620Tab_IpOn.TabIndex = 12;
-            this.btn_SL620Tab_IpOn.Text = "IP ON";
-            this.btn_SL620Tab_IpOn.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_IpOn.Click += new System.EventHandler(this.btn_SL620Tab_IpOn_Click);
-            // 
-            // btn_SL620Tab_IpOff
-            // 
-            this.btn_SL620Tab_IpOff.BackColor = System.Drawing.Color.Orange;
-            this.btn_SL620Tab_IpOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpOff.Location = new System.Drawing.Point(578, 18);
-            this.btn_SL620Tab_IpOff.Name = "btn_SL620Tab_IpOff";
-            this.btn_SL620Tab_IpOff.Size = new System.Drawing.Size(43, 40);
-            this.btn_SL620Tab_IpOff.TabIndex = 13;
-            this.btn_SL620Tab_IpOff.Text = "IP OFF";
-            this.btn_SL620Tab_IpOff.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_IpOff.Click += new System.EventHandler(this.btn_SL620Tab_IpOff_Click);
             // 
             // CurrentSensorConsole
             // 
