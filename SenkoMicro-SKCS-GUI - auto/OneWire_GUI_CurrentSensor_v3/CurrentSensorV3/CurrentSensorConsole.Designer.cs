@@ -223,6 +223,7 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.cb_BypFuse_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_CustTc_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_MeasureiQ_AutoTab = new System.Windows.Forms.CheckBox();
             this.cb_s3drv_autoTab = new System.Windows.Forms.CheckBox();
@@ -317,7 +318,6 @@
             this.keyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
-            this.cb_BypFuse_AutoTab = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2771,6 +2771,18 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
+            // cb_BypFuse_AutoTab
+            // 
+            this.cb_BypFuse_AutoTab.AutoSize = true;
+            this.cb_BypFuse_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_BypFuse_AutoTab.Location = new System.Drawing.Point(622, 364);
+            this.cb_BypFuse_AutoTab.Name = "cb_BypFuse_AutoTab";
+            this.cb_BypFuse_AutoTab.Size = new System.Drawing.Size(93, 23);
+            this.cb_BypFuse_AutoTab.TabIndex = 125;
+            this.cb_BypFuse_AutoTab.Text = "BYP Fuse";
+            this.cb_BypFuse_AutoTab.UseVisualStyleBackColor = true;
+            this.cb_BypFuse_AutoTab.Visible = false;
+            // 
             // cb_CustTc_AutoTab
             // 
             this.cb_CustTc_AutoTab.AutoSize = true;
@@ -3915,18 +3927,6 @@
             this.txt_OutputLogInfo.TabIndex = 88;
             this.txt_OutputLogInfo.Text = "";
             // 
-            // cb_BypFuse_AutoTab
-            // 
-            this.cb_BypFuse_AutoTab.AutoSize = true;
-            this.cb_BypFuse_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_BypFuse_AutoTab.Location = new System.Drawing.Point(622, 364);
-            this.cb_BypFuse_AutoTab.Name = "cb_BypFuse_AutoTab";
-            this.cb_BypFuse_AutoTab.Size = new System.Drawing.Size(93, 23);
-            this.cb_BypFuse_AutoTab.TabIndex = 125;
-            this.cb_BypFuse_AutoTab.Text = "BYP Fuse";
-            this.cb_BypFuse_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_BypFuse_AutoTab.Visible = false;
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3939,7 +3939,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.4 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.5 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
