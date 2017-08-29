@@ -4695,9 +4695,53 @@ namespace CurrentSensorV3
 
                     if (Vip_Pretrim > 4.9)
                     {
-                        DisplayOperateMes("灵敏度要求过低，无法满足！");
-                        TrimFinish();
-                        return;
+                        Reg80Value |= 0x80;     //iHall down 33%
+
+                        RePower();
+                        Delay(Delay_Sync);
+                        RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+                        Delay(Delay_Sync);
+                        BurstRead(0x80, 5, tempReadback);
+                        EnterNomalMode();
+                        Delay(Delay_Fuse);
+                        Vip_Pretrim = AverageVout();
+
+                        if (Vip_Pretrim > 4.9)
+                        {
+                            Reg80Value &= 0x7F;     //iHall back to default
+                            Reg83Value |= 0x08;     //dis ckop ck, gain down 50%
+
+                            RePower();
+                            Delay(Delay_Sync);
+                            RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+                            Delay(Delay_Sync);
+                            BurstRead(0x80, 5, tempReadback);
+                            EnterNomalMode();
+                            Delay(Delay_Fuse);
+                            Vip_Pretrim = AverageVout();
+
+                            if (Vip_Pretrim > 4.9)
+                            {
+                                Reg80Value |= 0x80;     //iHall down 33%
+                                Reg83Value |= 0x08;     //dis ckop ck, gain down 50%
+
+                                RePower();
+                                Delay(Delay_Sync);
+                                RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+                                Delay(Delay_Sync);
+                                BurstRead(0x80, 5, tempReadback);
+                                EnterNomalMode();
+                                Delay(Delay_Fuse);
+                                Vip_Pretrim = AverageVout();
+
+                                if (Vip_Pretrim > 4.9)
+                                {
+                                    DisplayOperateMes("编程电流过大，输出饱和！");
+                                    TrimFinish();
+                                    return;
+                                }
+                            }
+                        }
                     }
 
                     //coarse_PretrimGain = 2.0d * 12.7d / (Vip_Pretrim - V0A_Pretrim);
@@ -4706,13 +4750,13 @@ namespace CurrentSensorV3
 
                     if (TargetOffset == 2.5)
                     {
-                        if (coarse_PretrimGain > 100 && coarse_PretrimGain < 150)
+                        if (coarse_PretrimGain > 100 && coarse_PretrimGain <= 150)
                         {
                             Reg83Value += 0x03;
                             preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 1.5d, sl620CoarseGainTable));
                             Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                         }
-                        else if (coarse_PretrimGain <= 100)
+                        else if (coarse_PretrimGain <= 100 && coarse_PretrimGain > 12.7)
                         {
                             preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
                             Reg81Value = 0x03 + preSetCoareseGainCode * 16;
@@ -4724,9 +4768,15 @@ namespace CurrentSensorV3
                             preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
                             Reg81Value = 0x03 + preSetCoareseGainCode * 16;
                         }
-                        else
+                        else if (coarse_PretrimGain >= 200)
                         {
                             DisplayOperateMes("产品灵敏度要求过高！");
+                            TrimFinish();
+                            return;
+                        }
+                        else if (coarse_PretrimGain < 11)
+                        {
+                            DisplayOperateMes("产品灵敏度要求过低！");
                             TrimFinish();
                             return;
                         }
@@ -5129,7 +5179,7 @@ namespace CurrentSensorV3
                         //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
                         Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
                         if(!this.cb_CustTc_AutoTab.Checked)
-                            Reg82Value = 0x35;
+                            Reg82Value = 0x46;
                     }
                     else if (this.TargetGain_customer > 120 && this.TargetGain_customer < 180)     //---------------------------------------> 133mv/A
                     {
@@ -5151,11 +5201,11 @@ namespace CurrentSensorV3
                     }
                     else if (this.TargetGain_customer > 60 && this.TargetGain_customer < 70) //-------->30A
                     {
-                        Reg80Value += 0x80;      //iHall decrease 33%
+                        Reg80Value += 0xC0;      //iHall decrease 33%
                         Reg81Value += 0x0F;
 
                         if (!this.cb_CustTc_AutoTab.Checked)
-                            Reg82Value = 0x24;
+                            Reg82Value = 0x68;
                     }
                     else if (this.TargetGain_customer == 264)    //------------------------------------->ACS725, 264mV/A
                     {
@@ -8684,8 +8734,7 @@ namespace CurrentSensorV3
 
             if (this.cb_BypFuse_AutoTab.Checked)
             {
-                for (int i = 0; i < 8; i++ )
-                    DisplayOperateMes("Reg0x8" + i.ToString() + "= 0x" + MultiSiteReg0[idut].ToString("X2"));
+                printRegValue();
                 TrimFinish();
                 return;
             }
@@ -9674,8 +9723,7 @@ namespace CurrentSensorV3
 
             if (this.cb_BypFuse_AutoTab.Checked)
             {
-                for (int i = 0; i < 8; i++)
-                    DisplayOperateMes("Reg0x8" + i.ToString() + "= 0x" + MultiSiteReg0[idut].ToString("X2"));
+                printRegValue();
                 TrimFinish();
                 return;
             }
@@ -10551,8 +10599,7 @@ namespace CurrentSensorV3
 
             if (this.cb_BypFuse_AutoTab.Checked)
             {
-                for (int i = 0; i < 8; i++)
-                    DisplayOperateMes("Reg0x8" + i.ToString() + "= 0x" + MultiSiteReg0[idut].ToString("X2"));
+                printRegValue();
                 TrimFinish();
                 return;
             }
@@ -12946,7 +12993,18 @@ namespace CurrentSensorV3
             this.cb_ChopCkDis_AutoTab.Visible = true;
         }
 
+        private void printRegValue()
+        {
+            DisplayOperateMes("Reg0x80 = 0x" + MultiSiteReg0[0].ToString("X2"));
+            DisplayOperateMes("Reg0x81 = 0x" + MultiSiteReg1[0].ToString("X2"));
+            DisplayOperateMes("Reg0x82 = 0x" + MultiSiteReg2[0].ToString("X2"));
+            DisplayOperateMes("Reg0x83 = 0x" + MultiSiteReg3[0].ToString("X2"));
 
+            DisplayOperateMes("Reg0x84 = 0x" + MultiSiteReg4[0].ToString("X2"));
+            DisplayOperateMes("Reg0x85 = 0x" + MultiSiteReg5[0].ToString("X2"));
+            DisplayOperateMes("Reg0x86 = 0x" + MultiSiteReg6[0].ToString("X2"));
+            DisplayOperateMes("Reg0x87 = 0x" + MultiSiteReg7[0].ToString("X2"));
+        }
     }
 
     
