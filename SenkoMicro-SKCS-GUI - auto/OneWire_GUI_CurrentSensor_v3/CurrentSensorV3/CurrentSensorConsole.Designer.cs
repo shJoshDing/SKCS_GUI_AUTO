@@ -2921,12 +2921,12 @@
             this.cmb_SocketType_AutoT.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.cmb_SocketType_AutoT.FormattingEnabled = true;
             this.cmb_SocketType_AutoT.Items.AddRange(new object[] {
-            "SL610-Single End",
-            "SL610-Differential",
-            "SL622-Single-End",
-            "SL622-Differential",
-            "SL622-DualPart",
-            "SC810-Single End"});
+            "SL61x-Single End",
+            "SL61x-Differential",
+            "SL62x-Single-End",
+            "SL62x-Differential",
+            "SL62x-DualPart",
+            "SC81x-Single End"});
             this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(286, 307);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(166, 25);

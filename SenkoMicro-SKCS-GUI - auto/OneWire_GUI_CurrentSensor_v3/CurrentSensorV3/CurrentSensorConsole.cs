@@ -4693,7 +4693,7 @@ namespace CurrentSensorV3
                         return;
                     }
 
-                    if (Vip_Pretrim > 4.9)
+                    if (Vip_Pretrim > 4.8)
                     {
                         Reg80Value |= 0x80;     //iHall down 33%
 
@@ -4706,7 +4706,7 @@ namespace CurrentSensorV3
                         Delay(Delay_Fuse);
                         Vip_Pretrim = AverageVout();
 
-                        if (Vip_Pretrim > 4.9)
+                        if (Vip_Pretrim > 4.8)
                         {
                             Reg80Value &= 0x7F;     //iHall back to default
                             Reg83Value |= 0x08;     //dis ckop ck, gain down 50%
@@ -4720,7 +4720,7 @@ namespace CurrentSensorV3
                             Delay(Delay_Fuse);
                             Vip_Pretrim = AverageVout();
 
-                            if (Vip_Pretrim > 4.9)
+                            if (Vip_Pretrim > 4.8)
                             {
                                 Reg80Value |= 0x80;     //iHall down 33%
                                 Reg83Value |= 0x08;     //dis ckop ck, gain down 50%
@@ -4734,7 +4734,7 @@ namespace CurrentSensorV3
                                 Delay(Delay_Fuse);
                                 Vip_Pretrim = AverageVout();
 
-                                if (Vip_Pretrim > 4.9)
+                                if (Vip_Pretrim > 4.8)
                                 {
                                     DisplayOperateMes("编程电流过大，输出饱和！");
                                     TrimFinish();
