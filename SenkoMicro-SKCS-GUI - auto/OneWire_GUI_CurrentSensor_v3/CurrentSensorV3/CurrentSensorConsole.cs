@@ -4872,6 +4872,10 @@ namespace CurrentSensorV3
                     }
                     #endregion
 
+                    Delay(Delay_Fuse);
+                    V0A_Pretrim = AverageVout();
+                    DisplayOperateMes("Vout@0A_2 = " + V0A_Pretrim.ToString("F3"));
+
                     if (this.cmb_Voffset_PreT.SelectedIndex == 2)
                     {
                         DisplayOperateMes("SL622 half VDD Signle End");

@@ -2805,7 +2805,6 @@
             this.cb_MeasureiQ_AutoTab.TabIndex = 123;
             this.cb_MeasureiQ_AutoTab.Text = "BYP  iQ test";
             this.cb_MeasureiQ_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_MeasureiQ_AutoTab.Visible = false;
             // 
             // cb_s3drv_autoTab
             // 
