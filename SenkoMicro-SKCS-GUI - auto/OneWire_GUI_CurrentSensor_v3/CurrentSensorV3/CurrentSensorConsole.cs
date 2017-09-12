@@ -9602,43 +9602,47 @@ namespace CurrentSensorV3
         private void btn_CommunicationTest_Click(object sender, EventArgs e)
         {
             //bool bCommPass = false;
+            uint channel;
+            channel = Convert.ToUInt32(tb_Channel_AutoTab.Text);
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.sp
+            MultiSiteSocketSelect(channel);
 
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
-            RePower();
-            EnterTestMode();
-            RegisterWrite(5, new uint[10] { 0x80, 0xAA, 0x81, 0xAA, 0x82, 0xAA, 0x83, 0xAA, 0x84, 0x07 });
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_5V);
+            //RePower();
+            //EnterTestMode();
+            //RegisterWrite(5, new uint[10] { 0x80, 0xAA, 0x81, 0xAA, 0x82, 0xAA, 0x83, 0xAA, 0x84, 0x07 });
+            ////DisplayOperateMes("Write In Data is: ");
+            //DisplayOperateMes("Reg{0} = 0xAA");
+            //DisplayOperateMes("Reg{1} = 0xAA");
+            //DisplayOperateMes("Reg{2} = 0xAA");
+            //DisplayOperateMes("Reg{3} = 0xAA");
+            //DisplayOperateMes("Reg{4} = 0x07");
+            //BurstRead(0x80, 5, tempReadback);
+
+            //if (tempReadback[0]!=0xAA || tempReadback[1]!=0xAA || tempReadback[2]!=0xAA || tempReadback[3]!=0xAA || tempReadback[4]!=0x07)
+            //{
+            //    //bCommPass = false;
+            //    DisplayOperateMes("Communication Fail!", Color.Red);
+            //    return;
+            //}
+
+            //Delay(Delay_Sync);
+
+            //RegisterWrite(5, new uint[10] { 0x80, 0x55, 0x81, 0x55, 0x82, 0x55, 0x83, 0x55, 0x84, 0x07 });
             //DisplayOperateMes("Write In Data is: ");
-            DisplayOperateMes("Reg{0} = 0xAA");
-            DisplayOperateMes("Reg{1} = 0xAA");
-            DisplayOperateMes("Reg{2} = 0xAA");
-            DisplayOperateMes("Reg{3} = 0xAA");
-            DisplayOperateMes("Reg{4} = 0x07");
-            BurstRead(0x80, 5, tempReadback);
+            //DisplayOperateMes("Reg{0} = 0x55");
+            //DisplayOperateMes("Reg{1} = 0x55");
+            //DisplayOperateMes("Reg{2} = 0x55");
+            //DisplayOperateMes("Reg{3} = 0x55");
+            //DisplayOperateMes("Reg{4} = 0x07");
+            //BurstRead(0x80, 5, tempReadback);
 
-            if (tempReadback[0]!=0xAA || tempReadback[1]!=0xAA || tempReadback[2]!=0xAA || tempReadback[3]!=0xAA || tempReadback[4]!=0x07)
-            {
-                //bCommPass = false;
-                DisplayOperateMes("Communication Fail!", Color.Red);
-                return;
-            }
-
-            Delay(Delay_Sync);
-
-            RegisterWrite(5, new uint[10] { 0x80, 0x55, 0x81, 0x55, 0x82, 0x55, 0x83, 0x55, 0x84, 0x07 });
-            DisplayOperateMes("Write In Data is: ");
-            DisplayOperateMes("Reg{0} = 0x55");
-            DisplayOperateMes("Reg{1} = 0x55");
-            DisplayOperateMes("Reg{2} = 0x55");
-            DisplayOperateMes("Reg{3} = 0x55");
-            DisplayOperateMes("Reg{4} = 0x07");
-            BurstRead(0x80, 5, tempReadback);
-
-            if (tempReadback[0] != 0x55 || tempReadback[1] != 0x55 || tempReadback[2] != 0x55 || tempReadback[3] != 0x55 || tempReadback[4] != 0x07)
-            {
-                //bCommPass = false;
-                DisplayOperateMes("Communication Fail!", Color.Red);
-                return;
-            }
+            //if (tempReadback[0] != 0x55 || tempReadback[1] != 0x55 || tempReadback[2] != 0x55 || tempReadback[3] != 0x55 || tempReadback[4] != 0x07)
+            //{
+            //    //bCommPass = false;
+            //    DisplayOperateMes("Communication Fail!", Color.Red);
+            //    return;
+            //}
 
             DisplayOperateMes("Communication Pass! ");
         }                  
@@ -16829,6 +16833,402 @@ namespace CurrentSensorV3
         }
 
         #endregion SL620
+
+        #region SL620b/SC810b
+
+        #endregion SL620b/SC810b
+
+        #region SC780
+        //offset temp drift
+        private void SC780_Offset_Temp_Drift(uint count)
+        {
+            Delay_Power = 100;
+            uint _dev_addr = this.DeviceAddress;
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\SC780_Offset_Temp_Drift.csv";
+            //filename += ".csv";
+
+            //uint[] sc810RegValue = new uint[4];
+
+            #region Init RS232
+            //btn_EngTab_Connect_Click(null, null);
+            //Delay(500);
+            //SetIP(20);
+            //Delay(500);
+            #endregion
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                //uint tempResult = 0;
+                //writer.WriteLine(filename);
+                //if(writer.)
+                string headers = "Temp,ID,2.5V,iHall_0.16,iHall_0.33,cGain_3,cGain_6,cGain_9,cGain_12,cGain_15" +
+                                 "," +
+                                 "," +
+                                 "," +
+                                 "";
+
+                writer.WriteLine(headers);
+
+                for (uint index = 0; index < count; index++)
+                {
+                    //MessageBox("DUT ON");
+                    ResetTempBuf();
+                    //DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                    //if (dr == DialogResult.Cancel)
+                    //    return;
+
+
+                    //else if (dr == DialogResult.OK)
+                    {
+                        MultiSiteSocketSelect(index);
+                        //write ID
+                        writer.Write(this.txt_Char910_DutId.Text + "," + index.ToString() + ",");
+
+                        //default 2.5V
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x04);
+                        //Delay(Delay_Sync);
+                        //oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                        //btn_EngTab_Ipon_Click(null, null);
+                        //Delay(Delay_Sync);
+                        //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        //Delay(Delay_Sync);
+                        //btn_EngTab_Ipoff_Click(null, null);
+                        //Delay(Delay_Sync);
+                        //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        //Delay(Delay_Sync);
+
+                        //2.5V IHALL-16
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        //Delay(Delay_Sync);
+                        //oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x24);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        //btn_EngTab_Ipon_Click(null, null);
+                        //Delay(Delay_Sync);
+                        //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        //Delay(Delay_Sync);
+                        //btn_EngTab_Ipoff_Click(null, null);
+                        //Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //vbg02
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x28);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //vbg03
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x2C);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //tc2
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x22);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //tc4
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x44);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //tc6
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x66);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //tc8
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC4);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x88);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //0.5vdd
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC5);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x00);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //0.5vdd tc2
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC5);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x22);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //0.5vdd tc4
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC5);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x44);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //0.5vdd tc6
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC5);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x66);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                        //0.5vdd tc8
+                        PowerOff();
+                        Delay(Delay_Power);
+                        btn_SL620Tab_PowerOn_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_TestKey_Click(null, null);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0xC5);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x20);
+                        Delay(Delay_Sync);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, 0x88);
+                        Delay(Delay_Sync);
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+                    }
+                    writer.Write("\r\n");
+                    //writer.Close();
+                }
+            }
+
+        }
+        //gain temp drift
+
+        //
+
+        #endregion SC780
 
         private void btn_Program_Start_Click(object sender, EventArgs e)
         {

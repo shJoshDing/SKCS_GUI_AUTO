@@ -406,6 +406,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.tb_Channel_AutoTab = new System.Windows.Forms.TextBox();
+            this.label102 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2919,6 +2921,8 @@
             // 
             // AutoTrimTab
             // 
+            this.AutoTrimTab.Controls.Add(this.label102);
+            this.AutoTrimTab.Controls.Add(this.tb_Channel_AutoTab);
             this.AutoTrimTab.Controls.Add(this.btn_CommunicationTest);
             this.AutoTrimTab.Controls.Add(this.cmb_ProgramMode_AutoT);
             this.AutoTrimTab.Controls.Add(this.cmb_SocketType_AutoT);
@@ -2949,9 +2953,9 @@
             // 
             // btn_CommunicationTest
             // 
-            this.btn_CommunicationTest.Location = new System.Drawing.Point(11, 385);
+            this.btn_CommunicationTest.Location = new System.Drawing.Point(596, 418);
             this.btn_CommunicationTest.Name = "btn_CommunicationTest";
-            this.btn_CommunicationTest.Size = new System.Drawing.Size(76, 27);
+            this.btn_CommunicationTest.Size = new System.Drawing.Size(113, 27);
             this.btn_CommunicationTest.TabIndex = 116;
             this.btn_CommunicationTest.Text = "Com Test";
             this.btn_CommunicationTest.UseVisualStyleBackColor = true;
@@ -5036,6 +5040,28 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // tb_Channel_AutoTab
+            // 
+            this.tb_Channel_AutoTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tb_Channel_AutoTab.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_Channel_AutoTab.ForeColor = System.Drawing.Color.Black;
+            this.tb_Channel_AutoTab.Location = new System.Drawing.Point(660, 383);
+            this.tb_Channel_AutoTab.Name = "tb_Channel_AutoTab";
+            this.tb_Channel_AutoTab.Size = new System.Drawing.Size(49, 29);
+            this.tb_Channel_AutoTab.TabIndex = 117;
+            this.tb_Channel_AutoTab.Text = "0";
+            // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label102.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label102.Location = new System.Drawing.Point(592, 387);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(64, 19);
+            this.label102.TabIndex = 118;
+            this.label102.Text = "Channel";
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5511,5 +5537,7 @@
         private System.Windows.Forms.Button btn_SL620Tab_PowerOn3v3;
         private System.Windows.Forms.Button btn_SL620Tab_IpOff;
         private System.Windows.Forms.Button btn_SL620Tab_IpOn;
+        private System.Windows.Forms.Label label102;
+        private System.Windows.Forms.TextBox tb_Channel_AutoTab;
     }
 }
