@@ -2961,10 +2961,10 @@ namespace CurrentSensorV3
 
             _reg_addr = 0x42;
 
-            if (SocketType == 2 || SocketType == 3 || SocketType == 4 || SocketType == 5)
-                _reg_data = 0x02;
-            else
+            if (SocketType == 0 || SocketType == 1 )
                 _reg_data = 0x04;
+            else
+                _reg_data = 0x02;
 
             bool writeResult = oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data);
             //Console.WriteLine("I2C write result->{0}", oneWrie_device.I2CWrite_Single(_dev_addr, _reg_addr, _reg_data));
@@ -5196,7 +5196,7 @@ namespace CurrentSensorV3
                     }
                     else if (this.TargetGain_customer > 180 && this.TargetGain_customer < 220) //--------------------------------------> 200mv/A
                     {
-                        Reg80Value += 0xC0;
+                        Reg80Value += 0x80;
                         Reg81Value += 0x07;
                         Reg83Value += 0x04;
 
@@ -5205,7 +5205,119 @@ namespace CurrentSensorV3
                     }
                     else if (this.TargetGain_customer > 60 && this.TargetGain_customer < 70) //-------->30A
                     {
-                        Reg80Value += 0xC0;      //iHall decrease 33%
+                        Reg80Value += 0xC0;      //iHall decrease 17%
+                        Reg81Value += 0x0F;
+
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x68;
+                    }
+                    else if (this.TargetGain_customer == 264)    //------------------------------------->ACS725, 264mV/A
+                    {
+                        Reg81Value += 0x03;
+                        Reg83Value += 0x04;
+                    }
+                    else
+                    {
+                        DisplayOperateMes("Customized Gain!");
+
+                        if (this.cb_s2double_AutoTab.Checked)
+                            Reg83Value += 0x04;
+
+                        if (this.cb_s3drv_autoTab.Checked)
+                            Reg83Value += 0x02;
+
+                        if (this.cb_iHallDecrease_AutoTab.Checked)
+                            Reg80Value += 0x80;      //iHall decrease 33%
+
+                        if (this.cb_ChopCkDis_AutoTab.Checked)
+                            Reg83Value += 0x08;
+                    }
+
+
+                    if (this.cmb_Voffset_PreT.SelectedIndex == 2 || this.cmb_Voffset_PreT.SelectedIndex == 4)
+                    {
+                        DisplayOperateMes("SC810 half VDD Signle End");
+                        AutoTrim_SL620_SingleEnd_HalfVDD();
+                    }
+                    else
+                    {
+                        DisplayOperateMes("SC810 2.5V Single End");
+                        AutoTrim_SL620_SingleEnd();
+                    }
+                    #endregion
+                }
+                else if (SocketType == 6)
+                {
+                    #region SC810b routines
+
+                    preSetCoareseGainCode = 0;
+                    Reg80Value = 0x00;                
+                    Reg81Value = 0x00 + preSetCoareseGainCode * 16;
+                    Reg82Value = Convert.ToUInt32(this.txt_SL620TC_AutoTab.Text, 16);
+                    Reg83Value = 0x30;
+                    Reg84Value = 0x00;
+                    Reg85Value = 0x00;
+                    Reg86Value = 0x00;
+                    Reg87Value = 0x00;
+
+                    if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
+                    {
+                        if (this.cmb_Voffset_PreT.SelectedIndex == 0)
+                            Reg80Value |= 0x04;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 1)
+                            Reg80Value |= 0x04;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                            Reg80Value |= 0x05;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
+                            Reg80Value |= 0x06;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 4)
+                            Reg80Value |= 0x07;
+                    }
+                    else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
+                    {
+                        DisplayOperateMes("Inverted Sensor Direction");
+                        if (this.cmb_Voffset_PreT.SelectedIndex == 0)
+                            Reg80Value |= 0x00;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 1)
+                            Reg80Value |= 0x00;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 2)
+                            Reg80Value |= 0x01;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
+                            Reg80Value |= 0x02;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 4)
+                            Reg80Value |= 0x03;
+                    }
+                   
+                    if (this.TargetGain_customer > 80 && this.TargetGain_customer < 120)     //---------------------------------------> 100mv/A
+                    {
+                        Reg80Value += 0x10;      //4 halls, M + R
+                        //Reg80Value += 0x80;      //iHall decrease 33%
+                        //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
+                        Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x46;
+                    }
+                    else if (this.TargetGain_customer > 120 && this.TargetGain_customer < 180)     //---------------------------------------> 133mv/A
+                    {
+                        Reg80Value += 0x20;      //iHall decrease 17%
+                        //Reg80Value += 0x80;      //iHall decrease 33%
+                        //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
+                        Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x23;
+                    }
+                    else if (this.TargetGain_customer > 180 && this.TargetGain_customer < 220) //--------------------------------------> 200mv/A
+                    {
+                        Reg80Value += 0x20;
+                        Reg81Value += 0x07;
+                        //Reg83Value += 0x04;
+
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x00;
+                    }
+                    else if (this.TargetGain_customer > 60 && this.TargetGain_customer < 70) //-------->30A
+                    {
+                        Reg80Value += 0xA0;      //iHall decrease 17%
                         Reg81Value += 0x0F;
 
                         if (!this.cb_CustTc_AutoTab.Checked)
@@ -8662,8 +8774,105 @@ namespace CurrentSensorV3
 
             if (gainTest < TargetGain_customer * 0.995)
             {
-                DisplayOperateMes("####Caution#### preset gain is too low", Color.DarkRed);
-                return;
+                DisplayOperateMes("Tuning coarse gain", Color.DarkRed);
+
+                /* Rough Gain Code*/
+                if (Ix_forAutoAdaptingRoughGain > 0)
+                {
+                    bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+                    MultiSiteReg1[idut] &= ~bit_op_mask;
+                    MultiSiteReg1[idut] |= Convert.ToUInt32(sl620CoarseGainTable[1][Ix_forAutoAdaptingRoughGain - 1]);
+
+                    RePower();
+                    EnterTestMode();
+
+                    RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+                    Delay(Delay_Sync);
+                    RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
+                    Delay(Delay_Sync);
+
+                    EnterNomalMode();
+
+                    #region /* Change Current to IP  */
+                    if (ProgramMode == 0)
+                    {
+                        if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                        {
+                            DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            TrimFinish();
+                            return;
+                        }
+                    }
+                    else if (ProgramMode == 1)
+                    {
+                        dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                        if (dr == DialogResult.Cancel)
+                        {
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            PowerOff();
+                            RestoreReg80ToReg83Value();
+                            return;
+                        }
+                    }
+                    else if (ProgramMode == 2)
+                    {
+                        MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                        Delay(Delay_Sync);
+                        MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+                    }
+                    #endregion
+
+                    Delay(Delay_Fuse);
+                    dMultiSiteVoutIP[idut] = AverageVout();
+                    DisplayOperateMes("Vout" + " @ IP = " + dMultiSiteVoutIP[idut].ToString("F3"));
+
+                    #region Change Current to 0A */
+                    if (ProgramMode == 0)
+                    {
+                        if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
+                        {
+                            DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0u));
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            TrimFinish();
+                            return;
+                        }
+                    }
+                    else if (ProgramMode == 1)
+                    {
+                        dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
+                        if (dr == DialogResult.Cancel)
+                        {
+                            DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                            PowerOff();
+                            RestoreReg80ToReg83Value();
+                            return;
+                        }
+                    }
+                    else if (ProgramMode == 2)
+                    {
+                        MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                        Delay(Delay_Sync);
+                        MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
+                    }
+                    #endregion
+
+                    /*  power on */
+                    Delay(Delay_Fuse);
+                    dMultiSiteVout0A[idut] = AverageVout();
+                    DisplayOperateMes("DUT" + " Vout @ 0A = " + dMultiSiteVout0A[idut].ToString("F3"));
+
+                    gainTest = 0;
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    gainTest = (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000d / IP;
+                }
+                else
+                { 
+                    DisplayOperateMes("不适合做10A产品，此芯片可用20A产品！", Color.DarkRed);
+                    return;
+                }
+                
             }
 
             autoAdaptingPresionGain = 100d * (TargetGain_customer / gainTest);
@@ -11266,6 +11475,8 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Dual Part");
             else if (SocketType == 5)
                 DisplayOperateMes("SC810 Single End");
+            else if (SocketType == 6)
+                DisplayOperateMes("SC810b Single End");
             else
                 DisplayOperateMes("Invalid Socket Type", Color.DarkRed); ;
         }

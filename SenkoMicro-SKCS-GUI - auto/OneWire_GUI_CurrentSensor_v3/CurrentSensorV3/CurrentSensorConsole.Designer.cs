@@ -2781,7 +2781,6 @@
             this.cb_BypFuse_AutoTab.TabIndex = 125;
             this.cb_BypFuse_AutoTab.Text = "BYP Fuse";
             this.cb_BypFuse_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_BypFuse_AutoTab.Visible = false;
             // 
             // cb_CustTc_AutoTab
             // 
@@ -2925,7 +2924,8 @@
             "SL62x-Single-End",
             "SL62x-Differential",
             "SL62x-DualPart",
-            "SC81x-Single End"});
+            "SC810-Single End",
+            "SC810b-Single End"});
             this.cmb_SocketType_AutoT.Location = new System.Drawing.Point(286, 307);
             this.cmb_SocketType_AutoT.Name = "cmb_SocketType_AutoT";
             this.cmb_SocketType_AutoT.Size = new System.Drawing.Size(166, 25);
