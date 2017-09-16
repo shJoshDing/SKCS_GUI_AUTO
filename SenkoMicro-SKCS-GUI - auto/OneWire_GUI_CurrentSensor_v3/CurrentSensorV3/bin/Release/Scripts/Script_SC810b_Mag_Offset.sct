@@ -1,0 +1,19 @@
+test script for SL620
+,/* Current Sensor Console configs, CopyRight of SenkoMicro, Inc */
+,910 Other Mode,
+,write reg,0x4F,0xAA
+,read reg,0x4E
+,write reg,0x89,0xFF
+,read reg,0x89
+,init dmm,COM3
+sc810b mag off,20
+,sc810 char 30a,20
+,sc810 char 10a,20
+,sc810 char 10ap,20
+,sweep 620 tc1,null
+,sweep 620 tc2,null
+,sweep 620 vout option,null
+,sweep 620 vbg,null
+,sweep 620 vout 0p1vdd offset,null
+
+

@@ -3474,6 +3474,38 @@ namespace ADI.DMY2
             return myDevice.UsbReportWrite(buffer_uint);
         }
 
+        public bool SDPSingalPathReadSot( )
+        {
+            //buffer_uint[0] = (uint)OneWire_USB_COMMAND.ADI_SDP_CMD_SIGNALPATH_READ_SOT;
+            //buffer_uint[3] = (uint)cmd;
+            //return myDevice.UsbReportWrite(buffer_uint);
+
+            byte[] readBackData = new byte[32];
+
+            buffer_uint[0] = (uint)OneWire_USB_COMMAND.ADI_SDP_CMD_SIGNALPATH_READ_SOT;
+            //buffer_uint[0] = (uint)OneWire_USB_COMMAND.GetFirmwareVersion;
+            buffer_uint[2] = 32;
+            if (!myDevice.UsbReportWrite(buffer_uint))
+            {
+                Console.WriteLine("GetFirmwareInfo->Write command fialed");
+                return false;   //Write read command failed.
+            }
+
+            if (!myDevice.UsbReportRead(buffer_byte))
+            {
+                Console.WriteLine("GetFirmwareInfo->Read command fialed");
+                return false;    //Read command failed.
+            }
+
+            Array.Copy(buffer_byte, readBackData, 32);
+
+            if (readBackData[0] == 0x5A)
+                return true;
+            else
+                return false ;
+
+        }
+
         public bool SDPSignalPathGroupSel(SPControlCommand cmd)
         {
             buffer_uint[0] = (uint)OneWire_USB_COMMAND.ADI_SDP_CMD_SIGNALPATH_GROUP;
@@ -3604,7 +3636,13 @@ namespace ADI.DMY2
             SP_CONFIG_TO_VCS = 0x76,
             SP_MULTISITTE_GROUP_A = 0X79,
             SP_MULTISITTE_GROUP_B = 0X7A,
-            SP_VDD_FROM_3V3 = 0x7B
+            SP_VDD_FROM_3V3 = 0x7B,
+            //SP_READ_SOT = 0x7C,
+            SP_WRITE_EOT = 0x7D,
+            SP_WRITE_BIN_ONE = 0x7E,
+            SP_WRITE_BIN_TWO = 0x7F,
+            SP_WRITE_BIN_FAIL = 0x80,
+            SP_WRITE_BIN_RECYCLE = 0x81
         }
 
         public enum UARTControlCommand

@@ -231,6 +231,8 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
+            this.label102 = new System.Windows.Forms.Label();
+            this.tb_Channel_AutoTab = new System.Windows.Forms.TextBox();
             this.btn_CommunicationTest = new System.Windows.Forms.Button();
             this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
             this.cmb_SocketType_AutoT = new System.Windows.Forms.ComboBox();
@@ -406,8 +408,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.tb_Channel_AutoTab = new System.Windows.Forms.TextBox();
-            this.label102 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2951,6 +2951,28 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label102.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label102.Location = new System.Drawing.Point(592, 387);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(64, 19);
+            this.label102.TabIndex = 118;
+            this.label102.Text = "Channel";
+            // 
+            // tb_Channel_AutoTab
+            // 
+            this.tb_Channel_AutoTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tb_Channel_AutoTab.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_Channel_AutoTab.ForeColor = System.Drawing.Color.Black;
+            this.tb_Channel_AutoTab.Location = new System.Drawing.Point(660, 383);
+            this.tb_Channel_AutoTab.Name = "tb_Channel_AutoTab";
+            this.tb_Channel_AutoTab.Size = new System.Drawing.Size(49, 29);
+            this.tb_Channel_AutoTab.TabIndex = 117;
+            this.tb_Channel_AutoTab.Text = "0";
+            // 
             // btn_CommunicationTest
             // 
             this.btn_CommunicationTest.Location = new System.Drawing.Point(596, 418);
@@ -5040,28 +5062,6 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // tb_Channel_AutoTab
-            // 
-            this.tb_Channel_AutoTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.tb_Channel_AutoTab.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_Channel_AutoTab.ForeColor = System.Drawing.Color.Black;
-            this.tb_Channel_AutoTab.Location = new System.Drawing.Point(660, 383);
-            this.tb_Channel_AutoTab.Name = "tb_Channel_AutoTab";
-            this.tb_Channel_AutoTab.Size = new System.Drawing.Size(49, 29);
-            this.tb_Channel_AutoTab.TabIndex = 117;
-            this.tb_Channel_AutoTab.Text = "0";
-            // 
-            // label102
-            // 
-            this.label102.AutoSize = true;
-            this.label102.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label102.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label102.Location = new System.Drawing.Point(592, 387);
-            this.label102.Name = "label102";
-            this.label102.Size = new System.Drawing.Size(64, 19);
-            this.label102.TabIndex = 118;
-            this.label102.Text = "Channel";
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5074,7 +5074,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.3 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.4 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

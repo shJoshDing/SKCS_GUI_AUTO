@@ -10747,6 +10747,20 @@ namespace CurrentSensorV3
                         Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
                         Char910_Tab_DataGridView.Update();
                         break;
+
+                    case "sc810b mag off":
+                    case "sc810bmagoff":
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Processing";
+                        backcolorbackup = Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = Color.LightGreen;
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_PROCESSING;
+                        Char910_Tab_DataGridView.Update();
+                        SC810b_MagOffset(Convert.ToUInt32(Char910_Tab_DataGridView.Rows[index].Cells[3].Value));
+                        Char910_Tab_DataGridView.Rows[index].Cells[6].Value = "Done";
+                        Char910_Tab_DataGridView.Rows[index].Cells[0].Value = CurrentSensorV3.Properties.Resources.PROCESS_RIGHT;
+                        Char910_Tab_DataGridView.Rows[index].DefaultCellStyle.BackColor = backcolorbackup;
+                        Char910_Tab_DataGridView.Update();
+                        break;
                     
                     default:
                         DisplayOperateMes("Invalid Command!");
@@ -16835,6 +16849,139 @@ namespace CurrentSensorV3
         #endregion SL620
 
         #region SL620b/SC810b
+        private void SC810b_MagOffset(uint count)
+        {
+            uint IP_temp = count;
+            //int Delay_IP = 300;
+            double VIP = 0;
+            double V0A = 0;
+            uint _dev_addr = this.DeviceAddress;
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\SC810b_MagOffset.csv";
+            //filename += ".csv";
+
+            //uint[] sc810RegValue = new uint[4];
+
+            #region Init RS232
+            btn_EngTab_Connect_Click(null, null);
+            Delay(100);
+            SetIP(1);
+            Delay(100);
+            #endregion
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                //uint tempResult = 0;
+                //writer.WriteLine(filename);
+                //if(writer.)
+                string headers = "IP,VIP,V0A";
+
+                writer.WriteLine(headers);
+
+                PowerOff();
+                Delay(100);
+                btn_SL620Tab_PowerOn_Click(null, null);
+                Delay(Delay_Sync);
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+                btn_SL620Tab_TestKey_Click(null, null);
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, 0x10);
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, 0x80);
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, 0xA0);
+                Delay(Delay_Sync);
+                oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, 0xA0);
+                Delay(Delay_Sync);
+                btn_SL620Tab_NormalMode_Click(null, null);
+                Delay(Delay_Sync);
+
+                //writer.WriteLine( "0," + ReadVoutSlow().ToString("F3") );       //V0A
+
+                for (uint index = 0; index <= IP_temp; index++)
+                {                   
+                    SetIP(index);
+                    Delay(Delay_Sync);
+
+                    btn_EngTab_Ipon_Click(null, null);
+                    VIP = ReadVoutSlow();
+
+                    btn_EngTab_Ipoff_Click(null, null);
+                    V0A = ReadVoutSlow();
+
+                    writer.WriteLine( index.ToString() + "," + VIP.ToString("F3") + "," + V0A.ToString("F3") );       //V0A
+                    Delay(Delay_Sync);
+                    
+                    //writer.Write("\r\n");
+                    //writer.Close();
+                }
+
+                for (uint index = IP_temp; index > 0; index--)
+                {
+                    SetIP(index - 1);
+                    Delay(Delay_Sync);
+
+                    btn_EngTab_Ipon_Click(null, null);
+                    VIP = ReadVoutSlow();
+
+                    btn_EngTab_Ipoff_Click(null, null);
+                    V0A = ReadVoutSlow();
+
+                    writer.WriteLine((index - 1).ToString() + "," + VIP.ToString("F3") + "," + V0A.ToString("F3"));       //V0A
+                    Delay(Delay_Sync);
+
+                    //writer.Write("\r\n");
+                    //writer.Close();
+                }
+
+                DialogResult dr = MessageBox.Show("Please exchange IP direction", "opeartion", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    //writer.Close();
+                    return;
+                }
+                else if (dr == DialogResult.OK)
+                {
+                    for (uint index = 0; index <= IP_temp; index++)
+                    {
+                        SetIP(index);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        VIP = ReadVoutSlow();
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        V0A = ReadVoutSlow();
+
+                        writer.WriteLine( "-" + index.ToString() + "," + VIP.ToString("F3") + "," + V0A.ToString("F3"));       //V0A
+                        Delay(Delay_Sync);
+
+                        //writer.Write("\r\n");
+                        //writer.Close();
+                    }
+
+                    for (uint index = IP_temp; index > 0; index--)
+                    {
+                        SetIP(index - 1);
+                        Delay(Delay_Sync);
+
+                        btn_EngTab_Ipon_Click(null, null);
+                        VIP = ReadVoutSlow();
+
+                        btn_EngTab_Ipoff_Click(null, null);
+                        V0A = ReadVoutSlow();
+
+                        writer.WriteLine( "-" + (index - 1).ToString() + "," + VIP.ToString("F3") + "," + V0A.ToString("F3"));       //V0A
+                        Delay(Delay_Sync);
+
+                        //writer.Write("\r\n");
+                        //writer.Close();
+                    }
+                }
+            }
+
+        }
 
         #endregion SL620b/SC810b
 
@@ -17233,6 +17380,26 @@ namespace CurrentSensorV3
         private void btn_Program_Start_Click(object sender, EventArgs e)
         {
             btn_Program_Tc.Text = "TC\r\n-\r\n-600ppm";
+            int i = 0;
+
+            while(true)
+            {
+                i++;
+                Delay(100);
+                if (oneWrie_device.SDPSingalPathReadSot())
+                {
+                    DisplayOperateMes("SOT is assert! --- " + i.ToString());
+                    Delay(50);
+                    //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_WRITE_EOT); //EPIO9
+                    //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_WRITE_BIN_ONE); //EPIO10
+                    //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_WRITE_BIN_TWO); //EPIO11
+                    oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_WRITE_BIN_FAIL); //EPIO8
+                    //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_WRITE_BIN_RECYCLE); //EPIO12
+                }
+                else
+                    DisplayOperateMes("No SOT! --- " + i.ToString());
+            }
+
         }
 
 
