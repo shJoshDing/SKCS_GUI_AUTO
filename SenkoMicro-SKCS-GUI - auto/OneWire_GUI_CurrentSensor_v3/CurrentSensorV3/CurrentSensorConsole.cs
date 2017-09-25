@@ -4891,6 +4891,8 @@ namespace CurrentSensorV3
                 else if (SocketType == 3)
                 {
                     #region SL622 routines
+                    TargetOffset = 2.5;
+
                     if (this.cb_iHallDecrease_AutoTab.Checked)
                         Reg80Value = 0x80;      //iHall decrease 33%
                     else
@@ -8868,9 +8870,17 @@ namespace CurrentSensorV3
                     gainTest = (dMultiSiteVoutIP[idut] - dMultiSiteVout0A[idut]) * 1000d / IP;
                 }
                 else
-                { 
-                    DisplayOperateMes("不适合做10A产品，此芯片可用20A产品！", Color.DarkRed);
-                    return;
+                {
+                    //if (this.cb_s3drv_autoTab.Checked == false)
+                    //{
+                    //    this.cb_s3drv_autoTab.Checked = true;
+                    //    MultiSiteReg3[idut] |= 0x02;
+                    //}
+                    //else
+                    {
+                        DisplayOperateMes("不适合做10A产品，此芯片可用20A产品！", Color.DarkRed);
+                        return;
+                    }
                 }
                 
             }

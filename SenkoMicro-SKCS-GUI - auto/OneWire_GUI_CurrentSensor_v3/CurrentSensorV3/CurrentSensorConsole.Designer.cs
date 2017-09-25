@@ -2786,7 +2786,7 @@
             // 
             this.cb_CustTc_AutoTab.AutoSize = true;
             this.cb_CustTc_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(622, 338);
+            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(49, 380);
             this.cb_CustTc_AutoTab.Name = "cb_CustTc_AutoTab";
             this.cb_CustTc_AutoTab.Size = new System.Drawing.Size(77, 23);
             this.cb_CustTc_AutoTab.TabIndex = 124;
@@ -2809,13 +2809,12 @@
             // 
             this.cb_s3drv_autoTab.AutoSize = true;
             this.cb_s3drv_autoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_s3drv_autoTab.Location = new System.Drawing.Point(49, 377);
+            this.cb_s3drv_autoTab.Location = new System.Drawing.Point(622, 338);
             this.cb_s3drv_autoTab.Name = "cb_s3drv_autoTab";
-            this.cb_s3drv_autoTab.Size = new System.Drawing.Size(77, 23);
+            this.cb_s3drv_autoTab.Size = new System.Drawing.Size(100, 23);
             this.cb_s3drv_autoTab.TabIndex = 122;
-            this.cb_s3drv_autoTab.Text = "S3_Drv";
+            this.cb_s3drv_autoTab.Text = "Gain+25%";
             this.cb_s3drv_autoTab.UseVisualStyleBackColor = true;
-            this.cb_s3drv_autoTab.Visible = false;
             // 
             // cb_s2double_AutoTab
             // 
@@ -3938,7 +3937,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.6 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.8 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
