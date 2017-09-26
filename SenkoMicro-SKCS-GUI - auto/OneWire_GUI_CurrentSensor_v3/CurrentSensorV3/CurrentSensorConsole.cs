@@ -13229,6 +13229,9 @@ namespace CurrentSensorV3
             DisplayOperateMes("Reg0x85 = 0x" + MultiSiteReg5[0].ToString("X2"));
             DisplayOperateMes("Reg0x86 = 0x" + MultiSiteReg6[0].ToString("X2"));
             DisplayOperateMes("Reg0x87 = 0x" + MultiSiteReg7[0].ToString("X2"));
+
+            DisplayOperateMes(MultiSiteReg0[0].ToString("X2") + "," + MultiSiteReg1[0].ToString("X2") + "," + MultiSiteReg2[0].ToString("X2") + "," + MultiSiteReg3[0].ToString("X2") + "," +
+                              MultiSiteReg4[0].ToString("X2") + "," + MultiSiteReg5[0].ToString("X2") + "," + MultiSiteReg6[0].ToString("X2") + "," + MultiSiteReg7[0].ToString("X2"));
         }
     }
 

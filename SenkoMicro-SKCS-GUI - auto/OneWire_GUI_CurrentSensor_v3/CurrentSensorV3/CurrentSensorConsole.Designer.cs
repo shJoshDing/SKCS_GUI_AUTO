@@ -2786,7 +2786,7 @@
             // 
             this.cb_CustTc_AutoTab.AutoSize = true;
             this.cb_CustTc_AutoTab.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(49, 380);
+            this.cb_CustTc_AutoTab.Location = new System.Drawing.Point(49, 378);
             this.cb_CustTc_AutoTab.Name = "cb_CustTc_AutoTab";
             this.cb_CustTc_AutoTab.Size = new System.Drawing.Size(77, 23);
             this.cb_CustTc_AutoTab.TabIndex = 124;
