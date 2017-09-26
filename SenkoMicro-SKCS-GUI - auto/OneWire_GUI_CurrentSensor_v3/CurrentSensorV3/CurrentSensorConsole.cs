@@ -618,6 +618,8 @@ namespace CurrentSensorV3
             this.cmb_SocketType_AutoT.SelectedIndex = 0;
             this.cmb_ProgramMode_AutoT.SelectedIndex = 0;
 
+            this.cb_ChannelSelect.SelectedIndex = 0;
+
             //Serial Num
             this.txt_SerialNum_EngT.Text = SerialNum;
             this.txt_SerialNum_PreT.Text = SerialNum;
@@ -17834,6 +17836,227 @@ namespace CurrentSensorV3
         {
             btn_EngTab_Ipoff_Click(null, null);
         }
+
+        private void btn_ChannelSelect_Click(object sender, EventArgs e)
+        {
+            uint channel = Convert.ToUInt32(this.cb_ChannelSelect.SelectedIndex);
+            MultiSiteSocketSelect(channel);
+            DisplayOperateMes( string.Format("Channel {0} is Selected!", channel));
+        }
+
+        private void btn_SL620Tab_TrimSet2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_SL620Tab_VoutPair_Click(object sender, EventArgs e)
+        {
+            btn_SL620Tab_NormalMode_Click(null, null);
+            btn_EngTab_Ipon_Click(null,null);
+            DisplayOperateMes("VouIP = " + ReadVout().ToString("F3"));
+            //ReadVout();
+            btn_EngTab_Ipoff_Click(null, null);
+            DisplayOperateMes("Vou0A = " + ReadVout().ToString("F3"));
+        }
+
+        private void btn_Routine_TcChar_Click(object sender, EventArgs e)
+        {
+            this.btn_Program_Start.Text = "...";
+            this.btn_Program_Start.BackColor = Color.Yellow;
+
+            #region init var
+
+            Delay_Power = 100;
+            uint _dev_addr = this.DeviceAddress;
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\" + this.txt_Routines_TestCase.Text;
+            filename += ".csv";
+
+
+            uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
+            uint tcCont = Convert.ToUInt32(this.txt_Routines_TcCount.Text);
+            uint tcScale = Convert.ToUInt32( this.txt_Routines_TcCodeScale.Text);
+
+            if (tcCont * tcScale > 16)
+            {
+                DisplayOperateMes( "请检测TC count和TC Scale的配置", Color.Red);
+                return;
+            }
+
+            uint[][] sc810RegValue = new uint[16 * 2][];
+
+            for (int j = 0; j < 16 * 2; j++)
+            {
+                for (int i = 0; i < 8; i++)
+                    sc810RegValue[j] = new uint[8];
+            }
+
+            try
+            {
+                string trimCodeFile = "";
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Multiselect = true;//该值确定是否可以选择多个文件
+                dialog.Title = "请选择文件夹";
+                dialog.Filter = ".cfg(*.*)|*.*";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    trimCodeFile = dialog.FileName;
+                }
+                else
+                    return;
+
+                StreamReader code = new StreamReader(trimCodeFile);
+
+                string[] msg;
+
+                for (int j = 0; j < dutCount * 2; j++)
+                {
+                    msg = code.ReadLine().Split(",".ToCharArray());
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        sc810RegValue[j][i] = uint.Parse(msg[i]);
+                    }
+                }
+                code.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Load code file failed, please choose correct file!");
+                return;
+            }
+
+
+            
+
+
+            #endregion
+
+            #region Init RS232
+            btn_EngTab_Connect_Click(null, null);
+            Delay(100);
+            SetIP(20);
+            Delay(100);
+            #endregion
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                #region Header
+                writer.WriteLine(System.DateTime.Now.ToString());
+
+                string headers = "Temp,TC,Offset,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
+                                                "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
+
+                writer.WriteLine(headers);
+                #endregion
+
+                for (uint tcIndex = 0; tcIndex < tcCont; tcIndex++)
+                {
+                    #region 2.5V case
+                    writer.Write(this.txt_Routines_TestTemp.Text + "," + (tcIndex * tcScale).ToString() + ",2v5,");
+
+                    for (uint index = 0; index < dutCount; index++)
+                    {
+                        ResetTempBuf();
+                        //DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                        //if (dr == DialogResult.Cancel)
+                        //    return;
+                        MultiSiteSocketSelect(index);
+
+                        //write ID
+                        //writer.Write(this.txt_Routines_TestTemp.Text + "," + tcIndex.ToString() + ",2v5," );
+
+                        //default 2.5V
+                        writeTestCode(sc810RegValue[index * 2 + 0]);
+
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale);
+                        Delay(Delay_Sync);
+
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        //Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                    }
+                    writer.Write("\r\n");
+                    #endregion 
+
+                    #region 0.5VDD case
+                    writer.Write(this.txt_Routines_TestTemp.Text + "," + (tcIndex * tcScale).ToString() + ",halfVdd,");
+
+                    for (uint index = 0; index < dutCount; index++)
+                    {
+                        //vbg01
+                        writeTestCode(sc810RegValue[index * 2 + 1]);
+
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale);
+                        Delay(Delay_Sync);
+
+                        btn_SL620Tab_NormalMode_Click(null, null);
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+
+
+                        //writer.Write("\r\n");
+                        //writer.Close();
+                    }
+
+                    writer.Write("\r\n");
+                    #endregion
+                }
+            }           
+
+            this.btn_Program_Start.Text = "Done";
+            this.btn_Program_Start.BackColor = Color.Gray;
+        }
+
+
+        void writeTestCode( UInt32[] data )
+        {
+            uint _dev_addr = this.DeviceAddress;
+            
+            PowerOff();
+            Delay(Delay_Power);
+            btn_SL620Tab_PowerOn_Click(null, null);
+            Delay(Delay_Sync);
+            btn_SL620Tab_TestKey_Click(null, null);
+            Delay(Delay_Sync);
+            btn_SL620Tab_TestKey_Click(null, null);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x80, data[0]);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x81, data[1]);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, data[2]);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x83, data[3]);
+            Delay(Delay_Sync);
+
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x84, data[4]);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x85, data[5]);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x86, data[6]);
+            Delay(Delay_Sync);
+            oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, data[7]);
+            Delay(Delay_Sync);
+        }
+
+
 
 
 

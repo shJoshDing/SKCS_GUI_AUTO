@@ -231,7 +231,6 @@
             this.btn_PowerOff_PreT = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.AutoTrimTab = new System.Windows.Forms.TabPage();
-            this.label102 = new System.Windows.Forms.Label();
             this.tb_Channel_AutoTab = new System.Windows.Forms.TextBox();
             this.btn_CommunicationTest = new System.Windows.Forms.Button();
             this.cmb_ProgramMode_AutoT = new System.Windows.Forms.ComboBox();
@@ -356,11 +355,7 @@
             this.SL620BoolSet = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.Programming = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label88 = new System.Windows.Forms.Label();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.label92 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.btn_Routines_Result = new System.Windows.Forms.GroupBox();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
@@ -370,10 +365,7 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.label91 = new System.Windows.Forms.Label();
-            this.label90 = new System.Windows.Forms.Label();
-            this.label89 = new System.Windows.Forms.Label();
+            this.btn_Routine_TcChar = new System.Windows.Forms.Button();
             this.btn_Program_Stop = new System.Windows.Forms.Button();
             this.btn_Program_Start = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -408,6 +400,29 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.cb_ChannelSelect = new System.Windows.Forms.ComboBox();
+            this.btn_ChannelSelect = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IpConn = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_TrimSet2 = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_VoutPair = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.btn_Routins_Char = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.label88 = new System.Windows.Forms.Label();
+            this.txt_Routines_TestCase = new System.Windows.Forms.TextBox();
+            this.txt_Routines_TestTemp = new System.Windows.Forms.TextBox();
+            this.label89 = new System.Windows.Forms.Label();
+            this.txt_Routines_DutCount = new System.Windows.Forms.TextBox();
+            this.label90 = new System.Windows.Forms.Label();
+            this.txt_Routines_TcCount = new System.Windows.Forms.TextBox();
+            this.label91 = new System.Windows.Forms.Label();
+            this.txt_Routines_TcCodeScale = new System.Windows.Forms.TextBox();
+            this.label92 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -449,8 +464,7 @@
             this.panel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SL620_Tab_DataGridView)).BeginInit();
             this.Programming.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox11.SuspendLayout();
+            this.btn_Routines_Result.SuspendLayout();
             this.CommandTab.SuspendLayout();
             this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Char910_Tab_DataGridView)).BeginInit();
@@ -2921,7 +2935,6 @@
             // 
             // AutoTrimTab
             // 
-            this.AutoTrimTab.Controls.Add(this.label102);
             this.AutoTrimTab.Controls.Add(this.tb_Channel_AutoTab);
             this.AutoTrimTab.Controls.Add(this.btn_CommunicationTest);
             this.AutoTrimTab.Controls.Add(this.cmb_ProgramMode_AutoT);
@@ -2951,17 +2964,6 @@
             this.AutoTrimTab.UseVisualStyleBackColor = true;
             this.AutoTrimTab.Enter += new System.EventHandler(this.AutoTrimTab_Enter);
             // 
-            // label102
-            // 
-            this.label102.AutoSize = true;
-            this.label102.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label102.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label102.Location = new System.Drawing.Point(592, 387);
-            this.label102.Name = "label102";
-            this.label102.Size = new System.Drawing.Size(64, 19);
-            this.label102.TabIndex = 118;
-            this.label102.Text = "Channel";
-            // 
             // tb_Channel_AutoTab
             // 
             this.tb_Channel_AutoTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -2972,6 +2974,7 @@
             this.tb_Channel_AutoTab.Size = new System.Drawing.Size(49, 29);
             this.tb_Channel_AutoTab.TabIndex = 117;
             this.tb_Channel_AutoTab.Text = "0";
+            this.tb_Channel_AutoTab.Visible = false;
             // 
             // btn_CommunicationTest
             // 
@@ -4220,6 +4223,11 @@
             // 
             // SL620Tab
             // 
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_VoutPair);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_TrimSet2);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_IpConn);
+            this.SL620Tab.Controls.Add(this.btn_ChannelSelect);
+            this.SL620Tab.Controls.Add(this.cb_ChannelSelect);
             this.SL620Tab.Controls.Add(this.btn_SL620Tab_IpOff);
             this.SL620Tab.Controls.Add(this.btn_SL620Tab_IpOn);
             this.SL620Tab.Controls.Add(this.btn_SL620Tab_PowerOn3v3);
@@ -4248,10 +4256,10 @@
             // btn_SL620Tab_IpOff
             // 
             this.btn_SL620Tab_IpOff.BackColor = System.Drawing.Color.Orange;
-            this.btn_SL620Tab_IpOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpOff.Location = new System.Drawing.Point(578, 18);
+            this.btn_SL620Tab_IpOff.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_IpOff.Location = new System.Drawing.Point(523, 18);
             this.btn_SL620Tab_IpOff.Name = "btn_SL620Tab_IpOff";
-            this.btn_SL620Tab_IpOff.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_IpOff.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_IpOff.TabIndex = 13;
             this.btn_SL620Tab_IpOff.Text = "IP OFF";
             this.btn_SL620Tab_IpOff.UseVisualStyleBackColor = false;
@@ -4260,10 +4268,10 @@
             // btn_SL620Tab_IpOn
             // 
             this.btn_SL620Tab_IpOn.BackColor = System.Drawing.Color.Orange;
-            this.btn_SL620Tab_IpOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpOn.Location = new System.Drawing.Point(528, 18);
+            this.btn_SL620Tab_IpOn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_IpOn.Location = new System.Drawing.Point(457, 18);
             this.btn_SL620Tab_IpOn.Name = "btn_SL620Tab_IpOn";
-            this.btn_SL620Tab_IpOn.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_IpOn.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_IpOn.TabIndex = 12;
             this.btn_SL620Tab_IpOn.Text = "IP ON";
             this.btn_SL620Tab_IpOn.UseVisualStyleBackColor = false;
@@ -4272,10 +4280,10 @@
             // btn_SL620Tab_PowerOn3v3
             // 
             this.btn_SL620Tab_PowerOn3v3.BackColor = System.Drawing.Color.Transparent;
-            this.btn_SL620Tab_PowerOn3v3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_PowerOn3v3.Location = new System.Drawing.Point(183, 18);
+            this.btn_SL620Tab_PowerOn3v3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_PowerOn3v3.Location = new System.Drawing.Point(224, 18);
             this.btn_SL620Tab_PowerOn3v3.Name = "btn_SL620Tab_PowerOn3v3";
-            this.btn_SL620Tab_PowerOn3v3.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_PowerOn3v3.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_PowerOn3v3.TabIndex = 11;
             this.btn_SL620Tab_PowerOn3v3.Text = "Power On 3v3";
             this.btn_SL620Tab_PowerOn3v3.UseVisualStyleBackColor = false;
@@ -4284,10 +4292,10 @@
             // btn_SL620Tab_Vout
             // 
             this.btn_SL620Tab_Vout.BackColor = System.Drawing.Color.DarkSalmon;
-            this.btn_SL620Tab_Vout.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_Vout.Location = new System.Drawing.Point(627, 18);
+            this.btn_SL620Tab_Vout.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_Vout.Location = new System.Drawing.Point(457, 69);
             this.btn_SL620Tab_Vout.Name = "btn_SL620Tab_Vout";
-            this.btn_SL620Tab_Vout.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_Vout.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_Vout.TabIndex = 8;
             this.btn_SL620Tab_Vout.Text = "Vout";
             this.btn_SL620Tab_Vout.UseVisualStyleBackColor = false;
@@ -4296,10 +4304,10 @@
             // btn_SL620Tab_WriteSelect
             // 
             this.btn_SL620Tab_WriteSelect.BackColor = System.Drawing.Color.LightCoral;
-            this.btn_SL620Tab_WriteSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_WriteSelect.Location = new System.Drawing.Point(355, 18);
+            this.btn_SL620Tab_WriteSelect.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_WriteSelect.Location = new System.Drawing.Point(224, 68);
             this.btn_SL620Tab_WriteSelect.Name = "btn_SL620Tab_WriteSelect";
-            this.btn_SL620Tab_WriteSelect.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_WriteSelect.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_WriteSelect.TabIndex = 6;
             this.btn_SL620Tab_WriteSelect.Text = "Write Select";
             this.btn_SL620Tab_WriteSelect.UseVisualStyleBackColor = false;
@@ -4308,7 +4316,7 @@
             // rb_SL620Tab_AnalogMode
             // 
             this.rb_SL620Tab_AnalogMode.AutoSize = true;
-            this.rb_SL620Tab_AnalogMode.Location = new System.Drawing.Point(12, 41);
+            this.rb_SL620Tab_AnalogMode.Location = new System.Drawing.Point(12, 47);
             this.rb_SL620Tab_AnalogMode.Name = "rb_SL620Tab_AnalogMode";
             this.rb_SL620Tab_AnalogMode.Size = new System.Drawing.Size(58, 17);
             this.rb_SL620Tab_AnalogMode.TabIndex = 10;
@@ -4318,10 +4326,10 @@
             // btn_SL620Tab_ReadSelect
             // 
             this.btn_SL620Tab_ReadSelect.BackColor = System.Drawing.Color.LightCoral;
-            this.btn_SL620Tab_ReadSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_ReadSelect.Location = new System.Drawing.Point(404, 18);
+            this.btn_SL620Tab_ReadSelect.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_ReadSelect.Location = new System.Drawing.Point(293, 69);
             this.btn_SL620Tab_ReadSelect.Name = "btn_SL620Tab_ReadSelect";
-            this.btn_SL620Tab_ReadSelect.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_ReadSelect.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_ReadSelect.TabIndex = 5;
             this.btn_SL620Tab_ReadSelect.Text = "Read Select";
             this.btn_SL620Tab_ReadSelect.UseVisualStyleBackColor = false;
@@ -4331,7 +4339,7 @@
             // 
             this.rb_SL620Tab_DigitalMode.AutoSize = true;
             this.rb_SL620Tab_DigitalMode.Checked = true;
-            this.rb_SL620Tab_DigitalMode.Location = new System.Drawing.Point(12, 18);
+            this.rb_SL620Tab_DigitalMode.Location = new System.Drawing.Point(12, 23);
             this.rb_SL620Tab_DigitalMode.Name = "rb_SL620Tab_DigitalMode";
             this.rb_SL620Tab_DigitalMode.Size = new System.Drawing.Size(54, 17);
             this.rb_SL620Tab_DigitalMode.TabIndex = 9;
@@ -4343,8 +4351,8 @@
             // btn_SL620Tab_ReadTrim
             // 
             this.btn_SL620Tab_ReadTrim.BackColor = System.Drawing.Color.SandyBrown;
-            this.btn_SL620Tab_ReadTrim.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_ReadTrim.Location = new System.Drawing.Point(751, 18);
+            this.btn_SL620Tab_ReadTrim.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_ReadTrim.Location = new System.Drawing.Point(750, 18);
             this.btn_SL620Tab_ReadTrim.Name = "btn_SL620Tab_ReadTrim";
             this.btn_SL620Tab_ReadTrim.Size = new System.Drawing.Size(43, 40);
             this.btn_SL620Tab_ReadTrim.TabIndex = 9;
@@ -4355,10 +4363,10 @@
             // btn_SL620Tab_PowerOn6V
             // 
             this.btn_SL620Tab_PowerOn6V.BackColor = System.Drawing.Color.GreenYellow;
-            this.btn_SL620Tab_PowerOn6V.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_PowerOn6V.Location = new System.Drawing.Point(134, 18);
+            this.btn_SL620Tab_PowerOn6V.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_PowerOn6V.Location = new System.Drawing.Point(155, 18);
             this.btn_SL620Tab_PowerOn6V.Name = "btn_SL620Tab_PowerOn6V";
-            this.btn_SL620Tab_PowerOn6V.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_PowerOn6V.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_PowerOn6V.TabIndex = 8;
             this.btn_SL620Tab_PowerOn6V.Text = "Power On 6V";
             this.btn_SL620Tab_PowerOn6V.UseVisualStyleBackColor = false;
@@ -4367,22 +4375,22 @@
             // btn_SL620Tab_TrimSet1
             // 
             this.btn_SL620Tab_TrimSet1.BackColor = System.Drawing.Color.SandyBrown;
-            this.btn_SL620Tab_TrimSet1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_TrimSet1.Location = new System.Drawing.Point(702, 18);
+            this.btn_SL620Tab_TrimSet1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_TrimSet1.Location = new System.Drawing.Point(689, 18);
             this.btn_SL620Tab_TrimSet1.Name = "btn_SL620Tab_TrimSet1";
-            this.btn_SL620Tab_TrimSet1.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_TrimSet1.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_TrimSet1.TabIndex = 7;
-            this.btn_SL620Tab_TrimSet1.Text = "Trim DUT";
+            this.btn_SL620Tab_TrimSet1.Text = "1st Trim";
             this.btn_SL620Tab_TrimSet1.UseVisualStyleBackColor = false;
             this.btn_SL620Tab_TrimSet1.Click += new System.EventHandler(this.btn_SL620Tab_TrimSet1_Click);
             // 
             // btn_SL620Tab_TestKey
             // 
             this.btn_SL620Tab_TestKey.BackColor = System.Drawing.Color.Gold;
-            this.btn_SL620Tab_TestKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_TestKey.Location = new System.Drawing.Point(306, 18);
+            this.btn_SL620Tab_TestKey.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_TestKey.Location = new System.Drawing.Point(155, 69);
             this.btn_SL620Tab_TestKey.Name = "btn_SL620Tab_TestKey";
-            this.btn_SL620Tab_TestKey.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_TestKey.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_TestKey.TabIndex = 4;
             this.btn_SL620Tab_TestKey.Text = "Test Key";
             this.btn_SL620Tab_TestKey.UseVisualStyleBackColor = false;
@@ -4391,10 +4399,10 @@
             // btn_SL620Tab_NormalMode
             // 
             this.btn_SL620Tab_NormalMode.BackColor = System.Drawing.Color.Orange;
-            this.btn_SL620Tab_NormalMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_NormalMode.Location = new System.Drawing.Point(479, 18);
+            this.btn_SL620Tab_NormalMode.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_NormalMode.Location = new System.Drawing.Point(391, 69);
             this.btn_SL620Tab_NormalMode.Name = "btn_SL620Tab_NormalMode";
-            this.btn_SL620Tab_NormalMode.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_NormalMode.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_NormalMode.TabIndex = 3;
             this.btn_SL620Tab_NormalMode.Text = "Normal Mode";
             this.btn_SL620Tab_NormalMode.UseVisualStyleBackColor = false;
@@ -4403,10 +4411,10 @@
             // btn_SL620Tab_PowerOff
             // 
             this.btn_SL620Tab_PowerOff.BackColor = System.Drawing.Color.Red;
-            this.btn_SL620Tab_PowerOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_PowerOff.Location = new System.Drawing.Point(232, 18);
+            this.btn_SL620Tab_PowerOff.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_PowerOff.Location = new System.Drawing.Point(293, 18);
             this.btn_SL620Tab_PowerOff.Name = "btn_SL620Tab_PowerOff";
-            this.btn_SL620Tab_PowerOff.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_PowerOff.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_PowerOff.TabIndex = 2;
             this.btn_SL620Tab_PowerOff.Text = "Power Off";
             this.btn_SL620Tab_PowerOff.UseVisualStyleBackColor = false;
@@ -4415,10 +4423,10 @@
             // btn_SL620Tab_PowerOn
             // 
             this.btn_SL620Tab_PowerOn.BackColor = System.Drawing.Color.YellowGreen;
-            this.btn_SL620Tab_PowerOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_PowerOn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_SL620Tab_PowerOn.Location = new System.Drawing.Point(86, 18);
             this.btn_SL620Tab_PowerOn.Name = "btn_SL620Tab_PowerOn";
-            this.btn_SL620Tab_PowerOn.Size = new System.Drawing.Size(43, 40);
+            this.btn_SL620Tab_PowerOn.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_PowerOn.TabIndex = 1;
             this.btn_SL620Tab_PowerOn.Text = "Power On 5V";
             this.btn_SL620Tab_PowerOn.UseVisualStyleBackColor = false;
@@ -4427,9 +4435,9 @@
             // panel11
             // 
             this.panel11.Controls.Add(this.SL620_Tab_DataGridView);
-            this.panel11.Location = new System.Drawing.Point(8, 68);
+            this.panel11.Location = new System.Drawing.Point(8, 118);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(789, 503);
+            this.panel11.Size = new System.Drawing.Size(789, 453);
             this.panel11.TabIndex = 0;
             // 
             // SL620_Tab_DataGridView
@@ -4452,7 +4460,7 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Location = new System.Drawing.Point(8, 6);
+            this.groupBox10.Location = new System.Drawing.Point(8, 12);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(72, 57);
             this.groupBox10.TabIndex = 9;
@@ -4460,85 +4468,59 @@
             // 
             // Programming
             // 
-            this.Programming.Controls.Add(this.pictureBox1);
-            this.Programming.Controls.Add(this.label88);
-            this.Programming.Controls.Add(this.groupBox11);
+            this.Programming.Controls.Add(this.btn_Routines_Result);
             this.Programming.Location = new System.Drawing.Point(4, 22);
             this.Programming.Name = "Programming";
             this.Programming.Padding = new System.Windows.Forms.Padding(3);
             this.Programming.Size = new System.Drawing.Size(803, 574);
             this.Programming.TabIndex = 7;
-            this.Programming.Text = "Programming";
+            this.Programming.Text = "Routines";
             this.Programming.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // btn_Routines_Result
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(141, 36);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(225, 39);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 8;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label88
-            // 
-            this.label88.AutoSize = true;
-            this.label88.Font = new System.Drawing.Font("Copperplate Gothic Bold", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label88.ForeColor = System.Drawing.Color.DarkGray;
-            this.label88.Location = new System.Drawing.Point(368, 45);
-            this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(299, 30);
-            this.label88.TabIndex = 7;
-            this.label88.Text = "Programming Tool";
-            // 
-            // groupBox11
-            // 
-            this.groupBox11.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox11.Controls.Add(this.label92);
-            this.groupBox11.Controls.Add(this.progressBar1);
-            this.groupBox11.Controls.Add(this.button10);
-            this.groupBox11.Controls.Add(this.button11);
-            this.groupBox11.Controls.Add(this.button12);
-            this.groupBox11.Controls.Add(this.button13);
-            this.groupBox11.Controls.Add(this.button14);
-            this.groupBox11.Controls.Add(this.button5);
-            this.groupBox11.Controls.Add(this.button6);
-            this.groupBox11.Controls.Add(this.button7);
-            this.groupBox11.Controls.Add(this.button8);
-            this.groupBox11.Controls.Add(this.button9);
-            this.groupBox11.Controls.Add(this.label91);
-            this.groupBox11.Controls.Add(this.label90);
-            this.groupBox11.Controls.Add(this.label89);
-            this.groupBox11.Controls.Add(this.btn_Program_Stop);
-            this.groupBox11.Controls.Add(this.btn_Program_Start);
-            this.groupBox11.Controls.Add(this.button4);
-            this.groupBox11.Controls.Add(this.button2);
-            this.groupBox11.Controls.Add(this.button3);
-            this.groupBox11.Controls.Add(this.button1);
-            this.groupBox11.Controls.Add(this.btn_Program_Tc);
-            this.groupBox11.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox11.Location = new System.Drawing.Point(8, 6);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(789, 562);
-            this.groupBox11.TabIndex = 6;
-            this.groupBox11.TabStop = false;
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(338, 346);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(43, 17);
-            this.label92.TabIndex = 34;
-            this.label92.Text = "status";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(339, 366);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(329, 10);
-            this.progressBar1.TabIndex = 33;
+            this.btn_Routines_Result.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_TcCodeScale);
+            this.btn_Routines_Result.Controls.Add(this.label92);
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_TcCount);
+            this.btn_Routines_Result.Controls.Add(this.label91);
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_DutCount);
+            this.btn_Routines_Result.Controls.Add(this.label90);
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_TestTemp);
+            this.btn_Routines_Result.Controls.Add(this.label89);
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_TestCase);
+            this.btn_Routines_Result.Controls.Add(this.label88);
+            this.btn_Routines_Result.Controls.Add(this.button10);
+            this.btn_Routines_Result.Controls.Add(this.button11);
+            this.btn_Routines_Result.Controls.Add(this.button12);
+            this.btn_Routines_Result.Controls.Add(this.button13);
+            this.btn_Routines_Result.Controls.Add(this.button14);
+            this.btn_Routines_Result.Controls.Add(this.button5);
+            this.btn_Routines_Result.Controls.Add(this.button21);
+            this.btn_Routines_Result.Controls.Add(this.button6);
+            this.btn_Routines_Result.Controls.Add(this.button20);
+            this.btn_Routines_Result.Controls.Add(this.button7);
+            this.btn_Routines_Result.Controls.Add(this.button19);
+            this.btn_Routines_Result.Controls.Add(this.button8);
+            this.btn_Routines_Result.Controls.Add(this.btn_Routins_Char);
+            this.btn_Routines_Result.Controls.Add(this.btn_Routine_TcChar);
+            this.btn_Routines_Result.Controls.Add(this.btn_Program_Stop);
+            this.btn_Routines_Result.Controls.Add(this.btn_Program_Start);
+            this.btn_Routines_Result.Controls.Add(this.button17);
+            this.btn_Routines_Result.Controls.Add(this.button4);
+            this.btn_Routines_Result.Controls.Add(this.button16);
+            this.btn_Routines_Result.Controls.Add(this.button2);
+            this.btn_Routines_Result.Controls.Add(this.button15);
+            this.btn_Routines_Result.Controls.Add(this.button3);
+            this.btn_Routines_Result.Controls.Add(this.button9);
+            this.btn_Routines_Result.Controls.Add(this.button1);
+            this.btn_Routines_Result.Controls.Add(this.btn_Program_Tc);
+            this.btn_Routines_Result.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Routines_Result.Location = new System.Drawing.Point(8, 6);
+            this.btn_Routines_Result.Name = "btn_Routines_Result";
+            this.btn_Routines_Result.Size = new System.Drawing.Size(789, 562);
+            this.btn_Routines_Result.TabIndex = 6;
+            this.btn_Routines_Result.TabStop = false;
             // 
             // button10
             // 
@@ -4547,7 +4529,7 @@
             this.button10.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button10.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button10.Location = new System.Drawing.Point(562, 461);
+            this.button10.Location = new System.Drawing.Point(676, 168);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(106, 60);
             this.button10.TabIndex = 32;
@@ -4561,7 +4543,7 @@
             this.button11.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button11.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button11.Location = new System.Drawing.Point(450, 461);
+            this.button11.Location = new System.Drawing.Point(676, 102);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(106, 60);
             this.button11.TabIndex = 31;
@@ -4575,7 +4557,7 @@
             this.button12.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button12.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button12.Location = new System.Drawing.Point(338, 461);
+            this.button12.Location = new System.Drawing.Point(566, 102);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(106, 60);
             this.button12.TabIndex = 30;
@@ -4589,7 +4571,7 @@
             this.button13.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button13.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button13.Location = new System.Drawing.Point(226, 461);
+            this.button13.Location = new System.Drawing.Point(566, 168);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(106, 60);
             this.button13.TabIndex = 29;
@@ -4603,9 +4585,9 @@
             this.button14.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button14.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button14.Location = new System.Drawing.Point(114, 461);
+            this.button14.Location = new System.Drawing.Point(6, 496);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(106, 60);
+            this.button14.Size = new System.Drawing.Size(96, 53);
             this.button14.TabIndex = 28;
             this.button14.Text = "PASS";
             this.button14.UseVisualStyleBackColor = false;
@@ -4617,7 +4599,7 @@
             this.button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(562, 199);
+            this.button5.Location = new System.Drawing.Point(454, 168);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(106, 60);
             this.button5.TabIndex = 27;
@@ -4632,7 +4614,7 @@
             this.button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(450, 199);
+            this.button6.Location = new System.Drawing.Point(342, 168);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(106, 60);
             this.button6.TabIndex = 26;
@@ -4647,7 +4629,7 @@
             this.button7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(338, 199);
+            this.button7.Location = new System.Drawing.Point(230, 168);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(106, 60);
             this.button7.TabIndex = 25;
@@ -4662,7 +4644,7 @@
             this.button8.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(226, 199);
+            this.button8.Location = new System.Drawing.Point(118, 168);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(106, 60);
             this.button8.TabIndex = 24;
@@ -4670,55 +4652,26 @@
             this.button8.Text = "IP Range";
             this.button8.UseVisualStyleBackColor = false;
             // 
-            // button9
+            // btn_Routine_TcChar
             // 
-            this.button9.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.button9.Enabled = false;
-            this.button9.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button9.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.Location = new System.Drawing.Point(114, 133);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(106, 60);
-            this.button9.TabIndex = 23;
-            this.button9.TabStop = false;
-            this.button9.Text = "Part";
-            this.button9.UseVisualStyleBackColor = false;
-            // 
-            // label91
-            // 
-            this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(37, 427);
-            this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(469, 17);
-            this.label91.TabIndex = 17;
-            this.label91.Text = "Trim Results --------------------------------------------------------------------" +
-                "------------------------------";
-            // 
-            // label90
-            // 
-            this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(37, 312);
-            this.label90.Name = "label90";
-            this.label90.Size = new System.Drawing.Size(466, 17);
-            this.label90.TabIndex = 16;
-            this.label90.Text = "Trim Operation ------------------------------------------------------------------" +
-                "--------------------------";
-            // 
-            // label89
-            // 
-            this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(37, 103);
-            this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(463, 17);
-            this.label89.TabIndex = 15;
-            this.label89.Text = "PreTrim Config ------------------------------------------------------------------" +
-                "--------------------------";
+            this.btn_Routine_TcChar.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routine_TcChar.Enabled = false;
+            this.btn_Routine_TcChar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btn_Routine_TcChar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Routine_TcChar.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Routine_TcChar.Location = new System.Drawing.Point(6, 102);
+            this.btn_Routine_TcChar.Name = "btn_Routine_TcChar";
+            this.btn_Routine_TcChar.Size = new System.Drawing.Size(106, 60);
+            this.btn_Routine_TcChar.TabIndex = 23;
+            this.btn_Routine_TcChar.TabStop = false;
+            this.btn_Routine_TcChar.Text = "TC Char";
+            this.btn_Routine_TcChar.UseVisualStyleBackColor = false;
+            this.btn_Routine_TcChar.Click += new System.EventHandler(this.btn_Routine_TcChar_Click);
             // 
             // btn_Program_Stop
             // 
             this.btn_Program_Stop.BackColor = System.Drawing.Color.IndianRed;
-            this.btn_Program_Stop.Location = new System.Drawing.Point(279, 342);
+            this.btn_Program_Stop.Location = new System.Drawing.Point(108, 496);
             this.btn_Program_Stop.Name = "btn_Program_Stop";
             this.btn_Program_Stop.Size = new System.Drawing.Size(53, 53);
             this.btn_Program_Stop.TabIndex = 4;
@@ -4728,7 +4681,7 @@
             // btn_Program_Start
             // 
             this.btn_Program_Start.BackColor = System.Drawing.Color.YellowGreen;
-            this.btn_Program_Start.Location = new System.Drawing.Point(114, 342);
+            this.btn_Program_Start.Location = new System.Drawing.Point(6, 437);
             this.btn_Program_Start.Name = "btn_Program_Start";
             this.btn_Program_Start.Size = new System.Drawing.Size(155, 53);
             this.btn_Program_Start.TabIndex = 0;
@@ -4743,7 +4696,7 @@
             this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(562, 133);
+            this.button4.Location = new System.Drawing.Point(454, 102);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(106, 60);
             this.button4.TabIndex = 9;
@@ -4758,7 +4711,7 @@
             this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(450, 133);
+            this.button2.Location = new System.Drawing.Point(342, 102);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 60);
             this.button2.TabIndex = 8;
@@ -4773,7 +4726,7 @@
             this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(338, 133);
+            this.button3.Location = new System.Drawing.Point(230, 102);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(106, 60);
             this.button3.TabIndex = 7;
@@ -4788,7 +4741,7 @@
             this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(226, 133);
+            this.button1.Location = new System.Drawing.Point(118, 102);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(106, 60);
             this.button1.TabIndex = 6;
@@ -4803,7 +4756,7 @@
             this.btn_Program_Tc.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btn_Program_Tc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Program_Tc.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Program_Tc.Location = new System.Drawing.Point(114, 199);
+            this.btn_Program_Tc.Location = new System.Drawing.Point(6, 168);
             this.btn_Program_Tc.Name = "btn_Program_Tc";
             this.btn_Program_Tc.Size = new System.Drawing.Size(106, 60);
             this.btn_Program_Tc.TabIndex = 5;
@@ -5062,6 +5015,283 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // cb_ChannelSelect
+            // 
+            this.cb_ChannelSelect.FormattingEnabled = true;
+            this.cb_ChannelSelect.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15"});
+            this.cb_ChannelSelect.Location = new System.Drawing.Point(18, 80);
+            this.cb_ChannelSelect.Name = "cb_ChannelSelect";
+            this.cb_ChannelSelect.Size = new System.Drawing.Size(49, 21);
+            this.cb_ChannelSelect.TabIndex = 14;
+            // 
+            // btn_ChannelSelect
+            // 
+            this.btn_ChannelSelect.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ChannelSelect.Location = new System.Drawing.Point(86, 69);
+            this.btn_ChannelSelect.Name = "btn_ChannelSelect";
+            this.btn_ChannelSelect.Size = new System.Drawing.Size(58, 39);
+            this.btn_ChannelSelect.TabIndex = 15;
+            this.btn_ChannelSelect.Text = "Channel Sel";
+            this.btn_ChannelSelect.UseVisualStyleBackColor = true;
+            this.btn_ChannelSelect.Click += new System.EventHandler(this.btn_ChannelSelect_Click);
+            // 
+            // btn_SL620Tab_IpConn
+            // 
+            this.btn_SL620Tab_IpConn.BackColor = System.Drawing.Color.Orange;
+            this.btn_SL620Tab_IpConn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_IpConn.Location = new System.Drawing.Point(391, 18);
+            this.btn_SL620Tab_IpConn.Name = "btn_SL620Tab_IpConn";
+            this.btn_SL620Tab_IpConn.Size = new System.Drawing.Size(58, 40);
+            this.btn_SL620Tab_IpConn.TabIndex = 16;
+            this.btn_SL620Tab_IpConn.Text = "IP Con";
+            this.btn_SL620Tab_IpConn.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IpConn.Click += new System.EventHandler(this.btn_EngTab_Connect_Click);
+            // 
+            // btn_SL620Tab_TrimSet2
+            // 
+            this.btn_SL620Tab_TrimSet2.BackColor = System.Drawing.Color.SandyBrown;
+            this.btn_SL620Tab_TrimSet2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_TrimSet2.Location = new System.Drawing.Point(624, 18);
+            this.btn_SL620Tab_TrimSet2.Name = "btn_SL620Tab_TrimSet2";
+            this.btn_SL620Tab_TrimSet2.Size = new System.Drawing.Size(58, 40);
+            this.btn_SL620Tab_TrimSet2.TabIndex = 17;
+            this.btn_SL620Tab_TrimSet2.Text = "2nd Trim";
+            this.btn_SL620Tab_TrimSet2.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_TrimSet2.Click += new System.EventHandler(this.btn_SL620Tab_TrimSet2_Click);
+            // 
+            // btn_SL620Tab_VoutPair
+            // 
+            this.btn_SL620Tab_VoutPair.BackColor = System.Drawing.Color.DarkSalmon;
+            this.btn_SL620Tab_VoutPair.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_SL620Tab_VoutPair.Location = new System.Drawing.Point(523, 70);
+            this.btn_SL620Tab_VoutPair.Name = "btn_SL620Tab_VoutPair";
+            this.btn_SL620Tab_VoutPair.Size = new System.Drawing.Size(58, 40);
+            this.btn_SL620Tab_VoutPair.TabIndex = 18;
+            this.btn_SL620Tab_VoutPair.Text = "Vout Pair";
+            this.btn_SL620Tab_VoutPair.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_VoutPair.Click += new System.EventHandler(this.btn_SL620Tab_VoutPair_Click);
+            // 
+            // button9
+            // 
+            this.button9.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button9.Enabled = false;
+            this.button9.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button9.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button9.Location = new System.Drawing.Point(6, 168);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(106, 60);
+            this.button9.TabIndex = 5;
+            this.button9.TabStop = false;
+            this.button9.Text = "TC";
+            this.button9.UseVisualStyleBackColor = false;
+            // 
+            // button15
+            // 
+            this.button15.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button15.Enabled = false;
+            this.button15.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button15.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button15.Location = new System.Drawing.Point(118, 102);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(106, 60);
+            this.button15.TabIndex = 6;
+            this.button15.TabStop = false;
+            this.button15.Text = "Voffset";
+            this.button15.UseVisualStyleBackColor = false;
+            // 
+            // button16
+            // 
+            this.button16.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button16.Enabled = false;
+            this.button16.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button16.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button16.Location = new System.Drawing.Point(230, 102);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(106, 60);
+            this.button16.TabIndex = 7;
+            this.button16.TabStop = false;
+            this.button16.Text = "VIP";
+            this.button16.UseVisualStyleBackColor = false;
+            // 
+            // button17
+            // 
+            this.button17.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button17.Enabled = false;
+            this.button17.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button17.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button17.Location = new System.Drawing.Point(342, 102);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(106, 60);
+            this.button17.TabIndex = 8;
+            this.button17.TabStop = false;
+            this.button17.Text = "IP";
+            this.button17.UseVisualStyleBackColor = false;
+            // 
+            // btn_Routins_Char
+            // 
+            this.btn_Routins_Char.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routins_Char.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btn_Routins_Char.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Routins_Char.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Routins_Char.Location = new System.Drawing.Point(6, 102);
+            this.btn_Routins_Char.Name = "btn_Routins_Char";
+            this.btn_Routins_Char.Size = new System.Drawing.Size(106, 60);
+            this.btn_Routins_Char.TabIndex = 23;
+            this.btn_Routins_Char.TabStop = false;
+            this.btn_Routins_Char.Text = "Char";
+            this.btn_Routins_Char.UseVisualStyleBackColor = false;
+            this.btn_Routins_Char.Click += new System.EventHandler(this.btn_Routine_TcChar_Click);
+            // 
+            // button19
+            // 
+            this.button19.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button19.Enabled = false;
+            this.button19.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button19.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button19.Location = new System.Drawing.Point(118, 168);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(106, 60);
+            this.button19.TabIndex = 24;
+            this.button19.TabStop = false;
+            this.button19.Text = "IP Range";
+            this.button19.UseVisualStyleBackColor = false;
+            // 
+            // button20
+            // 
+            this.button20.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button20.Enabled = false;
+            this.button20.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button20.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button20.Location = new System.Drawing.Point(230, 168);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(106, 60);
+            this.button20.TabIndex = 25;
+            this.button20.TabStop = false;
+            this.button20.Text = "Sensi Option";
+            this.button20.UseVisualStyleBackColor = false;
+            // 
+            // button21
+            // 
+            this.button21.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button21.Enabled = false;
+            this.button21.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button21.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button21.Location = new System.Drawing.Point(342, 168);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(106, 60);
+            this.button21.TabIndex = 26;
+            this.button21.TabStop = false;
+            this.button21.Text = "PreSet Gain";
+            this.button21.UseVisualStyleBackColor = false;
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = true;
+            this.label88.Location = new System.Drawing.Point(9, 21);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(67, 17);
+            this.label88.TabIndex = 33;
+            this.label88.Text = "Test Case:";
+            // 
+            // txt_Routines_TestCase
+            // 
+            this.txt_Routines_TestCase.Location = new System.Drawing.Point(83, 19);
+            this.txt_Routines_TestCase.Name = "txt_Routines_TestCase";
+            this.txt_Routines_TestCase.Size = new System.Drawing.Size(165, 22);
+            this.txt_Routines_TestCase.TabIndex = 34;
+            this.txt_Routines_TestCase.Text = "SC780-PF-TC";
+            // 
+            // txt_Routines_TestTemp
+            // 
+            this.txt_Routines_TestTemp.Location = new System.Drawing.Point(59, 58);
+            this.txt_Routines_TestTemp.Name = "txt_Routines_TestTemp";
+            this.txt_Routines_TestTemp.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_TestTemp.TabIndex = 36;
+            this.txt_Routines_TestTemp.Text = "25";
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = true;
+            this.label89.Location = new System.Drawing.Point(10, 61);
+            this.label89.Name = "label89";
+            this.label89.Size = new System.Drawing.Size(43, 17);
+            this.label89.TabIndex = 35;
+            this.label89.Text = "Temp:";
+            // 
+            // txt_Routines_DutCount
+            // 
+            this.txt_Routines_DutCount.Location = new System.Drawing.Point(196, 58);
+            this.txt_Routines_DutCount.Name = "txt_Routines_DutCount";
+            this.txt_Routines_DutCount.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_DutCount.TabIndex = 38;
+            this.txt_Routines_DutCount.Text = "8";
+            // 
+            // label90
+            // 
+            this.label90.AutoSize = true;
+            this.label90.Location = new System.Drawing.Point(121, 61);
+            this.label90.Name = "label90";
+            this.label90.Size = new System.Drawing.Size(72, 17);
+            this.label90.TabIndex = 37;
+            this.label90.Text = "DUT Count:";
+            // 
+            // txt_Routines_TcCount
+            // 
+            this.txt_Routines_TcCount.Location = new System.Drawing.Point(336, 58);
+            this.txt_Routines_TcCount.Name = "txt_Routines_TcCount";
+            this.txt_Routines_TcCount.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_TcCount.TabIndex = 40;
+            this.txt_Routines_TcCount.Text = "8";
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(261, 61);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(63, 17);
+            this.label91.TabIndex = 39;
+            this.label91.Text = "Tc Count:";
+            // 
+            // txt_Routines_TcCodeScale
+            // 
+            this.txt_Routines_TcCodeScale.Location = new System.Drawing.Point(505, 58);
+            this.txt_Routines_TcCodeScale.Name = "txt_Routines_TcCodeScale";
+            this.txt_Routines_TcCodeScale.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_TcCodeScale.TabIndex = 42;
+            this.txt_Routines_TcCodeScale.Text = "2";
+            // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(402, 61);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(97, 17);
+            this.label92.TabIndex = 41;
+            this.label92.Text = "Tc Code Scale:";
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5074,7 +5304,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.4 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.5 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -5142,10 +5372,8 @@
             this.panel11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SL620_Tab_DataGridView)).EndInit();
             this.Programming.ResumeLayout(false);
-            this.Programming.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
+            this.btn_Routines_Result.ResumeLayout(false);
+            this.btn_Routines_Result.PerformLayout();
             this.CommandTab.ResumeLayout(false);
             this.CommandTab.PerformLayout();
             this.panel9.ResumeLayout(false);
@@ -5474,28 +5702,21 @@
         private System.Windows.Forms.Button btn_Program_Stop;
         private System.Windows.Forms.Button btn_Program_Start;
         private System.Windows.Forms.Button btn_Program_Tc;
-        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.GroupBox btn_Routines_Result;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label88;
-        private System.Windows.Forms.Label label89;
-        private System.Windows.Forms.Label label91;
-        private System.Windows.Forms.Label label90;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button btn_Routine_TcChar;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label92;
         private System.Windows.Forms.Label label94;
         private System.Windows.Forms.Label label95;
         private System.Windows.Forms.Label label80;
@@ -5537,7 +5758,29 @@
         private System.Windows.Forms.Button btn_SL620Tab_PowerOn3v3;
         private System.Windows.Forms.Button btn_SL620Tab_IpOff;
         private System.Windows.Forms.Button btn_SL620Tab_IpOn;
-        private System.Windows.Forms.Label label102;
         private System.Windows.Forms.TextBox tb_Channel_AutoTab;
+        private System.Windows.Forms.ComboBox cb_ChannelSelect;
+        private System.Windows.Forms.Button btn_ChannelSelect;
+        private System.Windows.Forms.Button btn_SL620Tab_IpConn;
+        private System.Windows.Forms.Button btn_SL620Tab_TrimSet2;
+        private System.Windows.Forms.Button btn_SL620Tab_VoutPair;
+        private System.Windows.Forms.TextBox txt_Routines_TestCase;
+        private System.Windows.Forms.Label label88;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button btn_Routins_Char;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.TextBox txt_Routines_TestTemp;
+        private System.Windows.Forms.Label label89;
+        private System.Windows.Forms.TextBox txt_Routines_TcCodeScale;
+        private System.Windows.Forms.Label label92;
+        private System.Windows.Forms.TextBox txt_Routines_TcCount;
+        private System.Windows.Forms.Label label91;
+        private System.Windows.Forms.TextBox txt_Routines_DutCount;
+        private System.Windows.Forms.Label label90;
     }
 }
