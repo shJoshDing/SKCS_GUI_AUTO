@@ -17866,20 +17866,20 @@ namespace CurrentSensorV3
 
             Delay_Power = 100;
             uint _dev_addr = this.DeviceAddress;
-            //string filename = System.Windows.Forms.Application.StartupPath;
-            //filename += @"\" + this.txt_Routines_TestCase.Text;
-            //filename += ".csv";
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\" + this.txt_Routines_TestCase.Text + "-" + this.txt_Routines_TestTemp.Text;
+            filename += ".csv";
 
-            string filename;
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Title = "请选择save file";
-            saveDialog.Filter = ".csv(*.*)|*.*";
-            if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                filename = saveDialog.FileName + ".csv";
-            }
-            else
-                return;
+            //string filename;
+            //SaveFileDialog saveDialog = new SaveFileDialog();
+            //saveDialog.Title = "请选择save file";
+            //saveDialog.Filter = ".csv(*.*)|*.*";
+            //if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    filename = saveDialog.FileName;
+            //}
+            //else
+            //    return;
 
 
             uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
@@ -17923,7 +17923,7 @@ namespace CurrentSensorV3
 
                     for (int i = 0; i < 8; i++)
                     {
-                        sc810RegValue[j][i] = uint.Parse(msg[i]);
+                        sc810RegValue[j][i] = Convert.ToUInt32(msg[i], 16);
                     }
                 }
                 code.Close();
@@ -17943,7 +17943,7 @@ namespace CurrentSensorV3
             #region Init RS232
             btn_EngTab_Connect_Click(null, null);
             Delay(100);
-            SetIP(Convert.ToUInt32(IP));
+            SetIP(Convert.ToUInt32(this.txt_Routines_Ip.Text));
             Delay(100);
             #endregion
 
@@ -17952,7 +17952,9 @@ namespace CurrentSensorV3
                 #region Header
                 writer.WriteLine(System.DateTime.Now.ToString());
                 writer.WriteLine(this.txt_Routines_TestCase.Text);
-                writer.WriteLine("IP = " + IP.ToString() + "A");
+                writer.WriteLine("Silicon = " + this.txt_Routines_SiliconVersion.Text);
+                writer.WriteLine("Temp = " + this.txt_Routines_TestTemp.Text);
+                writer.WriteLine("IP = " + this.txt_Routines_Ip.Text + "A");
                 string headers = "Temp,TC,Offset,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
                                                 "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
 
@@ -17978,7 +17980,7 @@ namespace CurrentSensorV3
                         //default 2.5V
                         writeTestCode(sc810RegValue[index * 2 + 0]);
 
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale * 16 + tcIndex * tcScale);
                         Delay(Delay_Sync);
 
                         btn_SL620Tab_NormalMode_Click(null, null);
@@ -18005,7 +18007,7 @@ namespace CurrentSensorV3
                         //vbg01
                         writeTestCode(sc810RegValue[index * 2 + 1]);
 
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale);
+                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale * 16 + tcIndex * tcScale);
                         Delay(Delay_Sync);
 
                         btn_SL620Tab_NormalMode_Click(null, null);
@@ -18032,7 +18034,6 @@ namespace CurrentSensorV3
             this.btn_Program_Start.Text = "Done";
             this.btn_Program_Start.BackColor = Color.Gray;
         }
-
 
         void writeTestCode( UInt32[] data )
         {
@@ -18074,20 +18075,20 @@ namespace CurrentSensorV3
 
             Delay_Power = 100;
             uint _dev_addr = this.DeviceAddress;
-            //string filename = System.Windows.Forms.Application.StartupPath;
-            //filename += @"\" + this.txt_Routines_TestCase.Text;
-            //filename += ".csv";
+            string filename = System.Windows.Forms.Application.StartupPath;
+            filename += @"\" + this.txt_Routines_TestCase.Text + "-" + this.txt_Routines_TestTemp.Text;
+            filename += ".csv";
 
-            string filename;
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Title = "请选择save file";
-            saveDialog.Filter = ".csv(*.*)|*.*";
-            if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                filename = saveDialog.FileName + ".csv";
-            }
-            else
-                return;
+            //string filename;
+            //SaveFileDialog saveDialog = new SaveFileDialog();
+            //saveDialog.Title = "请选择save file";
+            //saveDialog.Filter = ".csv(*.*)|*.*";
+            //if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    filename = saveDialog.FileName + ".csv";
+            //}
+            //else
+            //    return;
 
 
             uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
@@ -18099,7 +18100,7 @@ namespace CurrentSensorV3
             #region Init RS232
             btn_EngTab_Connect_Click(null, null);
             Delay(100);
-            SetIP(Convert.ToUInt32(IP));
+            SetIP(Convert.ToUInt32(this.txt_Routines_Ip.Text));
             Delay(100);
             #endregion
 
@@ -18108,7 +18109,7 @@ namespace CurrentSensorV3
                 #region Header
                 writer.WriteLine(System.DateTime.Now.ToString());
                 writer.WriteLine(this.txt_Routines_TestCase.Text);
-                writer.WriteLine("IP = " + IP.ToString() + "A");
+                writer.WriteLine("IP = " + this.txt_Routines_Ip.Text + "A");
                 string headers = "Temp,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
                                                 "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
 

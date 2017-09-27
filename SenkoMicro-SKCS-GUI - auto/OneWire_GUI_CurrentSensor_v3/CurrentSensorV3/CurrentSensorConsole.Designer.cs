@@ -423,6 +423,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.txt_Routines_Ip = new System.Windows.Forms.TextBox();
+            this.label102 = new System.Windows.Forms.Label();
+            this.txt_Routines_SiliconVersion = new System.Windows.Forms.TextBox();
+            this.label103 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4552,6 +4556,10 @@
             // btn_Routines_Result
             // 
             this.btn_Routines_Result.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_SiliconVersion);
+            this.btn_Routines_Result.Controls.Add(this.label103);
+            this.btn_Routines_Result.Controls.Add(this.txt_Routines_Ip);
+            this.btn_Routines_Result.Controls.Add(this.label102);
             this.btn_Routines_Result.Controls.Add(this.txt_Routines_TcCodeScale);
             this.btn_Routines_Result.Controls.Add(this.label92);
             this.btn_Routines_Result.Controls.Add(this.txt_Routines_TcCount);
@@ -4596,7 +4604,7 @@
             // 
             // txt_Routines_TcCodeScale
             // 
-            this.txt_Routines_TcCodeScale.Location = new System.Drawing.Point(505, 58);
+            this.txt_Routines_TcCodeScale.Location = new System.Drawing.Point(582, 47);
             this.txt_Routines_TcCodeScale.Name = "txt_Routines_TcCodeScale";
             this.txt_Routines_TcCodeScale.Size = new System.Drawing.Size(36, 22);
             this.txt_Routines_TcCodeScale.TabIndex = 42;
@@ -4605,15 +4613,15 @@
             // label92
             // 
             this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(402, 61);
+            this.label92.Location = new System.Drawing.Point(515, 50);
             this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(97, 17);
+            this.label92.Size = new System.Drawing.Size(61, 17);
             this.label92.TabIndex = 41;
-            this.label92.Text = "Tc Code Scale:";
+            this.label92.Text = "Tc Scale:";
             // 
             // txt_Routines_TcCount
             // 
-            this.txt_Routines_TcCount.Location = new System.Drawing.Point(336, 58);
+            this.txt_Routines_TcCount.Location = new System.Drawing.Point(465, 47);
             this.txt_Routines_TcCount.Name = "txt_Routines_TcCount";
             this.txt_Routines_TcCount.Size = new System.Drawing.Size(36, 22);
             this.txt_Routines_TcCount.TabIndex = 40;
@@ -4622,7 +4630,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(261, 61);
+            this.label91.Location = new System.Drawing.Point(390, 50);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(63, 17);
             this.label91.TabIndex = 39;
@@ -4630,7 +4638,7 @@
             // 
             // txt_Routines_DutCount
             // 
-            this.txt_Routines_DutCount.Location = new System.Drawing.Point(196, 58);
+            this.txt_Routines_DutCount.Location = new System.Drawing.Point(465, 19);
             this.txt_Routines_DutCount.Name = "txt_Routines_DutCount";
             this.txt_Routines_DutCount.Size = new System.Drawing.Size(36, 22);
             this.txt_Routines_DutCount.TabIndex = 38;
@@ -4639,7 +4647,7 @@
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(121, 61);
+            this.label90.Location = new System.Drawing.Point(390, 22);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(72, 17);
             this.label90.TabIndex = 37;
@@ -4647,16 +4655,16 @@
             // 
             // txt_Routines_TestTemp
             // 
-            this.txt_Routines_TestTemp.Location = new System.Drawing.Point(59, 58);
+            this.txt_Routines_TestTemp.Location = new System.Drawing.Point(83, 49);
             this.txt_Routines_TestTemp.Name = "txt_Routines_TestTemp";
-            this.txt_Routines_TestTemp.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_TestTemp.Size = new System.Drawing.Size(53, 22);
             this.txt_Routines_TestTemp.TabIndex = 36;
             this.txt_Routines_TestTemp.Text = "25";
             // 
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(10, 61);
+            this.label89.Location = new System.Drawing.Point(33, 52);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(43, 17);
             this.label89.TabIndex = 35;
@@ -4666,7 +4674,7 @@
             // 
             this.txt_Routines_TestCase.Location = new System.Drawing.Point(83, 19);
             this.txt_Routines_TestCase.Name = "txt_Routines_TestCase";
-            this.txt_Routines_TestCase.Size = new System.Drawing.Size(165, 22);
+            this.txt_Routines_TestCase.Size = new System.Drawing.Size(179, 22);
             this.txt_Routines_TestCase.TabIndex = 34;
             this.txt_Routines_TestCase.Text = "SC780-PF-TC";
             // 
@@ -5292,6 +5300,40 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // txt_Routines_Ip
+            // 
+            this.txt_Routines_Ip.Location = new System.Drawing.Point(216, 49);
+            this.txt_Routines_Ip.Name = "txt_Routines_Ip";
+            this.txt_Routines_Ip.Size = new System.Drawing.Size(46, 22);
+            this.txt_Routines_Ip.TabIndex = 44;
+            this.txt_Routines_Ip.Text = "20";
+            // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Location = new System.Drawing.Point(165, 52);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(45, 17);
+            this.label102.TabIndex = 43;
+            this.label102.Text = "IP (A) :";
+            // 
+            // txt_Routines_SiliconVersion
+            // 
+            this.txt_Routines_SiliconVersion.Location = new System.Drawing.Point(582, 19);
+            this.txt_Routines_SiliconVersion.Name = "txt_Routines_SiliconVersion";
+            this.txt_Routines_SiliconVersion.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_SiliconVersion.TabIndex = 46;
+            this.txt_Routines_SiliconVersion.Text = "620b";
+            // 
+            // label103
+            // 
+            this.label103.AutoSize = true;
+            this.label103.Location = new System.Drawing.Point(526, 22);
+            this.label103.Name = "label103";
+            this.label103.Size = new System.Drawing.Size(50, 17);
+            this.label103.TabIndex = 45;
+            this.label103.Text = "Silicon:";
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5304,7 +5346,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.5 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.6 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -5782,5 +5824,9 @@
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.TextBox txt_Routines_DutCount;
         private System.Windows.Forms.Label label90;
+        private System.Windows.Forms.TextBox txt_Routines_Ip;
+        private System.Windows.Forms.Label label102;
+        private System.Windows.Forms.TextBox txt_Routines_SiliconVersion;
+        private System.Windows.Forms.Label label103;
     }
 }
