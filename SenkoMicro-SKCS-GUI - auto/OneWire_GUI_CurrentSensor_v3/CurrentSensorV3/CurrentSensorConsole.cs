@@ -9291,16 +9291,17 @@ namespace CurrentSensorV3
             if (oneWrie_device.UARTInitilize(9600, 1))
                 DisplayOperateMes("UART Initilize succeeded!");
             else
-                DisplayOperateMes("UART Initilize failed!");
+            {
+                DisplayOperateMes("UART Initilize failed!", Color.Red);
+                return;
+            }
             //ding hao
             Delay(Delay_Power);
             //DisplayAutoTrimOperateMes("Delay 300ms");
 
             //1. Current Remote CTL
-            if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0))
-                DisplayOperateMes("Set Current Remote succeeded!");
-            else
-                DisplayOperateMes("Set Current Remote failed!");
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0);
+
 
             //Delay 300ms
             //Thread.Sleep(300);
@@ -9310,20 +9311,17 @@ namespace CurrentSensorV3
             //2. Current On
             //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
             //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-            if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-                DisplayOperateMes("Set Current to IP succeeded!");
-            else
-                DisplayOperateMes("Set Current to IP failed!");
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP));
 
             //Delay 300ms
             Delay(Delay_Power);
             //DisplayOperateMes("Delay 300ms");
 
             //3. Set Voltage
-            if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 20u))
-                DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
-            else
-                DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 20u);
+                //DisplayOperateMes(string.Format("Set Voltage to {0}V succeeded!", 6));
+            //else
+            //    DisplayOperateMes(string.Format("Set Voltage to {0}V failed!", 6));
 
             //numUD_pilotwidth_ow_ValueChanged(null,null);
             //numUD_pilotwidth_ow_ValueChanged(null,null);
@@ -11000,9 +10998,9 @@ namespace CurrentSensorV3
         private void SetIP( uint ipcurrent )
         {
             if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, ipcurrent))
-                DisplayOperateMes("Set Current to IP succeeded!");
+                DisplayOperateMes("Set Current to " + ipcurrent.ToString() + "A");
             else
-                DisplayOperateMes("Set Current to IP failed!");
+                DisplayOperateMes("Set Current Fail", Color.Red);
         }
 
         private double GetMout()
@@ -17868,9 +17866,20 @@ namespace CurrentSensorV3
 
             Delay_Power = 100;
             uint _dev_addr = this.DeviceAddress;
-            string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\" + this.txt_Routines_TestCase.Text;
-            filename += ".csv";
+            //string filename = System.Windows.Forms.Application.StartupPath;
+            //filename += @"\" + this.txt_Routines_TestCase.Text;
+            //filename += ".csv";
+
+            string filename;
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Title = "请选择save file";
+            saveDialog.Filter = ".csv(*.*)|*.*";
+            if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                filename = saveDialog.FileName + ".csv";
+            }
+            else
+                return;
 
 
             uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
@@ -17895,8 +17904,7 @@ namespace CurrentSensorV3
             {
                 string trimCodeFile = "";
                 OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = true;//该值确定是否可以选择多个文件
-                dialog.Title = "请选择文件夹";
+                dialog.Title = "请选择code file";
                 dialog.Filter = ".cfg(*.*)|*.*";
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -17935,7 +17943,7 @@ namespace CurrentSensorV3
             #region Init RS232
             btn_EngTab_Connect_Click(null, null);
             Delay(100);
-            SetIP(20);
+            SetIP(Convert.ToUInt32(IP));
             Delay(100);
             #endregion
 
@@ -17943,7 +17951,8 @@ namespace CurrentSensorV3
             {
                 #region Header
                 writer.WriteLine(System.DateTime.Now.ToString());
-
+                writer.WriteLine(this.txt_Routines_TestCase.Text);
+                writer.WriteLine("IP = " + IP.ToString() + "A");
                 string headers = "Temp,TC,Offset,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
                                                 "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
 
@@ -18054,6 +18063,82 @@ namespace CurrentSensorV3
             Delay(Delay_Sync);
             oneWrie_device.I2CWrite_Single(_dev_addr, 0x87, data[7]);
             Delay(Delay_Sync);
+        }
+
+        private void btn_Routins_ReadVout_Click(object sender, EventArgs e)
+        {
+            this.btn_Program_Start.Text = "...";
+            this.btn_Program_Start.BackColor = Color.Yellow;
+
+            #region init var
+
+            Delay_Power = 100;
+            uint _dev_addr = this.DeviceAddress;
+            //string filename = System.Windows.Forms.Application.StartupPath;
+            //filename += @"\" + this.txt_Routines_TestCase.Text;
+            //filename += ".csv";
+
+            string filename;
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Title = "请选择save file";
+            saveDialog.Filter = ".csv(*.*)|*.*";
+            if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                filename = saveDialog.FileName + ".csv";
+            }
+            else
+                return;
+
+
+            uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
+            uint tcCont = Convert.ToUInt32(this.txt_Routines_TcCount.Text);
+            uint tcScale = Convert.ToUInt32(this.txt_Routines_TcCodeScale.Text);
+
+            #endregion
+
+            #region Init RS232
+            btn_EngTab_Connect_Click(null, null);
+            Delay(100);
+            SetIP(Convert.ToUInt32(IP));
+            Delay(100);
+            #endregion
+
+            using (StreamWriter writer = new StreamWriter(filename, true))
+            {
+                #region Header
+                writer.WriteLine(System.DateTime.Now.ToString());
+                writer.WriteLine(this.txt_Routines_TestCase.Text);
+                writer.WriteLine("IP = " + IP.ToString() + "A");
+                string headers = "Temp,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
+                                                "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
+
+                writer.WriteLine(headers);
+                #endregion
+
+                #region 2.5V case
+                writer.Write(this.txt_Routines_TestTemp.Text + ",");
+
+                for (uint index = 0; index < dutCount; index++)
+                {
+                    MultiSiteSocketSelect(index);
+
+                    //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                    //Delay(Delay_Sync);
+                    btn_EngTab_Ipon_Click(null, null);
+                    Delay(Delay_Sync);
+                    writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                    Delay(Delay_Sync);
+                    btn_EngTab_Ipoff_Click(null, null);
+                    Delay(Delay_Sync);
+                    writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                    Delay(Delay_Sync);
+                }
+                writer.Write("\r\n");
+                #endregion
+            }
+
+            this.btn_Program_Start.Text = "Done";
+            this.btn_Program_Start.BackColor = Color.Gray;
         }
 
 
