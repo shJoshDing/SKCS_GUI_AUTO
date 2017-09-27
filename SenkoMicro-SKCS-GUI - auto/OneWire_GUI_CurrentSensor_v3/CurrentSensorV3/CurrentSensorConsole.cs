@@ -12284,25 +12284,28 @@ namespace CurrentSensorV3
             //    DisplayOperateMes("Communication Fail!", Color.Red);
             //    return;
             //}
-            if (this.txt_SL620TC_AutoTab.Text == "1201")
+            //if (this.txt_SL620TC_AutoTab.Text == "1201")
+            if (Control.ModifierKeys == Keys.Shift)
             {
-                DisplayOperateMes("Key Pass! ");
-                this.cb_iHallDecrease_AutoTab.Visible = true;
-                this.cb_ChopCkDis_AutoTab.Visible = true;
-                this.cb_s2double_AutoTab.Visible = true;
-                this.cb_s3drv_autoTab.Visible = true;
-                this.cb_MeasureiQ_AutoTab.Visible = true;
-                this.cb_CustTc_AutoTab.Visible = true;
-                this.cb_BypFuse_AutoTab.Visible = true;
+                DisplayOperateMes("Show Key Pass! ");
+                this.cb_iHallDecrease_AutoTab.Enabled = true;
+                this.cb_ChopCkDis_AutoTab.Enabled = true;
+                this.cb_s2double_AutoTab.Enabled = true;
+                this.cb_s3drv_autoTab.Enabled = true;
+                this.cb_MeasureiQ_AutoTab.Enabled = true;
+                this.cb_CustTc_AutoTab.Enabled = true;
+                this.cb_BypFuse_AutoTab.Enabled = true;
             }
-            else
+            if (Control.ModifierKeys == Keys.Control)
             {
-                this.cb_iHallDecrease_AutoTab.Visible = false;
-                this.cb_ChopCkDis_AutoTab.Visible = false;
-                this.cb_s2double_AutoTab.Visible = false;
-                this.cb_s3drv_autoTab.Visible = false;
-                this.cb_MeasureiQ_AutoTab.Visible = false;
-                this.cb_BypFuse_AutoTab.Visible = false;
+                DisplayOperateMes("Hide Key Pass! ");
+                this.cb_iHallDecrease_AutoTab.Enabled = false;
+                this.cb_ChopCkDis_AutoTab.Enabled = false;
+                this.cb_s2double_AutoTab.Enabled = false;
+                this.cb_s3drv_autoTab.Enabled = false;
+                this.cb_MeasureiQ_AutoTab.Enabled = false;
+                this.cb_CustTc_AutoTab.Enabled = false;
+                this.cb_BypFuse_AutoTab.Enabled = false;
             }
         }                  
 

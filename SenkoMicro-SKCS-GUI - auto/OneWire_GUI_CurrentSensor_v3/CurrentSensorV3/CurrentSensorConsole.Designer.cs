@@ -2792,7 +2792,6 @@
             this.cb_CustTc_AutoTab.TabIndex = 124;
             this.cb_CustTc_AutoTab.Text = "Cust Tc";
             this.cb_CustTc_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_CustTc_AutoTab.Visible = false;
             // 
             // cb_MeasureiQ_AutoTab
             // 
@@ -2826,7 +2825,6 @@
             this.cb_s2double_AutoTab.TabIndex = 121;
             this.cb_s2double_AutoTab.Text = "S2_Double";
             this.cb_s2double_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_s2double_AutoTab.Visible = false;
             // 
             // cb_iHallDecrease_AutoTab
             // 
@@ -2838,7 +2836,6 @@
             this.cb_iHallDecrease_AutoTab.TabIndex = 120;
             this.cb_iHallDecrease_AutoTab.Text = "iHall -33%";
             this.cb_iHallDecrease_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_iHallDecrease_AutoTab.Visible = false;
             // 
             // cb_ChopCkDis_AutoTab
             // 
@@ -2850,7 +2847,6 @@
             this.cb_ChopCkDis_AutoTab.TabIndex = 119;
             this.cb_ChopCkDis_AutoTab.Text = "Chop_Ck_Dis";
             this.cb_ChopCkDis_AutoTab.UseVisualStyleBackColor = true;
-            this.cb_ChopCkDis_AutoTab.Visible = false;
             // 
             // cb_AutoTab_Retest
             // 
@@ -3937,7 +3933,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.8 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.9 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
