@@ -361,6 +361,10 @@
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.Programming = new System.Windows.Forms.TabPage();
             this.btn_Routines_Result = new System.Windows.Forms.GroupBox();
+            this.txt_Routines_SiliconVersion = new System.Windows.Forms.TextBox();
+            this.label103 = new System.Windows.Forms.Label();
+            this.txt_Routines_Ip = new System.Windows.Forms.TextBox();
+            this.label102 = new System.Windows.Forms.Label();
             this.txt_Routines_TcCodeScale = new System.Windows.Forms.TextBox();
             this.label92 = new System.Windows.Forms.Label();
             this.txt_Routines_TcCount = new System.Windows.Forms.TextBox();
@@ -423,10 +427,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.txt_Routines_Ip = new System.Windows.Forms.TextBox();
-            this.label102 = new System.Windows.Forms.Label();
-            this.txt_Routines_SiliconVersion = new System.Windows.Forms.TextBox();
-            this.label103 = new System.Windows.Forms.Label();
+            this.btn_Routins_LoadFile = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4556,6 +4557,7 @@
             // btn_Routines_Result
             // 
             this.btn_Routines_Result.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routines_Result.Controls.Add(this.btn_Routins_LoadFile);
             this.btn_Routines_Result.Controls.Add(this.txt_Routines_SiliconVersion);
             this.btn_Routines_Result.Controls.Add(this.label103);
             this.btn_Routines_Result.Controls.Add(this.txt_Routines_Ip);
@@ -4601,6 +4603,40 @@
             this.btn_Routines_Result.Size = new System.Drawing.Size(789, 562);
             this.btn_Routines_Result.TabIndex = 6;
             this.btn_Routines_Result.TabStop = false;
+            // 
+            // txt_Routines_SiliconVersion
+            // 
+            this.txt_Routines_SiliconVersion.Location = new System.Drawing.Point(582, 19);
+            this.txt_Routines_SiliconVersion.Name = "txt_Routines_SiliconVersion";
+            this.txt_Routines_SiliconVersion.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_SiliconVersion.TabIndex = 46;
+            this.txt_Routines_SiliconVersion.Text = "620b";
+            // 
+            // label103
+            // 
+            this.label103.AutoSize = true;
+            this.label103.Location = new System.Drawing.Point(526, 22);
+            this.label103.Name = "label103";
+            this.label103.Size = new System.Drawing.Size(50, 17);
+            this.label103.TabIndex = 45;
+            this.label103.Text = "Silicon:";
+            // 
+            // txt_Routines_Ip
+            // 
+            this.txt_Routines_Ip.Location = new System.Drawing.Point(216, 49);
+            this.txt_Routines_Ip.Name = "txt_Routines_Ip";
+            this.txt_Routines_Ip.Size = new System.Drawing.Size(46, 22);
+            this.txt_Routines_Ip.TabIndex = 44;
+            this.txt_Routines_Ip.Text = "50";
+            // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Location = new System.Drawing.Point(165, 52);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(45, 17);
+            this.label102.TabIndex = 43;
+            this.label102.Text = "IP (A) :";
             // 
             // txt_Routines_TcCodeScale
             // 
@@ -5300,39 +5336,15 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // txt_Routines_Ip
+            // btn_Routins_LoadFile
             // 
-            this.txt_Routines_Ip.Location = new System.Drawing.Point(216, 49);
-            this.txt_Routines_Ip.Name = "txt_Routines_Ip";
-            this.txt_Routines_Ip.Size = new System.Drawing.Size(46, 22);
-            this.txt_Routines_Ip.TabIndex = 44;
-            this.txt_Routines_Ip.Text = "20";
-            // 
-            // label102
-            // 
-            this.label102.AutoSize = true;
-            this.label102.Location = new System.Drawing.Point(165, 52);
-            this.label102.Name = "label102";
-            this.label102.Size = new System.Drawing.Size(45, 17);
-            this.label102.TabIndex = 43;
-            this.label102.Text = "IP (A) :";
-            // 
-            // txt_Routines_SiliconVersion
-            // 
-            this.txt_Routines_SiliconVersion.Location = new System.Drawing.Point(582, 19);
-            this.txt_Routines_SiliconVersion.Name = "txt_Routines_SiliconVersion";
-            this.txt_Routines_SiliconVersion.Size = new System.Drawing.Size(36, 22);
-            this.txt_Routines_SiliconVersion.TabIndex = 46;
-            this.txt_Routines_SiliconVersion.Text = "620b";
-            // 
-            // label103
-            // 
-            this.label103.AutoSize = true;
-            this.label103.Location = new System.Drawing.Point(526, 22);
-            this.label103.Name = "label103";
-            this.label103.Size = new System.Drawing.Size(50, 17);
-            this.label103.TabIndex = 45;
-            this.label103.Text = "Silicon:";
+            this.btn_Routins_LoadFile.Location = new System.Drawing.Point(281, 19);
+            this.btn_Routins_LoadFile.Name = "btn_Routins_LoadFile";
+            this.btn_Routins_LoadFile.Size = new System.Drawing.Size(75, 23);
+            this.btn_Routins_LoadFile.TabIndex = 47;
+            this.btn_Routins_LoadFile.Text = "Load";
+            this.btn_Routins_LoadFile.UseVisualStyleBackColor = true;
+            this.btn_Routins_LoadFile.Click += new System.EventHandler(this.btn_Routins_LoadFile_Click);
             // 
             // CurrentSensorConsole
             // 
@@ -5828,5 +5840,6 @@
         private System.Windows.Forms.Label label102;
         private System.Windows.Forms.TextBox txt_Routines_SiliconVersion;
         private System.Windows.Forms.Label label103;
+        private System.Windows.Forms.Button btn_Routins_LoadFile;
     }
 }

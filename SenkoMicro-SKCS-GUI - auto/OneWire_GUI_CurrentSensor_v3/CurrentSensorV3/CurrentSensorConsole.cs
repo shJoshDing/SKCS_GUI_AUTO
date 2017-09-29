@@ -254,6 +254,8 @@ namespace CurrentSensorV3
         double[] multiSiteVout0A = new double[16];
         double[] multiSiteVoutIP = new double[16];
 
+        uint[][] trimData = new uint[16 * 2][];
+
         int moduleTypeindex = 0;
         int ModuleTypeIndex
         {
@@ -2921,7 +2923,7 @@ namespace CurrentSensorV3
             {
                 if (bAutoTrimTest)
                 {
-                    DisplayOperateMes("Enter Nomal Mode succeeded!");
+                    DisplayOperateMes("Enter Nomal Mode!");
                 }
             }
             else
@@ -2959,7 +2961,8 @@ namespace CurrentSensorV3
             {
                 if (bAutoTrimTest)
                 {
-                    DisplayOperateMes("Enter test mode succeeded!");
+                    ;
+                    //DisplayOperateMes("Enter test mode succeeded!");
                 }
             }
             else
@@ -4194,7 +4197,7 @@ namespace CurrentSensorV3
         private void btn_PowerOn_OWCI_ADC_Click(object sender, EventArgs e)
         {
             if (oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_POWER_ON))
-                DisplayOperateMes("Power on succeeded!");
+                DisplayOperateMes("Power On!");
             else
                 DisplayOperateMes("Power on failed!");
         }
@@ -17867,7 +17870,7 @@ namespace CurrentSensorV3
             Delay_Power = 100;
             uint _dev_addr = this.DeviceAddress;
             string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\" + this.txt_Routines_TestCase.Text + "-" + this.txt_Routines_TestTemp.Text;
+            filename += @"\" + this.txt_Routines_TestCase.Text;
             filename += ".csv";
 
             //string filename;
@@ -17892,52 +17895,6 @@ namespace CurrentSensorV3
                 return;
             }
 
-            uint[][] sc810RegValue = new uint[16 * 2][];
-
-            for (int j = 0; j < 16 * 2; j++)
-            {
-                for (int i = 0; i < 8; i++)
-                    sc810RegValue[j] = new uint[8];
-            }
-
-            try
-            {
-                string trimCodeFile = "";
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Title = "请选择code file";
-                dialog.Filter = ".cfg(*.*)|*.*";
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    trimCodeFile = dialog.FileName;
-                }
-                else
-                    return;
-
-                StreamReader code = new StreamReader(trimCodeFile);
-
-                string[] msg;
-
-                for (int j = 0; j < dutCount * 2; j++)
-                {
-                    msg = code.ReadLine().Split(",".ToCharArray());
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        sc810RegValue[j][i] = Convert.ToUInt32(msg[i], 16);
-                    }
-                }
-                code.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Load code file failed, please choose correct file!");
-                return;
-            }
-
-
-            
-
-
             #endregion
 
             #region Init RS232
@@ -17953,7 +17910,7 @@ namespace CurrentSensorV3
                 writer.WriteLine(System.DateTime.Now.ToString());
                 writer.WriteLine(this.txt_Routines_TestCase.Text);
                 writer.WriteLine("Silicon = " + this.txt_Routines_SiliconVersion.Text);
-                writer.WriteLine("Temp = " + this.txt_Routines_TestTemp.Text);
+                //writer.WriteLine("Temp = " + this.txt_Routines_TestTemp.Text);
                 writer.WriteLine("IP = " + this.txt_Routines_Ip.Text + "A");
                 string headers = "Temp,TC,Offset,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
                                                 "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
@@ -17978,7 +17935,7 @@ namespace CurrentSensorV3
                         //writer.Write(this.txt_Routines_TestTemp.Text + "," + tcIndex.ToString() + ",2v5," );
 
                         //default 2.5V
-                        writeTestCode(sc810RegValue[index * 2 + 0]);
+                        writeTestCode(trimData[index * 2 + 0]);
 
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale * 16 + tcIndex * tcScale);
                         Delay(Delay_Sync);
@@ -18005,7 +17962,7 @@ namespace CurrentSensorV3
                     for (uint index = 0; index < dutCount; index++)
                     {
                         //vbg01
-                        writeTestCode(sc810RegValue[index * 2 + 1]);
+                        writeTestCode(trimData[index * 2 + 1]);
 
                         oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale * 16 + tcIndex * tcScale);
                         Delay(Delay_Sync);
@@ -18140,6 +18097,54 @@ namespace CurrentSensorV3
 
             this.btn_Program_Start.Text = "Done";
             this.btn_Program_Start.BackColor = Color.Gray;
+        }
+
+        private void btn_Routins_LoadFile_Click(object sender, EventArgs e)
+        {
+            //uint[][] trimData = new uint[16 * 2][];
+            uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
+
+            for (int j = 0; j < 16 * 2; j++)
+            {
+                for (int i = 0; i < 8; i++)
+                    trimData[j] = new uint[8];
+            }
+
+            try
+            {
+                string trimCodeFile = "";
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Title = "请选择code file";
+                dialog.Filter = ".cfg(*.*)|*.*";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    trimCodeFile = dialog.FileName;
+                }
+                else
+                    return;
+
+                this.txt_Routines_TestCase.Text = Path.GetFileNameWithoutExtension(trimCodeFile);
+
+                StreamReader code = new StreamReader(trimCodeFile);
+
+                string[] msg;
+
+                for (int j = 0; j < dutCount * 2; j++)
+                {
+                    msg = code.ReadLine().Split(",".ToCharArray());
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        trimData[j][i] = Convert.ToUInt32(msg[i], 16);
+                    }
+                }
+                code.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Load code file failed, please choose correct file!");
+                return;
+            }
         }
 
 
