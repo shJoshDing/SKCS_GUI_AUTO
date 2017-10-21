@@ -402,6 +402,11 @@ namespace CurrentSensorV3
         uint[] MultiSiteReg7 = new uint[16];
         uint[] MultiSiteRoughGainCodeIndex = new uint[16];
 
+        uint gCosareGainIndex = 0;
+        uint gFineGainIndex = 0;
+        uint gCoarseOffsetIndex = 0;
+        uint gFineOffsetIndex = 0;
+
         uint[] BrakeReg = new uint[5];                          //Brake usage
         int Ix_OffsetA_Brake = 0;
         int Ix_OffsetB_Brake = 0;
@@ -622,6 +627,9 @@ namespace CurrentSensorV3
 
             //load config
             btn_loadconfig_AutoT_Click(null, null);
+
+            //load log file
+            loadLogFile();
 
             //this.tabControl1.Controls.Remove(BrakeTab);
             //BrakeAttribute BkAttri;
@@ -3655,8 +3663,8 @@ namespace CurrentSensorV3
             DisplayOperateMes("IQ = " + sDUT.dIQ.ToString("F3"));
             DisplayOperateMes("dVoutIPNative = " + sDUT.dVoutIPNative.ToString("F3"));
             DisplayOperateMes("dVout0ANative = " + sDUT.dVout0ANative.ToString("F3"));
-            DisplayOperateMes("dVoutIPMiddle = " + sDUT.dVoutIPMiddle.ToString("F3"));
-            DisplayOperateMes("dVout0AMiddle = " + sDUT.dVout0AMiddle.ToString("F3"));
+            //DisplayOperateMes("dVoutIPMiddle = " + sDUT.dVoutIPMiddle.ToString("F3"));
+            //DisplayOperateMes("dVout0AMiddle = " + sDUT.dVout0AMiddle.ToString("F3"));
             DisplayOperateMes("dVoutIPTrimmed = " + sDUT.dVoutIPTrimmed.ToString("F3"));
             DisplayOperateMes("dVout0ATrimmed = " + sDUT.dVout0ATrimmed.ToString("F3"));
             DisplayOperateMes("iErrorCode = " + sDUT.iErrorCode.ToString("D2"));
@@ -3689,15 +3697,18 @@ namespace CurrentSensorV3
 
             string msg;
 
-            msg = string.Format("# # # {0} {1} {2} {3} {4} {5} {6} {7}", sDUT.dIQ.ToString("F3"),
+            msg = string.Format("# # # {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14}", IP.ToString(), sDUT.dIQ.ToString("F3"),
                 sDUT.dVoutIPNative.ToString("F3"), sDUT.dVout0ANative.ToString("F3"),
-                sDUT.dVoutIPMiddle.ToString("F3"), sDUT.dVout0AMiddle.ToString("F3"),
+                MultiSiteReg0[0].ToString("X2"), MultiSiteReg1[0].ToString("X2"),
+                MultiSiteReg2[0].ToString("X2"), MultiSiteReg3[0].ToString("X2"),
+                MultiSiteReg4[0].ToString("X2"), MultiSiteReg5[0].ToString("X2"),
+                MultiSiteReg6[0].ToString("X2"), MultiSiteReg7[0].ToString("X2"),
                 sDUT.dVoutIPTrimmed.ToString("F3"), sDUT.dVout0ATrimmed.ToString("F3"),
                 sDUT.iErrorCode.ToString("D2"));
             sw.WriteLine(msg);
 
-            msg = System.DateTime.Now.ToString();
-            sw.WriteLine(msg);
+            //msg = System.DateTime.Now.ToString();
+            //sw.WriteLine(msg);
 
             sw.Close();
         }
@@ -4598,7 +4609,7 @@ namespace CurrentSensorV3
                     else
                         Reg83Value = 0x00;
 
-                    
+
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 0)
                     {
                         if (this.cmb_Voffset_PreT.SelectedIndex == 0)
@@ -4609,6 +4620,8 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x05;
                         else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
                             Reg80Value |= 0x06;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 4)
+                            Reg80Value |= 0x07;
                     }
                     else if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
                     {
@@ -4621,6 +4634,8 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x01;
                         else if (this.cmb_Voffset_PreT.SelectedIndex == 3)
                             Reg80Value |= 0x02;
+                        else if (this.cmb_Voffset_PreT.SelectedIndex == 4)
+                            Reg80Value |= 0x03;
                     }
 
                     
@@ -4806,6 +4821,39 @@ namespace CurrentSensorV3
                         else
                         {
                             DisplayOperateMes("产品灵敏度要求过高！");
+                            TrimFinish();
+                            return;
+                        }
+                    }
+                    else if (TargetOffset == 0.5)
+                    {
+                        if (coarse_PretrimGain > 100 && coarse_PretrimGain <= 150)
+                        {
+                            Reg83Value += 0x03;
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 1.5d, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else if (coarse_PretrimGain <= 100 && coarse_PretrimGain > 12.7)
+                        {
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else if (coarse_PretrimGain > 150 && coarse_PretrimGain < 200)
+                        {
+                            Reg83Value += 0x03;
+                            Reg80Value += 0x20;
+                            preSetCoareseGainCode = Convert.ToUInt32(LookupCoarseGain_SL620(coarse_PretrimGain / 2.0d, sl620CoarseGainTable));
+                            Reg81Value = 0x03 + preSetCoareseGainCode * 16;
+                        }
+                        else if (coarse_PretrimGain >= 200)
+                        {
+                            DisplayOperateMes("产品灵敏度要求过高！");
+                            TrimFinish();
+                            return;
+                        }
+                        else if (coarse_PretrimGain < 11)
+                        {
+                            DisplayOperateMes("产品灵敏度要求过低！");
                             TrimFinish();
                             return;
                         }
@@ -5262,6 +5310,18 @@ namespace CurrentSensorV3
                     Reg86Value = 0x00;
                     Reg87Value = 0x00;
 
+                    if (this.cb_s2double_AutoTab.Checked)
+                        Reg83Value += 0x04;
+
+                    if (this.cb_s3drv_autoTab.Checked)
+                        Reg83Value += 0x02;
+
+                    if (this.cb_iHallDecrease_AutoTab.Checked)
+                        Reg80Value += 0x80;      //iHall decrease 33%
+
+                    if (this.cb_ChopCkDis_AutoTab.Checked)
+                        Reg83Value += 0x08;
+
                     if (this.cmb_PreTrim_SensorDirection.SelectedIndex == 1)
                     {
                         if (this.cmb_Voffset_PreT.SelectedIndex == 0)
@@ -5290,61 +5350,56 @@ namespace CurrentSensorV3
                             Reg80Value |= 0x03;
                     }
                    
-                    if (this.TargetGain_customer > 80 && this.TargetGain_customer < 120)     //---------------------------------------> 100mv/A
+                    if (this.TargetGain_customer > 70 && this.TargetGain_customer < 120)     //---------------------------------------> 100mv/A
                     {
-                        Reg80Value += 0x10;      //4 halls, M + R
+                        Reg80Value |= 0xA0;      //4 halls, M + R
                         //Reg80Value += 0x80;      //iHall decrease 33%
                         //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
-                        Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
+                        Reg81Value |= 0x0F;         //tcth = 2'b11; vbg = 2'b11
                         if (!this.cb_CustTc_AutoTab.Checked)
                             Reg82Value = 0x46;
                     }
                     else if (this.TargetGain_customer > 120 && this.TargetGain_customer < 180)     //---------------------------------------> 133mv/A
                     {
-                        Reg80Value += 0x20;      //iHall decrease 17%
+                        Reg80Value |= 0xA0;      //iHall decrease 17%
                         //Reg80Value += 0x80;      //iHall decrease 33%
                         //Reg81Value += 0x0C;         //tcth = 2'b00; vbg = 2'b11
-                        Reg81Value += 0x0F;         //tcth = 2'b11; vbg = 2'b11
+                        Reg81Value |= 0x0F;         //tcth = 2'b11; vbg = 2'b11
                         if (!this.cb_CustTc_AutoTab.Checked)
                             Reg82Value = 0x23;
                     }
                     else if (this.TargetGain_customer > 180 && this.TargetGain_customer < 220) //--------------------------------------> 200mv/A
                     {
-                        Reg80Value += 0x20;
-                        Reg81Value += 0x07;
-                        //Reg83Value += 0x04;
+                        Reg80Value |= 0xA0;
+                        Reg81Value |= 0x07;
+                        Reg83Value |= 0x04;
 
                         if (!this.cb_CustTc_AutoTab.Checked)
                             Reg82Value = 0x00;
                     }
                     else if (this.TargetGain_customer > 60 && this.TargetGain_customer < 70) //-------->30A
                     {
-                        Reg80Value += 0xA0;      //iHall decrease 17%
-                        Reg81Value += 0x0F;
+                        Reg80Value |= 0x90;      //
+                        Reg81Value |= 0x0F;
 
                         if (!this.cb_CustTc_AutoTab.Checked)
                             Reg82Value = 0x68;
                     }
                     else if (this.TargetGain_customer == 264)    //------------------------------------->ACS725, 264mV/A
                     {
-                        Reg81Value += 0x03;
-                        Reg83Value += 0x04;
+                        Reg81Value |= 0x03;
+                        Reg83Value |= 0x04;
                     }
                     else
                     {
+                        //SC820
                         DisplayOperateMes("Customized Gain!");
+                        Reg80Value |= 0x90;      //
+                        Reg81Value |= 0x0F;
 
-                        if (this.cb_s2double_AutoTab.Checked)
-                            Reg83Value += 0x04;
-
-                        if (this.cb_s3drv_autoTab.Checked)
-                            Reg83Value += 0x02;
-
-                        if (this.cb_iHallDecrease_AutoTab.Checked)
-                            Reg80Value += 0x80;      //iHall decrease 33%
-
-                        if (this.cb_ChopCkDis_AutoTab.Checked)
-                            Reg83Value += 0x08;
+                        if (!this.cb_CustTc_AutoTab.Checked)
+                            Reg82Value = 0x8A;
+   
                     }
 
 
@@ -9928,13 +9983,13 @@ namespace CurrentSensorV3
             DisplayOperateMes("\r\nProcessing...");
 
 
-            DisplayOperateMes("Processing...");
+            //DisplayOperateMes("Processing...");
 
             #endregion Adapting algorithm
 
             #region Fuse
             //Fuse
-            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
+            //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VDD_FROM_EXT);
             RePower();
             EnterTestMode();
 
@@ -9946,6 +10001,11 @@ namespace CurrentSensorV3
 
             if (this.cb_BypFuse_AutoTab.Checked)
             {
+                gCoarseOffsetIndex = Convert.ToUInt32(Ix_forAutoAdaptingRoughGain);
+                gFineGainIndex = Convert.ToUInt32(Ix_forAutoAdaptingPresionGain);
+                gCoarseOffsetIndex = ix_CoarseOffsetCode;
+                gFineOffsetIndex = ix_FineOffsetCode;
+
                 printRegValue();
                 TrimFinish();
                 return;
@@ -11479,6 +11539,7 @@ namespace CurrentSensorV3
                 DisplayOperateMes("SL610 Differential");
             else if (SocketType == 2)
                 DisplayOperateMes("SL622 Single End");
+                //DisplayOperateMes("HY1850/1325T");
             else if (SocketType == 3)
                 DisplayOperateMes("SL622 Differential");
             else if (SocketType == 4)
@@ -12882,26 +12943,114 @@ namespace CurrentSensorV3
         #endregion Events
 
         #region Brake
-        private void btn_UpdateStartPoint_BrakeT_Click(object sender, EventArgs e)
+
+        private void btn_WriteTrimCode_BrakeT_Click(object sender, EventArgs e)
         {
+            uint idut = 0;
             RePower();
             EnterTestMode();
-            RegisterWrite(4,new uint[8]{0x80,Reg80Value,0x81,Reg81Value,0x82,Reg82Value,0x83,Reg83Value});
+
+            RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+            Delay(Delay_Sync);
+            RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
+            Delay(Delay_Sync);
+
             EnterNomalMode();
-            Delay(500);
+        }
+
+        private void btn_UpdateStartPoint_BrakeT_Click(object sender, EventArgs e)
+        {
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+
+            PowerOn();
+            //Delay(100);
             BkAttri.StartPoint = AverageVout();
             UpdateBrakeTab();
         }
 
         private void btn_UpdateStopPoint_BrakeT_Click(object sender, EventArgs e)
         {
-            RePower();
-            EnterTestMode();
-            RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
-            EnterNomalMode();
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
+
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
+
+            PowerOn();
+            //RePower();
+            //EnterTestMode();
+            //RegisterWrite(4, new uint[8] { 0x80, Reg80Value, 0x81, Reg81Value, 0x82, Reg82Value, 0x83, Reg83Value });
+            //EnterNomalMode();
+
+            DialogResult dr = new DialogResult();
+
+            #region /* Change Current to IP  */
+            if (ProgramMode == 0)
+            {
+                if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0u))
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", IP));
+                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                    TrimFinish();
+                    return;
+                }
+            }
+            else if (ProgramMode == 1)
+            {
+                dr = MessageBox.Show(String.Format("请将电流升至{0}A", IP), "Change Current", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                    PowerOff();
+                    RestoreReg80ToReg83Value();
+                    return;
+                }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(0);       //set epio1 = high; epio3 = low
+            }
+            #endregion
+
             Delay(500);
             BkAttri.StopPoint = AverageVout();
             UpdateBrakeTab();
+
+            #region /* Change Current to 0A */
+            if (ProgramMode == 0)
+            {
+                if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0u))
+                {
+                    DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0u));
+                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                    TrimFinish();
+                    return;
+                }
+            }
+            else if (ProgramMode == 1)
+            {
+                dr = MessageBox.Show(String.Format("请将电流降至0A"), "Change Current", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    DisplayOperateMes("AutoTrim Canceled!", Color.Red);
+                    PowerOff();
+                    RestoreReg80ToReg83Value();
+                    return;
+                }
+            }
+            else if (ProgramMode == 2)
+            {
+                MultiSiteSocketSelect(1);       //set epio1 and epio3 to high
+                Delay(Delay_Sync);
+                MultiSiteSocketSelect(9);       //set epio1 = low; epio3 = high
+            }
+            #endregion
         }
 
         private void btn_DRUp_BrakeT_Click(object sender, EventArgs e)
@@ -12984,61 +13133,88 @@ namespace CurrentSensorV3
 
         private void btn_FineDRUp_BrakeT_Click(object sender, EventArgs e)
         {
-            if (Ix_ForPrecisonGainCtrl == 0)
-                DisplayOperateMes("Reach to Max fine Gain!", Color.DarkRed);
-            else
-            {
-                Ix_ForPrecisonGainCtrl--;
+            uint Ix_forAutoAdaptingPresionGain = gFineGainIndex;
+            uint idut = 0;
+           
+            if (Ix_forAutoAdaptingPresionGain > 0)
+                gFineGainIndex--;
+            else if (Ix_forAutoAdaptingPresionGain == 0)
+                DisplayOperateMes("Have reached to Max Gain!");
 
-                /* Presion Gain Code*/
-                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
-                Reg80Value &= ~bit_op_mask;
-                Reg80Value |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_ForPrecisonGainCtrl]);
-            }
+            /* Presion Gain Code*/
+            bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+            MultiSiteReg6[idut] &= ~bit_op_mask;
+            MultiSiteReg6[idut] |= Convert.ToUInt32(sl620FineGainTable[1][gFineGainIndex]);
 
+            bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+            MultiSiteReg7[idut] &= ~bit_op_mask;
+            MultiSiteReg7[idut] |= Convert.ToUInt32(sl620FineGainTable[2][gFineGainIndex]);
+
+            DisplayOperateMes("gFineGainIndex = " + gFineGainIndex.ToString());
         }
 
         private void btn_FineDRDown_BrakeT_Click(object sender, EventArgs e)
         {
-            if (Ix_ForPrecisonGainCtrl == 31)
-                DisplayOperateMes("Reach to Min fine Gain!", Color.DarkRed);
-            else
-            {
-                Ix_ForPrecisonGainCtrl++;
+            uint Ix_forAutoAdaptingPresionGain = gFineGainIndex;
+            uint idut = 0;
 
-                /* Presion Gain Code*/
-                bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
-                Reg80Value &= ~bit_op_mask;
-                Reg80Value |= Convert.ToUInt32(PreciseTable_Customer[1][Ix_ForPrecisonGainCtrl]);
-            }
+            if (Ix_forAutoAdaptingPresionGain < 63)
+                gFineGainIndex++;
+            else if (Ix_forAutoAdaptingPresionGain == 63)
+                DisplayOperateMes("Have reached to Min Gain!");
+
+            /* Presion Gain Code*/
+            bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+            MultiSiteReg6[idut] &= ~bit_op_mask;
+            MultiSiteReg6[idut] |= Convert.ToUInt32(sl620FineGainTable[1][gFineGainIndex]);
+
+            bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+            MultiSiteReg7[idut] &= ~bit_op_mask;
+            MultiSiteReg7[idut] |= Convert.ToUInt32(sl620FineGainTable[2][gFineGainIndex]);
+
+            DisplayOperateMes("gFineGainIndex = " + gFineGainIndex.ToString());
         }
 
         private void btn_FineOffsetUp_BrakeT_Click(object sender, EventArgs e)
         {
-            if (Ix_ForOffsetBTable == 0)
-                Ix_ForOffsetBTable = 15;
-            else if(Ix_ForOffsetBTable == 8)
-                DisplayOperateMes("Reach to Max Fine Offset!", Color.DarkRed);
-            else
-                Ix_ForOffsetBTable--;
+            uint idut = 0;
+            bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+            uint ix_FineOffsetCode = gFineOffsetIndex;
 
-            bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-            Reg83Value &= ~bit_op_mask;
-            Reg83Value |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_ForOffsetBTable]);
+            if (ix_FineOffsetCode == 0)
+                gFineOffsetIndex = 31;
+            else if (ix_FineOffsetCode == 16)
+                DisplayOperateMes("Have reached to Max!");
+            else
+                gFineOffsetIndex--;
+
+            MultiSiteReg7[idut] &= ~bit_op_mask;
+            MultiSiteReg7[idut] |= gFineOffsetIndex;
+            //***************************************************
+
+            //DisplayOperateMes("Vout_0A = " + Vout_0A.ToString("F3"));
+            DisplayOperateMes("gFineOffsetIndex = " + gFineOffsetIndex.ToString());
         }
 
         private void btn_FineOffsetDown_BrakeT_Click(object sender, EventArgs e)
         {
-            if (Ix_ForOffsetBTable == 15)
-                Ix_ForOffsetBTable = 0;
-            else if (Ix_ForOffsetBTable == 7)
-                DisplayOperateMes("Reach to Min Fine Offset!", Color.DarkRed);
-            else
-                Ix_ForOffsetBTable++;
+            uint idut = 0;
+            bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+            uint ix_FineOffsetCode = gFineOffsetIndex;
 
-            bit_op_mask = bit2_Mask | bit3_Mask | bit4_Mask | bit5_Mask;
-            Reg83Value &= ~bit_op_mask;
-            Reg83Value |= Convert.ToUInt32(OffsetTableB_Customer[1][Ix_ForOffsetBTable]);
+            if (ix_FineOffsetCode == 31)
+                gFineOffsetIndex = 0;
+            else if (ix_FineOffsetCode == 15)
+                DisplayOperateMes("Have reached to Min!");
+            else
+                gFineOffsetIndex++;
+
+            MultiSiteReg7[idut] &= ~bit_op_mask;
+            MultiSiteReg7[idut] |= gFineOffsetIndex;
+            //***************************************************
+
+            //DisplayOperateMes("Vout_0A = " + Vout_0A.ToString("F3"));
+            DisplayOperateMes("gFineOffsetIndex = " + gFineOffsetIndex.ToString());
         }
 
         #endregion Brake
@@ -13236,6 +13412,57 @@ namespace CurrentSensorV3
             DisplayOperateMes(MultiSiteReg0[0].ToString("X2") + "," + MultiSiteReg1[0].ToString("X2") + "," + MultiSiteReg2[0].ToString("X2") + "," + MultiSiteReg3[0].ToString("X2") + "," +
                               MultiSiteReg4[0].ToString("X2") + "," + MultiSiteReg5[0].ToString("X2") + "," + MultiSiteReg6[0].ToString("X2") + "," + MultiSiteReg7[0].ToString("X2"));
         }
+
+        private void loadLogFile()
+        {
+            //open file for prodcution record
+            string filename = System.Windows.Forms.Application.StartupPath; ;
+            filename += @"\Record.dat";
+
+            int iFileLine = 0;
+
+            StreamReader sr = new StreamReader(filename);
+            while (sr.ReadLine() != null)
+            {
+                //sr.ReadLine();
+                iFileLine++;
+            }
+            sr.Close();
+
+            StreamWriter sw;
+            if (iFileLine < 65535)
+                sw = new StreamWriter(filename, true);
+            else
+                sw = new StreamWriter(filename, false);
+
+            string msg;
+
+            msg = System.DateTime.Now.ToString();
+            sw.WriteLine(msg);
+
+            sw.Close();
+        }
+
+        private void btn_Trim_BrakeT_Click(object sender, EventArgs e)
+        {
+            uint idut = 0;
+            RePower();
+            EnterTestMode();
+
+            RegisterWrite(4, new uint[8] { 0x80, MultiSiteReg0[idut], 0x81, MultiSiteReg1[idut], 0x82, MultiSiteReg2[idut], 0x83, MultiSiteReg3[idut] });
+            Delay(Delay_Sync);
+            RegisterWrite(4, new uint[8] { 0x84, MultiSiteReg4[idut], 0x85, MultiSiteReg5[idut], 0x86, MultiSiteReg6[idut], 0x87, MultiSiteReg7[idut] });
+            Delay(Delay_Sync);
+            RegisterWrite(1, new uint[2] { 0x88, 0x02 });
+            Delay(Delay_Sync);
+
+            FuseClockOn(DeviceAddress, (double)num_UD_pulsewidth_ow_EngT.Value, (double)numUD_pulsedurationtime_ow_EngT.Value);
+            DisplayOperateMes("Trimming...");
+
+            PowerOff();
+        }
+
+        
     }
 
     

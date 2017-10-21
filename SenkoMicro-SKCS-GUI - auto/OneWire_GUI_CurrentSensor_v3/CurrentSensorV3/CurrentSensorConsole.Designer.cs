@@ -299,14 +299,16 @@
             this.txt_TargetStopPoint_BrakeT = new System.Windows.Forms.TextBox();
             this.label83 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btn_Trim_BrakeT = new System.Windows.Forms.Button();
             this.btn_FineOffsetDown_BrakeT = new System.Windows.Forms.Button();
             this.btn_FineOffsetUp_BrakeT = new System.Windows.Forms.Button();
+            this.btn_WriteTrimCode_BrakeT = new System.Windows.Forms.Button();
             this.btn_FineDRDown_BrakeT = new System.Windows.Forms.Button();
             this.btn_FineDRUp_BrakeT = new System.Windows.Forms.Button();
             this.btn_OffsetDown_BrakeT = new System.Windows.Forms.Button();
-            this.btn_UpdateStopPoint_BrakeT = new System.Windows.Forms.Button();
             this.btn_DRDown_BrakeT = new System.Windows.Forms.Button();
             this.btn_DRUp_BrakeT = new System.Windows.Forms.Button();
+            this.btn_UpdateStopPoint_BrakeT = new System.Windows.Forms.Button();
             this.btn_OffsetUp_BrakeT = new System.Windows.Forms.Button();
             this.btn_UpdateStartPoint_BrakeT = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -2916,7 +2918,7 @@
             this.cmb_SocketType_AutoT.Items.AddRange(new object[] {
             "SL61x-Single End",
             "SL61x-Differential",
-            "SL62x-Single-End",
+            "SL62x-Single End",
             "SL62x-Differential",
             "SL62x-DualPart",
             "SC810-Single End",
@@ -3171,7 +3173,7 @@
             this.txt_SL620TC_AutoTab.Name = "txt_SL620TC_AutoTab";
             this.txt_SL620TC_AutoTab.Size = new System.Drawing.Size(118, 27);
             this.txt_SL620TC_AutoTab.TabIndex = 119;
-            this.txt_SL620TC_AutoTab.Text = "57";
+            this.txt_SL620TC_AutoTab.Text = "34";
             this.txt_SL620TC_AutoTab.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_ModuleType_AutoT
@@ -3694,14 +3696,16 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.btn_Trim_BrakeT);
             this.groupBox11.Controls.Add(this.btn_FineOffsetDown_BrakeT);
             this.groupBox11.Controls.Add(this.btn_FineOffsetUp_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_WriteTrimCode_BrakeT);
             this.groupBox11.Controls.Add(this.btn_FineDRDown_BrakeT);
             this.groupBox11.Controls.Add(this.btn_FineDRUp_BrakeT);
             this.groupBox11.Controls.Add(this.btn_OffsetDown_BrakeT);
-            this.groupBox11.Controls.Add(this.btn_UpdateStopPoint_BrakeT);
             this.groupBox11.Controls.Add(this.btn_DRDown_BrakeT);
             this.groupBox11.Controls.Add(this.btn_DRUp_BrakeT);
+            this.groupBox11.Controls.Add(this.btn_UpdateStopPoint_BrakeT);
             this.groupBox11.Controls.Add(this.btn_OffsetUp_BrakeT);
             this.groupBox11.Controls.Add(this.btn_UpdateStartPoint_BrakeT);
             this.groupBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3712,119 +3716,153 @@
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Tunning";
             // 
+            // btn_Trim_BrakeT
+            // 
+            this.btn_Trim_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_Trim_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Trim_BrakeT.Location = new System.Drawing.Point(441, 221);
+            this.btn_Trim_BrakeT.Name = "btn_Trim_BrakeT";
+            this.btn_Trim_BrakeT.Size = new System.Drawing.Size(150, 44);
+            this.btn_Trim_BrakeT.TabIndex = 20;
+            this.btn_Trim_BrakeT.Text = "Trim";
+            this.btn_Trim_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_Trim_BrakeT.Click += new System.EventHandler(this.btn_Trim_BrakeT_Click);
+            // 
             // btn_FineOffsetDown_BrakeT
             // 
             this.btn_FineOffsetDown_BrakeT.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.btn_FineOffsetDown_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_FineOffsetDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineOffsetDown_BrakeT.Location = new System.Drawing.Point(506, 207);
+            this.btn_FineOffsetDown_BrakeT.Location = new System.Drawing.Point(199, 221);
             this.btn_FineOffsetDown_BrakeT.Name = "btn_FineOffsetDown_BrakeT";
             this.btn_FineOffsetDown_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_FineOffsetDown_BrakeT.TabIndex = 18;
             this.btn_FineOffsetDown_BrakeT.Text = "Fine Offset -";
-            this.btn_FineOffsetDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineOffsetDown_BrakeT.UseVisualStyleBackColor = true;
             this.btn_FineOffsetDown_BrakeT.Click += new System.EventHandler(this.btn_FineOffsetDown_BrakeT_Click);
             // 
             // btn_FineOffsetUp_BrakeT
             // 
             this.btn_FineOffsetUp_BrakeT.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.btn_FineOffsetUp_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_FineOffsetUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineOffsetUp_BrakeT.Location = new System.Drawing.Point(506, 157);
+            this.btn_FineOffsetUp_BrakeT.Location = new System.Drawing.Point(199, 171);
             this.btn_FineOffsetUp_BrakeT.Name = "btn_FineOffsetUp_BrakeT";
             this.btn_FineOffsetUp_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_FineOffsetUp_BrakeT.TabIndex = 17;
             this.btn_FineOffsetUp_BrakeT.Text = "Fine Offset +";
-            this.btn_FineOffsetUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineOffsetUp_BrakeT.UseVisualStyleBackColor = true;
             this.btn_FineOffsetUp_BrakeT.Click += new System.EventHandler(this.btn_FineOffsetUp_BrakeT_Click);
+            // 
+            // btn_WriteTrimCode_BrakeT
+            // 
+            this.btn_WriteTrimCode_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_WriteTrimCode_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_WriteTrimCode_BrakeT.Location = new System.Drawing.Point(441, 34);
+            this.btn_WriteTrimCode_BrakeT.Name = "btn_WriteTrimCode_BrakeT";
+            this.btn_WriteTrimCode_BrakeT.Size = new System.Drawing.Size(150, 44);
+            this.btn_WriteTrimCode_BrakeT.TabIndex = 19;
+            this.btn_WriteTrimCode_BrakeT.Text = "Write Trim Code";
+            this.btn_WriteTrimCode_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_WriteTrimCode_BrakeT.Click += new System.EventHandler(this.btn_WriteTrimCode_BrakeT_Click);
             // 
             // btn_FineDRDown_BrakeT
             // 
             this.btn_FineDRDown_BrakeT.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_FineDRDown_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_FineDRDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineDRDown_BrakeT.Location = new System.Drawing.Point(61, 207);
+            this.btn_FineDRDown_BrakeT.Location = new System.Drawing.Point(199, 84);
             this.btn_FineDRDown_BrakeT.Name = "btn_FineDRDown_BrakeT";
             this.btn_FineDRDown_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_FineDRDown_BrakeT.TabIndex = 16;
             this.btn_FineDRDown_BrakeT.Text = "Fine DR -";
-            this.btn_FineDRDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineDRDown_BrakeT.UseVisualStyleBackColor = true;
             this.btn_FineDRDown_BrakeT.Click += new System.EventHandler(this.btn_FineDRDown_BrakeT_Click);
             // 
             // btn_FineDRUp_BrakeT
             // 
             this.btn_FineDRUp_BrakeT.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_FineDRUp_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_FineDRUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FineDRUp_BrakeT.Location = new System.Drawing.Point(61, 157);
+            this.btn_FineDRUp_BrakeT.Location = new System.Drawing.Point(199, 34);
             this.btn_FineDRUp_BrakeT.Name = "btn_FineDRUp_BrakeT";
             this.btn_FineDRUp_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_FineDRUp_BrakeT.TabIndex = 15;
             this.btn_FineDRUp_BrakeT.Text = "Fine  DR +";
-            this.btn_FineDRUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_FineDRUp_BrakeT.UseVisualStyleBackColor = true;
             this.btn_FineDRUp_BrakeT.Click += new System.EventHandler(this.btn_FineDRUp_BrakeT_Click);
             // 
             // btn_OffsetDown_BrakeT
             // 
             this.btn_OffsetDown_BrakeT.BackColor = System.Drawing.Color.Peru;
+            this.btn_OffsetDown_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_OffsetDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_OffsetDown_BrakeT.Location = new System.Drawing.Point(506, 84);
+            this.btn_OffsetDown_BrakeT.Location = new System.Drawing.Point(62, 221);
             this.btn_OffsetDown_BrakeT.Name = "btn_OffsetDown_BrakeT";
             this.btn_OffsetDown_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_OffsetDown_BrakeT.TabIndex = 13;
             this.btn_OffsetDown_BrakeT.Text = "Coarse Offset -";
-            this.btn_OffsetDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_OffsetDown_BrakeT.UseVisualStyleBackColor = true;
             this.btn_OffsetDown_BrakeT.Click += new System.EventHandler(this.btn_OffsetDown_BrakeT_Click);
-            // 
-            // btn_UpdateStopPoint_BrakeT
-            // 
-            this.btn_UpdateStopPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_UpdateStopPoint_BrakeT.Location = new System.Drawing.Point(251, 143);
-            this.btn_UpdateStopPoint_BrakeT.Name = "btn_UpdateStopPoint_BrakeT";
-            this.btn_UpdateStopPoint_BrakeT.Size = new System.Drawing.Size(193, 44);
-            this.btn_UpdateStopPoint_BrakeT.TabIndex = 14;
-            this.btn_UpdateStopPoint_BrakeT.Text = "Update Stop Point";
-            this.btn_UpdateStopPoint_BrakeT.UseVisualStyleBackColor = true;
-            this.btn_UpdateStopPoint_BrakeT.Click += new System.EventHandler(this.btn_UpdateStopPoint_BrakeT_Click);
             // 
             // btn_DRDown_BrakeT
             // 
             this.btn_DRDown_BrakeT.BackColor = System.Drawing.Color.SandyBrown;
+            this.btn_DRDown_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_DRDown_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_DRDown_BrakeT.Location = new System.Drawing.Point(61, 84);
+            this.btn_DRDown_BrakeT.Location = new System.Drawing.Point(62, 84);
             this.btn_DRDown_BrakeT.Name = "btn_DRDown_BrakeT";
             this.btn_DRDown_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_DRDown_BrakeT.TabIndex = 11;
             this.btn_DRDown_BrakeT.Text = "Coarse DR -";
-            this.btn_DRDown_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_DRDown_BrakeT.UseVisualStyleBackColor = true;
             this.btn_DRDown_BrakeT.Click += new System.EventHandler(this.btn_DRDown_BrakeT_Click);
             // 
             // btn_DRUp_BrakeT
             // 
             this.btn_DRUp_BrakeT.BackColor = System.Drawing.Color.SandyBrown;
+            this.btn_DRUp_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_DRUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_DRUp_BrakeT.Location = new System.Drawing.Point(61, 34);
+            this.btn_DRUp_BrakeT.Location = new System.Drawing.Point(62, 34);
             this.btn_DRUp_BrakeT.Name = "btn_DRUp_BrakeT";
             this.btn_DRUp_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_DRUp_BrakeT.TabIndex = 10;
             this.btn_DRUp_BrakeT.Text = "Coarse DR +";
-            this.btn_DRUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_DRUp_BrakeT.UseVisualStyleBackColor = true;
             this.btn_DRUp_BrakeT.Click += new System.EventHandler(this.btn_DRUp_BrakeT_Click);
+            // 
+            // btn_UpdateStopPoint_BrakeT
+            // 
+            this.btn_UpdateStopPoint_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_UpdateStopPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_UpdateStopPoint_BrakeT.Location = new System.Drawing.Point(441, 148);
+            this.btn_UpdateStopPoint_BrakeT.Name = "btn_UpdateStopPoint_BrakeT";
+            this.btn_UpdateStopPoint_BrakeT.Size = new System.Drawing.Size(150, 44);
+            this.btn_UpdateStopPoint_BrakeT.TabIndex = 14;
+            this.btn_UpdateStopPoint_BrakeT.Text = "Update Stop Point";
+            this.btn_UpdateStopPoint_BrakeT.UseVisualStyleBackColor = true;
+            this.btn_UpdateStopPoint_BrakeT.Click += new System.EventHandler(this.btn_UpdateStopPoint_BrakeT_Click);
             // 
             // btn_OffsetUp_BrakeT
             // 
             this.btn_OffsetUp_BrakeT.BackColor = System.Drawing.Color.Peru;
+            this.btn_OffsetUp_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_OffsetUp_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_OffsetUp_BrakeT.Location = new System.Drawing.Point(506, 34);
+            this.btn_OffsetUp_BrakeT.Location = new System.Drawing.Point(62, 171);
             this.btn_OffsetUp_BrakeT.Name = "btn_OffsetUp_BrakeT";
             this.btn_OffsetUp_BrakeT.Size = new System.Drawing.Size(122, 44);
             this.btn_OffsetUp_BrakeT.TabIndex = 12;
             this.btn_OffsetUp_BrakeT.Text = "Coarse Offset +";
-            this.btn_OffsetUp_BrakeT.UseVisualStyleBackColor = false;
+            this.btn_OffsetUp_BrakeT.UseVisualStyleBackColor = true;
             this.btn_OffsetUp_BrakeT.Click += new System.EventHandler(this.btn_OffsetUp_BrakeT_Click);
             // 
             // btn_UpdateStartPoint_BrakeT
             // 
+            this.btn_UpdateStartPoint_BrakeT.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_UpdateStartPoint_BrakeT.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_UpdateStartPoint_BrakeT.Location = new System.Drawing.Point(251, 75);
+            this.btn_UpdateStartPoint_BrakeT.Location = new System.Drawing.Point(441, 91);
             this.btn_UpdateStartPoint_BrakeT.Name = "btn_UpdateStartPoint_BrakeT";
-            this.btn_UpdateStartPoint_BrakeT.Size = new System.Drawing.Size(193, 44);
+            this.btn_UpdateStartPoint_BrakeT.Size = new System.Drawing.Size(150, 44);
             this.btn_UpdateStartPoint_BrakeT.TabIndex = 9;
             this.btn_UpdateStartPoint_BrakeT.Text = "Update Start Point";
             this.btn_UpdateStartPoint_BrakeT.UseVisualStyleBackColor = true;
@@ -3933,7 +3971,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.9 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.5.1 - CopyRight of SenkoMicro, Inc";
             this.Load += new System.EventHandler(this.CurrentSensorConsole_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -4293,5 +4331,7 @@
         private System.Windows.Forms.CheckBox cb_MeasureiQ_AutoTab;
         private System.Windows.Forms.CheckBox cb_CustTc_AutoTab;
         private System.Windows.Forms.CheckBox cb_BypFuse_AutoTab;
+        private System.Windows.Forms.Button btn_WriteTrimCode_BrakeT;
+        private System.Windows.Forms.Button btn_Trim_BrakeT;
     }
 }
