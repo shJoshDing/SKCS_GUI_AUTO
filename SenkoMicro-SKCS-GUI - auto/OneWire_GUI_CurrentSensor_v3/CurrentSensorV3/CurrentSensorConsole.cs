@@ -2969,6 +2969,22 @@ namespace CurrentSensorV3
                 DisplayOperateMes("Enter test mode failed!");
         }
 
+        private void I2CWrite( uint addr, uint data)
+        {
+            uint _reg_addr = addr;
+            uint _reg_data = data;
+            if (oneWrie_device.I2CWrite_Single(this.DeviceAddress, _reg_addr, _reg_data))
+            {
+                if (bAutoTrimTest)
+                {
+                    ;
+                    //DisplayOperateMes("Enter test mode succeeded!");
+                }
+            }
+            else
+                DisplayOperateMes("Enter test mode failed!");
+        }
+
         private bool RegisterWrite(int wrNum, uint[] data)
         {
             Delay(Delay_Sync);
@@ -18027,26 +18043,21 @@ namespace CurrentSensorV3
         {
             this.btn_Program_Start.Text = "...";
             this.btn_Program_Start.BackColor = Color.Yellow;
+            //Delay(Delay_Power);
+            DisplayOperateMes("Start!");
 
             #region init var
 
             Delay_Power = 100;
-            uint _dev_addr = this.DeviceAddress;
+            //uint _dev_addr = this.DeviceAddress;
             string filename = System.Windows.Forms.Application.StartupPath;
-            filename += @"\" + this.txt_Routines_TestCase.Text + "-" + this.txt_Routines_TestTemp.Text;
+            filename += @"\" + this.txt_Routines_TestCase.Text;
+            //+"-" + this.txt_Routines_TestTemp.Text;
             filename += ".csv";
 
-            //string filename;
-            //SaveFileDialog saveDialog = new SaveFileDialog();
-            //saveDialog.Title = "请选择save file";
-            //saveDialog.Filter = ".csv(*.*)|*.*";
-            //if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    filename = saveDialog.FileName + ".csv";
-            //}
-            //else
-            //    return;
+            //RePower();
 
+            //Delay(Delay_Fuse);
 
             uint dutCount = Convert.ToUInt32(this.txt_Routines_DutCount.Text);
             uint tcCont = Convert.ToUInt32(this.txt_Routines_TcCount.Text);
@@ -18067,29 +18078,43 @@ namespace CurrentSensorV3
                 writer.WriteLine(System.DateTime.Now.ToString());
                 writer.WriteLine(this.txt_Routines_TestCase.Text);
                 writer.WriteLine("IP = " + this.txt_Routines_Ip.Text + "A");
-                string headers = "Temp,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
+                string headers = "Temp,TC,VIP-0,V0A-0,VIP-1,V0A-1,VIP-2,V0A-2,VIP-3,V0A-3,VIP-4,V0A-4,VIP-5,V0A-5,VIP-6,V0A-6,VIP-7,V0A-7," +
                                                 "VIP-8,V0A-8,VIP-9,V0A-9,VIP-10,V0A-10,VIP-11,V0A-11,VIP-12,V0A-12,VIP-13,V0A-13,VIP-14,V0A-14,VIP-15,V0A-15,";
 
                 writer.WriteLine(headers);
                 #endregion
 
-                #region 2.5V case
-                writer.Write(this.txt_Routines_TestTemp.Text + ",");
+                #region read vout
 
-                for (uint index = 0; index < dutCount; index++)
+                for (int k = 0; k < tcCont; k++ )
                 {
-                    MultiSiteSocketSelect(index);
+                    RePower();
+                    Delay(Delay_Fuse);
 
-                    //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
-                    //Delay(Delay_Sync);
-                    btn_EngTab_Ipon_Click(null, null);
-                    Delay(Delay_Sync);
-                    writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
-                    Delay(Delay_Sync);
-                    btn_EngTab_Ipoff_Click(null, null);
-                    Delay(Delay_Sync);
-                    writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
-                    Delay(Delay_Sync);
+                    writer.Write(this.txt_Routines_TestTemp.Text + "," + (k*tcScale).ToString("X2") + ",");
+
+                    for (uint index = 0; index < dutCount; index++)
+                    {
+                        MultiSiteSocketSelect(index);
+
+                        EnterTestMode();
+                        Delay(Delay_Sync);
+                        I2CWrite(0x82, Convert.ToUInt32(k * tcScale * 17));
+                        DisplayOperateMes("TC = " + (k * tcScale * 17).ToString("X2"));
+                        EnterNomalMode();
+
+                        Delay(1000);
+                        //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        //Delay(Delay_Sync);
+                        btn_EngTab_Ipon_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                        Delay(Delay_Sync);
+                        btn_EngTab_Ipoff_Click(null, null);
+                        Delay(Delay_Sync);
+                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                        Delay(Delay_Sync);
+                    }
                 }
                 writer.Write("\r\n");
                 #endregion
@@ -18097,6 +18122,7 @@ namespace CurrentSensorV3
 
             this.btn_Program_Start.Text = "Done";
             this.btn_Program_Start.BackColor = Color.Gray;
+            DisplayOperateMes("Done!",Color.Red);
         }
 
         private void btn_Routins_LoadFile_Click(object sender, EventArgs e)

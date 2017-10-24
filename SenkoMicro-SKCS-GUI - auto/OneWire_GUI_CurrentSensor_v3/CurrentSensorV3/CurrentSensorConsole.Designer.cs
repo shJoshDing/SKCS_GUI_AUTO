@@ -361,6 +361,7 @@
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.Programming = new System.Windows.Forms.TabPage();
             this.btn_Routines_Result = new System.Windows.Forms.GroupBox();
+            this.btn_Routins_LoadFile = new System.Windows.Forms.Button();
             this.txt_Routines_SiliconVersion = new System.Windows.Forms.TextBox();
             this.label103 = new System.Windows.Forms.Label();
             this.txt_Routines_Ip = new System.Windows.Forms.TextBox();
@@ -427,7 +428,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_Routins_LoadFile = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4604,6 +4604,16 @@
             this.btn_Routines_Result.TabIndex = 6;
             this.btn_Routines_Result.TabStop = false;
             // 
+            // btn_Routins_LoadFile
+            // 
+            this.btn_Routins_LoadFile.Location = new System.Drawing.Point(281, 19);
+            this.btn_Routins_LoadFile.Name = "btn_Routins_LoadFile";
+            this.btn_Routins_LoadFile.Size = new System.Drawing.Size(75, 23);
+            this.btn_Routins_LoadFile.TabIndex = 47;
+            this.btn_Routins_LoadFile.Text = "Load";
+            this.btn_Routins_LoadFile.UseVisualStyleBackColor = true;
+            this.btn_Routins_LoadFile.Click += new System.EventHandler(this.btn_Routins_LoadFile_Click);
+            // 
             // txt_Routines_SiliconVersion
             // 
             this.txt_Routines_SiliconVersion.Location = new System.Drawing.Point(582, 19);
@@ -5021,7 +5031,7 @@
             this.btn_Routins_ReadVout.Size = new System.Drawing.Size(106, 60);
             this.btn_Routins_ReadVout.TabIndex = 6;
             this.btn_Routins_ReadVout.TabStop = false;
-            this.btn_Routins_ReadVout.Text = "ReadVout";
+            this.btn_Routins_ReadVout.Text = "ReadVout SweepTc";
             this.btn_Routins_ReadVout.UseVisualStyleBackColor = true;
             this.btn_Routins_ReadVout.Click += new System.EventHandler(this.btn_Routins_ReadVout_Click);
             // 
@@ -5335,16 +5345,6 @@
             this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            // 
-            // btn_Routins_LoadFile
-            // 
-            this.btn_Routins_LoadFile.Location = new System.Drawing.Point(281, 19);
-            this.btn_Routins_LoadFile.Name = "btn_Routins_LoadFile";
-            this.btn_Routins_LoadFile.Size = new System.Drawing.Size(75, 23);
-            this.btn_Routins_LoadFile.TabIndex = 47;
-            this.btn_Routins_LoadFile.Text = "Load";
-            this.btn_Routins_LoadFile.UseVisualStyleBackColor = true;
-            this.btn_Routins_LoadFile.Click += new System.EventHandler(this.btn_Routins_LoadFile_Click);
             // 
             // CurrentSensorConsole
             // 
