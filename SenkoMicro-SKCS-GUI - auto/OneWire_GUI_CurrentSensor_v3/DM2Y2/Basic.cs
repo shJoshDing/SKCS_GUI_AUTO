@@ -1601,6 +1601,12 @@ namespace ADI.DMY2
         ReadFW_Version      = 0x5000000E,           //Read firm ware version
         TestInterface       = 0x5000000F,           //This interface is just for test.
 
+        OWCI_WRITE_SINGLE_AUX     = 0x30000001,
+        //OWCI_WRITE_BURST_AUX      = 0x30000002,
+        OWCI_READ_SINGLE_AUX      = 0x30000003,
+        //OWCI_WRITE_BURST_AUX      = 0x30000004,
+        OWCI_SET_PILOT_AUX        = 0x30000005,
+
         //OWI ADC specially
         GetFirmwareVersion  = 0xCA000002,           //Get firm ware version
         ResetBoard          = 0xCA000005,           //Reset Board
@@ -1629,7 +1635,8 @@ namespace ADI.DMY2
         ADI_SDP_CMD_SIGNALPATH_SET  = 0x8000000A,           //ADCSigPathSet
         ADI_SDP_CMD_SIGNALPATH_INIT = 0x8000000B,          //ADCSigPathInit
         ADI_SDP_CMD_SIGNALPATH_GROUP  = 0x8000000C,
-        ADI_SDP_CMD_SIGNALPATH_SOCKET = 0x8000000D
+        ADI_SDP_CMD_SIGNALPATH_SOCKET = 0x8000000D,
+        ADI_SDP_CMD_SIGNALPATH_READ_SOT = 0x8000000E
 }
     #endregion One Wire Interface
 
