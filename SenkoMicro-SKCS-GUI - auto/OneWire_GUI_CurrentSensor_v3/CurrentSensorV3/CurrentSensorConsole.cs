@@ -17937,39 +17937,39 @@ namespace CurrentSensorV3
                 for (uint tcIndex = 0; tcIndex < tcCont; tcIndex++)
                 {
                     #region 2.5V case
-                    writer.Write(this.txt_Routines_TestTemp.Text + "," + (tcIndex * tcScale).ToString() + ",2v5,");
+                    //writer.Write(this.txt_Routines_TestTemp.Text + "," + (tcIndex * tcScale).ToString() + ",2v5,");
 
-                    for (uint index = 0; index < dutCount; index++)
-                    {
-                        ResetTempBuf();
-                        //DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
-                        //if (dr == DialogResult.Cancel)
-                        //    return;
-                        MultiSiteSocketSelect(index);
+                    //for (uint index = 0; index < dutCount; index++)
+                    //{
+                    //    ResetTempBuf();
+                    //    //DialogResult dr = MessageBox.Show("Please Plug New Part In Socket", "opeartion", MessageBoxButtons.OKCancel);
+                    //    //if (dr == DialogResult.Cancel)
+                    //    //    return;
+                    //    MultiSiteSocketSelect(index);
 
-                        //write ID
-                        //writer.Write(this.txt_Routines_TestTemp.Text + "," + tcIndex.ToString() + ",2v5," );
+                    //    //write ID
+                    //    //writer.Write(this.txt_Routines_TestTemp.Text + "," + tcIndex.ToString() + ",2v5," );
 
-                        //default 2.5V
-                        writeTestCode(trimData[index * 2 + 0]);
+                    //    //default 2.5V
+                    //    writeTestCode(trimData[index * 2 + 0]);
 
-                        oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale * 16 + tcIndex * tcScale);
-                        Delay(Delay_Sync);
+                    //    oneWrie_device.I2CWrite_Single(_dev_addr, 0x82, tcIndex * tcScale * 16 + tcIndex * tcScale);
+                    //    Delay(Delay_Sync);
 
-                        btn_SL620Tab_NormalMode_Click(null, null);
-                        Delay(Delay_Sync);
-                        //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
-                        //Delay(Delay_Sync);
-                        btn_EngTab_Ipon_Click(null, null);
-                        Delay(Delay_Sync);
-                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
-                        Delay(Delay_Sync);
-                        btn_EngTab_Ipoff_Click(null, null);
-                        Delay(Delay_Sync);
-                        writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
-                        Delay(Delay_Sync);
-                    }
-                    writer.Write("\r\n");
+                    //    btn_SL620Tab_NormalMode_Click(null, null);
+                    //    Delay(Delay_Sync);
+                    //    //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                    //    //Delay(Delay_Sync);
+                    //    btn_EngTab_Ipon_Click(null, null);
+                    //    Delay(Delay_Sync);
+                    //    writer.Write(ReadVoutSlow().ToString("F3") + ",");       //VIP
+                    //    Delay(Delay_Sync);
+                    //    btn_EngTab_Ipoff_Click(null, null);
+                    //    Delay(Delay_Sync);
+                    //    writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
+                    //    Delay(Delay_Sync);
+                    //}
+                    //writer.Write("\r\n");
                     #endregion 
 
                     #region 0.5VDD case
@@ -18089,19 +18089,22 @@ namespace CurrentSensorV3
                 for (int k = 0; k < tcCont; k++ )
                 {
                     RePower();
-                    Delay(Delay_Fuse);
+                    Delay(1000);
 
                     writer.Write(this.txt_Routines_TestTemp.Text + "," + (k*tcScale).ToString("X2") + ",");
 
                     for (uint index = 0; index < dutCount; index++)
                     {
                         MultiSiteSocketSelect(index);
+                        Delay(Delay_Sync);
 
                         EnterTestMode();
                         Delay(Delay_Sync);
+
+                        //I2CWrite(0x82, 0x33);
                         I2CWrite(0x82, Convert.ToUInt32(k * tcScale * 17));
                         DisplayOperateMes("TC = " + (k * tcScale * 17).ToString("X2"));
-                        EnterNomalMode();
+                        btn_SL620Tab_NormalMode_Click(null,null);
 
                         Delay(1000);
                         //writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
@@ -18115,8 +18118,9 @@ namespace CurrentSensorV3
                         writer.Write(ReadVoutSlow().ToString("F3") + ",");       //V0A
                         Delay(Delay_Sync);
                     }
+                    writer.Write("\r\n");
                 }
-                writer.Write("\r\n");
+                //writer.Write("\r\n");
                 #endregion
             }
 
