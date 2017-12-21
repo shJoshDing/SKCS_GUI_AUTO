@@ -2187,7 +2187,6 @@
             // btn_GainCtrlMinus_PreT
             // 
             this.btn_GainCtrlMinus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Minus;
-            this.btn_GainCtrlMinus_PreT.Enabled = false;
             this.btn_GainCtrlMinus_PreT.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.btn_GainCtrlMinus_PreT.Location = new System.Drawing.Point(321, 34);
             this.btn_GainCtrlMinus_PreT.Name = "btn_GainCtrlMinus_PreT";
@@ -2210,7 +2209,6 @@
             // btn_GainCtrlPlus_PreT
             // 
             this.btn_GainCtrlPlus_PreT.BackgroundImage = global::CurrentSensorV3.Properties.Resources.Plus;
-            this.btn_GainCtrlPlus_PreT.Enabled = false;
             this.btn_GainCtrlPlus_PreT.Location = new System.Drawing.Point(267, 33);
             this.btn_GainCtrlPlus_PreT.Name = "btn_GainCtrlPlus_PreT";
             this.btn_GainCtrlPlus_PreT.Size = new System.Drawing.Size(32, 32);

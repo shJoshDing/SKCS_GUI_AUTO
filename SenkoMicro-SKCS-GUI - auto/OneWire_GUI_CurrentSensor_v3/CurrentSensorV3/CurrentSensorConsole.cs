@@ -11249,27 +11249,27 @@ namespace CurrentSensorV3
 
         private void btn_Vout_PreT_Click(object sender, EventArgs e)
         {
-            //RePower();
-            //MultiSiteSocketSelect(0);
-            //EnterTestMode();
+            RePower();
+            MultiSiteSocketSelect(0);
+            EnterTestMode();
 
-            //int wrNum = 4;
-            //uint[] data = new uint[2 * wrNum];
-            //data[0] = 0x80;
-            //data[1] = Reg80Value;
-            //data[2] = 0x81;
-            //data[3] = Reg81Value;
-            //data[4] = 0x82;
-            //data[5] = Reg82Value;
-            //data[6] = 0x83;
-            //data[7] = Reg83Value;
+            int wrNum = 4;
+            uint[] data = new uint[2 * wrNum];
+            data[0] = 0x80;
+            data[1] = Reg80Value;
+            data[2] = 0x81;
+            data[3] = Reg81Value;
+            data[4] = 0x82;
+            data[5] = Reg82Value;
+            data[6] = 0x83;
+            data[7] = Reg83Value;
 
-            //if (!RegisterWrite(wrNum, data))
-            //   DisplayOperateMes("Register write failed!", Color.Red);
+            if (!RegisterWrite(wrNum, data))
+                DisplayOperateMes("Register write failed!", Color.Red);
 
-            //EnterNomalMode();
+            EnterNomalMode();
 
-            //Delay(Delay_Fuse);
+            Delay(Delay_Fuse);
 
             txt_PresetVoutIP_PreT.Text = AverageVout().ToString("F3");
         }
