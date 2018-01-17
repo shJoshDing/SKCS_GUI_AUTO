@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Drawing.Imaging;
+using System.IO.Ports;
+using System.Management;
 
 namespace CurrentSensorV3
 {
@@ -61,6 +63,66 @@ namespace CurrentSensorV3
             public bool LowSensity;
             public bool OffsetFail;
             public bool Short;
+        }
+
+        /// <summary>
+        /// 枚举win32 api
+        /// </summary>
+        public enum HardwareEnum
+        {
+            // 硬件
+            Win32_Processor, // CPU 处理器
+            Win32_PhysicalMemory, // 物理内存条
+            Win32_Keyboard, // 键盘
+            Win32_PointingDevice, // 点输入设备，包括鼠标。
+            Win32_FloppyDrive, // 软盘驱动器
+            Win32_DiskDrive, // 硬盘驱动器
+            Win32_CDROMDrive, // 光盘驱动器
+            Win32_BaseBoard, // 主板
+            Win32_BIOS, // BIOS 芯片
+            Win32_ParallelPort, // 并口
+            Win32_SerialPort, // 串口
+            Win32_SerialPortConfiguration, // 串口配置
+            Win32_SoundDevice, // 多媒体设置，一般指声卡。
+            Win32_SystemSlot, // 主板插槽 (ISA & PCI & AGP)
+            Win32_USBController, // USB 控制器
+            Win32_NetworkAdapter, // 网络适配器
+            Win32_NetworkAdapterConfiguration, // 网络适配器设置
+            Win32_Printer, // 打印机
+            Win32_PrinterConfiguration, // 打印机设置
+            Win32_PrintJob, // 打印机任务
+            Win32_TCPIPPrinterPort, // 打印机端口
+            Win32_POTSModem, // MODEM
+            Win32_POTSModemToSerialPort, // MODEM 端口
+            Win32_DesktopMonitor, // 显示器
+            Win32_DisplayConfiguration, // 显卡
+            Win32_DisplayControllerConfiguration, // 显卡设置
+            Win32_VideoController, // 显卡细节。
+            Win32_VideoSettings, // 显卡支持的显示模式。
+
+            // 操作系统
+            Win32_TimeZone, // 时区
+            Win32_SystemDriver, // 驱动程序
+            Win32_DiskPartition, // 磁盘分区
+            Win32_LogicalDisk, // 逻辑磁盘
+            Win32_LogicalDiskToPartition, // 逻辑磁盘所在分区及始末位置。
+            Win32_LogicalMemoryConfiguration, // 逻辑内存配置
+            Win32_PageFile, // 系统页文件信息
+            Win32_PageFileSetting, // 页文件设置
+            Win32_BootConfiguration, // 系统启动配置
+            Win32_ComputerSystem, // 计算机信息简要
+            Win32_OperatingSystem, // 操作系统信息
+            Win32_StartupCommand, // 系统自动启动程序
+            Win32_Service, // 系统安装的服务
+            Win32_Group, // 系统管理组
+            Win32_GroupUser, // 系统组帐号
+            Win32_UserAccount, // 用户帐号
+            Win32_Process, // 系统进程
+            Win32_Thread, // 系统线程
+            Win32_Share, // 共享
+            Win32_NetworkClient, // 已安装的网络客户端
+            Win32_NetworkProtocol, // 已安装的网络协议
+            Win32_PnPEntity,//all device
         }
 
         #region Param Definition
@@ -3719,7 +3781,7 @@ namespace CurrentSensorV3
             drow["ID"] = "3";
             drow["RegAddr(Hex)"] = "87";
             drow["RegValue(Hex)"] = "00";
-            drow["Discription"] = "bit0 - EXT_Hall;   \r\nbit1 - OFF_Trim;  \r\nbits[3:2] - TCTH[1:0];    \r\nbits[7:4] - S1_A[3:0] ";
+            drow["Discription"] = "bit0 - EXT_Hall(C) / 4 Halls(D);   \r\nbit1 - OFF_Trim;  \r\nbits[3:2] - TCTH[1:0];    \r\nbits[7:4] - S1_A[3:0] ";
             dtable.Rows.Add(drow);
 
             drow = dtable.NewRow();
@@ -3753,7 +3815,7 @@ namespace CurrentSensorV3
                 + "\r\n    3'd4:vinp to ANA_T1, vinn to ANA_T2, iHall to ANA_T3;        3'd5:op4 to ANA_T1;" 
                 + "\r\n    3'd6:op5 to ANA_T1, on5 to ANA_T2;       3'd7:VSS_2v5 to ANA_T1"
                 + "\r\nbit3 - chop_amp_dishpf"
-                + "\r\nbits[5:4] - osc output clk trim, 2'b0: 5M/8; 2'b1: 5MHz/6; 2'b3: 5MHz/4"
+                + "\r\nbits[5:4] - osc output clk trim, 2'b0: 5M/8; 2'b1: 5MHz/6; 2'b2: 5MHz/4"
                 + "\r\nbit6 - ldo_5v_m output, 1'b0: 5V, 1'b1: 5.3V"
                 + "\r\nbit7 - clk_gen_sel, 1'b0: old clkgen, 1'b1: new clkgen(could use ana_test<5:4> to select freq";
             dtable.Rows.Add(drow);
@@ -8629,7 +8691,7 @@ namespace CurrentSensorV3
             data[0] = 0x80;
             data[1] = Convert.ToUInt32(RoughTable_Customer[1][Ix_ForRoughGainCtrl]);     //Reg0x80
             data[2] = 0x81;
-            data[3] = Convert.ToUInt32(RoughTable_Customer[2][Ix_ForRoughGainCtrl]);   //Reg0x81
+            data[3] = Convert.ToUInt32(RoughTable_Customer[2][Ix_ForRoughGainCtrl]);     //Reg0x81
             data[4] = 0x82;
             data[5] = Reg82Value;                                                        //Reg0x82
             data[6] = 0x83;
@@ -9347,6 +9409,46 @@ namespace CurrentSensorV3
             //num_UD_pulsewidth_ow_ValueChanged
         }
 
+        private void init_SL910_Ip( uint sl910_ip )
+        {
+            bool result = false;
+
+            result = oneWrie_device.ConnectDevice();
+
+            if (result)
+            {
+                this.toolStripStatusLabel_Connection.BackColor = Color.YellowGreen;
+                this.toolStripStatusLabel_Connection.Text = "Connected";
+                btn_GetFW_OneWire_Click(null, null);
+                bUsbConnected = true;
+            }
+            else
+            {
+                this.toolStripStatusLabel_Connection.BackColor = Color.IndianRed;
+                this.toolStripStatusLabel_Connection.Text = "Disconnected";
+                return;
+            }
+
+            //UART Initialization
+            if (!oneWrie_device.UARTInitilize(9600, 1))
+            {
+                DisplayOperateMes("UART Initilize failed!", Color.Red);
+                return;
+            }
+
+            Delay(Delay_Power);
+
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_REMOTE, 0);
+
+            Delay(Delay_Power);
+
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, sl910_ip);
+
+            Delay(Delay_Power);
+
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETVOLT, 20u);
+        }
+
         private void btn_EngTab_Ipoff_Click(object sender, EventArgs e)
         {
             //Set Voltage
@@ -9356,6 +9458,22 @@ namespace CurrentSensorV3
             else
             {
                 DisplayOperateMes(string.Format("Set Current to {0}A failed!", 0));
+            }
+        }
+
+        private void IpOff( )
+        {
+            if ( !oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTOFF, 0))
+            {
+                DisplayOperateMes(string.Format("IP Off failed!"));
+            }
+        }
+
+        private void IpOn()
+        {
+            if (!oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
+            {
+                DisplayOperateMes(string.Format("IP On failed!"));
             }
         }
 
@@ -9852,7 +9970,7 @@ namespace CurrentSensorV3
             btn_Eng_Analogmode_Click(null, null);
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
-            Delay(Delay_Sync/2);
+            Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
         }
 
@@ -10177,16 +10295,25 @@ namespace CurrentSensorV3
             //Delay(Delay_Power);
             //oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_CONFIG_TO_VOUT);
             //Delay(Delay_Power);
+            if (!oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT))
+            {
+                DisplayOperateMes("HW Error!");
+                return;
+            }
+            Delay(Delay_Sync);
+            oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_MOUT);
+
+
             x = AverageVout();
             //sl910out = x;
-            if(x<2.505)
-                sl910out = -1.2212453270876722e-15 * x * x * x * x + 0.002678256381932087 * x * x * x
-                    - 0.012092327564404926 * x * x - 1.9864759515650032 * x + 5.007905923266363;
-            //sl910out = 5 - 2 * sl910out;
-            else
-                sl910out = -0.0013411399008066843 * x * x * x * x + 0.020141239030325386 * x * x * x 
-                    - 0.11259555996798598 * x * x - 1.726360653315231 * x + 4.769278793797818;
-            DisplayOperateMes("SL910 vout = " + sl910out.ToString("F3"));
+            //if(x<2.505)
+            //    sl910out = -1.2212453270876722e-15 * x * x * x * x + 0.002678256381932087 * x * x * x
+            //        - 0.012092327564404926 * x * x - 1.9864759515650032 * x + 5.007905923266363;
+            ////sl910out = 5 - 2 * sl910out;
+            //else
+            //    sl910out = -0.0013411399008066843 * x * x * x * x + 0.020141239030325386 * x * x * x 
+            //        - 0.11259555996798598 * x * x - 1.726360653315231 * x + 4.769278793797818;
+            DisplayOperateMes("vout = " + x.ToString("F3"));
         }
 
         #endregion SL910
@@ -18177,7 +18304,284 @@ namespace CurrentSensorV3
             }
         }
 
+        private void btn_SL910_IpOn_Click(object sender, EventArgs e)
+        {
+            init_SL910_Ip(Convert.ToUInt32(this.txt_SL910_Ip.Text));
+            Delay(100);
+            IpOn();
+        }
 
+        private void btn_SL910_IpOff_Click(object sender, EventArgs e)
+        {
+            init_SL910_Ip(Convert.ToUInt32(this.txt_SL910_Ip.Text));
+            Delay(100);
+            IpOff();
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Routins_Scan_Click(object sender, EventArgs e)
+        {
+            //string[] portlist = SerialPort.GetPortNames();
+
+            string[] ss = MulGetHardwareInfo(HardwareEnum.Win32_PnPEntity, "Name");
+
+            this.cmb_Routins_Com.Items.Clear();
+
+            for (int i = 0; i < ss.Length; i++)
+            {
+                this.cmb_Routins_Com.Items.Add(ss[i]);
+            }
+            this.cmb_Routins_Com.SelectedIndex = 0;
+
+            //for (int i = 0; i < portlist.Length; i++)
+            //{
+            //    this.cmb_Routins_Com.Items.Add(portlist[i]);
+            //}
+            //this.cmb_Routins_Com.SelectedIndex = 0;
+
+            //Microsoft.Win32.RegistryKey hklm = Microsoft.Win32.Registry.LocalMachine;
+
+            //Microsoft.Win32.RegistryKey software11 = hklm.OpenSubKey("HARDWARE");
+
+            ////打开"HARDWARE"子健
+            //Microsoft.Win32.RegistryKey software = software11.OpenSubKey("DEVICEMAP");
+
+            //Microsoft.Win32.RegistryKey sitekey = software.OpenSubKey("SERIALCOMM");
+
+            ////获取当前子健
+            //String[] Str2 = sitekey.GetValueNames();
+
+            ////Str2=System.IO.Ports.SerialPort.GetPortNames()；//第二中方法，直接取得串口值
+
+            ////获得当前子健下面所有健组成的字符串数组
+            //int ValueCount = sitekey.ValueCount;
+            ////获得当前子健存在的健值
+            //int i;
+            //for (i = 0; i < ValueCount; i++)
+            //{
+            //    this.cmb_Routins_Com.Items.Add(sitekey.GetValue(Str2[i]));
+            //}
+        }
+
+        /// <summary>
+        /// WMI取硬件信息
+        /// </summary>
+        /// <param name="hardType"></param>
+        /// <param name="propKey"></param>
+        /// <returns></returns>
+        public static string[] MulGetHardwareInfo(HardwareEnum hardType, string propKey)
+        {
+
+            List<string> strs = new List<string>();
+            try
+            {
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity"))
+                {
+                    var hardInfos = searcher.Get();
+                    foreach (var hardInfo in hardInfos)
+                    {
+                        
+                            
+                            {
+                                if (hardInfo.Properties[propKey].Value != null)
+                                {
+                                    if (hardInfo.Properties[propKey].Value.ToString().Contains("(COM"))
+                                    {
+                                        strs.Add(hardInfo.Properties[propKey].Value.ToString());
+                                    }
+                                }
+                            }
+                        
+                    }
+                    searcher.Dispose();
+                }
+                return strs.ToArray();
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            { strs = null; }
+        }
+
+        private void btn_SL910_GainIncrease_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[2].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask) >> 4;
+
+            if (index > 0)
+            {
+                index--;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index << 4;
+                SL910_Tab_DataGridView.Rows[2].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Gain++");
+            }
+            else
+            {
+                DisplayOperateMes("Max Coarse Gain", Color.Red);
+            }
+            //_reg_data = Convert.ToUInt32(st, 16);
+
+            //MultiSiteReg6[idut] &= ~bit_op_mask;
+            //MultiSiteReg6[idut] |= Convert.ToUInt32(sl620FineGainTable[1][Ix_forAutoAdaptingPresionGain]);
+        }
+
+        private void btn_SL910_GainDecrease_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[2].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask) >> 4;
+
+            if (index < 15)
+            {
+                index++;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index << 4;
+                SL910_Tab_DataGridView.Rows[2].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Gain--");
+            }
+            else
+            {
+                DisplayOperateMes("Min Coarse Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL910_OffsetIncrease_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint direction = 0;
+            uint bit_op_mask = bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[1].Cells[3].Value.ToString(), 16);
+            index = (reg_data & (~bit_op_mask));
+            direction = (reg_data & bit_op_mask);
+
+            if (direction == 0)
+            {
+                if (index < 63)
+                {
+                    //index++;
+                    //reg_data &= ~bit_op_mask;
+                    //reg_data |= index;
+                    reg_data++;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset++");
+                }
+                else
+                {
+                    DisplayOperateMes("Max Offset Gain", Color.Red);
+                }
+            }
+            else 
+            {
+                if (index > 0)
+                {
+                    //index++;
+                    //reg_data &= ~bit_op_mask;
+                    //reg_data |= index;
+                    reg_data--;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset++");
+                }
+                else
+                {
+                    DisplayOperateMes("Max Offset Gain", Color.Red);
+                }
+            }
+        }
+
+        private void btn_SL910_OffsetDecrease_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint direction = 0;
+            uint bit_op_mask = bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[1].Cells[3].Value.ToString(), 16);
+            index = (reg_data & (~bit_op_mask));
+            direction = (reg_data & bit_op_mask);
+
+            if (direction == 0)
+            {
+                if (index > 0)
+                {
+                    //index++;
+                    //reg_data &= ~bit_op_mask;
+                    //reg_data |= index;
+                    reg_data--;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset--");
+                }
+                else
+                {
+                    DisplayOperateMes("Min Offset Gain", Color.Red);
+                }
+            }
+            else
+            {
+                if (index < 63)
+                {
+                    //index++;
+                    //reg_data &= ~bit_op_mask;
+                    //reg_data |= index;
+                    reg_data++;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset--");
+                }
+                else
+                {
+                    DisplayOperateMes("Min Offset Gain", Color.Red);
+                }
+            }
+        }
+
+        private void btn_SL910_FineGainIncrease_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit4_Mask | bit3_Mask | bit2_Mask | bit1_Mask | bit0_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[3].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask);
+
+            if (index > 0)
+            {
+                index--;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL910_Tab_DataGridView.Rows[3].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Gain++");
+            }
+            else
+            {
+                DisplayOperateMes("Max Fine Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL910_FineGainDecrease_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit4_Mask | bit3_Mask | bit2_Mask | bit1_Mask | bit0_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[3].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask);
+
+            if (index < 31)
+            {
+                index++;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL910_Tab_DataGridView.Rows[3].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Gain++");
+            }
+            else
+            {
+                DisplayOperateMes("Min Fine Gain", Color.Red);
+            }
+        }
 
 
 

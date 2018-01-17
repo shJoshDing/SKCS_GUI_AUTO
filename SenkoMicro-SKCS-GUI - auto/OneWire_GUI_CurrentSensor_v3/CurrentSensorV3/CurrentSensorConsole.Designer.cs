@@ -392,9 +392,9 @@
             this.btn_Routine_TcChar = new System.Windows.Forms.Button();
             this.btn_Program_Stop = new System.Windows.Forms.Button();
             this.btn_Program_Start = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
+            this.btn_Routins_910OutDrift = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
+            this.btn_Routins_910Tc = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btn_Routins_ReadVout = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -428,6 +428,19 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.btn_SL910_IpOn = new System.Windows.Forms.Button();
+            this.btn_SL910_IpOff = new System.Windows.Forms.Button();
+            this.txt_SL910_Ip = new System.Windows.Forms.TextBox();
+            this.label104 = new System.Windows.Forms.Label();
+            this.cmb_Routins_Com = new System.Windows.Forms.ComboBox();
+            this.label105 = new System.Windows.Forms.Label();
+            this.btn_Routins_Scan = new System.Windows.Forms.Button();
+            this.btn_SL910_GainIncrease = new System.Windows.Forms.Button();
+            this.btn_SL910_GainDecrease = new System.Windows.Forms.Button();
+            this.btn_SL910_OffsetDecrease = new System.Windows.Forms.Button();
+            this.btn_SL910_OffsetIncrease = new System.Windows.Forms.Button();
+            this.btn_SL910_FineGainDecrease = new System.Windows.Forms.Button();
+            this.btn_SL910_FineGainIncrease = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2580,7 +2593,7 @@
             this.label66.AutoSize = true;
             this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label66.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label66.Location = new System.Drawing.Point(284, 175);
+            this.label66.Location = new System.Drawing.Point(288, 175);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(28, 16);
             this.label66.TabIndex = 89;
@@ -4026,16 +4039,23 @@
             // 
             // SL910Tab
             // 
-            this.SL910Tab.Controls.Add(this.btn_SOP14_TestMode);
-            this.SL910Tab.Controls.Add(this.btn_SL910_910_out);
+            this.SL910Tab.Controls.Add(this.btn_SL910_FineGainDecrease);
+            this.SL910Tab.Controls.Add(this.btn_SL910_FineGainIncrease);
+            this.SL910Tab.Controls.Add(this.btn_SL910_OffsetDecrease);
+            this.SL910Tab.Controls.Add(this.btn_SL910_OffsetIncrease);
+            this.SL910Tab.Controls.Add(this.btn_SL910_GainDecrease);
+            this.SL910Tab.Controls.Add(this.btn_SL910_GainIncrease);
             this.SL910Tab.Controls.Add(this.btn_SL910_910sop_Nornal);
-            this.SL910Tab.Controls.Add(this.btn_SL910_FuseBank1);
+            this.SL910Tab.Controls.Add(this.btn_SOP14_TestMode);
+            this.SL910Tab.Controls.Add(this.label104);
+            this.SL910Tab.Controls.Add(this.txt_SL910_Ip);
+            this.SL910Tab.Controls.Add(this.btn_SL910_IpOff);
+            this.SL910Tab.Controls.Add(this.btn_SL910_IpOn);
+            this.SL910Tab.Controls.Add(this.btn_SL910_910_out);
             this.SL910Tab.Controls.Add(this.txt_SL910_ReadLevel);
             this.SL910Tab.Controls.Add(this.label85);
             this.SL910Tab.Controls.Add(this.btn_SL910_ReadFuse);
-            this.SL910Tab.Controls.Add(this.btn_SL1910_WriteAll);
             this.SL910Tab.Controls.Add(this.btn_SL910_TestMode);
-            this.SL910Tab.Controls.Add(this.btn_SL1910_ReadAll);
             this.SL910Tab.Controls.Add(this.btn_SL910_FuseBank2);
             this.SL910Tab.Controls.Add(this.btn_SL910_NormalMode);
             this.SL910Tab.Controls.Add(this.btn_SL910_Read);
@@ -4052,7 +4072,7 @@
             // btn_SOP14_TestMode
             // 
             this.btn_SOP14_TestMode.BackColor = System.Drawing.Color.Silver;
-            this.btn_SOP14_TestMode.Location = new System.Drawing.Point(139, 17);
+            this.btn_SOP14_TestMode.Location = new System.Drawing.Point(513, 17);
             this.btn_SOP14_TestMode.Name = "btn_SOP14_TestMode";
             this.btn_SOP14_TestMode.Size = new System.Drawing.Size(56, 36);
             this.btn_SOP14_TestMode.TabIndex = 16;
@@ -4065,9 +4085,9 @@
             this.btn_SL910_910_out.BackColor = System.Drawing.Color.Coral;
             this.btn_SL910_910_out.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_SL910_910_out.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_SL910_910_out.Location = new System.Drawing.Point(272, 17);
+            this.btn_SL910_910_out.Location = new System.Drawing.Point(277, 17);
             this.btn_SL910_910_out.Name = "btn_SL910_910_out";
-            this.btn_SL910_910_out.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_910_out.Size = new System.Drawing.Size(52, 36);
             this.btn_SL910_910_out.TabIndex = 14;
             this.btn_SL910_910_out.Text = "VOUT";
             this.btn_SL910_910_out.UseVisualStyleBackColor = false;
@@ -4076,7 +4096,7 @@
             // btn_SL910_910sop_Nornal
             // 
             this.btn_SL910_910sop_Nornal.BackColor = System.Drawing.Color.Silver;
-            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(199, 17);
+            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(577, 17);
             this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
             this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_910sop_Nornal.TabIndex = 15;
@@ -4086,9 +4106,9 @@
             // 
             // btn_SL910_FuseBank1
             // 
-            this.btn_SL910_FuseBank1.Location = new System.Drawing.Point(592, 17);
+            this.btn_SL910_FuseBank1.Location = new System.Drawing.Point(760, 420);
             this.btn_SL910_FuseBank1.Name = "btn_SL910_FuseBank1";
-            this.btn_SL910_FuseBank1.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_FuseBank1.Size = new System.Drawing.Size(26, 19);
             this.btn_SL910_FuseBank1.TabIndex = 13;
             this.btn_SL910_FuseBank1.Text = "Trim Bank1";
             this.btn_SL910_FuseBank1.UseVisualStyleBackColor = true;
@@ -4096,7 +4116,7 @@
             // 
             // txt_SL910_ReadLevel
             // 
-            this.txt_SL910_ReadLevel.Location = new System.Drawing.Point(709, 31);
+            this.txt_SL910_ReadLevel.Location = new System.Drawing.Point(708, 32);
             this.txt_SL910_ReadLevel.Name = "txt_SL910_ReadLevel";
             this.txt_SL910_ReadLevel.Size = new System.Drawing.Size(30, 20);
             this.txt_SL910_ReadLevel.TabIndex = 12;
@@ -4107,7 +4127,7 @@
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(706, 16);
+            this.label85.Location = new System.Drawing.Point(707, 16);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(33, 13);
             this.label85.TabIndex = 11;
@@ -4115,9 +4135,9 @@
             // 
             // btn_SL910_ReadFuse
             // 
-            this.btn_SL910_ReadFuse.Location = new System.Drawing.Point(740, 17);
+            this.btn_SL910_ReadFuse.Location = new System.Drawing.Point(743, 17);
             this.btn_SL910_ReadFuse.Name = "btn_SL910_ReadFuse";
-            this.btn_SL910_ReadFuse.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_ReadFuse.Size = new System.Drawing.Size(48, 36);
             this.btn_SL910_ReadFuse.TabIndex = 10;
             this.btn_SL910_ReadFuse.Text = "Trim Test";
             this.btn_SL910_ReadFuse.UseVisualStyleBackColor = true;
@@ -4126,12 +4146,13 @@
             // btn_SL1910_WriteAll
             // 
             this.btn_SL1910_WriteAll.BackColor = System.Drawing.Color.Chocolate;
-            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(469, 17);
+            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(760, 445);
             this.btn_SL1910_WriteAll.Name = "btn_SL1910_WriteAll";
-            this.btn_SL1910_WriteAll.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL1910_WriteAll.Size = new System.Drawing.Size(26, 23);
             this.btn_SL1910_WriteAll.TabIndex = 9;
             this.btn_SL1910_WriteAll.Text = "Write  All";
             this.btn_SL1910_WriteAll.UseVisualStyleBackColor = false;
+            this.btn_SL1910_WriteAll.Visible = false;
             this.btn_SL1910_WriteAll.Click += new System.EventHandler(this.btn_SL1910_WriteAll_Click);
             // 
             // btn_SL910_TestMode
@@ -4148,22 +4169,23 @@
             // btn_SL1910_ReadAll
             // 
             this.btn_SL1910_ReadAll.BackColor = System.Drawing.Color.Chocolate;
-            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(529, 17);
+            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(760, 474);
             this.btn_SL1910_ReadAll.Name = "btn_SL1910_ReadAll";
-            this.btn_SL1910_ReadAll.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL1910_ReadAll.Size = new System.Drawing.Size(26, 23);
             this.btn_SL1910_ReadAll.TabIndex = 8;
             this.btn_SL1910_ReadAll.Text = "Read   All";
             this.btn_SL1910_ReadAll.UseVisualStyleBackColor = false;
+            this.btn_SL1910_ReadAll.Visible = false;
             this.btn_SL1910_ReadAll.Click += new System.EventHandler(this.btn_SL1910_ReadAll_Click);
             // 
             // btn_SL910_FuseBank2
             // 
             this.btn_SL910_FuseBank2.BackColor = System.Drawing.Color.PaleGreen;
-            this.btn_SL910_FuseBank2.Location = new System.Drawing.Point(650, 17);
+            this.btn_SL910_FuseBank2.Location = new System.Drawing.Point(657, 17);
             this.btn_SL910_FuseBank2.Name = "btn_SL910_FuseBank2";
-            this.btn_SL910_FuseBank2.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_FuseBank2.Size = new System.Drawing.Size(48, 36);
             this.btn_SL910_FuseBank2.TabIndex = 7;
-            this.btn_SL910_FuseBank2.Text = "Trim Bank2";
+            this.btn_SL910_FuseBank2.Text = "Trim";
             this.btn_SL910_FuseBank2.UseVisualStyleBackColor = false;
             this.btn_SL910_FuseBank2.Click += new System.EventHandler(this.btn_SL910_FuseBank2_Click);
             // 
@@ -4181,7 +4203,7 @@
             // btn_SL910_Read
             // 
             this.btn_SL910_Read.BackColor = System.Drawing.Color.Salmon;
-            this.btn_SL910_Read.Location = new System.Drawing.Point(403, 17);
+            this.btn_SL910_Read.Location = new System.Drawing.Point(205, 17);
             this.btn_SL910_Read.Name = "btn_SL910_Read";
             this.btn_SL910_Read.Size = new System.Drawing.Size(56, 36);
             this.btn_SL910_Read.TabIndex = 5;
@@ -4192,7 +4214,7 @@
             // btn_SL1910_Wrtie
             // 
             this.btn_SL1910_Wrtie.BackColor = System.Drawing.Color.Salmon;
-            this.btn_SL1910_Wrtie.Location = new System.Drawing.Point(343, 17);
+            this.btn_SL1910_Wrtie.Location = new System.Drawing.Point(143, 17);
             this.btn_SL1910_Wrtie.Name = "btn_SL1910_Wrtie";
             this.btn_SL1910_Wrtie.Size = new System.Drawing.Size(56, 36);
             this.btn_SL1910_Wrtie.TabIndex = 4;
@@ -4203,9 +4225,12 @@
             // panel10
             // 
             this.panel10.Controls.Add(this.SL910_Tab_DataGridView);
-            this.panel10.Location = new System.Drawing.Point(8, 68);
+            this.panel10.Controls.Add(this.btn_SL1910_ReadAll);
+            this.panel10.Controls.Add(this.btn_SL1910_WriteAll);
+            this.panel10.Controls.Add(this.btn_SL910_FuseBank1);
+            this.panel10.Location = new System.Drawing.Point(8, 59);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(789, 500);
+            this.panel10.Size = new System.Drawing.Size(730, 509);
             this.panel10.TabIndex = 2;
             // 
             // SL910_Tab_DataGridView
@@ -4217,7 +4242,7 @@
             this.SL910_Tab_DataGridView.MultiSelect = false;
             this.SL910_Tab_DataGridView.Name = "SL910_Tab_DataGridView";
             this.SL910_Tab_DataGridView.RowHeadersVisible = false;
-            this.SL910_Tab_DataGridView.Size = new System.Drawing.Size(783, 237);
+            this.SL910_Tab_DataGridView.Size = new System.Drawing.Size(783, 351);
             this.SL910_Tab_DataGridView.TabIndex = 0;
             // 
             // BoolSel
@@ -4557,6 +4582,9 @@
             // btn_Routines_Result
             // 
             this.btn_Routines_Result.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routines_Result.Controls.Add(this.btn_Routins_Scan);
+            this.btn_Routines_Result.Controls.Add(this.label105);
+            this.btn_Routines_Result.Controls.Add(this.cmb_Routins_Com);
             this.btn_Routines_Result.Controls.Add(this.btn_Routins_LoadFile);
             this.btn_Routines_Result.Controls.Add(this.txt_Routines_SiliconVersion);
             this.btn_Routines_Result.Controls.Add(this.label103);
@@ -4588,9 +4616,9 @@
             this.btn_Routines_Result.Controls.Add(this.btn_Routine_TcChar);
             this.btn_Routines_Result.Controls.Add(this.btn_Program_Stop);
             this.btn_Routines_Result.Controls.Add(this.btn_Program_Start);
-            this.btn_Routines_Result.Controls.Add(this.button17);
+            this.btn_Routines_Result.Controls.Add(this.btn_Routins_910OutDrift);
             this.btn_Routines_Result.Controls.Add(this.button4);
-            this.btn_Routines_Result.Controls.Add(this.button16);
+            this.btn_Routines_Result.Controls.Add(this.btn_Routins_910Tc);
             this.btn_Routines_Result.Controls.Add(this.button2);
             this.btn_Routines_Result.Controls.Add(this.btn_Routins_ReadVout);
             this.btn_Routines_Result.Controls.Add(this.button3);
@@ -4606,9 +4634,9 @@
             // 
             // btn_Routins_LoadFile
             // 
-            this.btn_Routins_LoadFile.Location = new System.Drawing.Point(281, 19);
+            this.btn_Routins_LoadFile.Location = new System.Drawing.Point(265, 14);
             this.btn_Routins_LoadFile.Name = "btn_Routins_LoadFile";
-            this.btn_Routins_LoadFile.Size = new System.Drawing.Size(75, 23);
+            this.btn_Routins_LoadFile.Size = new System.Drawing.Size(75, 31);
             this.btn_Routins_LoadFile.TabIndex = 47;
             this.btn_Routins_LoadFile.Text = "Load";
             this.btn_Routins_LoadFile.UseVisualStyleBackColor = true;
@@ -4616,103 +4644,109 @@
             // 
             // txt_Routines_SiliconVersion
             // 
-            this.txt_Routines_SiliconVersion.Location = new System.Drawing.Point(582, 19);
+            this.txt_Routines_SiliconVersion.Location = new System.Drawing.Point(151, 69);
             this.txt_Routines_SiliconVersion.Name = "txt_Routines_SiliconVersion";
-            this.txt_Routines_SiliconVersion.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_SiliconVersion.Size = new System.Drawing.Size(48, 22);
             this.txt_Routines_SiliconVersion.TabIndex = 46;
             this.txt_Routines_SiliconVersion.Text = "620b";
             // 
             // label103
             // 
             this.label103.AutoSize = true;
-            this.label103.Location = new System.Drawing.Point(526, 22);
+            this.label103.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label103.Location = new System.Drawing.Point(151, 52);
             this.label103.Name = "label103";
-            this.label103.Size = new System.Drawing.Size(50, 17);
+            this.label103.Size = new System.Drawing.Size(47, 14);
             this.label103.TabIndex = 45;
             this.label103.Text = "Silicon:";
             // 
             // txt_Routines_Ip
             // 
-            this.txt_Routines_Ip.Location = new System.Drawing.Point(216, 49);
+            this.txt_Routines_Ip.Location = new System.Drawing.Point(81, 69);
             this.txt_Routines_Ip.Name = "txt_Routines_Ip";
-            this.txt_Routines_Ip.Size = new System.Drawing.Size(46, 22);
+            this.txt_Routines_Ip.Size = new System.Drawing.Size(48, 22);
             this.txt_Routines_Ip.TabIndex = 44;
             this.txt_Routines_Ip.Text = "50";
             // 
             // label102
             // 
             this.label102.AutoSize = true;
-            this.label102.Location = new System.Drawing.Point(165, 52);
+            this.label102.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label102.Location = new System.Drawing.Point(84, 52);
             this.label102.Name = "label102";
-            this.label102.Size = new System.Drawing.Size(45, 17);
+            this.label102.Size = new System.Drawing.Size(41, 14);
             this.label102.TabIndex = 43;
             this.label102.Text = "IP (A) :";
             // 
             // txt_Routines_TcCodeScale
             // 
-            this.txt_Routines_TcCodeScale.Location = new System.Drawing.Point(582, 47);
+            this.txt_Routines_TcCodeScale.Location = new System.Drawing.Point(361, 69);
             this.txt_Routines_TcCodeScale.Name = "txt_Routines_TcCodeScale";
-            this.txt_Routines_TcCodeScale.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_TcCodeScale.Size = new System.Drawing.Size(48, 22);
             this.txt_Routines_TcCodeScale.TabIndex = 42;
             this.txt_Routines_TcCodeScale.Text = "2";
             // 
             // label92
             // 
             this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(515, 50);
+            this.label92.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label92.Location = new System.Drawing.Point(354, 52);
             this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(61, 17);
+            this.label92.Size = new System.Drawing.Size(52, 14);
             this.label92.TabIndex = 41;
             this.label92.Text = "Tc Scale:";
             // 
             // txt_Routines_TcCount
             // 
-            this.txt_Routines_TcCount.Location = new System.Drawing.Point(465, 47);
+            this.txt_Routines_TcCount.Location = new System.Drawing.Point(291, 69);
             this.txt_Routines_TcCount.Name = "txt_Routines_TcCount";
-            this.txt_Routines_TcCount.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_TcCount.Size = new System.Drawing.Size(48, 22);
             this.txt_Routines_TcCount.TabIndex = 40;
             this.txt_Routines_TcCount.Text = "8";
             // 
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(390, 50);
+            this.label91.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label91.Location = new System.Drawing.Point(286, 52);
             this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(63, 17);
+            this.label91.Size = new System.Drawing.Size(54, 14);
             this.label91.TabIndex = 39;
             this.label91.Text = "Tc Count:";
             // 
             // txt_Routines_DutCount
             // 
-            this.txt_Routines_DutCount.Location = new System.Drawing.Point(465, 19);
+            this.txt_Routines_DutCount.Location = new System.Drawing.Point(221, 69);
             this.txt_Routines_DutCount.Name = "txt_Routines_DutCount";
-            this.txt_Routines_DutCount.Size = new System.Drawing.Size(36, 22);
+            this.txt_Routines_DutCount.Size = new System.Drawing.Size(48, 22);
             this.txt_Routines_DutCount.TabIndex = 38;
             this.txt_Routines_DutCount.Text = "8";
             // 
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(390, 22);
+            this.label90.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label90.Location = new System.Drawing.Point(211, 52);
             this.label90.Name = "label90";
-            this.label90.Size = new System.Drawing.Size(72, 17);
+            this.label90.Size = new System.Drawing.Size(66, 14);
             this.label90.TabIndex = 37;
             this.label90.Text = "DUT Count:";
             // 
             // txt_Routines_TestTemp
             // 
-            this.txt_Routines_TestTemp.Location = new System.Drawing.Point(83, 49);
+            this.txt_Routines_TestTemp.Location = new System.Drawing.Point(11, 69);
             this.txt_Routines_TestTemp.Name = "txt_Routines_TestTemp";
-            this.txt_Routines_TestTemp.Size = new System.Drawing.Size(53, 22);
+            this.txt_Routines_TestTemp.Size = new System.Drawing.Size(48, 22);
             this.txt_Routines_TestTemp.TabIndex = 36;
             this.txt_Routines_TestTemp.Text = "25";
             // 
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(33, 52);
+            this.label89.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label89.Location = new System.Drawing.Point(13, 52);
             this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(43, 17);
+            this.label89.Size = new System.Drawing.Size(39, 14);
             this.label89.TabIndex = 35;
             this.label89.Text = "Temp:";
             // 
@@ -4802,6 +4836,7 @@
             this.button14.TabIndex = 28;
             this.button14.Text = "PASS";
             this.button14.UseVisualStyleBackColor = false;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button5
             // 
@@ -4960,20 +4995,20 @@
             this.btn_Program_Start.UseVisualStyleBackColor = false;
             this.btn_Program_Start.Click += new System.EventHandler(this.btn_Program_Start_Click);
             // 
-            // button17
+            // btn_Routins_910OutDrift
             // 
-            this.button17.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.button17.Enabled = false;
-            this.button17.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button17.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button17.Location = new System.Drawing.Point(342, 102);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(106, 60);
-            this.button17.TabIndex = 8;
-            this.button17.TabStop = false;
-            this.button17.Text = "IP";
-            this.button17.UseVisualStyleBackColor = false;
+            this.btn_Routins_910OutDrift.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routins_910OutDrift.Enabled = false;
+            this.btn_Routins_910OutDrift.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btn_Routins_910OutDrift.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Routins_910OutDrift.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Routins_910OutDrift.Location = new System.Drawing.Point(342, 102);
+            this.btn_Routins_910OutDrift.Name = "btn_Routins_910OutDrift";
+            this.btn_Routins_910OutDrift.Size = new System.Drawing.Size(106, 60);
+            this.btn_Routins_910OutDrift.TabIndex = 8;
+            this.btn_Routins_910OutDrift.TabStop = false;
+            this.btn_Routins_910OutDrift.Text = "910 Out Drift";
+            this.btn_Routins_910OutDrift.UseVisualStyleBackColor = false;
             // 
             // button4
             // 
@@ -4990,20 +5025,20 @@
             this.button4.Text = "Gain";
             this.button4.UseVisualStyleBackColor = false;
             // 
-            // button16
+            // btn_Routins_910Tc
             // 
-            this.button16.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.button16.Enabled = false;
-            this.button16.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button16.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button16.Location = new System.Drawing.Point(230, 102);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(106, 60);
-            this.button16.TabIndex = 7;
-            this.button16.TabStop = false;
-            this.button16.Text = "VIP";
-            this.button16.UseVisualStyleBackColor = false;
+            this.btn_Routins_910Tc.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Routins_910Tc.Enabled = false;
+            this.btn_Routins_910Tc.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btn_Routins_910Tc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Routins_910Tc.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Routins_910Tc.Location = new System.Drawing.Point(230, 102);
+            this.btn_Routins_910Tc.Name = "btn_Routins_910Tc";
+            this.btn_Routins_910Tc.Size = new System.Drawing.Size(106, 60);
+            this.btn_Routins_910Tc.TabIndex = 7;
+            this.btn_Routins_910Tc.TabStop = false;
+            this.btn_Routins_910Tc.Text = "910Tc";
+            this.btn_Routins_910Tc.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
@@ -5119,7 +5154,7 @@
             this.txt_Char910_DutId.Name = "txt_Char910_DutId";
             this.txt_Char910_DutId.Size = new System.Drawing.Size(47, 20);
             this.txt_Char910_DutId.TabIndex = 7;
-            this.txt_Char910_DutId.Text = "1";
+            this.txt_Char910_DutId.Text = "25";
             this.txt_Char910_DutId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label87
@@ -5346,6 +5381,140 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
+            // btn_SL910_IpOn
+            // 
+            this.btn_SL910_IpOn.BackColor = System.Drawing.Color.Salmon;
+            this.btn_SL910_IpOn.Location = new System.Drawing.Point(384, 17);
+            this.btn_SL910_IpOn.Name = "btn_SL910_IpOn";
+            this.btn_SL910_IpOn.Size = new System.Drawing.Size(52, 36);
+            this.btn_SL910_IpOn.TabIndex = 17;
+            this.btn_SL910_IpOn.Text = "IP ON";
+            this.btn_SL910_IpOn.UseVisualStyleBackColor = false;
+            this.btn_SL910_IpOn.Click += new System.EventHandler(this.btn_SL910_IpOn_Click);
+            // 
+            // btn_SL910_IpOff
+            // 
+            this.btn_SL910_IpOff.BackColor = System.Drawing.Color.Salmon;
+            this.btn_SL910_IpOff.Location = new System.Drawing.Point(442, 17);
+            this.btn_SL910_IpOff.Name = "btn_SL910_IpOff";
+            this.btn_SL910_IpOff.Size = new System.Drawing.Size(52, 36);
+            this.btn_SL910_IpOff.TabIndex = 18;
+            this.btn_SL910_IpOff.Text = "IP OFF";
+            this.btn_SL910_IpOff.UseVisualStyleBackColor = false;
+            this.btn_SL910_IpOff.Click += new System.EventHandler(this.btn_SL910_IpOff_Click);
+            // 
+            // txt_SL910_Ip
+            // 
+            this.txt_SL910_Ip.Location = new System.Drawing.Point(343, 33);
+            this.txt_SL910_Ip.Name = "txt_SL910_Ip";
+            this.txt_SL910_Ip.Size = new System.Drawing.Size(30, 20);
+            this.txt_SL910_Ip.TabIndex = 19;
+            this.txt_SL910_Ip.Text = "25";
+            this.txt_SL910_Ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label104
+            // 
+            this.label104.AutoSize = true;
+            this.label104.Location = new System.Drawing.Point(343, 17);
+            this.label104.Name = "label104";
+            this.label104.Size = new System.Drawing.Size(30, 13);
+            this.label104.TabIndex = 20;
+            this.label104.Text = "IP(A)";
+            // 
+            // cmb_Routins_Com
+            // 
+            this.cmb_Routins_Com.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_Routins_Com.FormattingEnabled = true;
+            this.cmb_Routins_Com.Location = new System.Drawing.Point(435, 20);
+            this.cmb_Routins_Com.Name = "cmb_Routins_Com";
+            this.cmb_Routins_Com.Size = new System.Drawing.Size(277, 21);
+            this.cmb_Routins_Com.TabIndex = 48;
+            // 
+            // label105
+            // 
+            this.label105.AutoSize = true;
+            this.label105.Location = new System.Drawing.Point(367, 22);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(66, 17);
+            this.label105.TabIndex = 49;
+            this.label105.Text = "Com Port:";
+            // 
+            // btn_Routins_Scan
+            // 
+            this.btn_Routins_Scan.Location = new System.Drawing.Point(719, 15);
+            this.btn_Routins_Scan.Name = "btn_Routins_Scan";
+            this.btn_Routins_Scan.Size = new System.Drawing.Size(62, 31);
+            this.btn_Routins_Scan.TabIndex = 50;
+            this.btn_Routins_Scan.Text = "Scan";
+            this.btn_Routins_Scan.UseVisualStyleBackColor = true;
+            this.btn_Routins_Scan.Click += new System.EventHandler(this.btn_Routins_Scan_Click);
+            // 
+            // btn_SL910_GainIncrease
+            // 
+            this.btn_SL910_GainIncrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_GainIncrease.Location = new System.Drawing.Point(744, 88);
+            this.btn_SL910_GainIncrease.Name = "btn_SL910_GainIncrease";
+            this.btn_SL910_GainIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_GainIncrease.TabIndex = 21;
+            this.btn_SL910_GainIncrease.Text = "CG+";
+            this.btn_SL910_GainIncrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_GainIncrease.Click += new System.EventHandler(this.btn_SL910_GainIncrease_Click);
+            // 
+            // btn_SL910_GainDecrease
+            // 
+            this.btn_SL910_GainDecrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_GainDecrease.Location = new System.Drawing.Point(744, 130);
+            this.btn_SL910_GainDecrease.Name = "btn_SL910_GainDecrease";
+            this.btn_SL910_GainDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_GainDecrease.TabIndex = 22;
+            this.btn_SL910_GainDecrease.Text = "CG-";
+            this.btn_SL910_GainDecrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_GainDecrease.Click += new System.EventHandler(this.btn_SL910_GainDecrease_Click);
+            // 
+            // btn_SL910_OffsetDecrease
+            // 
+            this.btn_SL910_OffsetDecrease.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL910_OffsetDecrease.Location = new System.Drawing.Point(744, 340);
+            this.btn_SL910_OffsetDecrease.Name = "btn_SL910_OffsetDecrease";
+            this.btn_SL910_OffsetDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_OffsetDecrease.TabIndex = 24;
+            this.btn_SL910_OffsetDecrease.Text = "O-";
+            this.btn_SL910_OffsetDecrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_OffsetDecrease.Click += new System.EventHandler(this.btn_SL910_OffsetDecrease_Click);
+            // 
+            // btn_SL910_OffsetIncrease
+            // 
+            this.btn_SL910_OffsetIncrease.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL910_OffsetIncrease.Location = new System.Drawing.Point(744, 298);
+            this.btn_SL910_OffsetIncrease.Name = "btn_SL910_OffsetIncrease";
+            this.btn_SL910_OffsetIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_OffsetIncrease.TabIndex = 23;
+            this.btn_SL910_OffsetIncrease.Text = "O+";
+            this.btn_SL910_OffsetIncrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_OffsetIncrease.Click += new System.EventHandler(this.btn_SL910_OffsetIncrease_Click);
+            // 
+            // btn_SL910_FineGainDecrease
+            // 
+            this.btn_SL910_FineGainDecrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_FineGainDecrease.Location = new System.Drawing.Point(743, 233);
+            this.btn_SL910_FineGainDecrease.Name = "btn_SL910_FineGainDecrease";
+            this.btn_SL910_FineGainDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_FineGainDecrease.TabIndex = 26;
+            this.btn_SL910_FineGainDecrease.Text = "FG-";
+            this.btn_SL910_FineGainDecrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_FineGainDecrease.Click += new System.EventHandler(this.btn_SL910_FineGainDecrease_Click);
+            // 
+            // btn_SL910_FineGainIncrease
+            // 
+            this.btn_SL910_FineGainIncrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_FineGainIncrease.Location = new System.Drawing.Point(743, 191);
+            this.btn_SL910_FineGainIncrease.Name = "btn_SL910_FineGainIncrease";
+            this.btn_SL910_FineGainIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_FineGainIncrease.TabIndex = 25;
+            this.btn_SL910_FineGainIncrease.Text = "FG+";
+            this.btn_SL910_FineGainIncrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_FineGainIncrease.Click += new System.EventHandler(this.btn_SL910_FineGainIncrease_Click);
+            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5358,7 +5527,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.6 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.4.9 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -5824,8 +5993,8 @@
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Button btn_Routins_Char;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button btn_Routins_910OutDrift;
+        private System.Windows.Forms.Button btn_Routins_910Tc;
         private System.Windows.Forms.Button btn_Routins_ReadVout;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.TextBox txt_Routines_TestTemp;
@@ -5841,5 +6010,18 @@
         private System.Windows.Forms.TextBox txt_Routines_SiliconVersion;
         private System.Windows.Forms.Label label103;
         private System.Windows.Forms.Button btn_Routins_LoadFile;
+        private System.Windows.Forms.Label label104;
+        private System.Windows.Forms.TextBox txt_SL910_Ip;
+        private System.Windows.Forms.Button btn_SL910_IpOff;
+        private System.Windows.Forms.Button btn_SL910_IpOn;
+        private System.Windows.Forms.Label label105;
+        private System.Windows.Forms.ComboBox cmb_Routins_Com;
+        private System.Windows.Forms.Button btn_Routins_Scan;
+        private System.Windows.Forms.Button btn_SL910_OffsetDecrease;
+        private System.Windows.Forms.Button btn_SL910_OffsetIncrease;
+        private System.Windows.Forms.Button btn_SL910_GainDecrease;
+        private System.Windows.Forms.Button btn_SL910_GainIncrease;
+        private System.Windows.Forms.Button btn_SL910_FineGainDecrease;
+        private System.Windows.Forms.Button btn_SL910_FineGainIncrease;
     }
 }
