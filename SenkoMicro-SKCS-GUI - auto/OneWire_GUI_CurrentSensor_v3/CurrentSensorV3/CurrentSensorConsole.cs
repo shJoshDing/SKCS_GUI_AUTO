@@ -9390,9 +9390,8 @@ namespace CurrentSensorV3
             //DisplayAutoTrimOperateMes("Delay 300ms");
 
             //2. Current On
-            //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_OUTPUTON, 0))
-            //if (oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP)))
-            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(IP));
+
+            oneWrie_device.UARTWrite(OneWireInterface.UARTControlCommand.ADI_SDP_CMD_UART_SETCURR, Convert.ToUInt32(this.txt_SL620Tab_Ipn.Text));
 
             //Delay 300ms
             Delay(Delay_Power);
@@ -16667,7 +16666,7 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
-            Delay(400);
+            Delay(500);
             dResult = AverageVout();
             return dResult;
         }
@@ -16678,7 +16677,7 @@ namespace CurrentSensorV3
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VOUT_WITH_CAP);
             Delay(Delay_Sync);
             oneWrie_device.SDPSignalPathSet(OneWireInterface.SPControlCommand.SP_VIN_TO_VOUT);
-            Delay(400);
+            Delay(800);
             dResult = AverageVout();
             return dResult;
         }
@@ -18466,22 +18465,6 @@ namespace CurrentSensorV3
 
             if (direction == 0)
             {
-                if (index < 63)
-                {
-                    //index++;
-                    //reg_data &= ~bit_op_mask;
-                    //reg_data |= index;
-                    reg_data++;
-                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset++");
-                }
-                else
-                {
-                    DisplayOperateMes("Max Offset Gain", Color.Red);
-                }
-            }
-            else 
-            {
                 if (index > 0)
                 {
                     //index++;
@@ -18491,36 +18474,15 @@ namespace CurrentSensorV3
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
                     DisplayOperateMes("Offset++");
                 }
+                else if (index == 0)
+                {
+                    reg_data = 0x80 ;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset++");
+                }
                 else
                 {
                     DisplayOperateMes("Max Offset Gain", Color.Red);
-                }
-            }
-        }
-
-        private void btn_SL910_OffsetDecrease_Click(object sender, EventArgs e)
-        {
-            uint index = 0;
-            uint direction = 0;
-            uint bit_op_mask = bit7_Mask;
-            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[1].Cells[3].Value.ToString(), 16);
-            index = (reg_data & (~bit_op_mask));
-            direction = (reg_data & bit_op_mask);
-
-            if (direction == 0)
-            {
-                if (index > 0)
-                {
-                    //index++;
-                    //reg_data &= ~bit_op_mask;
-                    //reg_data |= index;
-                    reg_data--;
-                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset--");
-                }
-                else
-                {
-                    DisplayOperateMes("Min Offset Gain", Color.Red);
                 }
             }
             else
@@ -18531,6 +18493,55 @@ namespace CurrentSensorV3
                     //reg_data &= ~bit_op_mask;
                     //reg_data |= index;
                     reg_data++;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset");
+                }
+                else
+                {
+                    DisplayOperateMes("Max Offset Gain", Color.Red);
+                }
+            }
+        }
+
+        private void btn_SL910_OffsetDecrease_Click(object sender, EventArgs e)
+        {        
+            uint index = 0;
+            uint direction = 0;
+            uint bit_op_mask = bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL910_Tab_DataGridView.Rows[1].Cells[3].Value.ToString(), 16);
+            index = (reg_data & (~bit_op_mask));
+            direction = (reg_data & bit_op_mask);
+
+            if (direction == 0)
+            {
+                if (index < 63)
+                {
+                    //index++;
+                    //reg_data &= ~bit_op_mask;
+                    //reg_data |= index;
+                    reg_data++;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset--");
+                }
+                else
+                {
+                    DisplayOperateMes("Min Offset Gain", Color.Red);
+                }
+            }
+            else
+            {
+                if (index > 0)
+                {
+                    //index++;
+                    //reg_data &= ~bit_op_mask;
+                    //reg_data |= index;
+                    reg_data--;
+                    SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                    DisplayOperateMes("Offset--");
+                }
+                else if (index == 0)
+                {
+                    reg_data = 00;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
                     DisplayOperateMes("Offset--");
                 }
@@ -18580,6 +18591,220 @@ namespace CurrentSensorV3
             else
             {
                 DisplayOperateMes("Min Fine Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL620Tab_IncreaseCoarseGain_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[1].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask) >> 4;
+
+            if (index > 0)
+            {
+                index--;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index << 4;
+                SL620_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Gain++");
+            }
+            else
+            {
+                DisplayOperateMes("Max Coarse Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL620Tab_DecreaseCoarseGain_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit4_Mask | bit5_Mask | bit6_Mask | bit7_Mask;
+            uint reg_data = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[1].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask) >> 4;
+
+            if (index < 15)
+            {
+                index++;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index << 4;
+                SL620_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Gain--");
+            }
+            else
+            {
+                DisplayOperateMes("Min Coarse Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL620Tab_IncreaseFineGain_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+            uint reg_data_L = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[6].Cells[3].Value.ToString(), 16);
+            uint reg_data_H = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[7].Cells[3].Value.ToString(), 16);
+            index = (reg_data_L & bit_op_mask) >> 5;
+            index += (reg_data_H & bit_op_mask) >> 2;
+
+            if (index > 0)
+            {
+                index--;
+                reg_data_L &= ~bit_op_mask;
+                reg_data_L |= (index % 8) << 5;
+                SL620_Tab_DataGridView.Rows[6].Cells[3].Value = reg_data_L.ToString("X2");
+
+                reg_data_H &= ~bit_op_mask;
+                reg_data_H |= Convert.ToUInt32(Math.Floor(index / 8.0d)) << 5;
+                SL620_Tab_DataGridView.Rows[7].Cells[3].Value = reg_data_H.ToString("X2");
+
+                DisplayOperateMes("Gain++");
+            }
+            else
+            {
+                DisplayOperateMes("Max Fine Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL620Tab_DecreaseFineGain_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit5_Mask | bit6_Mask | bit7_Mask;
+            uint reg_data_L = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[6].Cells[3].Value.ToString(), 16);
+            uint reg_data_H = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[7].Cells[3].Value.ToString(), 16);
+            index = (reg_data_L & bit_op_mask) >> 5;
+            index += (reg_data_H & bit_op_mask) >> 2;
+
+            if (index < 63)
+            {
+                index++;
+                reg_data_L &= ~bit_op_mask;
+                reg_data_L |= (index % 8) << 5;
+                SL620_Tab_DataGridView.Rows[6].Cells[3].Value = reg_data_L.ToString("X2");
+
+                reg_data_H &= ~bit_op_mask;
+                reg_data_H |= Convert.ToUInt32( Math.Floor(index / 8.0d) ) << 5;
+                SL620_Tab_DataGridView.Rows[7].Cells[3].Value = reg_data_H.ToString("X2");
+
+                DisplayOperateMes("Gain--");
+            }
+            else
+            {
+                DisplayOperateMes("Min Fine Gain", Color.Red);
+            }
+        }
+
+        private void btn_SL620Tab_IncreaseCoarseOffset_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+            uint reg_data = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[6].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask);
+
+            if (index == 16)
+            {             
+                DisplayOperateMes("Max Coarse Offset", Color.Red);
+            }
+            else if( index == 0)
+            {
+                index = 31;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[6].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset++");
+            }
+            else
+            {
+                index--;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[6].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset++");
+            }
+        }
+
+        private void btn_SL620Tab_DecreaseCoarseOffset_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+            uint reg_data = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[6].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask);
+
+            if (index == 15)
+            {
+                DisplayOperateMes("Min Coarse Offset", Color.Red);
+            }
+            else if (index == 31)
+            {
+                index = 0;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[6].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset--");
+            }
+            else
+            {
+                index++;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[6].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset--");
+            }
+        }
+
+        private void btn_SL620Tab_IncreaseFineOffset_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+            uint reg_data = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[7].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask);
+
+            if (index == 16)
+            {
+                DisplayOperateMes("Max Fine Offset", Color.Red);
+            }
+            else if (index == 0)
+            {
+                index = 31;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[7].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset++");
+            }
+            else
+            {
+                index--;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[7].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset++");
+            }
+        }
+
+        private void btn_SL620Tab_DecreaseFineOffset_Click(object sender, EventArgs e)
+        {
+            uint index = 0;
+            uint bit_op_mask = bit0_Mask | bit1_Mask | bit2_Mask | bit3_Mask | bit4_Mask;
+            uint reg_data = Convert.ToUInt32(SL620_Tab_DataGridView.Rows[7].Cells[3].Value.ToString(), 16);
+            index = (reg_data & bit_op_mask);
+
+            if (index == 15)
+            {
+                DisplayOperateMes("Min Fine Offset", Color.Red);
+            }
+            else if (index == 31)
+            {
+                index = 0;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[7].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset--");
+            }
+            else
+            {
+                index++;
+                reg_data &= ~bit_op_mask;
+                reg_data |= index;
+                SL620_Tab_DataGridView.Rows[7].Cells[3].Value = reg_data.ToString("X2");
+                DisplayOperateMes("Offset--");
             }
         }
 

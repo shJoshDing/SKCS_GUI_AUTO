@@ -317,16 +317,23 @@
             this.tb_TuningTab_Bip = new System.Windows.Forms.TextBox();
             this.tb_TuningTab_TargetVb = new System.Windows.Forms.TextBox();
             this.SL910Tab = new System.Windows.Forms.TabPage();
-            this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
-            this.btn_SL910_910_out = new System.Windows.Forms.Button();
+            this.btn_SL910_FineGainDecrease = new System.Windows.Forms.Button();
+            this.btn_SL910_FineGainIncrease = new System.Windows.Forms.Button();
+            this.btn_SL910_OffsetDecrease = new System.Windows.Forms.Button();
+            this.btn_SL910_OffsetIncrease = new System.Windows.Forms.Button();
+            this.btn_SL910_GainDecrease = new System.Windows.Forms.Button();
+            this.btn_SL910_GainIncrease = new System.Windows.Forms.Button();
             this.btn_SL910_910sop_Nornal = new System.Windows.Forms.Button();
-            this.btn_SL910_FuseBank1 = new System.Windows.Forms.Button();
+            this.btn_SOP14_TestMode = new System.Windows.Forms.Button();
+            this.label104 = new System.Windows.Forms.Label();
+            this.txt_SL910_Ip = new System.Windows.Forms.TextBox();
+            this.btn_SL910_IpOff = new System.Windows.Forms.Button();
+            this.btn_SL910_IpOn = new System.Windows.Forms.Button();
+            this.btn_SL910_910_out = new System.Windows.Forms.Button();
             this.txt_SL910_ReadLevel = new System.Windows.Forms.TextBox();
             this.label85 = new System.Windows.Forms.Label();
             this.btn_SL910_ReadFuse = new System.Windows.Forms.Button();
-            this.btn_SL1910_WriteAll = new System.Windows.Forms.Button();
             this.btn_SL910_TestMode = new System.Windows.Forms.Button();
-            this.btn_SL1910_ReadAll = new System.Windows.Forms.Button();
             this.btn_SL910_FuseBank2 = new System.Windows.Forms.Button();
             this.btn_SL910_NormalMode = new System.Windows.Forms.Button();
             this.btn_SL910_Read = new System.Windows.Forms.Button();
@@ -334,6 +341,9 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.SL910_Tab_DataGridView = new System.Windows.Forms.DataGridView();
             this.BoolSel = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btn_SL1910_ReadAll = new System.Windows.Forms.Button();
+            this.btn_SL1910_WriteAll = new System.Windows.Forms.Button();
+            this.btn_SL910_FuseBank1 = new System.Windows.Forms.Button();
             this.SL620Tab = new System.Windows.Forms.TabPage();
             this.btn_SL620Tab_VoutPair = new System.Windows.Forms.Button();
             this.btn_SL620Tab_TrimSet2 = new System.Windows.Forms.Button();
@@ -361,6 +371,9 @@
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.Programming = new System.Windows.Forms.TabPage();
             this.btn_Routines_Result = new System.Windows.Forms.GroupBox();
+            this.btn_Routins_Scan = new System.Windows.Forms.Button();
+            this.label105 = new System.Windows.Forms.Label();
+            this.cmb_Routins_Com = new System.Windows.Forms.ComboBox();
             this.btn_Routins_LoadFile = new System.Windows.Forms.Button();
             this.txt_Routines_SiliconVersion = new System.Windows.Forms.TextBox();
             this.label103 = new System.Windows.Forms.Label();
@@ -428,19 +441,16 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_SL910_IpOn = new System.Windows.Forms.Button();
-            this.btn_SL910_IpOff = new System.Windows.Forms.Button();
-            this.txt_SL910_Ip = new System.Windows.Forms.TextBox();
-            this.label104 = new System.Windows.Forms.Label();
-            this.cmb_Routins_Com = new System.Windows.Forms.ComboBox();
-            this.label105 = new System.Windows.Forms.Label();
-            this.btn_Routins_Scan = new System.Windows.Forms.Button();
-            this.btn_SL910_GainIncrease = new System.Windows.Forms.Button();
-            this.btn_SL910_GainDecrease = new System.Windows.Forms.Button();
-            this.btn_SL910_OffsetDecrease = new System.Windows.Forms.Button();
-            this.btn_SL910_OffsetIncrease = new System.Windows.Forms.Button();
-            this.btn_SL910_FineGainDecrease = new System.Windows.Forms.Button();
-            this.btn_SL910_FineGainIncrease = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseCoarseGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseCoarseGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseFineGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseFineGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseCoarseOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseCoarseOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseFineOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseFineOffset = new System.Windows.Forms.Button();
+            this.txt_SL620Tab_Ipn = new System.Windows.Forms.TextBox();
+            this.label106 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4069,6 +4079,83 @@
             this.SL910Tab.Text = "SL910";
             this.SL910Tab.UseVisualStyleBackColor = true;
             // 
+            // btn_SL910_FineGainDecrease
+            // 
+            this.btn_SL910_FineGainDecrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_FineGainDecrease.Location = new System.Drawing.Point(743, 233);
+            this.btn_SL910_FineGainDecrease.Name = "btn_SL910_FineGainDecrease";
+            this.btn_SL910_FineGainDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_FineGainDecrease.TabIndex = 26;
+            this.btn_SL910_FineGainDecrease.Text = "FG-";
+            this.btn_SL910_FineGainDecrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_FineGainDecrease.Click += new System.EventHandler(this.btn_SL910_FineGainDecrease_Click);
+            // 
+            // btn_SL910_FineGainIncrease
+            // 
+            this.btn_SL910_FineGainIncrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_FineGainIncrease.Location = new System.Drawing.Point(743, 191);
+            this.btn_SL910_FineGainIncrease.Name = "btn_SL910_FineGainIncrease";
+            this.btn_SL910_FineGainIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_FineGainIncrease.TabIndex = 25;
+            this.btn_SL910_FineGainIncrease.Text = "FG+";
+            this.btn_SL910_FineGainIncrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_FineGainIncrease.Click += new System.EventHandler(this.btn_SL910_FineGainIncrease_Click);
+            // 
+            // btn_SL910_OffsetDecrease
+            // 
+            this.btn_SL910_OffsetDecrease.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL910_OffsetDecrease.Location = new System.Drawing.Point(744, 340);
+            this.btn_SL910_OffsetDecrease.Name = "btn_SL910_OffsetDecrease";
+            this.btn_SL910_OffsetDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_OffsetDecrease.TabIndex = 24;
+            this.btn_SL910_OffsetDecrease.Text = "O-";
+            this.btn_SL910_OffsetDecrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_OffsetDecrease.Click += new System.EventHandler(this.btn_SL910_OffsetDecrease_Click);
+            // 
+            // btn_SL910_OffsetIncrease
+            // 
+            this.btn_SL910_OffsetIncrease.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL910_OffsetIncrease.Location = new System.Drawing.Point(744, 298);
+            this.btn_SL910_OffsetIncrease.Name = "btn_SL910_OffsetIncrease";
+            this.btn_SL910_OffsetIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_OffsetIncrease.TabIndex = 23;
+            this.btn_SL910_OffsetIncrease.Text = "O+";
+            this.btn_SL910_OffsetIncrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_OffsetIncrease.Click += new System.EventHandler(this.btn_SL910_OffsetIncrease_Click);
+            // 
+            // btn_SL910_GainDecrease
+            // 
+            this.btn_SL910_GainDecrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_GainDecrease.Location = new System.Drawing.Point(744, 130);
+            this.btn_SL910_GainDecrease.Name = "btn_SL910_GainDecrease";
+            this.btn_SL910_GainDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_GainDecrease.TabIndex = 22;
+            this.btn_SL910_GainDecrease.Text = "CG-";
+            this.btn_SL910_GainDecrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_GainDecrease.Click += new System.EventHandler(this.btn_SL910_GainDecrease_Click);
+            // 
+            // btn_SL910_GainIncrease
+            // 
+            this.btn_SL910_GainIncrease.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL910_GainIncrease.Location = new System.Drawing.Point(744, 88);
+            this.btn_SL910_GainIncrease.Name = "btn_SL910_GainIncrease";
+            this.btn_SL910_GainIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_GainIncrease.TabIndex = 21;
+            this.btn_SL910_GainIncrease.Text = "CG+";
+            this.btn_SL910_GainIncrease.UseVisualStyleBackColor = false;
+            this.btn_SL910_GainIncrease.Click += new System.EventHandler(this.btn_SL910_GainIncrease_Click);
+            // 
+            // btn_SL910_910sop_Nornal
+            // 
+            this.btn_SL910_910sop_Nornal.BackColor = System.Drawing.Color.Silver;
+            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(577, 17);
+            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
+            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
+            this.btn_SL910_910sop_Nornal.TabIndex = 15;
+            this.btn_SL910_910sop_Nornal.Text = "SOPx Normal";
+            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = false;
+            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
+            // 
             // btn_SOP14_TestMode
             // 
             this.btn_SOP14_TestMode.BackColor = System.Drawing.Color.Silver;
@@ -4079,6 +4166,46 @@
             this.btn_SOP14_TestMode.Text = "SOPx Key";
             this.btn_SOP14_TestMode.UseVisualStyleBackColor = false;
             this.btn_SOP14_TestMode.Click += new System.EventHandler(this.btn_SOP14_TestMode_Click);
+            // 
+            // label104
+            // 
+            this.label104.AutoSize = true;
+            this.label104.Location = new System.Drawing.Point(343, 17);
+            this.label104.Name = "label104";
+            this.label104.Size = new System.Drawing.Size(30, 13);
+            this.label104.TabIndex = 20;
+            this.label104.Text = "IP(A)";
+            // 
+            // txt_SL910_Ip
+            // 
+            this.txt_SL910_Ip.Location = new System.Drawing.Point(343, 33);
+            this.txt_SL910_Ip.Name = "txt_SL910_Ip";
+            this.txt_SL910_Ip.Size = new System.Drawing.Size(30, 20);
+            this.txt_SL910_Ip.TabIndex = 19;
+            this.txt_SL910_Ip.Text = "25";
+            this.txt_SL910_Ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btn_SL910_IpOff
+            // 
+            this.btn_SL910_IpOff.BackColor = System.Drawing.Color.Salmon;
+            this.btn_SL910_IpOff.Location = new System.Drawing.Point(442, 17);
+            this.btn_SL910_IpOff.Name = "btn_SL910_IpOff";
+            this.btn_SL910_IpOff.Size = new System.Drawing.Size(52, 36);
+            this.btn_SL910_IpOff.TabIndex = 18;
+            this.btn_SL910_IpOff.Text = "IP OFF";
+            this.btn_SL910_IpOff.UseVisualStyleBackColor = false;
+            this.btn_SL910_IpOff.Click += new System.EventHandler(this.btn_SL910_IpOff_Click);
+            // 
+            // btn_SL910_IpOn
+            // 
+            this.btn_SL910_IpOn.BackColor = System.Drawing.Color.Salmon;
+            this.btn_SL910_IpOn.Location = new System.Drawing.Point(384, 17);
+            this.btn_SL910_IpOn.Name = "btn_SL910_IpOn";
+            this.btn_SL910_IpOn.Size = new System.Drawing.Size(52, 36);
+            this.btn_SL910_IpOn.TabIndex = 17;
+            this.btn_SL910_IpOn.Text = "IP ON";
+            this.btn_SL910_IpOn.UseVisualStyleBackColor = false;
+            this.btn_SL910_IpOn.Click += new System.EventHandler(this.btn_SL910_IpOn_Click);
             // 
             // btn_SL910_910_out
             // 
@@ -4092,27 +4219,6 @@
             this.btn_SL910_910_out.Text = "VOUT";
             this.btn_SL910_910_out.UseVisualStyleBackColor = false;
             this.btn_SL910_910_out.Click += new System.EventHandler(this.btn_SL910_910out_Click);
-            // 
-            // btn_SL910_910sop_Nornal
-            // 
-            this.btn_SL910_910sop_Nornal.BackColor = System.Drawing.Color.Silver;
-            this.btn_SL910_910sop_Nornal.Location = new System.Drawing.Point(577, 17);
-            this.btn_SL910_910sop_Nornal.Name = "btn_SL910_910sop_Nornal";
-            this.btn_SL910_910sop_Nornal.Size = new System.Drawing.Size(56, 36);
-            this.btn_SL910_910sop_Nornal.TabIndex = 15;
-            this.btn_SL910_910sop_Nornal.Text = "SOPx Normal";
-            this.btn_SL910_910sop_Nornal.UseVisualStyleBackColor = false;
-            this.btn_SL910_910sop_Nornal.Click += new System.EventHandler(this.btn_SL910_910to94_out_Click);
-            // 
-            // btn_SL910_FuseBank1
-            // 
-            this.btn_SL910_FuseBank1.Location = new System.Drawing.Point(760, 420);
-            this.btn_SL910_FuseBank1.Name = "btn_SL910_FuseBank1";
-            this.btn_SL910_FuseBank1.Size = new System.Drawing.Size(26, 19);
-            this.btn_SL910_FuseBank1.TabIndex = 13;
-            this.btn_SL910_FuseBank1.Text = "Trim Bank1";
-            this.btn_SL910_FuseBank1.UseVisualStyleBackColor = true;
-            this.btn_SL910_FuseBank1.Click += new System.EventHandler(this.btn_SL910_FuseBank1_Click);
             // 
             // txt_SL910_ReadLevel
             // 
@@ -4143,18 +4249,6 @@
             this.btn_SL910_ReadFuse.UseVisualStyleBackColor = true;
             this.btn_SL910_ReadFuse.Click += new System.EventHandler(this.btn_SL910_ReadFuse_Click);
             // 
-            // btn_SL1910_WriteAll
-            // 
-            this.btn_SL1910_WriteAll.BackColor = System.Drawing.Color.Chocolate;
-            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(760, 445);
-            this.btn_SL1910_WriteAll.Name = "btn_SL1910_WriteAll";
-            this.btn_SL1910_WriteAll.Size = new System.Drawing.Size(26, 23);
-            this.btn_SL1910_WriteAll.TabIndex = 9;
-            this.btn_SL1910_WriteAll.Text = "Write  All";
-            this.btn_SL1910_WriteAll.UseVisualStyleBackColor = false;
-            this.btn_SL1910_WriteAll.Visible = false;
-            this.btn_SL1910_WriteAll.Click += new System.EventHandler(this.btn_SL1910_WriteAll_Click);
-            // 
             // btn_SL910_TestMode
             // 
             this.btn_SL910_TestMode.BackColor = System.Drawing.Color.Snow;
@@ -4165,18 +4259,6 @@
             this.btn_SL910_TestMode.Text = "TO94 Key";
             this.btn_SL910_TestMode.UseVisualStyleBackColor = false;
             this.btn_SL910_TestMode.Click += new System.EventHandler(this.btn_SL910_TestMode_Click);
-            // 
-            // btn_SL1910_ReadAll
-            // 
-            this.btn_SL1910_ReadAll.BackColor = System.Drawing.Color.Chocolate;
-            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(760, 474);
-            this.btn_SL1910_ReadAll.Name = "btn_SL1910_ReadAll";
-            this.btn_SL1910_ReadAll.Size = new System.Drawing.Size(26, 23);
-            this.btn_SL1910_ReadAll.TabIndex = 8;
-            this.btn_SL1910_ReadAll.Text = "Read   All";
-            this.btn_SL1910_ReadAll.UseVisualStyleBackColor = false;
-            this.btn_SL1910_ReadAll.Visible = false;
-            this.btn_SL1910_ReadAll.Click += new System.EventHandler(this.btn_SL1910_ReadAll_Click);
             // 
             // btn_SL910_FuseBank2
             // 
@@ -4251,8 +4333,52 @@
             this.BoolSel.Name = "BoolSel";
             this.BoolSel.Width = 50;
             // 
+            // btn_SL1910_ReadAll
+            // 
+            this.btn_SL1910_ReadAll.BackColor = System.Drawing.Color.Chocolate;
+            this.btn_SL1910_ReadAll.Location = new System.Drawing.Point(760, 474);
+            this.btn_SL1910_ReadAll.Name = "btn_SL1910_ReadAll";
+            this.btn_SL1910_ReadAll.Size = new System.Drawing.Size(26, 23);
+            this.btn_SL1910_ReadAll.TabIndex = 8;
+            this.btn_SL1910_ReadAll.Text = "Read   All";
+            this.btn_SL1910_ReadAll.UseVisualStyleBackColor = false;
+            this.btn_SL1910_ReadAll.Visible = false;
+            this.btn_SL1910_ReadAll.Click += new System.EventHandler(this.btn_SL1910_ReadAll_Click);
+            // 
+            // btn_SL1910_WriteAll
+            // 
+            this.btn_SL1910_WriteAll.BackColor = System.Drawing.Color.Chocolate;
+            this.btn_SL1910_WriteAll.Location = new System.Drawing.Point(760, 445);
+            this.btn_SL1910_WriteAll.Name = "btn_SL1910_WriteAll";
+            this.btn_SL1910_WriteAll.Size = new System.Drawing.Size(26, 23);
+            this.btn_SL1910_WriteAll.TabIndex = 9;
+            this.btn_SL1910_WriteAll.Text = "Write  All";
+            this.btn_SL1910_WriteAll.UseVisualStyleBackColor = false;
+            this.btn_SL1910_WriteAll.Visible = false;
+            this.btn_SL1910_WriteAll.Click += new System.EventHandler(this.btn_SL1910_WriteAll_Click);
+            // 
+            // btn_SL910_FuseBank1
+            // 
+            this.btn_SL910_FuseBank1.Location = new System.Drawing.Point(760, 420);
+            this.btn_SL910_FuseBank1.Name = "btn_SL910_FuseBank1";
+            this.btn_SL910_FuseBank1.Size = new System.Drawing.Size(26, 19);
+            this.btn_SL910_FuseBank1.TabIndex = 13;
+            this.btn_SL910_FuseBank1.Text = "Trim Bank1";
+            this.btn_SL910_FuseBank1.UseVisualStyleBackColor = true;
+            this.btn_SL910_FuseBank1.Click += new System.EventHandler(this.btn_SL910_FuseBank1_Click);
+            // 
             // SL620Tab
             // 
+            this.SL620Tab.Controls.Add(this.label106);
+            this.SL620Tab.Controls.Add(this.txt_SL620Tab_Ipn);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_DecreaseFineOffset);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_IncreaseFineOffset);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_DecreaseFineGain);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_IncreaseFineGain);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_DecreaseCoarseOffset);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_IncreaseCoarseOffset);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_DecreaseCoarseGain);
+            this.SL620Tab.Controls.Add(this.btn_SL620Tab_IncreaseCoarseGain);
             this.SL620Tab.Controls.Add(this.btn_SL620Tab_VoutPair);
             this.SL620Tab.Controls.Add(this.btn_SL620Tab_TrimSet2);
             this.SL620Tab.Controls.Add(this.btn_SL620Tab_IpConn);
@@ -4299,19 +4425,20 @@
             // 
             this.btn_SL620Tab_TrimSet2.BackColor = System.Drawing.Color.SandyBrown;
             this.btn_SL620Tab_TrimSet2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_TrimSet2.Location = new System.Drawing.Point(624, 18);
+            this.btn_SL620Tab_TrimSet2.Location = new System.Drawing.Point(755, 528);
             this.btn_SL620Tab_TrimSet2.Name = "btn_SL620Tab_TrimSet2";
-            this.btn_SL620Tab_TrimSet2.Size = new System.Drawing.Size(58, 40);
+            this.btn_SL620Tab_TrimSet2.Size = new System.Drawing.Size(38, 40);
             this.btn_SL620Tab_TrimSet2.TabIndex = 17;
             this.btn_SL620Tab_TrimSet2.Text = "2nd Trim";
             this.btn_SL620Tab_TrimSet2.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_TrimSet2.Visible = false;
             this.btn_SL620Tab_TrimSet2.Click += new System.EventHandler(this.btn_SL620Tab_TrimSet2_Click);
             // 
             // btn_SL620Tab_IpConn
             // 
             this.btn_SL620Tab_IpConn.BackColor = System.Drawing.Color.Orange;
             this.btn_SL620Tab_IpConn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpConn.Location = new System.Drawing.Point(391, 18);
+            this.btn_SL620Tab_IpConn.Location = new System.Drawing.Point(458, 18);
             this.btn_SL620Tab_IpConn.Name = "btn_SL620Tab_IpConn";
             this.btn_SL620Tab_IpConn.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_IpConn.TabIndex = 16;
@@ -4359,7 +4486,7 @@
             // 
             this.btn_SL620Tab_IpOff.BackColor = System.Drawing.Color.Orange;
             this.btn_SL620Tab_IpOff.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpOff.Location = new System.Drawing.Point(523, 18);
+            this.btn_SL620Tab_IpOff.Location = new System.Drawing.Point(590, 18);
             this.btn_SL620Tab_IpOff.Name = "btn_SL620Tab_IpOff";
             this.btn_SL620Tab_IpOff.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_IpOff.TabIndex = 13;
@@ -4371,7 +4498,7 @@
             // 
             this.btn_SL620Tab_IpOn.BackColor = System.Drawing.Color.Orange;
             this.btn_SL620Tab_IpOn.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SL620Tab_IpOn.Location = new System.Drawing.Point(457, 18);
+            this.btn_SL620Tab_IpOn.Location = new System.Drawing.Point(524, 18);
             this.btn_SL620Tab_IpOn.Name = "btn_SL620Tab_IpOn";
             this.btn_SL620Tab_IpOn.Size = new System.Drawing.Size(58, 40);
             this.btn_SL620Tab_IpOn.TabIndex = 12;
@@ -4539,7 +4666,7 @@
             this.panel11.Controls.Add(this.SL620_Tab_DataGridView);
             this.panel11.Location = new System.Drawing.Point(8, 118);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(789, 453);
+            this.panel11.Size = new System.Drawing.Size(736, 453);
             this.panel11.TabIndex = 0;
             // 
             // SL620_Tab_DataGridView
@@ -4551,7 +4678,7 @@
             this.SL620_Tab_DataGridView.Location = new System.Drawing.Point(3, 3);
             this.SL620_Tab_DataGridView.Name = "SL620_Tab_DataGridView";
             this.SL620_Tab_DataGridView.RowHeadersVisible = false;
-            this.SL620_Tab_DataGridView.Size = new System.Drawing.Size(783, 237);
+            this.SL620_Tab_DataGridView.Size = new System.Drawing.Size(736, 237);
             this.SL620_Tab_DataGridView.TabIndex = 0;
             // 
             // SL620BoolSet
@@ -4631,6 +4758,34 @@
             this.btn_Routines_Result.Size = new System.Drawing.Size(789, 562);
             this.btn_Routines_Result.TabIndex = 6;
             this.btn_Routines_Result.TabStop = false;
+            // 
+            // btn_Routins_Scan
+            // 
+            this.btn_Routins_Scan.Location = new System.Drawing.Point(719, 15);
+            this.btn_Routins_Scan.Name = "btn_Routins_Scan";
+            this.btn_Routins_Scan.Size = new System.Drawing.Size(62, 31);
+            this.btn_Routins_Scan.TabIndex = 50;
+            this.btn_Routins_Scan.Text = "Scan";
+            this.btn_Routins_Scan.UseVisualStyleBackColor = true;
+            this.btn_Routins_Scan.Click += new System.EventHandler(this.btn_Routins_Scan_Click);
+            // 
+            // label105
+            // 
+            this.label105.AutoSize = true;
+            this.label105.Location = new System.Drawing.Point(367, 22);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(66, 17);
+            this.label105.TabIndex = 49;
+            this.label105.Text = "Com Port:";
+            // 
+            // cmb_Routins_Com
+            // 
+            this.cmb_Routins_Com.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_Routins_Com.FormattingEnabled = true;
+            this.cmb_Routins_Com.Location = new System.Drawing.Point(435, 20);
+            this.cmb_Routins_Com.Name = "cmb_Routins_Com";
+            this.cmb_Routins_Com.Size = new System.Drawing.Size(277, 21);
+            this.cmb_Routins_Com.TabIndex = 48;
             // 
             // btn_Routins_LoadFile
             // 
@@ -5381,139 +5536,116 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // btn_SL910_IpOn
+            // btn_SL620Tab_DecreaseCoarseGain
             // 
-            this.btn_SL910_IpOn.BackColor = System.Drawing.Color.Salmon;
-            this.btn_SL910_IpOn.Location = new System.Drawing.Point(384, 17);
-            this.btn_SL910_IpOn.Name = "btn_SL910_IpOn";
-            this.btn_SL910_IpOn.Size = new System.Drawing.Size(52, 36);
-            this.btn_SL910_IpOn.TabIndex = 17;
-            this.btn_SL910_IpOn.Text = "IP ON";
-            this.btn_SL910_IpOn.UseVisualStyleBackColor = false;
-            this.btn_SL910_IpOn.Click += new System.EventHandler(this.btn_SL910_IpOn_Click);
+            this.btn_SL620Tab_DecreaseCoarseGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_DecreaseCoarseGain.Location = new System.Drawing.Point(750, 163);
+            this.btn_SL620Tab_DecreaseCoarseGain.Name = "btn_SL620Tab_DecreaseCoarseGain";
+            this.btn_SL620Tab_DecreaseCoarseGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseCoarseGain.TabIndex = 24;
+            this.btn_SL620Tab_DecreaseCoarseGain.Text = "CG-";
+            this.btn_SL620Tab_DecreaseCoarseGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseCoarseGain.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseCoarseGain_Click);
             // 
-            // btn_SL910_IpOff
+            // btn_SL620Tab_IncreaseCoarseGain
             // 
-            this.btn_SL910_IpOff.BackColor = System.Drawing.Color.Salmon;
-            this.btn_SL910_IpOff.Location = new System.Drawing.Point(442, 17);
-            this.btn_SL910_IpOff.Name = "btn_SL910_IpOff";
-            this.btn_SL910_IpOff.Size = new System.Drawing.Size(52, 36);
-            this.btn_SL910_IpOff.TabIndex = 18;
-            this.btn_SL910_IpOff.Text = "IP OFF";
-            this.btn_SL910_IpOff.UseVisualStyleBackColor = false;
-            this.btn_SL910_IpOff.Click += new System.EventHandler(this.btn_SL910_IpOff_Click);
+            this.btn_SL620Tab_IncreaseCoarseGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_IncreaseCoarseGain.Location = new System.Drawing.Point(750, 121);
+            this.btn_SL620Tab_IncreaseCoarseGain.Name = "btn_SL620Tab_IncreaseCoarseGain";
+            this.btn_SL620Tab_IncreaseCoarseGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseCoarseGain.TabIndex = 23;
+            this.btn_SL620Tab_IncreaseCoarseGain.Text = "CG+";
+            this.btn_SL620Tab_IncreaseCoarseGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseCoarseGain.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseCoarseGain_Click);
             // 
-            // txt_SL910_Ip
+            // btn_SL620Tab_DecreaseFineGain
             // 
-            this.txt_SL910_Ip.Location = new System.Drawing.Point(343, 33);
-            this.txt_SL910_Ip.Name = "txt_SL910_Ip";
-            this.txt_SL910_Ip.Size = new System.Drawing.Size(30, 20);
-            this.txt_SL910_Ip.TabIndex = 19;
-            this.txt_SL910_Ip.Text = "25";
-            this.txt_SL910_Ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.btn_SL620Tab_DecreaseFineGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_DecreaseFineGain.Location = new System.Drawing.Point(749, 257);
+            this.btn_SL620Tab_DecreaseFineGain.Name = "btn_SL620Tab_DecreaseFineGain";
+            this.btn_SL620Tab_DecreaseFineGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseFineGain.TabIndex = 30;
+            this.btn_SL620Tab_DecreaseFineGain.Text = "FG-";
+            this.btn_SL620Tab_DecreaseFineGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseFineGain.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseFineGain_Click);
             // 
-            // label104
+            // btn_SL620Tab_IncreaseFineGain
             // 
-            this.label104.AutoSize = true;
-            this.label104.Location = new System.Drawing.Point(343, 17);
-            this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(30, 13);
-            this.label104.TabIndex = 20;
-            this.label104.Text = "IP(A)";
+            this.btn_SL620Tab_IncreaseFineGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_IncreaseFineGain.Location = new System.Drawing.Point(749, 215);
+            this.btn_SL620Tab_IncreaseFineGain.Name = "btn_SL620Tab_IncreaseFineGain";
+            this.btn_SL620Tab_IncreaseFineGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseFineGain.TabIndex = 29;
+            this.btn_SL620Tab_IncreaseFineGain.Text = "FG+";
+            this.btn_SL620Tab_IncreaseFineGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseFineGain.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseFineGain_Click);
             // 
-            // cmb_Routins_Com
+            // btn_SL620Tab_DecreaseCoarseOffset
             // 
-            this.cmb_Routins_Com.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmb_Routins_Com.FormattingEnabled = true;
-            this.cmb_Routins_Com.Location = new System.Drawing.Point(435, 20);
-            this.cmb_Routins_Com.Name = "cmb_Routins_Com";
-            this.cmb_Routins_Com.Size = new System.Drawing.Size(277, 21);
-            this.cmb_Routins_Com.TabIndex = 48;
+            this.btn_SL620Tab_DecreaseCoarseOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_DecreaseCoarseOffset.Location = new System.Drawing.Point(750, 371);
+            this.btn_SL620Tab_DecreaseCoarseOffset.Name = "btn_SL620Tab_DecreaseCoarseOffset";
+            this.btn_SL620Tab_DecreaseCoarseOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseCoarseOffset.TabIndex = 28;
+            this.btn_SL620Tab_DecreaseCoarseOffset.Text = "CO-";
+            this.btn_SL620Tab_DecreaseCoarseOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseCoarseOffset.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseCoarseOffset_Click);
             // 
-            // label105
+            // btn_SL620Tab_IncreaseCoarseOffset
             // 
-            this.label105.AutoSize = true;
-            this.label105.Location = new System.Drawing.Point(367, 22);
-            this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(66, 17);
-            this.label105.TabIndex = 49;
-            this.label105.Text = "Com Port:";
+            this.btn_SL620Tab_IncreaseCoarseOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_IncreaseCoarseOffset.Location = new System.Drawing.Point(750, 329);
+            this.btn_SL620Tab_IncreaseCoarseOffset.Name = "btn_SL620Tab_IncreaseCoarseOffset";
+            this.btn_SL620Tab_IncreaseCoarseOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseCoarseOffset.TabIndex = 27;
+            this.btn_SL620Tab_IncreaseCoarseOffset.Text = "CO+";
+            this.btn_SL620Tab_IncreaseCoarseOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseCoarseOffset.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseCoarseOffset_Click);
             // 
-            // btn_Routins_Scan
+            // btn_SL620Tab_DecreaseFineOffset
             // 
-            this.btn_Routins_Scan.Location = new System.Drawing.Point(719, 15);
-            this.btn_Routins_Scan.Name = "btn_Routins_Scan";
-            this.btn_Routins_Scan.Size = new System.Drawing.Size(62, 31);
-            this.btn_Routins_Scan.TabIndex = 50;
-            this.btn_Routins_Scan.Text = "Scan";
-            this.btn_Routins_Scan.UseVisualStyleBackColor = true;
-            this.btn_Routins_Scan.Click += new System.EventHandler(this.btn_Routins_Scan_Click);
+            this.btn_SL620Tab_DecreaseFineOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_DecreaseFineOffset.Location = new System.Drawing.Point(750, 467);
+            this.btn_SL620Tab_DecreaseFineOffset.Name = "btn_SL620Tab_DecreaseFineOffset";
+            this.btn_SL620Tab_DecreaseFineOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseFineOffset.TabIndex = 32;
+            this.btn_SL620Tab_DecreaseFineOffset.Text = "FO-";
+            this.btn_SL620Tab_DecreaseFineOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseFineOffset.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseFineOffset_Click);
             // 
-            // btn_SL910_GainIncrease
+            // btn_SL620Tab_IncreaseFineOffset
             // 
-            this.btn_SL910_GainIncrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_GainIncrease.Location = new System.Drawing.Point(744, 88);
-            this.btn_SL910_GainIncrease.Name = "btn_SL910_GainIncrease";
-            this.btn_SL910_GainIncrease.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL910_GainIncrease.TabIndex = 21;
-            this.btn_SL910_GainIncrease.Text = "CG+";
-            this.btn_SL910_GainIncrease.UseVisualStyleBackColor = false;
-            this.btn_SL910_GainIncrease.Click += new System.EventHandler(this.btn_SL910_GainIncrease_Click);
+            this.btn_SL620Tab_IncreaseFineOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_IncreaseFineOffset.Location = new System.Drawing.Point(750, 425);
+            this.btn_SL620Tab_IncreaseFineOffset.Name = "btn_SL620Tab_IncreaseFineOffset";
+            this.btn_SL620Tab_IncreaseFineOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseFineOffset.TabIndex = 31;
+            this.btn_SL620Tab_IncreaseFineOffset.Text = "FO+";
+            this.btn_SL620Tab_IncreaseFineOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseFineOffset.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseFineOffset_Click);
             // 
-            // btn_SL910_GainDecrease
+            // txt_SL620Tab_Ipn
             // 
-            this.btn_SL910_GainDecrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_GainDecrease.Location = new System.Drawing.Point(744, 130);
-            this.btn_SL910_GainDecrease.Name = "btn_SL910_GainDecrease";
-            this.btn_SL910_GainDecrease.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL910_GainDecrease.TabIndex = 22;
-            this.btn_SL910_GainDecrease.Text = "CG-";
-            this.btn_SL910_GainDecrease.UseVisualStyleBackColor = false;
-            this.btn_SL910_GainDecrease.Click += new System.EventHandler(this.btn_SL910_GainDecrease_Click);
+            this.txt_SL620Tab_Ipn.BackColor = System.Drawing.Color.CadetBlue;
+            this.txt_SL620Tab_Ipn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_SL620Tab_Ipn.ForeColor = System.Drawing.Color.White;
+            this.txt_SL620Tab_Ipn.Location = new System.Drawing.Point(391, 36);
+            this.txt_SL620Tab_Ipn.Name = "txt_SL620Tab_Ipn";
+            this.txt_SL620Tab_Ipn.Size = new System.Drawing.Size(58, 22);
+            this.txt_SL620Tab_Ipn.TabIndex = 89;
+            this.txt_SL620Tab_Ipn.Text = "20";
+            this.txt_SL620Tab_Ipn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btn_SL910_OffsetDecrease
+            // label106
             // 
-            this.btn_SL910_OffsetDecrease.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL910_OffsetDecrease.Location = new System.Drawing.Point(744, 340);
-            this.btn_SL910_OffsetDecrease.Name = "btn_SL910_OffsetDecrease";
-            this.btn_SL910_OffsetDecrease.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL910_OffsetDecrease.TabIndex = 24;
-            this.btn_SL910_OffsetDecrease.Text = "O-";
-            this.btn_SL910_OffsetDecrease.UseVisualStyleBackColor = false;
-            this.btn_SL910_OffsetDecrease.Click += new System.EventHandler(this.btn_SL910_OffsetDecrease_Click);
-            // 
-            // btn_SL910_OffsetIncrease
-            // 
-            this.btn_SL910_OffsetIncrease.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL910_OffsetIncrease.Location = new System.Drawing.Point(744, 298);
-            this.btn_SL910_OffsetIncrease.Name = "btn_SL910_OffsetIncrease";
-            this.btn_SL910_OffsetIncrease.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL910_OffsetIncrease.TabIndex = 23;
-            this.btn_SL910_OffsetIncrease.Text = "O+";
-            this.btn_SL910_OffsetIncrease.UseVisualStyleBackColor = false;
-            this.btn_SL910_OffsetIncrease.Click += new System.EventHandler(this.btn_SL910_OffsetIncrease_Click);
-            // 
-            // btn_SL910_FineGainDecrease
-            // 
-            this.btn_SL910_FineGainDecrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_FineGainDecrease.Location = new System.Drawing.Point(743, 233);
-            this.btn_SL910_FineGainDecrease.Name = "btn_SL910_FineGainDecrease";
-            this.btn_SL910_FineGainDecrease.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL910_FineGainDecrease.TabIndex = 26;
-            this.btn_SL910_FineGainDecrease.Text = "FG-";
-            this.btn_SL910_FineGainDecrease.UseVisualStyleBackColor = false;
-            this.btn_SL910_FineGainDecrease.Click += new System.EventHandler(this.btn_SL910_FineGainDecrease_Click);
-            // 
-            // btn_SL910_FineGainIncrease
-            // 
-            this.btn_SL910_FineGainIncrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_FineGainIncrease.Location = new System.Drawing.Point(743, 191);
-            this.btn_SL910_FineGainIncrease.Name = "btn_SL910_FineGainIncrease";
-            this.btn_SL910_FineGainIncrease.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL910_FineGainIncrease.TabIndex = 25;
-            this.btn_SL910_FineGainIncrease.Text = "FG+";
-            this.btn_SL910_FineGainIncrease.UseVisualStyleBackColor = false;
-            this.btn_SL910_FineGainIncrease.Click += new System.EventHandler(this.btn_SL910_FineGainIncrease_Click);
+            this.label106.AutoSize = true;
+            this.label106.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label106.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label106.Location = new System.Drawing.Point(401, 19);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(33, 13);
+            this.label106.TabIndex = 90;
+            this.label106.Text = "IP (A)";
             // 
             // CurrentSensorConsole
             // 
@@ -5527,7 +5659,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.4.9 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.5.0 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
@@ -6023,5 +6155,15 @@
         private System.Windows.Forms.Button btn_SL910_GainIncrease;
         private System.Windows.Forms.Button btn_SL910_FineGainDecrease;
         private System.Windows.Forms.Button btn_SL910_FineGainIncrease;
+        private System.Windows.Forms.Button btn_SL620Tab_DecreaseCoarseGain;
+        private System.Windows.Forms.Button btn_SL620Tab_IncreaseCoarseGain;
+        private System.Windows.Forms.Button btn_SL620Tab_DecreaseFineOffset;
+        private System.Windows.Forms.Button btn_SL620Tab_IncreaseFineOffset;
+        private System.Windows.Forms.Button btn_SL620Tab_DecreaseFineGain;
+        private System.Windows.Forms.Button btn_SL620Tab_IncreaseFineGain;
+        private System.Windows.Forms.Button btn_SL620Tab_DecreaseCoarseOffset;
+        private System.Windows.Forms.Button btn_SL620Tab_IncreaseCoarseOffset;
+        private System.Windows.Forms.Label label106;
+        private System.Windows.Forms.TextBox txt_SL620Tab_Ipn;
     }
 }
