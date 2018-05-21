@@ -18472,33 +18472,33 @@ namespace CurrentSensorV3
                     //reg_data |= index;
                     reg_data--;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset++");
+                    DisplayOperateMes("Offset--");
                 }
                 else if (index == 0)
                 {
                     reg_data = 0x80 ;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset++");
+                    DisplayOperateMes("Offset--");
                 }
                 else
                 {
-                    DisplayOperateMes("Max Offset Gain", Color.Red);
+                    DisplayOperateMes("Min Offset Gain", Color.Red);
                 }
             }
             else
             {
-                if (index < 63)
+                if (index < 128)
                 {
                     //index++;
                     //reg_data &= ~bit_op_mask;
                     //reg_data |= index;
                     reg_data++;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset");
+                    DisplayOperateMes("Offset--");
                 }
                 else
                 {
-                    DisplayOperateMes("Max Offset Gain", Color.Red);
+                    DisplayOperateMes("Min Offset Gain", Color.Red);
                 }
             }
         }
@@ -18514,18 +18514,18 @@ namespace CurrentSensorV3
 
             if (direction == 0)
             {
-                if (index < 63)
+                if (index < 127)
                 {
                     //index++;
                     //reg_data &= ~bit_op_mask;
                     //reg_data |= index;
                     reg_data++;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset--");
+                    DisplayOperateMes("Offset++");
                 }
                 else
                 {
-                    DisplayOperateMes("Min Offset Gain", Color.Red);
+                    DisplayOperateMes("Max Offset Gain", Color.Red);
                 }
             }
             else
@@ -18537,17 +18537,17 @@ namespace CurrentSensorV3
                     //reg_data |= index;
                     reg_data--;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset--");
+                    DisplayOperateMes("Offset++");
                 }
                 else if (index == 0)
                 {
                     reg_data = 00;
                     SL910_Tab_DataGridView.Rows[1].Cells[3].Value = reg_data.ToString("X2");
-                    DisplayOperateMes("Offset--");
+                    DisplayOperateMes("Offset++");
                 }
                 else
                 {
-                    DisplayOperateMes("Min Offset Gain", Color.Red);
+                    DisplayOperateMes("Max Offset Gain", Color.Red);
                 }
             }
         }

@@ -345,6 +345,16 @@
             this.btn_SL1910_WriteAll = new System.Windows.Forms.Button();
             this.btn_SL910_FuseBank1 = new System.Windows.Forms.Button();
             this.SL620Tab = new System.Windows.Forms.TabPage();
+            this.label106 = new System.Windows.Forms.Label();
+            this.txt_SL620Tab_Ipn = new System.Windows.Forms.TextBox();
+            this.btn_SL620Tab_DecreaseFineOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseFineOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseFineGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseFineGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseCoarseOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseCoarseOffset = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_DecreaseCoarseGain = new System.Windows.Forms.Button();
+            this.btn_SL620Tab_IncreaseCoarseGain = new System.Windows.Forms.Button();
             this.btn_SL620Tab_VoutPair = new System.Windows.Forms.Button();
             this.btn_SL620Tab_TrimSet2 = new System.Windows.Forms.Button();
             this.btn_SL620Tab_IpConn = new System.Windows.Forms.Button();
@@ -441,16 +451,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txt_OutputLogInfo = new System.Windows.Forms.RichTextBox();
             this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            this.btn_SL620Tab_DecreaseCoarseGain = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_IncreaseCoarseGain = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_DecreaseFineGain = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_IncreaseFineGain = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_DecreaseCoarseOffset = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_IncreaseCoarseOffset = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_DecreaseFineOffset = new System.Windows.Forms.Button();
-            this.btn_SL620Tab_IncreaseFineOffset = new System.Windows.Forms.Button();
-            this.txt_SL620Tab_Ipn = new System.Windows.Forms.TextBox();
-            this.label106 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4082,9 +4082,9 @@
             // btn_SL910_FineGainDecrease
             // 
             this.btn_SL910_FineGainDecrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_FineGainDecrease.Location = new System.Drawing.Point(743, 233);
+            this.btn_SL910_FineGainDecrease.Location = new System.Drawing.Point(720, 233);
             this.btn_SL910_FineGainDecrease.Name = "btn_SL910_FineGainDecrease";
-            this.btn_SL910_FineGainDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_FineGainDecrease.Size = new System.Drawing.Size(70, 36);
             this.btn_SL910_FineGainDecrease.TabIndex = 26;
             this.btn_SL910_FineGainDecrease.Text = "FG-";
             this.btn_SL910_FineGainDecrease.UseVisualStyleBackColor = false;
@@ -4093,9 +4093,9 @@
             // btn_SL910_FineGainIncrease
             // 
             this.btn_SL910_FineGainIncrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_FineGainIncrease.Location = new System.Drawing.Point(743, 191);
+            this.btn_SL910_FineGainIncrease.Location = new System.Drawing.Point(720, 191);
             this.btn_SL910_FineGainIncrease.Name = "btn_SL910_FineGainIncrease";
-            this.btn_SL910_FineGainIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_FineGainIncrease.Size = new System.Drawing.Size(70, 36);
             this.btn_SL910_FineGainIncrease.TabIndex = 25;
             this.btn_SL910_FineGainIncrease.Text = "FG+";
             this.btn_SL910_FineGainIncrease.UseVisualStyleBackColor = false;
@@ -4104,31 +4104,31 @@
             // btn_SL910_OffsetDecrease
             // 
             this.btn_SL910_OffsetDecrease.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL910_OffsetDecrease.Location = new System.Drawing.Point(744, 340);
+            this.btn_SL910_OffsetDecrease.Location = new System.Drawing.Point(721, 290);
             this.btn_SL910_OffsetDecrease.Name = "btn_SL910_OffsetDecrease";
-            this.btn_SL910_OffsetDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_OffsetDecrease.Size = new System.Drawing.Size(70, 36);
             this.btn_SL910_OffsetDecrease.TabIndex = 24;
-            this.btn_SL910_OffsetDecrease.Text = "O-";
+            this.btn_SL910_OffsetDecrease.Text = "O+";
             this.btn_SL910_OffsetDecrease.UseVisualStyleBackColor = false;
             this.btn_SL910_OffsetDecrease.Click += new System.EventHandler(this.btn_SL910_OffsetDecrease_Click);
             // 
             // btn_SL910_OffsetIncrease
             // 
             this.btn_SL910_OffsetIncrease.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL910_OffsetIncrease.Location = new System.Drawing.Point(744, 298);
+            this.btn_SL910_OffsetIncrease.Location = new System.Drawing.Point(720, 332);
             this.btn_SL910_OffsetIncrease.Name = "btn_SL910_OffsetIncrease";
-            this.btn_SL910_OffsetIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_OffsetIncrease.Size = new System.Drawing.Size(70, 36);
             this.btn_SL910_OffsetIncrease.TabIndex = 23;
-            this.btn_SL910_OffsetIncrease.Text = "O+";
+            this.btn_SL910_OffsetIncrease.Text = "O-";
             this.btn_SL910_OffsetIncrease.UseVisualStyleBackColor = false;
             this.btn_SL910_OffsetIncrease.Click += new System.EventHandler(this.btn_SL910_OffsetIncrease_Click);
             // 
             // btn_SL910_GainDecrease
             // 
             this.btn_SL910_GainDecrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_GainDecrease.Location = new System.Drawing.Point(744, 130);
+            this.btn_SL910_GainDecrease.Location = new System.Drawing.Point(721, 130);
             this.btn_SL910_GainDecrease.Name = "btn_SL910_GainDecrease";
-            this.btn_SL910_GainDecrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_GainDecrease.Size = new System.Drawing.Size(70, 36);
             this.btn_SL910_GainDecrease.TabIndex = 22;
             this.btn_SL910_GainDecrease.Text = "CG-";
             this.btn_SL910_GainDecrease.UseVisualStyleBackColor = false;
@@ -4137,9 +4137,9 @@
             // btn_SL910_GainIncrease
             // 
             this.btn_SL910_GainIncrease.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL910_GainIncrease.Location = new System.Drawing.Point(744, 88);
+            this.btn_SL910_GainIncrease.Location = new System.Drawing.Point(721, 88);
             this.btn_SL910_GainIncrease.Name = "btn_SL910_GainIncrease";
-            this.btn_SL910_GainIncrease.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL910_GainIncrease.Size = new System.Drawing.Size(70, 36);
             this.btn_SL910_GainIncrease.TabIndex = 21;
             this.btn_SL910_GainIncrease.Text = "CG+";
             this.btn_SL910_GainIncrease.UseVisualStyleBackColor = false;
@@ -4312,7 +4312,7 @@
             this.panel10.Controls.Add(this.btn_SL910_FuseBank1);
             this.panel10.Location = new System.Drawing.Point(8, 59);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(730, 509);
+            this.panel10.Size = new System.Drawing.Size(697, 509);
             this.panel10.TabIndex = 2;
             // 
             // SL910_Tab_DataGridView
@@ -4324,7 +4324,7 @@
             this.SL910_Tab_DataGridView.MultiSelect = false;
             this.SL910_Tab_DataGridView.Name = "SL910_Tab_DataGridView";
             this.SL910_Tab_DataGridView.RowHeadersVisible = false;
-            this.SL910_Tab_DataGridView.Size = new System.Drawing.Size(783, 351);
+            this.SL910_Tab_DataGridView.Size = new System.Drawing.Size(691, 351);
             this.SL910_Tab_DataGridView.TabIndex = 0;
             // 
             // BoolSel
@@ -4408,6 +4408,117 @@
             this.SL620Tab.TabIndex = 6;
             this.SL620Tab.Text = "SL620";
             this.SL620Tab.UseVisualStyleBackColor = true;
+            // 
+            // label106
+            // 
+            this.label106.AutoSize = true;
+            this.label106.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label106.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label106.Location = new System.Drawing.Point(401, 19);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(33, 13);
+            this.label106.TabIndex = 90;
+            this.label106.Text = "IP (A)";
+            // 
+            // txt_SL620Tab_Ipn
+            // 
+            this.txt_SL620Tab_Ipn.BackColor = System.Drawing.Color.CadetBlue;
+            this.txt_SL620Tab_Ipn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_SL620Tab_Ipn.ForeColor = System.Drawing.Color.White;
+            this.txt_SL620Tab_Ipn.Location = new System.Drawing.Point(391, 36);
+            this.txt_SL620Tab_Ipn.Name = "txt_SL620Tab_Ipn";
+            this.txt_SL620Tab_Ipn.Size = new System.Drawing.Size(58, 22);
+            this.txt_SL620Tab_Ipn.TabIndex = 89;
+            this.txt_SL620Tab_Ipn.Text = "20";
+            this.txt_SL620Tab_Ipn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btn_SL620Tab_DecreaseFineOffset
+            // 
+            this.btn_SL620Tab_DecreaseFineOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_DecreaseFineOffset.Location = new System.Drawing.Point(750, 467);
+            this.btn_SL620Tab_DecreaseFineOffset.Name = "btn_SL620Tab_DecreaseFineOffset";
+            this.btn_SL620Tab_DecreaseFineOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseFineOffset.TabIndex = 32;
+            this.btn_SL620Tab_DecreaseFineOffset.Text = "FO-";
+            this.btn_SL620Tab_DecreaseFineOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseFineOffset.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseFineOffset_Click);
+            // 
+            // btn_SL620Tab_IncreaseFineOffset
+            // 
+            this.btn_SL620Tab_IncreaseFineOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_IncreaseFineOffset.Location = new System.Drawing.Point(750, 425);
+            this.btn_SL620Tab_IncreaseFineOffset.Name = "btn_SL620Tab_IncreaseFineOffset";
+            this.btn_SL620Tab_IncreaseFineOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseFineOffset.TabIndex = 31;
+            this.btn_SL620Tab_IncreaseFineOffset.Text = "FO+";
+            this.btn_SL620Tab_IncreaseFineOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseFineOffset.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseFineOffset_Click);
+            // 
+            // btn_SL620Tab_DecreaseFineGain
+            // 
+            this.btn_SL620Tab_DecreaseFineGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_DecreaseFineGain.Location = new System.Drawing.Point(749, 257);
+            this.btn_SL620Tab_DecreaseFineGain.Name = "btn_SL620Tab_DecreaseFineGain";
+            this.btn_SL620Tab_DecreaseFineGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseFineGain.TabIndex = 30;
+            this.btn_SL620Tab_DecreaseFineGain.Text = "FG-";
+            this.btn_SL620Tab_DecreaseFineGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseFineGain.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseFineGain_Click);
+            // 
+            // btn_SL620Tab_IncreaseFineGain
+            // 
+            this.btn_SL620Tab_IncreaseFineGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_IncreaseFineGain.Location = new System.Drawing.Point(749, 215);
+            this.btn_SL620Tab_IncreaseFineGain.Name = "btn_SL620Tab_IncreaseFineGain";
+            this.btn_SL620Tab_IncreaseFineGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseFineGain.TabIndex = 29;
+            this.btn_SL620Tab_IncreaseFineGain.Text = "FG+";
+            this.btn_SL620Tab_IncreaseFineGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseFineGain.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseFineGain_Click);
+            // 
+            // btn_SL620Tab_DecreaseCoarseOffset
+            // 
+            this.btn_SL620Tab_DecreaseCoarseOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_DecreaseCoarseOffset.Location = new System.Drawing.Point(750, 371);
+            this.btn_SL620Tab_DecreaseCoarseOffset.Name = "btn_SL620Tab_DecreaseCoarseOffset";
+            this.btn_SL620Tab_DecreaseCoarseOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseCoarseOffset.TabIndex = 28;
+            this.btn_SL620Tab_DecreaseCoarseOffset.Text = "CO-";
+            this.btn_SL620Tab_DecreaseCoarseOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseCoarseOffset.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseCoarseOffset_Click);
+            // 
+            // btn_SL620Tab_IncreaseCoarseOffset
+            // 
+            this.btn_SL620Tab_IncreaseCoarseOffset.BackColor = System.Drawing.Color.LightGray;
+            this.btn_SL620Tab_IncreaseCoarseOffset.Location = new System.Drawing.Point(750, 329);
+            this.btn_SL620Tab_IncreaseCoarseOffset.Name = "btn_SL620Tab_IncreaseCoarseOffset";
+            this.btn_SL620Tab_IncreaseCoarseOffset.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseCoarseOffset.TabIndex = 27;
+            this.btn_SL620Tab_IncreaseCoarseOffset.Text = "CO+";
+            this.btn_SL620Tab_IncreaseCoarseOffset.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseCoarseOffset.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseCoarseOffset_Click);
+            // 
+            // btn_SL620Tab_DecreaseCoarseGain
+            // 
+            this.btn_SL620Tab_DecreaseCoarseGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_DecreaseCoarseGain.Location = new System.Drawing.Point(750, 163);
+            this.btn_SL620Tab_DecreaseCoarseGain.Name = "btn_SL620Tab_DecreaseCoarseGain";
+            this.btn_SL620Tab_DecreaseCoarseGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_DecreaseCoarseGain.TabIndex = 24;
+            this.btn_SL620Tab_DecreaseCoarseGain.Text = "CG-";
+            this.btn_SL620Tab_DecreaseCoarseGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_DecreaseCoarseGain.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseCoarseGain_Click);
+            // 
+            // btn_SL620Tab_IncreaseCoarseGain
+            // 
+            this.btn_SL620Tab_IncreaseCoarseGain.BackColor = System.Drawing.Color.LightSalmon;
+            this.btn_SL620Tab_IncreaseCoarseGain.Location = new System.Drawing.Point(750, 121);
+            this.btn_SL620Tab_IncreaseCoarseGain.Name = "btn_SL620Tab_IncreaseCoarseGain";
+            this.btn_SL620Tab_IncreaseCoarseGain.Size = new System.Drawing.Size(47, 36);
+            this.btn_SL620Tab_IncreaseCoarseGain.TabIndex = 23;
+            this.btn_SL620Tab_IncreaseCoarseGain.Text = "CG+";
+            this.btn_SL620Tab_IncreaseCoarseGain.UseVisualStyleBackColor = false;
+            this.btn_SL620Tab_IncreaseCoarseGain.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseCoarseGain_Click);
             // 
             // btn_SL620Tab_VoutPair
             // 
@@ -5536,117 +5647,6 @@
             this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
             this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
             // 
-            // btn_SL620Tab_DecreaseCoarseGain
-            // 
-            this.btn_SL620Tab_DecreaseCoarseGain.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL620Tab_DecreaseCoarseGain.Location = new System.Drawing.Point(750, 163);
-            this.btn_SL620Tab_DecreaseCoarseGain.Name = "btn_SL620Tab_DecreaseCoarseGain";
-            this.btn_SL620Tab_DecreaseCoarseGain.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_DecreaseCoarseGain.TabIndex = 24;
-            this.btn_SL620Tab_DecreaseCoarseGain.Text = "CG-";
-            this.btn_SL620Tab_DecreaseCoarseGain.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_DecreaseCoarseGain.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseCoarseGain_Click);
-            // 
-            // btn_SL620Tab_IncreaseCoarseGain
-            // 
-            this.btn_SL620Tab_IncreaseCoarseGain.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL620Tab_IncreaseCoarseGain.Location = new System.Drawing.Point(750, 121);
-            this.btn_SL620Tab_IncreaseCoarseGain.Name = "btn_SL620Tab_IncreaseCoarseGain";
-            this.btn_SL620Tab_IncreaseCoarseGain.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_IncreaseCoarseGain.TabIndex = 23;
-            this.btn_SL620Tab_IncreaseCoarseGain.Text = "CG+";
-            this.btn_SL620Tab_IncreaseCoarseGain.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_IncreaseCoarseGain.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseCoarseGain_Click);
-            // 
-            // btn_SL620Tab_DecreaseFineGain
-            // 
-            this.btn_SL620Tab_DecreaseFineGain.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL620Tab_DecreaseFineGain.Location = new System.Drawing.Point(749, 257);
-            this.btn_SL620Tab_DecreaseFineGain.Name = "btn_SL620Tab_DecreaseFineGain";
-            this.btn_SL620Tab_DecreaseFineGain.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_DecreaseFineGain.TabIndex = 30;
-            this.btn_SL620Tab_DecreaseFineGain.Text = "FG-";
-            this.btn_SL620Tab_DecreaseFineGain.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_DecreaseFineGain.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseFineGain_Click);
-            // 
-            // btn_SL620Tab_IncreaseFineGain
-            // 
-            this.btn_SL620Tab_IncreaseFineGain.BackColor = System.Drawing.Color.LightSalmon;
-            this.btn_SL620Tab_IncreaseFineGain.Location = new System.Drawing.Point(749, 215);
-            this.btn_SL620Tab_IncreaseFineGain.Name = "btn_SL620Tab_IncreaseFineGain";
-            this.btn_SL620Tab_IncreaseFineGain.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_IncreaseFineGain.TabIndex = 29;
-            this.btn_SL620Tab_IncreaseFineGain.Text = "FG+";
-            this.btn_SL620Tab_IncreaseFineGain.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_IncreaseFineGain.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseFineGain_Click);
-            // 
-            // btn_SL620Tab_DecreaseCoarseOffset
-            // 
-            this.btn_SL620Tab_DecreaseCoarseOffset.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL620Tab_DecreaseCoarseOffset.Location = new System.Drawing.Point(750, 371);
-            this.btn_SL620Tab_DecreaseCoarseOffset.Name = "btn_SL620Tab_DecreaseCoarseOffset";
-            this.btn_SL620Tab_DecreaseCoarseOffset.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_DecreaseCoarseOffset.TabIndex = 28;
-            this.btn_SL620Tab_DecreaseCoarseOffset.Text = "CO-";
-            this.btn_SL620Tab_DecreaseCoarseOffset.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_DecreaseCoarseOffset.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseCoarseOffset_Click);
-            // 
-            // btn_SL620Tab_IncreaseCoarseOffset
-            // 
-            this.btn_SL620Tab_IncreaseCoarseOffset.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL620Tab_IncreaseCoarseOffset.Location = new System.Drawing.Point(750, 329);
-            this.btn_SL620Tab_IncreaseCoarseOffset.Name = "btn_SL620Tab_IncreaseCoarseOffset";
-            this.btn_SL620Tab_IncreaseCoarseOffset.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_IncreaseCoarseOffset.TabIndex = 27;
-            this.btn_SL620Tab_IncreaseCoarseOffset.Text = "CO+";
-            this.btn_SL620Tab_IncreaseCoarseOffset.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_IncreaseCoarseOffset.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseCoarseOffset_Click);
-            // 
-            // btn_SL620Tab_DecreaseFineOffset
-            // 
-            this.btn_SL620Tab_DecreaseFineOffset.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL620Tab_DecreaseFineOffset.Location = new System.Drawing.Point(750, 467);
-            this.btn_SL620Tab_DecreaseFineOffset.Name = "btn_SL620Tab_DecreaseFineOffset";
-            this.btn_SL620Tab_DecreaseFineOffset.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_DecreaseFineOffset.TabIndex = 32;
-            this.btn_SL620Tab_DecreaseFineOffset.Text = "FO-";
-            this.btn_SL620Tab_DecreaseFineOffset.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_DecreaseFineOffset.Click += new System.EventHandler(this.btn_SL620Tab_DecreaseFineOffset_Click);
-            // 
-            // btn_SL620Tab_IncreaseFineOffset
-            // 
-            this.btn_SL620Tab_IncreaseFineOffset.BackColor = System.Drawing.Color.LightGray;
-            this.btn_SL620Tab_IncreaseFineOffset.Location = new System.Drawing.Point(750, 425);
-            this.btn_SL620Tab_IncreaseFineOffset.Name = "btn_SL620Tab_IncreaseFineOffset";
-            this.btn_SL620Tab_IncreaseFineOffset.Size = new System.Drawing.Size(47, 36);
-            this.btn_SL620Tab_IncreaseFineOffset.TabIndex = 31;
-            this.btn_SL620Tab_IncreaseFineOffset.Text = "FO+";
-            this.btn_SL620Tab_IncreaseFineOffset.UseVisualStyleBackColor = false;
-            this.btn_SL620Tab_IncreaseFineOffset.Click += new System.EventHandler(this.btn_SL620Tab_IncreaseFineOffset_Click);
-            // 
-            // txt_SL620Tab_Ipn
-            // 
-            this.txt_SL620Tab_Ipn.BackColor = System.Drawing.Color.CadetBlue;
-            this.txt_SL620Tab_Ipn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_SL620Tab_Ipn.ForeColor = System.Drawing.Color.White;
-            this.txt_SL620Tab_Ipn.Location = new System.Drawing.Point(391, 36);
-            this.txt_SL620Tab_Ipn.Name = "txt_SL620Tab_Ipn";
-            this.txt_SL620Tab_Ipn.Size = new System.Drawing.Size(58, 22);
-            this.txt_SL620Tab_Ipn.TabIndex = 89;
-            this.txt_SL620Tab_Ipn.Text = "20";
-            this.txt_SL620Tab_Ipn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label106
-            // 
-            this.label106.AutoSize = true;
-            this.label106.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label106.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label106.Location = new System.Drawing.Point(401, 19);
-            this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(33, 13);
-            this.label106.TabIndex = 90;
-            this.label106.Text = "IP (A)";
-            // 
             // CurrentSensorConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5659,7 +5659,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CurrentSensorConsole";
-            this.Text = "Senko Console v1.5.0 - CopyRight of SenkoMicro, Inc";
+            this.Text = "Senko Console v1.5.1 - CopyRight of SenkoMicro, Inc";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
